@@ -4,7 +4,7 @@
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Лвл 3, Фаза 1 (Инициализация)
+- **Статус:** Лвл 4, Фаза 5 (Качество)
 - **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis
 - **Что это:** Data-first платформа для разработчиков (резюме, портфолио, GitHub-статистика)
 - **Деплой:** В планах Fly.io (backend), GitHub Pages (frontend)
