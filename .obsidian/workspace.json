@@ -11,10 +11,14 @@
             "id": "0a6f128fec5f9f47",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Граф"
+              "type": "markdown",
+              "state": {
+                "file": "journal/2026-08-10/jf-1c.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "jf-1c"
             }
           }
         ]
@@ -180,6 +184,7 @@
   },
   "active": "0a6f128fec5f9f47",
   "lastOpenFiles": [
+    "journal/2026-08-10/envie.md",
     "journal/2026-08-10/resume_builder_forms.md",
     "projects/backend-damir/backend-damir.md",
     "projects/ballon-dor-chat/ballon-dor-chat.md",
@@ -204,7 +209,6 @@
     "projects/chat-bot-backend/index.md",
     "projects/career-hub/index.md",
     "projects/chat-bot-frontend/index.md",
-    "projects/chat-naturalov-bot/index.md",
-    "projects/ballon-dor-chat/index.md"
+    "projects/chat-naturalov-bot/index.md"
   ]
 }
