@@ -180,6 +180,7 @@
   },
   "active": "0a6f128fec5f9f47",
   "lastOpenFiles": [
+    "journal/2026-08-10/resume_builder_forms.md",
     "projects/backend-damir/backend-damir.md",
     "projects/ballon-dor-chat/ballon-dor-chat.md",
     "projects/football-bot-tg/football-bot-tg.md",
@@ -204,7 +205,6 @@
     "projects/career-hub/index.md",
     "projects/chat-bot-frontend/index.md",
     "projects/chat-naturalov-bot/index.md",
-    "projects/ballon-dor-chat/index.md",
-    "projects/football-bot-tg/index.md"
+    "projects/ballon-dor-chat/index.md"
   ]
 }
