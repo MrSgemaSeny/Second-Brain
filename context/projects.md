@@ -5,10 +5,10 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Минимальный MVP (Реализован базовый функционал + GitHub OAuth + ИИ-генерация)
+- **Статус:** Production-Ready MVP (Фаза 3 завершена, ИИ ограничения и CORS настроены)
 - **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis
 - **Что это:** Data-first SaaS платформа для разработчиков. Интеграция с GitHub OAuth, автоматическая сборка профиля, AI-генерация текстов (Groq API, SSE), Dnd-kit редактор, экспорт в PDF.
-- **Деплой:** В планах Fly.io (backend), GitHub Pages (frontend)
+- **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages)
 - **Документация:** `projects/medev/medev.md`
 
 ### JF-1C (ZhanFinance)
