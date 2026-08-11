@@ -3,6 +3,7 @@
 ## Добавлено
 - Лимит на загрузку PDF (`max-file-size: 10MB`).
 - Обработка `MethodArgumentNotValidException` и `MaxUploadSizeExceededException` в `GlobalExceptionHandler`.
+- Устранена проблема с CORS при `401 Unauthorized` (SecurityConfig теперь возвращает JSON 401 для `/v1/**` вместо 302 Redirect).
 - Rate Limiting на AI эндпоинт (Bucket4j - 10 запросов/день для Free, 100 для Pro).
 - JSON-структурированное логирование (MDC + logback-spring.xml) для продакшена.
 - Настройка `Dockerfile` и `fly.toml` для бэкенда.
@@ -19,10 +20,16 @@
 - Добавлена интеграция Stripe Checkout на фронтенде (`useCheckout`, `PricingPage`).
 - Создан и интегрирован `QuotaWidget` (отображение лимитов AI: 10 для Free, 100 для Pro) в боковую панель.
 - Внедрен Soft Upsell Flow (показ модального окна перехода на Pro при достижении лимита запросов 429).
-
+- Интеграция входа и регистрации через **Google OAuth2**.
+- Добавлена миграция `V14__add_google_id.sql` (поле `google_id`).
+- Рефакторинг `CustomOAuth2UserService` для обработки атрибутов нескольких провайдеров (GitHub и Google) с умным извлечением `email` (`_email`).
+- Создана Docker-инфраструктура для локальной разработки: `docker-compose.yml`, `frontend/Dockerfile`.
+- Разрешена проблема с Reactor Netty DNS (ошибка 500 для `api.groq.com`), теперь используется `DefaultAddressResolverGroup.INSTANCE`.
+- Написан UI компонент `UserProfileDropdown` в сайдбаре с поддержкой светлой/темной темы и локализации, удален хардкод `dark` в HTML.
 ## Изменено
-- Статус проекта в `projects.md` обновлен до Production-Ready MVP (Фаза 3 завершена).
-- Файл `README.md` в репозитории MeDev переписан в соответствии с новым статусом MVP.
+- Исправлен баг маршрутизации в `BillingController` (убран дублирующийся префикс `/api/v1` на `/v1`).
+- Статус проекта в `projects.md` обновлен до Production-Ready MVP (Фаза 4 завершена).
+- Файл `README.md` в репозитории MeDev переписан и обновлен новыми переменными среды (Stripe).
 - Исправлены и обновлены упавшие юнит-тесты: `GitHubServiceTest`, `ProfileServiceTest`.
 - Исправлены проблемы типизации Typescript на фронтенде: `GithubImport.tsx`, `ProjectsSection.tsx`.
 - Кнопки генерации на фронтенде (`AboutSection`, `ProjectsSection`) переведены на синхронные API вызовы со строгим JSON форматом вместо стриминга.
@@ -34,7 +41,8 @@
 ## Проблемы
 - FSD архитектура на фронтенде не полностью соблюдена, а также Code Splitting (`React.lazy`) еще предстоит реализовать в следующей итерации для улучшения производительности.
 - Отказались от использования GitHub Actions (по запросу пользователя).
-- Axios interceptor для автоматического обновления токенов в фоне требует доработки.
+- [РЕШЕНО] Axios interceptor успешно подключен во все AI-хуки (`useQuota`, `useGenerateSummary` и т.д.) для автоматического обновления токенов.
+- [РЕШЕНО] Стриминг-эндпоинты (`fetch` с SSE) теперь тоже автоматически обновляют истекшие токены, используя интерсептор axios.
 
 ## Тесты
 - Юнит тесты бэкенда успешно прошли (BUILD SUCCESSFUL, ./gradlew test).

@@ -5,7 +5,7 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Production-Ready MVP (Фаза 3 завершена, ИИ ограничения и CORS настроены)
+- **Статус:** Production-Ready MVP (Фаза 4 завершена: Монетизация, Stripe, Учет квот и Upsell)
 - **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis
 - **Что это:** Data-first SaaS платформа для разработчиков. Интеграция с GitHub OAuth, автоматическая сборка профиля, AI-генерация текстов (Groq API, SSE), Dnd-kit редактор, экспорт в PDF.
 - **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages)
