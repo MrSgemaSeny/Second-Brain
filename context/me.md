@@ -1,4 +1,5 @@
 # Кто я
+_Обновлено: 2026-08-11_
 
 **Имя:** Мурат Орынбасар
 **Роль:** Full-Stack Engineer → Tech Lead / Software Architect
