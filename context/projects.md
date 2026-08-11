@@ -5,16 +5,16 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Production-Ready MVP (Фаза 4 завершена: Монетизация, Stripe, Учет квот и Upsell)
-- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis
-- **Что это:** Data-first SaaS платформа для разработчиков. Интеграция с GitHub OAuth, автоматическая сборка профиля, AI-генерация текстов (Groq API, SSE), Dnd-kit редактор, экспорт в PDF.
-- **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages)
+- **Статус:** Production-Ready MVP (Фаза 4 завершена: Монетизация, Учет квот, Интеграция Docker-compose, Light-theme UI с AppHeader)
+- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis + Docker
+- **Что это:** Data-first SaaS платформа для разработчиков. Интеграция с GitHub OAuth, автоматическая сборка профиля, AI-генерация текстов (Groq API, ServerSentEvents stream), Dnd-kit редактор, экспорт в PDF.
+- **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages, локально через docker-compose)
 - **Документация:** `projects/medev/medev.md`
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
 - **Статус:** Лвл 3→4, готов к первым клиентам
-- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Fly.io
+- **Стек:** Spring Boot 3 + React 19 (TypeScript) + PostgreSQL + Fly.io
 - **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
 - **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
 - **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit
@@ -25,7 +25,7 @@ _Обновлено: 2026-08-11_
 ### Envie
 - **Репо:** github.com/MrSgemaSeny/Envie
 - **Статус:** Готовы все Core-модули (Notes, Board, Ideas, Templates, Wallpaper, 3D Dashboard)
-- **Стек:** React 18 + Vite + TS + Tailwind v4 + FSD | Java 17 + Spring Boot 3 + PostgreSQL + Gradle
+- **Стек:** React 18 (TypeScript) + Vite + Tailwind v4 + FSD | Java 17 + Spring Boot 3 + PostgreSQL + Gradle
 - **Что это:** Личный рабочий штаб (Second Brain) — заметки, канбан, идеи, MD-база знаний, обои/видео, 3D Dashboard
 - **Деплой:** Frontend: GitHub Pages | Backend: localhost
 
