@@ -7,7 +7,7 @@ LATEST_JOURNAL=$(find journal/ -type f -mtime -7 2>/dev/null | head -n 1)
 
 if [ -z "$LATEST_JOURNAL" ]; then
     echo "=========================================================================="
-    echo "🚨 БАРЬЕР: Контекст не актуален!"
+    echo "[БАРЬЕР]: Контекст не актуален!"
     echo "В папке 'journal/' нет свежих записей за последние 7 дней."
     echo "Пожалуйста, заполни journal/weekly.md или добавь лог сессии."
     echo "Brain's Protocol должен оставаться живой базой, а не мертвым архивом."
@@ -17,5 +17,5 @@ if [ -z "$LATEST_JOURNAL" ]; then
     exit 1
 fi
 
-echo "✅ Контекст актуален. Разрешаю push."
+echo "[УСПЕХ] Контекст актуален. Разрешаю push."
 exit 0
