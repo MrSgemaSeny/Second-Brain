@@ -97,3 +97,5 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
 - **Frontend Refactoring**: Replaced DOM-based hacks (document.querySelector) in ProjectsSection with a clean useAiChatStore (openWithPrompt action) for seamless AI interactions.
 - **CI/CD**: Added .github/workflows/ci.yml for automated testing and building on main.
 - **Backend Tests**: Configured MeDevApplicationTests to use Testcontainers for isolated PostgreSQL context testing instead of H2, solving the Flyway syntax mismatch.
+
+- **Fix**: Adjusted Testcontainers to use pgvector/pgvector:pg15 image for integration tests so Flyway migrations with CREATE EXTENSION vector run successfully.
