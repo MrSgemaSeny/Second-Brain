@@ -103,3 +103,5 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
 - **Fix**: Added @MockBean ClientRegistrationRepository in MeDevApplicationTests to prevent NoSuchBeanDefinitionException during test context load, as OAuth2 properties are omitted in test profiles. Tests now pass locally and in CI.
 
 - **Fix**: Updated docker-compose.yml to use pgvector/pgvector:pg15 instead of postgres:15-alpine so local development also has the required vector extension.
+
+- **Feature**: Added automatic avatar sync. CustomOAuth2UserService now extracts vatar_url from GitHub and picture from Google, and sets it in the user's Profile via ProfileService.setAvatarIfMissing() during OAuth2 login.
