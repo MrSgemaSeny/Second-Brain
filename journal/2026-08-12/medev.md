@@ -43,3 +43,8 @@
 ## Тесты
 - Юнит тесты бэкенда успешно прошли (BUILD SUCCESSFUL, ./gradlew test).
 - Бэкенд и фронтенд успешно скомпилированы.
+
+
+- **Premium Landing Page**: Integrated standalone medev.html as the primary / route for unauthenticated users.
+- **Enterprise Job Tracker**: Removed @dnd-kit completely. Replaced drag-and-drop Kanban board with a dense Enterprise CRM table view featuring top metric cards, filters, and a GitHub Dark Mode aesthetic.
+- **Dedicated Import Route**: Moved 'Zero-Input Onboarding' PDF parsing logic out of the wizard into a dedicated /import route accessible from the Sidebar.
