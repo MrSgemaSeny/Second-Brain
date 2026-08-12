@@ -107,3 +107,5 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
 - **Feature**: Added automatic avatar sync. CustomOAuth2UserService now extracts vatar_url from GitHub and picture from Google, and sets it in the user's Profile via ProfileService.setAvatarIfMissing() during OAuth2 login.
 
 - **Fix**: Mapped Docker PostgreSQL to port 5435 (instead of 5432) in docker-compose.yml and pplication-dev.yml to completely bypass port collisions with the local Windows PostgreSQL 17.6 service.
+- **Fix**: Added Axios interceptor for 404 on /profile to automatically clear invalid state (localStorage) and force re-login when the DB desyncs.
+- **Data**: Migrated all production data (7 projects, profile, etc.) from local Windows PostgreSQL 17.6 (5432) to Docker PostgreSQL pg15 with pgvector (5435) via full SQL dump and restore to preserve user data and resolve V18 migration failures.
