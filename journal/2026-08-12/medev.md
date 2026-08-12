@@ -51,3 +51,9 @@
 - **Dashboard Redesign**: Полностью переписан компонент \DashboardPage.tsx\ с использованием дизайна секций из макета \medev.html\. Добавлены анимации \.glow-dot\ и \.fade-in\, карточки Quick Actions и секция Portfolio Preview. Убраны все моковые данные.
 - **Frontend Tests**: Написан первый Vitest-тест \DashboardPage.test.tsx\ для проверки отсутствия моковых данных. Тесты (\
 pm test\) успешно пройдены (7/7 тестов в 2 файлах).
+- **AI Resume Parser Upgrade**: Полностью переписан алгоритм работы парсера.
+  - Промпт \esume_parser_v1.txt\ обновлен для извлечения вложенных структур JSON (skills, experience, education, languages). Добавлен strict JSON режим.
+  - Созданы новые DTO (\AiParsedResumeDto\, \AiExperienceDto\, \AiEducationDto\, \AiSkillDto\, \AiLanguageDto\).
+  - \ProfileService.importParsedResume\ теперь принимает вложенный JSON и в одной транзакции полностью заменяет (clear and insert) старые коллекции на новые.
+  - \AiController\ теперь сразу возвращает \ProfileDto\ на фронтенд для мгновенного обновления UI после импорта.
+- **UI Исправления**: Добавлена кликабельная ссылка на GitHub в блоке Stats на \DashboardPage.tsx\.
