@@ -28,7 +28,6 @@
 - Написан UI компонент `UserProfileDropdown` в сайдбаре с поддержкой светлой/темной темы и локализации, удален хардкод `dark` в HTML.
 - Внедрен `GitHubGraphQLService` для получения реальной статистики (коммиты, контрибуции) по GraphQL.
 - Статистика GraphQL интегрирована в `AiContextService` и кэшируется в Redis (на 1 час).
-- Внедрен `AuthRateLimiter` (Bucket4j) для защиты эндпоинтов `/v1/auth/**` от брутфорса и спама (лимит 20 запросов в минуту по IP).
 ## Изменено
 - Исправлен баг маршрутизации в `BillingController` (убран дублирующийся префикс `/api/v1` на `/v1`).
 - Статус проекта в `projects.md` обновлен до Production-Ready MVP (Фаза 4 завершена).
@@ -38,7 +37,6 @@
 - Кнопки генерации на фронтенде (`AboutSection`, `ProjectsSection`) переведены на синхронные API вызовы со строгим JSON форматом вместо стриминга.
 - `useAiGenerate`, `useGenerateSummary` и `useGenerateProjectDescription` теперь перехватывают статус 429 и автоматически открывают `UpsellModal`.
 - Система антигаллюцинаций для AI: system prompt (`assistant_system_v1.txt`) обновлен жесткими правилами (XML блок `<github_data>`) не выдумывать статистику по GitHub.
-- Устранена уязвимость Account Takeover via Pre-Account Creation в `CustomOAuth2UserService` (при привязке OAuth к неподтвержденному аккаунту с паролем старый пароль инвалидируется генерацией случайного хеша).
 ## Удалено
 - Устаревший кэшированный тест в `GitHubServiceTest`, так как логика кэширования была перемещена.
 
