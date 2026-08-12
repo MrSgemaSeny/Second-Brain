@@ -57,3 +57,8 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
   - \ProfileService.importParsedResume\ теперь принимает вложенный JSON и в одной транзакции полностью заменяет (clear and insert) старые коллекции на новые.
   - \AiController\ теперь сразу возвращает \ProfileDto\ на фронтенд для мгновенного обновления UI после импорта.
 - **UI Исправления**: Добавлена кликабельная ссылка на GitHub в блоке Stats на \DashboardPage.tsx\.
+- **Багфикс AI Парсера и JPA**:
+  - Добавлена аннотация \@JsonIgnoreProperties(ignoreUnknown = true)\ на все \Ai...Dto\, чтобы Jackson не падал при галлюцинациях Groq.
+  - Исправлена ошибка сохранения JPA \ConcurrentModificationException\/orphanRemoval: заменено \deleteByProfileId\ на \profile.getSkills().clear()\ с последующим \saveAndFlush\.
+- **UI Dashboard Live Preview**:
+  - Дашборд теперь динамически рендерит полный профиль пользователя из загруженного JSON: аватарку, иконки соцсетей (Github, LinkedIn, Telegram, Web), сетку проектов, таймлайны опыта работы и образования, а также отфильтрованные теги навыков.
