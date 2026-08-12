@@ -16,6 +16,7 @@
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
 - [[frontend-architecture-fsd-dnd]] - FSD архитектура в связке с Drag-and-Drop (dnd-kit) и Zustand.
 - [[frontend_fsd_and_ui_ux_patterns]] - UI/UX паттерны и продвинутое использование FSD.
+- [[zustand-persist-access-token]] - Решение проблемы с logout при рефреше в Zustand persist.
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
@@ -27,6 +28,7 @@
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
 - [[arch-ai-chat-integrations]] - Интеграция LLM в чаты (асинхронные воркеры, streaming, RAG).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
+- [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 
 ## Безопасность и Авторизация
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
