@@ -84,3 +84,9 @@ pm test\) ������� �������� (7/7 ������ � 2 ������).
 - Исправлен дублированный ключ spring: в pplication.yml (DuplicateKeyException).
 - Исправлены тесты: AiAnalysisServiceTest (тип возврата), AuthServiceTest (extractType mock), JwtFilterTest (extractType mock), ProfileServiceTest (eventPublisher mock).
 - Улучшен UI AiChatWidget: увеличен размер окна (480x650), добавлен leading-relaxed и word-break.
+
+## GitHub Account Linking & OAuth Fixes
+- **Backend (CustomOAuth2UserService)**: Внедрена логика безопасной привязки аккаунта через проверку cookie medev_link_jwt. Теперь при несовпадении email не создается дубликат, а обновляется githubId текущего пользователя.
+- **Backend (OAuth2LoginSuccessHandler)**: Обработка _action=LINK_ACCOUNT — удаление временной куки и редирект обратно на /profile/edit?github_linked=true без подмены основного токена.
+- **Frontend (GithubImport)**: Добавлена установка medev_link_jwt (на 60с) перед редиректом на OAuth2. Вычищены остатки старых Tailwind классов, UI переведен на переменные GitHub Dark Mode (ar(--color-bg-secondary) и т.д.).
+- **Frontend (Auth)**: Исправлен критический баг хардкода. В LoginPage и RegisterPage ссылки /api/oauth2/authorization/github теперь собираются динамически через import.meta.env.VITE_API_URL.
