@@ -72,3 +72,15 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
 - **Frontend UI**: Переработан экран интеграции GitHub. Теперь для подключенного аккаунта показывается красивая карточка с аватаром, юзернеймом и статусом Connected, вместо сухого текста с просьбой подключиться.
 - **Admin Panel**: Добавлен фронтенд для админ-панели (Dashboard, Users, Audit).
 - **Testing**: Сохранены первые базовые тесты для AuthService и AiAnalysisService, сгенерированные в бэкграунде.
+
+## Enterprise Polish: Admin Dashboard, RBAC, Audit Logs (Session 2)
+- РЎРѕР·РґР°РЅ РјРѕРґСѓР»СЊ udit (Entity, Repository, Service) РґР»СЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ РєСЂРёС‚РёС‡РµСЃРєРёС… РґРµР№СЃС‚РІРёР№.
+- Flyway РјРёРіСЂР°С†РёСЏ V19__create_audit_logs.sql РґР»СЏ С‚Р°Р±Р»РёС†С‹ Р°СѓРґРёС‚Р° СЃ РёРЅРґРµРєСЃР°РјРё.
+- РЎРѕР·РґР°РЅ РјРѕРґСѓР»СЊ dmin (AdminController, AdminService, AdminDashboardDto).
+- SecurityConfig РЈР–Р• СЃРѕРґРµСЂР¶Р°Р» РїСЂР°РІРёР»Рѕ .requestMatchers("/v1/admin/**").hasRole("ADMIN").
+- Frontend: AdminGuard (HOC), AdminDashboardPage, AdminUsersPage, AdminAuditPage.
+- Р РѕСѓС‚РёРЅРі: /admin/* Р·Р°С‰РёС‰РµРЅ AdminGuard (РїСЂРѕРІРµСЂРєР° role === 'ADMIN').
+- РљРЅРѕРїРєР° "РђРґРјРёРЅ-РїР°РЅРµР»СЊ" РґРѕР±Р°РІР»РµРЅР° РІ UserProfileDropdown (РІРёРґРЅР° С‚РѕР»СЊРєРѕ ADMIN).
+- РСЃРїСЂР°РІР»РµРЅ РґСѓР±Р»РёСЂРѕРІР°РЅРЅС‹Р№ РєР»СЋС‡ spring: РІ pplication.yml (DuplicateKeyException).
+- РСЃРїСЂР°РІР»РµРЅС‹ С‚РµСЃС‚С‹: AiAnalysisServiceTest (С‚РёРї РІРѕР·РІСЂР°С‚Р°), AuthServiceTest (extractType mock), JwtFilterTest (extractType mock), ProfileServiceTest (eventPublisher mock).
+- РЈР»СѓС‡С€РµРЅ UI AiChatWidget: СѓРІРµР»РёС‡РµРЅ СЂР°Р·РјРµСЂ РѕРєРЅР° (480x650), РґРѕР±Р°РІР»РµРЅ leading-relaxed Рё word-break.
