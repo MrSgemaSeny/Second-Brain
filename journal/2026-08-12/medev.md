@@ -62,3 +62,5 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
   - Исправлена ошибка сохранения JPA \ConcurrentModificationException\/orphanRemoval: заменено \deleteByProfileId\ на \profile.getSkills().clear()\ с последующим \saveAndFlush\.
 - **UI Dashboard Live Preview**:
   - Дашборд теперь динамически рендерит полный профиль пользователя из загруженного JSON: аватарку, иконки соцсетей (Github, LinkedIn, Telegram, Web), сетку проектов, таймлайны опыта работы и образования, а также отфильтрованные теги навыков.
+- **UI Fix**: Удален бейдж 'Live Dashboard' по просьбе.
+- **Hotfix**: Исправлена ошибка компиляции в ProfileService (неправильные названия геттеров коллекций). Перед пушем прогнал сборку.
