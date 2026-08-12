@@ -99,3 +99,5 @@ pm test\) успешно пройдены (7/7 тестов в 2 файлах).
 - **Backend Tests**: Configured MeDevApplicationTests to use Testcontainers for isolated PostgreSQL context testing instead of H2, solving the Flyway syntax mismatch.
 
 - **Fix**: Adjusted Testcontainers to use pgvector/pgvector:pg15 image for integration tests so Flyway migrations with CREATE EXTENSION vector run successfully.
+
+- **Fix**: Added @MockBean ClientRegistrationRepository in MeDevApplicationTests to prevent NoSuchBeanDefinitionException during test context load, as OAuth2 properties are omitted in test profiles. Tests now pass locally and in CI.
