@@ -90,3 +90,10 @@ pm test\) ������� �������� (7/7 ������ � 2 ������).
 - **Backend (OAuth2LoginSuccessHandler)**: Обработка _action=LINK_ACCOUNT — удаление временной куки и редирект обратно на /profile/edit?github_linked=true без подмены основного токена.
 - **Frontend (GithubImport)**: Добавлена установка medev_link_jwt (на 60с) перед редиректом на OAuth2. Вычищены остатки старых Tailwind классов, UI переведен на переменные GitHub Dark Mode (ar(--color-bg-secondary) и т.д.).
 - **Frontend (Auth)**: Исправлен критический баг хардкода. В LoginPage и RegisterPage ссылки /api/oauth2/authorization/github теперь собираются динамически через import.meta.env.VITE_API_URL.
+
+## Technical Debt & Stabilization (Production-Ready Polish)
+- **Cleanup**: Deleted root junk files (dump.rdb, efactor.js, Claude's README).
+- **Docs**: Synchronized README.md with current state (removed dnd-kit, added CRM table, documented docker-compose).
+- **Frontend Refactoring**: Replaced DOM-based hacks (document.querySelector) in ProjectsSection with a clean useAiChatStore (openWithPrompt action) for seamless AI interactions.
+- **CI/CD**: Added .github/workflows/ci.yml for automated testing and building on main.
+- **Backend Tests**: Configured MeDevApplicationTests to use Testcontainers for isolated PostgreSQL context testing instead of H2, solving the Flyway syntax mismatch.
