@@ -48,3 +48,6 @@
 - **Premium Landing Page**: Integrated standalone medev.html as the primary / route for unauthenticated users.
 - **Enterprise Job Tracker**: Removed @dnd-kit completely. Replaced drag-and-drop Kanban board with a dense Enterprise CRM table view featuring top metric cards, filters, and a GitHub Dark Mode aesthetic.
 - **Dedicated Import Route**: Moved 'Zero-Input Onboarding' PDF parsing logic out of the wizard into a dedicated /import route accessible from the Sidebar.
+- **Dashboard Redesign**: Полностью переписан компонент \DashboardPage.tsx\ с использованием дизайна секций из макета \medev.html\. Добавлены анимации \.glow-dot\ и \.fade-in\, карточки Quick Actions и секция Portfolio Preview. Убраны все моковые данные.
+- **Frontend Tests**: Написан первый Vitest-тест \DashboardPage.test.tsx\ для проверки отсутствия моковых данных. Тесты (\
+pm test\) успешно пройдены (7/7 тестов в 2 файлах).
