@@ -23,3 +23,4 @@
 - [[08_8._ux_принципы]] - 8. UX Принципы
 - [[09_9._следующий_шаг_(action_item)]] - 9. Следующий шаг (Action Item)
 - [[10_security_audit_v1]] - 10. Security Audit v1 (Уязвимости и техдолг)
+- [[11_security_audit_v2_logic]] - 11. Security Audit v2 (Логика и Архитектура)
