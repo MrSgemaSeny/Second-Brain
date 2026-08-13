@@ -12,8 +12,10 @@ _Обновлено: 2026-08-11_
 **Backend:** Java 17, Spring Boot 3, Spring Security, JPA/Hibernate,
 PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP)
 
+**AI & LLM Integration (Advanced):** Spring AI, RAG (Retrieval-Augmented Generation), pgvector, Groq API, AI-driven architecture (Smart Merge, Tool Calling, Structured JSON Generation), Prompt Engineering
+
 **Frontend:** React 19, TypeScript, Vite, Tailwind CSS v4,
-Feature-Sliced Design (FSD), React Query, Framer Motion
+Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit
 
 **Инфраструктура:** Docker, GitHub Actions, Fly.io, GitHub Pages
 
