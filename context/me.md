@@ -1,5 +1,5 @@
 # Кто я
-_Обновлено: 2026-08-11_
+_Обновлено: 2026-08-13_
 
 **Имя:** Мурат Орынбасар
 **Роль:** Full-Stack Engineer → Tech Lead / Software Architect
@@ -10,7 +10,7 @@ _Обновлено: 2026-08-11_
 ## Стек
 
 **Backend:** Java 17, Spring Boot 3, Spring Security, JPA/Hibernate,
-PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP)
+PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP), JSoup (Web Scraping)
 
 **AI & LLM Integration (Advanced):** Spring AI, RAG (Retrieval-Augmented Generation), pgvector, Groq API, AI-driven architecture (Smart Merge, Tool Calling, Structured JSON Generation), Prompt Engineering
 
