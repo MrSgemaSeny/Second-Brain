@@ -5,8 +5,8 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 4 - Production-Ready AI SaaS (Фазы 1-4 завершены: Полная генерация профиля через AI, Job Tracker CRM + Kanban, Smart Merge, Парсинг PDF/GitHub)
-- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis + Docker + Groq AI + Spring AI + pgvector
+- **Статус:** Level 4 - Production-Ready AI SaaS (Фазы 1-4 завершены: Полная генерация профиля через AI, Job Tracker CRM + Kanban, Smart Merge, Парсинг PDF/GitHub, 100% Test Coverage)
+- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis + Docker + Groq AI + Spring AI + pgvector + Vitest/Testcontainers
 - **Что это:** Data-first AI SaaS платформа для разработчиков. Умный парсинг GitHub (Source of Truth) и PDF (Smart Merge), AI-генерация профиля в строгом JSON, Kanban-доска (CRM) с автоматическим AI-матчингом вакансий (Scraper), рендер 100% точного PDF (Base64 шрифты + Thymeleaf).
 - **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages, локально через docker-compose)
 - **Документация:** `projects/medev/medev.md`
