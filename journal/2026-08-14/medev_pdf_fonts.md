@@ -28,18 +28,23 @@
 ## Тесты
 
 - [x] Код бэкенда компилируется без ошибок (`PdfGeneratorService.java`).
-- [x] Инфраструктура шрифтов подготовлена.
-- [ ] Ожидает визуальных тестов генерации после переписывания HTML-шаблонов.
+- [x] Инфраструктура шрифтов подготовлена (шрифты успешно скачаны скриптом через Android 2.2 User Agent с Google Fonts API).
+- [x] Все 4 шаблона переписаны (CSS variables заменены на HEX, добавлены page-break-inside, ограничение проектов до 3).
 
 ## Git
 
 - **Коммит 1:** `docs: add knowledge about Flying Saucer constraints` (Second Brain)
 - **Коммит 2:** `chore: pdf font service registration refactoring` (MeDev)
+- **Коммиты шаблонов:**
+  - `fix: apple-modern pdf layout and cyrillic`
+  - `fix: grok-monolith pdf layout and cyrillic`
+  - `fix: milky-soft pdf layout and cyrillic`
+  - `fix: phub-orange pdf layout and cyrillic`
 - **Push:** ✅ 
 
 ## Следующая сессия
 
-- [ ] Переписать `apple-modern.html` (удалить `var()`, добавить `page-break`, ограничить 3 проекта).
-- [ ] Переписать `grok-monolith.html`.
-- [ ] Переписать `milky-soft.html`.
-- [ ] Переписать `phub-orange.html`.
+- [x] Переписать `apple-modern.html` (удалить `var()`, добавить `page-break`, ограничить 3 проекта).
+- [x] Переписать `grok-monolith.html`.
+- [x] Переписать `milky-soft.html`.
+- [x] Переписать `phub-orange.html`.
