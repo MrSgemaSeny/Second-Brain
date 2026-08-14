@@ -23,6 +23,7 @@
 - [[pdf-generation-thymeleaf-flying-saucer]] - Генерация PDF (Thymeleaf + Flying Saucer).
 - [[hack-thymeleaf-pdf]] - Альтернативный стек генерации (Thymeleaf + OpenHTMLtoPDF) с поддержкой кириллицы.
 - [[hack-websockets-stomp]] - Практические хаки для стабильной работы WebSockets.
+- [[pdf-flying-saucer-constraints]] - Строгие правила и ограничения для Flying Saucer (шрифты, CSS, page-break).
 
 ## Интеграции и AI
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
