@@ -8,6 +8,7 @@
 - [[arch-tg-bot-patterns]] - Паттерны проектирования Telegram-ботов (FSM, Dispatchers).
 - [[arch-webhooks-vs-polling]] - Сравнение Webhooks и Long Polling для интеграций.
 - [[backend_and_multi_tenancy_patterns]] - Паттерны бэкенда и архитектура Multi-Tenancy (мультитенантность).
+- [[microservices_patterns]] - Архитектура микросервисов, API Gateway, межсервисная аутентификация.
 - [[career_portal_and_ats_design]] - Проектирование карьерных порталов и систем ATS.
 - [[warehouse_management_and_logistics_architecture]] - Архитектура логистики и управления складом.
 - [[jvm-metaspace-tuning]] - Правильная настройка JVM (Metaspace, Heap) для маленьких серверов (512MB RAM).
