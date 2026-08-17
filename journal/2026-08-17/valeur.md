@@ -62,3 +62,5 @@
 - Migrated CSS styles for ApplicantLayout and ApplicantSidebar to Tailwind CSS v4.
 
 - Migrated HeaderAdmin and HeaderApplicant to Tailwind CSS and deleted old css files
+- Migrated FavoritesPage and InoCoursesPage to Tailwind CSS v4 and deleted old CSS files
+- Migrated HeaderCompany and ResumePaper to Tailwind CSS and deleted old css files
