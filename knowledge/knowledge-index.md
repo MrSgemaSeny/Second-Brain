@@ -40,3 +40,4 @@
 - [[security-idor-rls]] - Защита от IDOR (Insecure Direct Object Reference) и Row-Level Security в БД.
 - [[sec-docker-redis-exposure]] - Защита внутренних сервисов Docker от публичного доступа.
 - [[sec-pii-llm-compliance]] - Юридическая безопасность, PII анонимизация и LLM ToS (Groq, OpenAI).
+- [[sec-mvp-to-prod-checklist]] - Переход от MVP к Production: Чек-лист безопасности и типичные компромиссы.
