@@ -11,3 +11,7 @@
 
 ### Тесты
 - UI успешно скомпилирован, импорты удалены.
+## 2026-08-17
+- Migrated all CSS files in frontend/src/pages/Company to Tailwind CSS v4.
+- Removed custom .css files.
+- Updated tsx files to use Tailwind classes directly.
