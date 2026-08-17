@@ -44,5 +44,8 @@
 - [[security-idor-rls]] - Защита от IDOR (Insecure Direct Object Reference) и Row-Level Security в БД.
 - [[sec-docker-redis-exposure]] - Защита внутренних сервисов Docker от публичного доступа.
 - [[sec-pii-llm-compliance]] - Юридическая безопасность, PII анонимизация и LLM ToS (Groq, OpenAI).
+- [[sec-prompt-injection-xml]] - Защита от Prompt Injection с помощью XML тегов в LLM.
+- [[sec-file-upload-magic-bytes]] - Безопасная валидация загружаемых файлов (Magic Bytes).
+- [[sec-oauth2-stateless-cookies]] - Реализация OAuth2 в STATELESS архитектуре без сессий.
 - [[sec-mvp-to-prod-checklist]] - Переход от MVP к Production: Чек-лист безопасности и типичные компромиссы.
 - [[sec-internal-service-token]] - Защита межсервисного взаимодействия (X-Internal-Token).
