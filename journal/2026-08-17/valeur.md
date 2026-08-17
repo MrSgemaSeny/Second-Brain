@@ -49,3 +49,16 @@
   - Из `useAuthLogic.ts` убрана генерация `tenantDomain` (парсинг email). 
   - Из `useUserEditForm.ts` убрана фейковая генерация `skill_id` — теперь на сервер уходит только `skill_name`, а ID присваивается базой данных.
 - **Фронтенд успешно скомпилирован (tsc --noEmit).**
+
+### Задача 3: Миграция стилей админки на Tailwind CSS v4
+- **AdminLayout**: 
+  - Заменен импорт сырого CSS на Tailwind-утилиты (`flex-col`, `bg-slate-50`, `bg-white`, `border-gray-200`, `animate-spin` и др.).
+  - Удален файл `AdminLayout.css`.
+- **AdminSidebar**: 
+  - Заменен сырой CSS на Tailwind-классы. 
+  - Добавлена логика `isActive` для стилизации активных ссылок (фон `bg-sky-100`, текст `text-sky-700`).
+  - Удален файл `AdminSidebar.css`.
+
+- Migrated CSS styles for ApplicantLayout and ApplicantSidebar to Tailwind CSS v4.
+
+- Migrated HeaderAdmin and HeaderApplicant to Tailwind CSS and deleted old css files
