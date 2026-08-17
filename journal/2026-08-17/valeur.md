@@ -64,3 +64,12 @@
 - Migrated HeaderAdmin and HeaderApplicant to Tailwind CSS and deleted old css files
 - Migrated FavoritesPage and InoCoursesPage to Tailwind CSS v4 and deleted old CSS files
 - Migrated HeaderCompany and ResumePaper to Tailwind CSS and deleted old css files
+- Migrated FeedPage and VacancyPage to Tailwind CSS v4 and deleted old CSS files.- Migrated FeedPage and VacancyPage to Tailwind CSS v4 and removed corresponding CSS files.
+- Migrated ApplicantDetailPage, AuthPage, and VacancyDetailPage to Tailwind CSS v4 and removed corresponding .css files.
+- Migrated ProfilePage and UniversityRecordsPage to Tailwind CSS v4 and removed corresponding CSS files.
+
+## Migration to Tailwind CSS v4 for frontend/src/entities
+- Deleted 8 CSS files.
+- Migrated inline styles to Tailwind CSS classes in all associated React components.
+
+- Migrated MyApplicationsPage.tsx and MySkillsPage.tsx to Tailwind CSS v4, removed old CSS files.
