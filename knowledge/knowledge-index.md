@@ -12,12 +12,15 @@
 - [[career_portal_and_ats_design]] - Проектирование карьерных порталов и систем ATS.
 - [[warehouse_management_and_logistics_architecture]] - Архитектура логистики и управления складом.
 - [[jvm-metaspace-tuning]] - Правильная настройка JVM (Metaspace, Heap) для маленьких серверов (512MB RAM).
+- [[arch-api-gateway-jwt-injection]] - Инъекция JWT Claims на уровне API Gateway.
+- [[backend-threadlocal-tenant-context]] - Мультитенантность через ThreadLocal (TenantContext).
 
 ## Фронтенд (React, FSD)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
 - [[frontend-architecture-fsd-dnd]] - FSD архитектура в связке с Drag-and-Drop (dnd-kit) и Zustand.
 - [[frontend_fsd_and_ui_ux_patterns]] - UI/UX паттерны и продвинутое использование FSD.
 - [[zustand-persist-access-token]] - Решение проблемы с logout при рефреше в Zustand persist.
+- [[frontend-native-fetch-interceptor]] - Нативный Fetch с перехватом 401 (Refresh Token).
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
@@ -26,6 +29,7 @@
 - [[hack-websockets-stomp]] - Практические хаки для стабильной работы WebSockets.
 - [[pdf-flying-saucer-constraints]] - Строгие правила и ограничения для Flying Saucer (шрифты, CSS, page-break).
 - [[arch-hibernate-pitfalls]] - Опасности Hibernate (N+1 с MapStruct, orphanRemoval конфликты).
+- [[backend-rate-limiting-bucket4j]] - In-Memory Rate Limiting с Bucket4j.
 
 ## Интеграции и AI
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
@@ -41,3 +45,4 @@
 - [[sec-docker-redis-exposure]] - Защита внутренних сервисов Docker от публичного доступа.
 - [[sec-pii-llm-compliance]] - Юридическая безопасность, PII анонимизация и LLM ToS (Groq, OpenAI).
 - [[sec-mvp-to-prod-checklist]] - Переход от MVP к Production: Чек-лист безопасности и типичные компромиссы.
+- [[sec-internal-service-token]] - Защита межсервисного взаимодействия (X-Internal-Token).
