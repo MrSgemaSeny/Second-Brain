@@ -10,7 +10,16 @@ For enterprise SaaS requiring absolute data isolation (like "Sklad"), the **Sche
   - Use a `TenantInterceptor` to intercept HTTP requests, extract the `X-Tenant-ID` (from headers or JWT), validate the subscription, and set it in a `TenantContextHolder` (ThreadLocal).
   - Configure Hibernate/JPA to use `MultiTenantConnectionProvider` and `CurrentTenantIdentifierResolver`.
 
-## 2. Infrastructure & Orchestration
+## 2. Multi-Tenant Architecture (Column-level with Interceptor)
+For projects like "Valeur" (HR-platform), a **Shared Database, Shared Schema** approach is often sufficient and scales better with ORMs and cross-tenant querying (e.g., candidate searching across companies).
+- **Implementation (Spring Boot):**
+  - Add a `tenant_id` column to all tenant-scoped tables.
+  - Implement a Servlet Filter or Interceptor (`TenantFilter`) that reads the `X-Tenant-Id` from HTTP headers (usually passed down by the API Gateway from a JWT claim).
+  - Store the `tenant_id` in a `ThreadLocal` wrapper (`TenantContext`).
+  - Use Hibernate's `@Filter` or AOP on Repositories to automatically append `WHERE tenant_id = ?` to all queries, preventing developers from accidentally leaking data.
+  - For cross-tenant logic (e.g. Candidates viewing multiple companies), they hit endpoints without a `tenant_id` context (global logic).
+
+## 3. Infrastructure & Orchestration
 - **Kubernetes (K8s):** Enterprise projects are packaged into Helm charts from day one.
 - **Service Mesh:** Istio is utilized for mTLS encryption between microservices, Canary Deployments, and Circuit Breaking.
 - **Ingress:** NGINX Ingress Controller.
