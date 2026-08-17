@@ -8,6 +8,10 @@
 - `docker-compose.yml`: Добавлен флаг `--requirepass` для Redis.
 - `application-dev.yml`: Обновлена конфигурация Spring Boot (`spring.data.redis.password`) для использования пароля Redis, передаваемого через переменную окружения `SPRING_DATA_REDIS_PASSWORD`.
 - `context/rules.md`: Добавлены правила по фильтрации контента для базы знаний и инструкции по извлечению паттернов из PDF через Zettelkasten.
+- `knowledge/sec-pii-llm-compliance.md`: Задокументированы юридические риски передачи PII (резюме) в LLM (Groq) и необходимость Privacy Policy.
+- `knowledge/arch-hibernate-pitfalls.md`: Задокументированы N+1 проблема при связке MapStruct + ленивая загрузка, а также конфликт ручного `deleteAll` и `orphanRemoval`.
+- `knowledge/sec-spring-jwt-auth.md`: Добавлено предупреждение о неработоспособности стандартного `oauth2Login` при `SessionCreationPolicy.STATELESS`.
+- `knowledge/knowledge-index.md`: Обновлен индекс базы знаний новыми статьями.
 
 ## Удалено
 - Ничего не удалено.
