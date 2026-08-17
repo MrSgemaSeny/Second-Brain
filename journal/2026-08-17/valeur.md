@@ -60,3 +60,15 @@
 - **Полное удаление `.css` файлов**: все стили интегрированы напрямую в `.tsx` файлы (React-компоненты). В проекте не осталось ни одного `.css` файла, кроме корневого `index.css`.
 - **Очистка корня**: удалены неиспользуемые `global.css`, `theme.css` и `App.css`. В `index.css` оставлен только импорт `@import "tailwindcss";` и базовые глобальные стили (`html`, `body` и статусы).
 - **Валидация**: прогон `npx tsc --noEmit` и `npm run lint` прошел абсолютно чисто (0 ошибок типов и импортов). UI стабилен.
+
+### Задача 4: Разработка Admin Endpoints для vacancy-service
+- **AdminVacancyController**: Создан контроллер для управления вакансиями со стороны администратора системы (`GET /api/admin/vacancies`, `PATCH /api/admin/vacancies/{id}`, `DELETE /api/admin/vacancies/{id}`). Поддерживается пагинация (`Pageable`) и поиск.
+- **InternalVacancyController**: Добавлен внутренний эндпоинт `GET /internal/vacancies/count` для получения общего количества вакансий. Защищено через `InternalTokenFilter`.
+- **VacancyService / Repository**: Добавлены необходимые методы для извлечения данных с учетом пейджинга и фильтров. Бэкенд проверен и компилируется успешно.
+
+### Задача 4: Эндпоинты Администратора
+- **identity-service**: Добавлены контроллеры для администратора (`AdminUserController`, `AdminCompanyController`, `AdminSkillModerationController`, `AdminDashboardController`).
+- Добавлен поиск с пагинацией для пользователей (по `role` и строке `search`) и компаний (по `name`) в `UserRepository` и `TenantRepository`.
+- Добавлена модерация навыков: поиск пользователей со статусом "pending" в JSONB поле `skills`, методы approve/reject (POST).
+- Реализован Dashboard с подсчетом пользователей, компаний и обращением в `vacancy-service` по внутреннему токену (через `RestClient`) для получения числа вакансий.
+- Код успешно скомпилирован.
