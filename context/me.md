@@ -1,21 +1,22 @@
 # Кто я
-_Обновлено: 2026-08-13_
+_Обновлено: 2026-08-14_
 
 **Имя:** Мурат Орынбасар
 **Роль:** Full-Stack Engineer → Tech Lead / Software Architect
+**Уровень (на основе аудита проектов):** Middle / Strong Middle
 **Локация:** Шымкент / Алматы, Казахстан
 **Email:** muratorynbasar0@gmail.com
 **GitHub:** github.com/MrSgemaSeny
 
 ## Стек
 
-**Backend:** Java 17, Spring Boot 3, Spring Security, JPA/Hibernate,
-PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP), JSoup (Web Scraping)
+**Backend:** Java 17, Spring Boot 3, Spring Security, OAuth2, JWT (access + refresh в Redis), JPA/Hibernate,
+PostgreSQL, Flyway, Модульный монолит, Caffeine Cache, Rate limiting (Bucket4j), WebFlux/Reactor (параллельные запросы), Resilience4j, Stripe + webhooks, SSE для стриминга AI, WebSocket (STOMP), JSoup (Web Scraping)
 
 **AI & LLM Integration (Advanced):** Spring AI, RAG (Retrieval-Augmented Generation), pgvector, Groq API, AI-driven architecture (Smart Merge, Tool Calling, Structured JSON Generation), Prompt Engineering
 
 **Frontend:** React 19, TypeScript, Vite, Tailwind CSS v4,
-Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit
+Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, i18n
 
 **Инфраструктура:** Docker, GitHub Actions, Fly.io, GitHub Pages
 

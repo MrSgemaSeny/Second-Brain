@@ -43,10 +43,13 @@ _Обновлено: 2026-08-11_
 - **Что это:** Проект для больших экспериментов — мультитенантность, микросервисы, LLM
 - **Когда:** будущее
 
-### CareerHub v2
-- **Статус:** далёкое будущее
-- **Что это:** Мультитенантная HR-платформа
-- **Старый CareerHub:** Лвл 1, фронтенд-онли
+### Valeur (ex. CareerHub v2)
+- **Репо:** github.com/MrSgemaSeny/Valeur
+- **Статус:** Level 2 - Pet Project (Начало миграции с монолита на микросервисы)
+- **Стек:** Spring Boot 3.3 + React 19 + Spring Cloud Gateway + PostgreSQL 16 + FSD
+- **Что это:** Мультитенантная ATS/HR-платформа. Микросервисная архитектура (api-gateway, identity, vacancy, application, ai).
+- **Деплой:** локальный docker-compose (PostgreSQL)
+- **Документация:** `projects/valeur/valeur.md`
 
 ## Архивные / учебные
 
