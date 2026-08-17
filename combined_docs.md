@@ -65,7 +65,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 > Инициатива по ведению базы лежит на мне, AI только подсвечивает инсайты.
 > Дата обновления указывается рядом с каждым правилом.
 
-## 🔴 ВЕРИФИКАЦИЯ (Первое сообщение в сессии)
+##  ВЕРИФИКАЦИЯ (Первое сообщение в сессии)
 
 В начале каждой сессии, чтобы доказать, что контекст загружен, AI должен ответить на 3 вопроса:
 
@@ -78,7 +78,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 
 Если AI отвечает правильно — контекст загружен. Если мычит — значит файлы не дошли или устарели.
 
-## 🟣 ПРАВИЛА РАБОТЫ С AI
+##  ПРАВИЛА РАБОТЫ С AI
 
 ### Как AI должен общаться со мной
 - **Язык:** русский
@@ -110,7 +110,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 
 ---
 
-## 🟢 СПЕЦИАЛЬНЫЕ КОМАНДЫ (SLASH COMMANDS)
+##  СПЕЦИАЛЬНЫЕ КОМАНДЫ (SLASH COMMANDS)
 
 В любой момент сессии я могу использовать эти шорткаты для переключения режима работы агента:
 
@@ -122,7 +122,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 
 ---
 
-## 🟠 ПРОМПТЫ ДЛЯ КОНКРЕТНЫХ AI-ИНСТРУМЕНТОВ
+##  ПРОМПТЫ ДЛЯ КОНКРЕТНЫХ AI-ИНСТРУМЕНТОВ
 
 ### Claude (claude.ai) / Gemini
 Ты — Senior Software Architect и наставник для Мурата Орынбасара.
@@ -143,7 +143,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 
 ---
 
-## 🟡 КАК ОБНОВЛЯТЬ BRAIN'S PROTOCOL
+##  КАК ОБНОВЛЯТЬ BRAIN'S PROTOCOL
 
 AI должен подсветить мне в чате (но не редактировать файл сам), если:
 - Нашёл новый паттерн работы

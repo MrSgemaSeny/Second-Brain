@@ -41,7 +41,7 @@ def combine(project_name=None):
                 with open(f, "r", encoding="utf-8") as infile:
                     out.write(infile.read())
                     
-    print(f"✅ Контекст успешно собран в {os.path.relpath(out_path, BASE)}.")
+    print(f" Контекст успешно собран в {os.path.relpath(out_path, BASE)}.")
     print("Включены файлы:")
     for f in files_to_combine:
         if os.path.exists(f):

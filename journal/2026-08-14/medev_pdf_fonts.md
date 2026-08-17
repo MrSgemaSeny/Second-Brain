@@ -40,7 +40,7 @@
   - `fix: grok-monolith pdf layout and cyrillic`
   - `fix: milky-soft pdf layout and cyrillic`
   - `fix: phub-orange pdf layout and cyrillic`
-- **Push:** ✅ 
+- **Push:**  
 
 ## Следующая сессия
 

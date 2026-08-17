@@ -43,7 +43,7 @@ _Обновлено: 2026-08-11_
 - **Что это:** Проект для больших экспериментов — мультитенантность, микросервисы, LLM
 - **Когда:** будущее
 
-### Valeur (ex. CareerHub v2)
+### Valeur (ex. Valeur v2)
 - **Репо:** github.com/MrSgemaSeny/Valeur
 - **Статус:** Level 2 - Pet Project (Начало миграции с монолита на микросервисы)
 - **Стек:** Spring Boot 3.3 + React 19 + Spring Cloud Gateway + PostgreSQL 16 + FSD
@@ -78,7 +78,7 @@ _Обновлено: 2026-08-11_
 - **Стек:** Java 11/17 + Maven (Uber-JAR) + WebSockets/NIO
 - **Что это:** Высоконагруженный чат-сервер реального времени
 
-### Career Hub v1
+### Valeur v1
 - **Статус:** завершён
 - **Стек:** JavaScript + React + FSD
 - **Что это:** ATS-система и HR-портал (фронтенд)

@@ -1,6 +1,6 @@
 # Frontend Architecture (FSD) and UI/UX Patterns
 
-Extracted from "Envie" and "Career Hub" projects.
+Extracted from "Envie" and "Valeur" projects.
 
 ## 1. Feature-Sliced Design (FSD)
 FSD is adopted to prevent spaghetti code by organizing code strictly by domain features rather than tech types.

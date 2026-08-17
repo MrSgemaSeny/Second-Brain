@@ -3,7 +3,7 @@
 **Status:** Этап 0 завершен.
 
 ## Что было сделано (Этап 0: Инициализация)
-- Клонирован старый репозиторий `CareerHub` из `github.com/MrSgemaSeny/Valeur`.
+- Клонирован старый репозиторий `Valeur` из `github.com/MrSgemaSeny/Valeur`.
 - Произведена полная зачистка старого фронтенд-кода.
 - В корне создан файл `agents.md` с правилами проекта (основанными на Brain's Protocol: запрет эмодзи, строгая валидация тестов, запрет ddl-auto).
 - Инициализирована структура микросервисов: `identity-service`, `vacancy-service`, `application-service`, `ai-service`, `api-gateway`, `frontend`.
@@ -22,3 +22,19 @@
 - **Этап 5:** Реализован `ai-service` (порт 8084, схема `ai`). Интегрирован `GroqClient` (llama-3.3-70b) через `RestClient`. Добавлен In-Memory Rate Limiter через `Bucket4j` (10 req/min) и таблица трекинга `ai_usage`. Системный промпт читается из `resources/prompts/summary.txt`.
 - **Этап 7:** **Бэкенд:** Реализованы `UserController` и `TenantController` для Identity-сервиса (работа с профилями кандидатов и компаний). **Фронтенд:** Инфраструктура полностью переведена на нативный `fetch` (кастомный `apiClient.ts` с перехватом 401 и обновлением токенов), внедрен `@tanstack/react-query` v5 для data fetching, а также интегрирован `Tailwind CSS v4` через `@tailwindcss/vite`. Моки (`db_helper.ts`) удалены.
 - **Второй мозг (Архитектура & Журналирование):** Проведен масштабный рефакторинг "Brain's protocol - second brain". Созданы ADR для `Модульный Монолит vs Микросервисы`, `Flyway vs DDL-auto`, `Groq vs OpenAI`. Хук `reminder.py` переписан на динамическое определение пути к журналу по дате `YYYY-MM-DD`. Журнал Valeur перенесен в папку `journal`. Добавлены новые паттерны микросервисов в индекс знаний.
+
+## Задача 1: Полное удаление клиентских моков и стабов
+- Убраны фейковые эндпоинты админки из apiClient.ts.
+- CompanyAnalytics (useAnalytics) переведен на реальный useQuery.
+- TakeTest: исправлен таймер при пустом списке вопросов.
+- HiddenTestModal: убран хардкод 75%.
+- ApplicationsPage: добавлен useCompanyApplications, загружающий реальные отклики из /vacancies -> /applications.
+- ApplicantDetailPage: setTimeout заменен на реальную мутацию статуса.
+- Из RegisterForm и UserProfileCard удалены все привязки к хардкодным данным (IITU).
+
+### Задача 2: Удаление клиентской логики матчинга
+- Удален тяжелый клиентский алгоритм из matching.ts (файл урезан до хелпера getMatchColor).
+- Полностью удален useMatchChecker.ts.
+- Кнопка отклика ApplyButton.tsx переписана: теперь она опирается на match_score, который будет возвращать сервер.
+- Вычищены мертвые импорты в useCandidateSearch.ts и FeedPage.tsx.
+- Фронтенд успешно скомпилирован (tsc --noEmit).

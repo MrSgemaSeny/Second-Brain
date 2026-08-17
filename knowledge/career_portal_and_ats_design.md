@@ -1,6 +1,6 @@
 # Career Portal & ATS (Applicant Tracking System) Design
 
-Based on the architectural retrospective of the "Career Hub" project.
+Based on the architectural retrospective of the "Valeur" project.
 
 ## 1. Core Functionality & User Roles
 - **Candidates:** Interfaces for browsing jobs, submitting applications, building digital CVs, and tracking application statuses.
