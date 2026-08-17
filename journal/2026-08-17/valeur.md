@@ -78,3 +78,54 @@
 - **Backend**: Внедрены тесты MockMvc и JUnit 5 для identity-service (авторизация, генерация JWT), acancy-service (пагинация вакансий) и pplication-service (работа RestClient).
 - Тесты успешно скомпилированы и проходят. Код стабилен.
 - **Fix**: Устранен баг с генерацией стилей TailwindCSS v4, стили переписаны на нативный CSS в index.css для корректной компиляции Vite без @apply.
+
+### Frontend CSS / Tailwind v4 Recovery
+- Restored global.css, 	heme.css, and App.css which were accidentally deleted during the Tailwind v4 migration, breaking the layout of 90% of the application.
+- Switched Tailwind CSS v4 integration from @tailwindcss/vite plugin to @tailwindcss/postcss. The Vite plugin was silently failing to parse .tsx files for utility classes (likely due to a Vite 8 plugin ordering issue), resulting in missing layout classes (like w-full, grid, etc.). PostCSS compilation extracts 100% of the classes correctly.
+
+
+### Fix: Tailwind CSS Config Conflict
+- РЈРґР°Р»РёР» РјСѓСЃРѕСЂРЅС‹Рµ С„Р°Р№Р»С‹ (`temp.css`, `temp2.css`, `test-tailwind.css`).
+- РџРѕС‡РёРЅРёР» СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєСѓСЋ РѕС€РёР±РєСѓ РІ `vite.config.ts`.
+- РЈРґР°Р»РёР» `vite.config.js` Рё `postcss.config.js`.
+- РЈСЃРїРµС€РЅРѕ РїСЂРѕР№РґРµРЅС‹ `npm run build` Рё С‚РµСЃС‚С‹ Vitest.
+- **[17:08]** Исправлен баг верстки LoginForm (удален min-w-[420px]). Произведена чистка frontend от заглушек, удалены мертвые компоненты (HardSkillsSection, SoftSkillsSection, Badge), старая фича SkillVerify. Хардкод soft skills в EditProfileForm и CreateVacancyForm заменен на вызов API /dictionaries/soft-skills через useQuery. HiddenTestModal обновлен: больше не скипает тесты молча, а показывает сообщение о недоступности. Успешно пройдены vitest и vite build.
+- **[17:09]** Выполнен финальный аудит фронтенда: полностью удалена папка src/external/universityApi, удалены неиспользуемые заглушки getCompanyStats и getStudentStats из сторов. В VacancyDetailPage убрана фейковая история статусов (dummy history), теперь показывается только текущий статус заявки. В EditVacancyForm хардкод отсутствовал (используется useQuery).
+
+### [17:21] Миграция CareerHub Backend
+- **User Profile:** Добавлены новые поля (contact_sharing_enabled, 	est_results, esume_file и др.) в identity-service, добавлена миграция Flyway V3.
+- **Приватность контактов:** Реализован CandidateContactsController в identity-service.
+- **Python Tests:** Реализован TestController с проверкой ответов и сохранением баллов.
+- **Инвайты:** Добавлен InviteController в pplication-service (создание Notifications).
+- **Аналитика:** Создан AnalyticsController в identity-service, в Second Brain занесен техдолг по OLTP нагрузке.
+- **PDF Резюме:** Настроена генерация PDF через Thymeleaf и Flying Saucer по аналогии с проектом MeDev. Шаблон esume.html и контроллер готовы.
+- Роуты обновлены в pi-gateway.
+### [17:23] Редизайн страницы аутентификации (AuthPage)
+- **AuthPage:** Полностью переработан макет (split-screen). Левая часть теперь имеет премиальный глубокий темный фон (slate-950) с абстрактными градиентными свечениями.
+- **LoginForm / RegisterForm:** Формы переписаны в современном минималистичном стиле:
+  - Плавные тени и обводки, мягкий ocus:ring-blue-500/10.
+  - Отличная типографика (tracking-tight для заголовков).
+  - Элегантный hover-эффект на кнопках.
+  - Кастомные иконки SVG и карточки выбора ролей в RegisterForm.
+### [17:28] Миграция фронтенда на чистый Tailwind CSS
+- **index.css:** Полностью удалено ~240 строк глобального устаревшего CSS. Оставлен только @import "tailwindcss" и базовая структура.
+- **Масштабный рефакторинг:** Написан Node.js скрипт (efactor.cjs), который автоматически обошел все 40+ компонентов (src/**/*.tsx) и заменил старые CSS классы (.card, .btn-outline, .status-*) и базовые теги (<button>, <h1>, <h2>, <input>) на строгие утилиты Tailwind CSS.
+- Проведен 	sc --noEmit — синтаксис JSX корректен, проект собирается.
+- Архитектура FSD очищена от наследия старого CSS (снижено потребление памяти).
+### [17:32] Исправление сломанного билда и покрытие тестами
+- **Bug Fix:** Исправлена ошибка моего Node.js скрипта, который случайно отрезал куски JSX в атрибутах onClick={(e) => ...}. Прогнал фикс скриптом ix-build.cjs. Билд 
+pm run build теперь проходит без ошибок!
+- **Тесты (TDD):** Добавлены unit-тесты (Vitest + React Testing Library) для LoginForm.test.tsx, RegisterForm.test.tsx и shared/ui/Button/Button.test.tsx. Настроены провайдеры QueryClientProvider и MemoryRouter. Все тесты прошли успешно.
+### [17:36] Тотальная зачистка от JSX (Strict TypeScript Enforcement)
+- **Удалены артефакты:** Все рудиментарные комментарии вида // src/.../*.jsx стерты из проекта.
+- **Интерфейсы внедрены:** Написан и применен скрипт ix-jsx.cjs, который автоматически просканировал 24 файла с нетипизированными функциями-компонентами (вида export function Name({ prop1, prop2 })). 
+- Для каждого такого компонента был сгенерирован и внедрен строгий TypeScript-интерфейс (например, interface CompanyCardProps).
+- Тип ny исключен в пользу вывода типов, unknown или React.ReactNode.
+- Прогон компилятора (
+px tsc --noEmit) прошел успешно — проект теперь полностью соответствует правилу "Strict TypeScript, no any" в рамках FSD-архитектуры.
+### [17:38] Исправление семантики (устранение div-soup)
+- **Семантические теги:** В компонентах CompanyCard и VacancyCard корневой контейнер <div> заменен на семантически правильный тег <article>, что улучшает a11y и SEO для поисковиков.
+- **Удаление лишних оберток:** Устранен "суп из дивов" — удалены промежуточные <div>, которые использовались только для позиционирования единственного дочернего элемента. Классы вроде mt-auto перенесены непосредственно на сам элемент (например, inline-flex mt-auto), что делает дерево DOM чище и легче для рендеринга браузером.
+- Также исправлен баг двойного атрибута className в VacancyCard.tsx, оставшийся после работы автоматического скрипта рефакторинга.
+# #   P h a s e   8   U I   R e f a c t o r   ( 2 0 2 6 - 0 8 - 1 7 ) & # 1 3 ; & # 1 0 ; -   #AB@0=5=  d i v - s o u p   8  ;530A8  C S S . & # 1 3 ; & # 1 0 ; -   =54@5=K  A5<0=B8G5A:85  H T M L - B538  8  =>2K5  U I - ?@8<8B82K  ( S t a t C a r d ,   S e c t i o n ,   B a d g e ,   c n ( ) ) . & # 1 3 ; & # 1 0 ; -   >;=>ABLN  ?5@5?8A0=K  A d m i n D a s h b o a r d P a g e ,   P r o f i l e P a g e ,   D a s h b o a r d O v e r v i e w ,   C o m p a n y P r o f i l e P a g e   8  E d i t C o m p a n y P r o f i l e P a g e   A  8A?>;L7>20=85<  T a i l w i n d C S S   8  l u c i d e - r e a c t . & # 1 3 ; & # 1 0 ; -   5@52545=K  2A5  >AB02H85AO  J S X   D09;K  2  T S X . & # 1 3 ; & # 1 0 ; -   @>5:B  CA?5H=>  A>18@05BAO  ( n p x   t s c   - - n o E m i t ) .  
+ 

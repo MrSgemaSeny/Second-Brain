@@ -21,6 +21,9 @@
 ## Журнал разработки
 *История разработки (лог сессий) перенесена в `journal/YYYY-MM-DD/valeur.md` согласно правилам Brain's Protocol.* 
 
+## Архитектурные риски и долг (Tech Debt)
+- **OLTP Аналитика:** На данный момент агрегация аналитики происходит синхронно запросами в OLTP БД. С ростом данных это вызовет деградацию производительности. Требуется (в Roadmap) выделить `analytics-service` с асинхронным сбором метрик через брокер сообщений (Kafka/Rabbit) в OLAP.
+
 ## Roadmap
 - **Фаза 1-5** — Done: Identity, vacancy, application, ai-service, api-gateway. Мультитенантность, JWT rotation.
 - **Фаза 6** — Done: Docker-compose полный, Dockerfiles для всех сервисов.
