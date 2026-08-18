@@ -17,3 +17,5 @@
 - Эпик C (Observability): Actuator и Zipkin (Structured Logging) были оценены, но так как это не блокер для MVP, задача отложена до следующего рефакторинга инфраструктуры. Аудит MVP-фазы закрыт.
 - **[Исправлено]** Найденная уязвимость с обходом Rate Limiting (Spoofing заголовка `X-Forwarded-For`) закрыта: `HeaderSanitizationFilter` в `api-gateway` теперь вырезает клиентский `X-Forwarded-For` перед роутингом, благодаря чему SCG корректно проставляет реальный IP адрес подключения, и `identity-service` ограничивает реальные IP.
 - **[Исправлено]** В `ApplicationsPage.tsx` удалены дублирующиеся атрибуты `className`, которые вызывали конфликты стилей.
+
+- Created new modern iOS-inspired design direction document for Valeur.
