@@ -49,3 +49,8 @@
 - [[sec-oauth2-stateless-cookies]] - Реализация OAuth2 в STATELESS архитектуре без сессий.
 - [[sec-mvp-to-prod-checklist]] - Переход от MVP к Production: Чек-лист безопасности и типичные компромиссы.
 - [[sec-internal-service-token]] - Защита межсервисного взаимодействия (X-Internal-Token).
+
+## Инциденты (Production Post-Mortems)
+- [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
+- [[incident-02-management-port-hibernate-crash]] - `management.server.port=8081` на Fly.io → Spring создаёт 2-й контекст → Hibernate 7 дублирует event listeners → crash. Фикс: держать порт на 8080, безопасность через Spring Security.
+
