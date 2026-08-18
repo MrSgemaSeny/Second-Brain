@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2026-08-10/jf-1c.md",
+                "file": "journal/2026-08-10/envie.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "jf-1c"
+              "title": "envie"
             }
           }
         ]
@@ -184,6 +184,8 @@
   },
   "active": "0a6f128fec5f9f47",
   "lastOpenFiles": [
+    "context/me.md",
+    "journal/2026-08-10/jf-1c.md",
     "journal/2026-08-10/envie.md",
     "journal/2026-08-10/resume_builder_forms.md",
     "projects/backend-damir/backend-damir.md",
@@ -207,8 +209,6 @@
     "projects/air-canvas/index.md",
     "projects/envie/index.md",
     "projects/chat-bot-backend/index.md",
-    "projects/valeur/index.md",
-    "projects/chat-bot-frontend/index.md",
-    "projects/chat-naturalov-bot/index.md"
+    "projects/valeur/index.md"
   ]
 }
