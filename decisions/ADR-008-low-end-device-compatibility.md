@@ -97,8 +97,8 @@ _Проект: JF-1C_
 
 | Проблема | Статус | Митигация |
 |----------|--------|-----------|
-| Google OAuth в in-app браузерах | Открыта | Детектировать in-app browser UA и скрывать Google кнопку, показывать только local auth |
-| COOP блокирует postMessage у Google GSI | Открыта | `SAME_ORIGIN_ALLOW_POPUPS` частично помогает, но Safari/FedCM всё равно конфликтует |
+| Google OAuth в in-app браузерах | Открыта | Переключить на `ux_mode: 'redirect'` вместо popup. Redirect работает везде — in-app, WebView, Safari. Скрывать кнопку — НЕВЕРНОЕ решение. |
+| COOP блокирует postMessage у Google GSI | Открыта | Решается тем же `ux_mode: 'redirect'` — postMessage не нужен при redirect-флоу. |
 | Android WebView < Chrome 67 | Маловероятна | Local auth как fallback покрывает кейс |
 | iOS ITP блокирует HttpOnly cookie | Закрыта | Зафиксировано: Bearer токен в JSON response + in-memory storage |
 | OAuth popup на iOS Safari | Закрыта | Зафиксировано: accessToken в AuthResponse не @JsonIgnore |
