@@ -5,7 +5,7 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 4 - Production-Ready AI SaaS (Фазы 1-4 завершены: Полная генерация профиля через AI, Job Tracker CRM + Kanban, Smart Merge, Парсинг PDF/GitHub, 100% Test Coverage)
+- **Статус:** Level 3 - Сильный MVP (Фазы 1-4 завершены: Полная генерация профиля через AI, Job Tracker CRM + Kanban, Smart Merge, Парсинг PDF/GitHub, 100% Test Coverage). Деплоя нет, реальных пользователей нет — уровень 4 не достигнут.
 - **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis + Docker + Groq AI + Spring AI + pgvector + Vitest/Testcontainers
 - **Что это:** Data-first AI SaaS платформа для разработчиков. Умный парсинг GitHub (Source of Truth) и PDF (Smart Merge), AI-генерация профиля в строгом JSON, Kanban-доска (CRM) с автоматическим AI-матчингом вакансий (Scraper), рендер 100% точного PDF (Base64 шрифты + Thymeleaf).
 - **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages, локально через docker-compose)
@@ -13,7 +13,7 @@ _Обновлено: 2026-08-11_
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Лвл 3→4, готов к первым клиентам
+- **Статус:** Лвл 4 — задеплоен, идут первые клиенты
 - **Стек:** Spring Boot 3 + React 19 (TypeScript) + PostgreSQL + Fly.io
 - **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
 - **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
