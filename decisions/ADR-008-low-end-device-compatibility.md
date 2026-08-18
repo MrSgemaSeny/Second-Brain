@@ -51,9 +51,57 @@ _Проект: JF-1C_
 - `prefers-reduced-motion` решает сразу две проблемы: производительность + accessibility
 - SockJS уже в стеке — WS-fallback бесплатный
 
-## Последствия
-
 - Нельзя использовать фичи новее Chrome 109 без полифилла
 - При добавлении новых зависимостей проверять их browser support на caniuse.com
 - IE 11 официально не поддерживается, но белого экрана быть не должно — только сообщение
 - Google OAuth остаётся как удобный способ для тех у кого Chrome актуальный, не как единственный
+
+---
+
+## Матрица поддержки браузеров (полная)
+
+### Desktop
+
+| Браузер | Совместимость | Примечания |
+|---------|---------------|------------|
+| Chrome 109+ | Полная | Целевой браузер Win7 |
+| Edge 79+ | Полная | Chromium под капотом, паритет с Chrome |
+| Firefox 115+ | Полная | Второй целевой браузер |
+| Yandex Browser | Полная | Форк Chromium, отстаёт на 1-2 версии — некритично |
+| Opera | Полная | Аналогично Yandex |
+| Safari 16+ (macOS) | Частичная | WebKit quirks: даты требуют ISO-формата, COOP может блокировать OAuth popup |
+| IE 11 | Не поддерживается | ES modules не работают. Показываем `nomodule` fallback с сообщением |
+
+### Mobile
+
+| Браузер | Совместимость | Примечания |
+|---------|---------------|------------|
+| Android Chrome 109+ | Полная | Основной мобильный браузер |
+| iOS Safari 16+ | Частичная | Уже зафиксировано: ITP bypass (Bearer вместо cookie), OAuth через JSON capture |
+| Chrome iOS / Firefox iOS | Частичная | На iOS все браузеры = WebKit обёртка, поведение как iOS Safari |
+| Samsung Internet | Хорошая | Chromium-форк, отстаёт на ~2 версии |
+| Huawei Browser | Хорошая | Аналогично Samsung Internet |
+| UC Browser | Рискованная | Нестандартный fetch и WebSocket в старых версиях. Не тестируется |
+
+### In-App / WebView
+
+| Контекст | Совместимость | Примечания |
+|----------|---------------|------------|
+| Gmail (Android) — Chrome Custom Tab | Полная | Фактически Chrome |
+| Telegram WebApp | Хорошая | Chromium WebView, но нет `window.open()` для OAuth popup |
+| WhatsApp / VK / Instagram ссылки | Средняя | Android System WebView — версия зависит от устройства |
+| Facebook in-app | Плохая | Блокирует сторонние cookie, OAuth popup не работает |
+| Kaspi / другие KZ приложения | Средняя | Android WebView, может быть устаревшим на старых Android |
+
+## Известные дыры и митигации
+
+| Проблема | Статус | Митигация |
+|----------|--------|-----------|
+| Google OAuth в in-app браузерах | Открыта | Детектировать in-app browser UA и скрывать Google кнопку, показывать только local auth |
+| COOP блокирует postMessage у Google GSI | Открыта | `SAME_ORIGIN_ALLOW_POPUPS` частично помогает, но Safari/FedCM всё равно конфликтует |
+| Android WebView < Chrome 67 | Маловероятна | Local auth как fallback покрывает кейс |
+| iOS ITP блокирует HttpOnly cookie | Закрыта | Зафиксировано: Bearer токен в JSON response + in-memory storage |
+| OAuth popup на iOS Safari | Закрыта | Зафиксировано: accessToken в AuthResponse не @JsonIgnore |
+| Корпоративный прокси блокирует WebSocket | Открыта | SockJS даёт автоматический fallback на XHR-streaming |
+| Google Fonts заблокированы прокси | Открыта | `display=swap` + системный fallback шрифт — контент читаем |
+
