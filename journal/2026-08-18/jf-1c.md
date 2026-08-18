@@ -1,16 +1,41 @@
-# Журнал 2026-08-18
+п»ї# пїЅпїЅпїЅпїЅпїЅпїЅ 2026-08-18
 
-## Что было сделано
-1. Исправлены уязвимости: Path Traversal (DatabaseStorageService), IP Spoofing (DocumentController), IDOR (CourseMediaController), DoS (ContactRequestService), Token Race Condition (RefreshTokenService), CSV Injection (ExportController).
-2. Код запушен в репозиторий (коммит de7c86f).
-3. Интегрирована система хуков (enforce-workflow, reminder) из проекта Valeur.
+## пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: Path Traversal (DatabaseStorageService), IP Spoofing (DocumentController), IDOR (CourseMediaController), DoS (ContactRequestService), Token Race Condition (RefreshTokenService), CSV Injection (ExportController).
+2. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ de7c86f).
+3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (enforce-workflow, reminder) пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Valeur.
 
-## Дополнительные фиксы (Phase 2)
-1. CRIT-3: Удален JWT токен из URL параметров в JwtAuthenticationFilter.
-2. WARN-2: Заголовок Content-Disposition теперь генерируется безопасно через Spring ContentDisposition builder.
-3. CRIT-1: Добавлен строгий Rate Limit (10 запросов в час на IP) для загрузки файлов в ApiRateLimitFilter.
-4. WARN-1: Actuator перенесен на порт 8081 в application.properties, чтобы скрыть метрики из публичного доступа.
-5. CRIT-2: Добавлена валидация MIME-типа через Apache Tika (tika-core) вместо доверия клиентскому заголовку Content-Type.
+## пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (Phase 2)
+1. CRIT-3: пїЅпїЅпїЅпїЅпїЅпїЅ JWT пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ URL пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ JwtAuthenticationFilter.
+2. WARN-2: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Content-Disposition пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Spring ContentDisposition builder.
+3. CRIT-1: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Rate Limit (10 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅ IP) пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ ApiRateLimitFilter.
+4. WARN-1: Actuator пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ 8081 пїЅ application.properties, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+5. CRIT-2: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ MIME-пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Apache Tika (tika-core) пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Content-Type.
 
-## Проверка фронтенда
-- Подтверждено, что фронтенд уже использует пути /api/v1/*. Фаза 4 отмечена как [DONE] в AGENTS.md.
+## пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ /api/v1/*. пїЅпїЅпїЅпїЅ 4 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ [DONE] пїЅ AGENTS.md.
+
+## [HOTFIX] Incident: Backend crash after security audit commit
+
+### Root cause
+Commit ddceb67 (security audit Phase 2) changed management.server.port from 8080 to 8081.
+On Fly.io, port 8081 is not exposed. Spring Boot creates a second WebApplicationContext for the management port.
+Hibernate 7 (Spring Boot 4.x) registers entity event listeners per ApplicationContext -- with two contexts, listeners are registered twice.
+Result: EventListenerRegistrationException: Duplicate event listener found -- Application run failed.
+
+Symptoms seen by user:
+- CORS blocked on /api/v1/auth/me (backend was down, no CORS headers on 502)
+- Grafana alert: DatasourceNoData (metaspace-near-limit -- no data because backend was down)
+- 502 Bad Gateway on all endpoints
+
+### Fix
+Hotfix commit 28a48fe: reverted management.server.port to 8080.
+Actuator is already secured via hasRole("ADMIN") in SecurityConfig -- separate port on Fly.io was security theater (8081 not in fly.toml, never exposed).
+
+### Lesson learned
+See [[knowledge/jvm-metaspace-tuning]] -- Fly.io overrides JAVA_TOOL_OPTIONS.
+Real MaxMetaspaceSize on Fly.io free tier = 160m (not 256m from fly.toml).
+Never set management.server.port != server.port on single-port Fly.io deployments with Hibernate 7.
+
+### Tests
+BUILD SUCCESSFUL -- all security filter tests passed.
