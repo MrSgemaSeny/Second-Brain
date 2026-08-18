@@ -18,21 +18,31 @@ _Проект: JF-1C_
 
 ### Правила сборки
 
-- `build.target: ['chrome109', 'firefox115']` в `vite.config.ts` — обязательно
-- IE 11: показываем `<noscript>` / `nomodule` fallback с сообщением об обновлении браузера,
-  полная поддержка не цель
-- Autoprefixer подключён для CSS-совместимости
+- `build.target: ['chrome109', 'firefox115']` в `vite.config.ts` — обязательно. Vite default
+  `'modules'` технически покрывает Chrome 109, но явный target — документация намерения и
+  защита от изменения дефолтов в будущих версиях Rolldown/Vite
+- IE 11: показываем `nomodule` fallback с сообщением об обновлении браузера.
+  Механизм: IE11 выполняет `<script nomodule>` (не знает этот атрибут), современные браузеры
+  игнорируют. Внутри fallback-скрипта — только vanilla JS без fetch/Promise
+- Tailwind v4 использует `@tailwindcss/vite` плагин с Lightning CSS внутри.
+  Lightning CSS включает vendor prefixing автоматически. Autoprefixer отдельно не нужен —
+  это паттерн Tailwind v3+PostCSS, он устарел
 
 ### Правила производительности
 
-- Framer Motion: все анимации оборачиваются в проверку `prefers-reduced-motion`.
-  На слабых ПК пользователи часто включают этот режим, или его включает Windows 7 по умолчанию
-  при слабом железе. Если активен — анимации отключаются полностью (`duration: 0`)
-- Чанки: разделены по ролям (chunk-admin, chunk-employee, chunk-client, chunk-learner) —
-  бухгалтер грузит только свой чанк, не весь бандл
-- Lazy loading: все страницы через `lazyWithRetry` (уже реализовано)
-- Google Fonts: `display=swap` + системный fallback шрифт в CSS чтобы контент был читаем
-  пока шрифт грузится или если fonts.googleapis.com заблокирован корпоративным прокси
+- Реальная проблема на слабых ПК — не анимации, а **JS parse time**.
+  На Pentium/Core i3 2012 года разбор 1MB JS = 3-5 секунд заморозки интерфейса.
+  Фикс: мониторить bundle size, держать main chunk < 200KB, все роли — отдельные чанки (уже сделано)
+- Framer Motion использует CSS transforms + Web Animations API — GPU-ускорено даже на старом железе.
+  Анимации сами по себе не нагружают CPU. `prefers-reduced-motion` добавляем для accessibility,
+  не для производительности
+- `prefers-reduced-motion` НЕ включается автоматически Windows 7 на слабом железе —
+  пользователь ставит вручную. Поддерживаем из уважения к тем, кто его включил осознанно
+- Чанки разделены по ролям (chunk-admin, chunk-employee, chunk-client, chunk-learner) — уже сделано
+- Lazy loading через `lazyWithRetry` — уже сделано
+- Google Fonts `Russo One` — декоративный шрифт только для логотипа/заголовков.
+  При блокировке прокси: браузер фоллбэкнется на system font, интерфейс полностью читаем.
+  `display=swap` уже стоит — не блокирует рендер. Приоритет: низкий
 
 ### Правила совместимости браузеров
 
