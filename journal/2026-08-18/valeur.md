@@ -17,5 +17,10 @@
 - Эпик C (Observability): Actuator и Zipkin (Structured Logging) были оценены, но так как это не блокер для MVP, задача отложена до следующего рефакторинга инфраструктуры. Аудит MVP-фазы закрыт.
 - **[Исправлено]** Найденная уязвимость с обходом Rate Limiting (Spoofing заголовка `X-Forwarded-For`) закрыта: `HeaderSanitizationFilter` в `api-gateway` теперь вырезает клиентский `X-Forwarded-For` перед роутингом, благодаря чему SCG корректно проставляет реальный IP адрес подключения, и `identity-service` ограничивает реальные IP.
 - **[Исправлено]** В `ApplicationsPage.tsx` удалены дублирующиеся атрибуты `className`, которые вызывали конфликты стилей.
-
+- **Вектор развития AI (Phase 9)**: Проанализированы алгоритмы hh.ru для будущего AI Job Matcher:
+  1. Автофильтры (жесткие критерии: ЗП, опыт, локация) — детерминированная логика, отсев до вызова LLM.
+  2. Парсинг и скоринг: LLM проверяет плотность ключевых слов и семантическое соответствие опыта.
+  3. Штрафы за низкую заполненность профиля (<80%).
+  4. Стандартизация должностей (LLM мапит креативные тайтлы кандидата в стандартные рыночные).
 - Created new modern iOS-inspired design direction document for Valeur.
+- Reviewed and revised aleur_ios_design_direction.md as the Art Director to enforce native iOS minimalism, ensuring no brutalism, and defining strict Tailwind v4 implementation rules.
