@@ -5,3 +5,7 @@
 - Проверен "InternalTokenFilter" — защита всех эндпоинтов работает корректно через строгую проверку "X-Internal-Token".
 
 - Усилена валидация секретов в SecretValidator: теперь приложение упадет при старте, если JWT_SECRET или INTERNAL_SERVICE_TOKEN будут пустой строкой (ранее пустая строка обходила проверку).
+
+- Добавлен Rate Limiting (Bucket4j) для эндпоинтов /api/auth/login и /api/auth/register в identity-service (защита от брутфорса).
+- Написан тест HeaderSanitizationFilterTest для pi-gateway, проверяющий срезание служебных заголовков.
+- Принято архитектурное решение (Эпик D): Роль ADMIN является глобальной системной ролью. Доступ к /api/admin/vacancies не имеет tenant-scoping, так как глобальные администраторы управляют всей системой.
