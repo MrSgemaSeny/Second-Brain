@@ -222,3 +222,19 @@ pm test\ в пайплайн фронтенда.
   - Шрифт \Space Grotesk\ с крупной типографикой (h1 40px, titles 16px).
 - Все 91 бэкенд тестов успешно пройдены.
 
+
+### Внедрение параметризованных тестов для всех 6 шаблонов резюме
+- Написан полный тестовый сьют в \ResumeTemplateIntegrationTest.java\:
+  - \	estHtmlGeneration_singlePage\ (6 шаблонов: clean, github, apple-modern, grok-monolith, milky-soft, phub-orange).
+  - \	estHtmlGeneration_multiPage\ (6 шаблонов).
+  - \	estPdfBinaryGeneration_allTemplates\ (строгая генерация реального PDF через ITextRenderer с валидацией \%PDF-\ заголовка для всех 6 шаблонов).
+- Всего в бэкенде теперь 108 тестов, все 100% зеленые.
+
+
+### Комплексный сьют параметризованных тестов для всех 6 шаблонов резюме
+- Реализован \ResumeTemplateIntegrationTest.java\:
+  - 6 тестов \	estHtmlGeneration_singlePage\ (валидация Single-Page режима для clean, github, apple-modern, grok-monolith, milky-soft, phub-orange).
+  - 6 тестов \	estHtmlGeneration_multiPage\ (валидация Multi-Page режима для всех 6 шаблонов).
+  - 6 тестов \	estPdfBinaryGeneration_allTemplates\ (физическая генерация через ITextRenderer с проверкой заголовка %PDF- и отсутствия XML-исключений).
+- Все 108 бэкенд и 37 фронтенд тестов 100% зеленые.
+
