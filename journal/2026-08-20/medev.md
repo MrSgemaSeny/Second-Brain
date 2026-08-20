@@ -284,3 +284,9 @@ pm test\ � �������� ���������.
 - **Fixed github template page margins**: Changed @page margin from 0 to 15mm in github.html to prevent the generated PDF from rendering content flush against the edges of the A4 document.
 - **Fixed milky-soft template single-page layout**: The single-page CSS logic in milky-soft was using incorrect class names (.contact-bar instead of .contact-info, etc.) and failed to override the massive default margins (60px margins, 50px paddings). Rewrote the body.single-page CSS to correctly target the actual DOM elements and drastically reduce spacing/air, allowing the resume to fit on 1 page in compact mode.
 - **Fixed grok-monolith template wrap bugs and single-page bloat**: The float wrappers (.wrap-33 and .wrap-66) were wrapping to the next line in PDF because 33.3333% + 66.6666% caused rounding overflow. Changed to 33% and 66%. Furthermore, single-page CSS was not shrinking bento cards and text enough, resulting in 2 pages even with the toggle on. Shrunk all padding and fonts heavily for .single-page mode.
+
+
+### 2026-08-20 - Checkpoint / Reset
+- **Action**: Выполнен `git reset --soft HEAD~40` и сделан сквиз/чекпоинт-коммит с сообщением-напоминанием по требованию. 
+- **Reason**: Откат хаотичной истории 40 коммитов, вызванной регрессиями и багами в PDF-шаблонах (проблемы с отступами, эмодзи, одностраничным режимом).
+- **MASSIVE ROLLBACK**: Executed git reset --hard HEAD~40 and forced pushed to origin/main. Created an empty checkpoint commit as a reminder of failure. 40 commits of work (including Roadmap phases 1-8, PDF engine fixes, and security patches) have been destroyed per explicit directive.
