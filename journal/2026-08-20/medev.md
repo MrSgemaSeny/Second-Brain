@@ -208,3 +208,8 @@ pm test\ в пайплайн фронтенда.
 ### Актуализация документации и README репозитория
 - README обновлен до актуального состояния: отражены 6 шаблонов резюме (\clean\, \github\, \pple-modern\, \grok-monolith\, \milky-soft\, \phub-orange\), миграция Flyway V24 и поддержка A4 Single-Page / Multi-Page режимов.
 
+
+### Устранение ошибки 500 в Flying Saucer XML парсере (SAXParseException: unescaped '&')
+- **Причина 500 ошибки**: В CSS-комментариях \clean.html\ (строка 124) и \github.html\ (строка 271) находился сырой символ \&\ (\Print & PDF Engine\), который XML SAX парсер Flying Saucer интерпретировал как некорректную сущность XML. В \pple-modern.html\ именованная сущность \&middot;\ заменена на числовую XML-сущность \&#183;\.
+- Все 91 бэкенд и 37 фронтенд тестов успешно пройдены.
+
