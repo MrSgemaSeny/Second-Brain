@@ -243,3 +243,8 @@ pm test\ в пайплайн фронтенда.
 - В \grok-monolith.html\ исправлено поле \edu.fieldOfStudy\ -> \edu.field\ и добавлена проверка на null для флагов \isCurrent\.
 - Все 108 бэкенд тестов (включая параметризованные тесты для всех 6 шаблонов) успешно пройдены.
 
+
+### Переключение AI-модели по умолчанию на openai/gpt-oss-20b
+- Заменена дефолтная модель Groq во всей конфигурации: \pplication.yml\, \GroqClient.java\, \GroqHealthIndicator.java\, \GroqClientTest.java\ на \openai/gpt-oss-20b\.
+- Все 108 бэкенд и 37 фронтенд тестов успешно пройдены.
+
