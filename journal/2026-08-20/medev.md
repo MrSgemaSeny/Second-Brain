@@ -271,3 +271,8 @@ pm test\ в пайплайн фронтенда.
 - Устранен сырой \&\ в CSS-комментарии \/* Links & Pills */\ в \grok-monolith.html\.
 - Полная валидация: все 18 параметризованных тестов резюме (включая физическую PDF-генерацию для всех 6 шаблонов) и все 108 бэкенд + 37 фронтенд тестов пройдены успешно.
 
+# #   2 0 2 6 - 0 8 - 2 0   -   B u g f i x :   P D F   G e n e r a t i o n   S A X P a r s e E x c e p t i o n 
+ -   * * I s s u e * * :   P D F   g e n e r a t i o n   c r a s h e d   w i t h   \ S A X P a r s e E x c e p t i o n :   T h e   e n t i t y   n a m e   m u s t   i m m e d i a t e l y   f o l l o w   t h e   ' & ' \   d u e   t o   F l y i n g   S a u c e r ' s   s t r i c t   X M L   p a r s e r   e n c o u n t e r i n g   u n e s c a p e d   a m p e r s a n d s   i n   H T M L   ( l i k e l y   f r o m   u s e r   d a t a ) . 
+ -   * * F i x * * :   I m p l e m e n t e d   s t r i c t   H T M L - t o - X M L   s a n i t i z a t i o n   u s i n g   J S o u p   i n   \ P d f G e n e r a t o r S e r v i c e . j a v a \   b e f o r e   p a s s i n g   t h e   H T M L   t o   F l y i n g   S a u c e r .   U p d a t e d   \ P d f G e n e r a t o r S e r v i c e T e s t \   t o   v e r i f y   t h a t   m a l f o r m e d   H T M L   i s   c o r r e c t l y   s a n i t i z e d   a n d   p a r s e d   w i t h o u t   t h r o w i n g   e x c e p t i o n s . 
+ -   * * T e s t s * * :   P a s s e d .  
+ - **Fixed grok-monolith PDF layout issue**: Rewrote CSS using strict CSS 2.1 constructs (floats, percentage widths, display:table) so Flying Saucer generates the exact identical layout as Chrome CSS Grid (matching reference resume (3).pdf). All tests pass. Pushed to main.
