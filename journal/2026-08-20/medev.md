@@ -174,3 +174,9 @@ pm test\ в пайплайн фронтенда.
 - **GitHub Dark (\github.html\)**: исправлен сиротский разрыв страницы (Page Break Orphan) для секции Education, компактный размер аватара и таймлайн-отступов в одностраничном режиме, добавлены правила \page-break-inside: avoid\ и \page-break-after: avoid\.
 - Все 91 бэкенд тест успешно пройдены.
 
+
+### Восстановление .github/workflows/ci.yml для CI/CD бейджа
+- Восстановлена папка \.github\ с пайплайнами \ci.yml\ и \deploy.yml\.
+- Удалена запись \.github/\ из \.gitignore\.
+- Теперь GitHub Actions запускает автоматическую сборку и тесты (бэкенд Gradle + фронтенд Vitest), а бейдж \CI/CD\ в README.md отображает статус \passing\.
+
