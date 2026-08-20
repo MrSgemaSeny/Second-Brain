@@ -1,9 +1,10 @@
-# Сессия 2026-08-20 — Загрузка ZhanFinance Landing & GitHub Pages Actions
+# Сессия 2026-08-20 — Загрузка ZhanFinance Landing & Иконки Lucide SVG
 
-## Добавлено
-- Скопирован HTML-файл `zhanfinance-landing (2).html` из Загрузок в репозиторий `landing` как `index.html`.
-- Добавлен workflow `.github/workflows/static.yml` для автоматического деплоя статичного HTML через GitHub Actions.
-- Изменения отправлены в GitHub репозиторий `https://github.com/MrSgemaSeny/landing`.
+## Исправлено
+- Обнаружено отсутствие иконок в блоках возможностей (`.feat-card`), контактах (`.contact-meta`) и дашборде.
+- Интегрирована библиотека векторных иконок Lucide (`https://unpkg.com/lucide@latest`).
+- Все контейнеры иконок оснащены атрибутами `data-lucide` (kanban, file-text, credit-card, graduation-cap, message-square, shield-check, map-pin, clock, layout-dashboard).
+- Файл `index.html` полностью сохранен в UTF-8.
 
 ## Проверки
-- Workflow создан и отправлен в `main`.
+- Изменения закоммичены и отправлены в `https://github.com/MrSgemaSeny/landing` (коммит `b2469a4`).

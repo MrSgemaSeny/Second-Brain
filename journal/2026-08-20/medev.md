@@ -162,3 +162,9 @@ pm test\ в пайплайн фронтенда.
 - В блок **Тестирование & DevOps** добавлен \Pytest\.
 - Обновленный профиль зафиксирован в коммите \62a9c55\ и запушен в \main\ на GitHub.
 
+
+### Flyway V24: Расширение поля level в таблице languages
+- Создана миграция \V24__expand_language_level.sql\.
+- Колонка \languages.level\ расширена до \VARCHAR(50)\ и сделана \NULLABLE\. Это устраняет ошибку \alue too long for type character varying(20)\ при сохранении длинных названий уровней владения языком (например, \Professional Working (C1)\) и предотвращает падения при отсутствии поля level.
+- Все 91 бэкенд тест успешно пройдены (\BUILD SUCCESSFUL\).
+
