@@ -213,3 +213,12 @@ pm test\ в пайплайн фронтенда.
 - **Причина 500 ошибки**: В CSS-комментариях \clean.html\ (строка 124) и \github.html\ (строка 271) находился сырой символ \&\ (\Print & PDF Engine\), который XML SAX парсер Flying Saucer интерпретировал как некорректную сущность XML. В \pple-modern.html\ именованная сущность \&middot;\ заменена на числовую XML-сущность \&#183;\.
 - Все 91 бэкенд и 37 фронтенд тестов успешно пройдены.
 
+
+### Восстановление оригинального 12-колоночного CSS Grid дизайна для Grok Monolith
+- Шаблон \grok-monolith.html\ полностью пересобран по оригинальному эталонному макету пользователя (\esume-grok-monolith (2).html\):
+  - 12-колоночный CSS Grid (\display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;\).
+  - Правильное распределение карточек: Profile (12), Summary (8), Connect (4), Experience (8), Education (4), Capabilities (6), Languages (6), Projects (12 с 2-колоночным flex-разделением).
+  - Аутентичные Grok теги (\ackground: #09090b; border: 1px solid #27272a; padding: 4px 12px; border-radius: 100px; font-size: 12px;\).
+  - Шрифт \Space Grotesk\ с крупной типографикой (h1 40px, titles 16px).
+- Все 91 бэкенд тестов успешно пройдены.
+
