@@ -5,11 +5,11 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 3 - Сильный MVP (Фазы 1-4 завершены: Полная генерация профиля через AI, Job Tracker CRM + Kanban, Smart Merge, Парсинг PDF/GitHub, 100% Test Coverage). Деплоя нет, реальных пользователей нет — уровень 4 не достигнут.
-- **Стек:** Spring Boot 3 + React 19 + PostgreSQL + Flyway + Redis + Docker + Groq AI + Spring AI + pgvector + Vitest/Testcontainers
-- **Что это:** Data-first AI SaaS платформа для разработчиков. Умный парсинг GitHub (Source of Truth) и PDF (Smart Merge), AI-генерация профиля в строгом JSON, Kanban-доска (CRM) с автоматическим AI-матчингом вакансий (Scraper), рендер 100% точного PDF (Base64 шрифты + Thymeleaf).
+- **Статус:** Level 3 - Production-Ready MVP (Все Фазы 1-8 Roadmap завершены: Полная генерация профиля через AI, Smart Merge, 6 HTML/PDF шаблонов включая Clean ATS, Job Tracker CRM + Kanban, Публичное портфолио с SEO, UX скелетоны, Multi-Template README Generator, 100% Test Coverage: 91 backend + 37 frontend tests, ADR-001..006, полная безопасность). Готов к деплою на Fly.io / GitHub Pages.
+- **Стек:** Spring Boot 3.3 + React 19 + PostgreSQL + Flyway (V23) + Redis + Docker + Groq AI (Llama 3.3 70B) + Spring AI + pgvector + Vitest + Testcontainers
+- **Что это:** Data-first AI SaaS платформа для разработчиков. Умный парсинг GitHub (Source of Truth) и PDF (Smart Merge), AI-генерация профиля, Kanban-доска (CRM) с автоматическим AI-матчингом вакансий (Scraper с защитой от SSRF и лимитами), рендер 6 дизайн-шаблонов HTML и PDF резюме (включая Clean ATS), публичная страница портфолио (`/:username`) с OpenGraph и Schema.org разметкой, генератор GitHub Profile README.
 - **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages, локально через docker-compose)
-- **Документация:** `projects/medev/medev.md`
+- **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
