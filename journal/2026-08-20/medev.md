@@ -248,3 +248,8 @@ pm test\ в пайплайн фронтенда.
 - Заменена дефолтная модель Groq во всей конфигурации: \pplication.yml\, \GroqClient.java\, \GroqHealthIndicator.java\, \GroqClientTest.java\ на \openai/gpt-oss-20b\.
 - Все 108 бэкенд и 37 фронтенд тестов успешно пройдены.
 
+
+### Восстановление оригинального grok-monolith.html строго из коммита ebd4f1b
+- Файл \ackend/src/main/resources/templates/resume/grok-monolith.html\ извлечен напрямую из коммита \ebd4f1b27e8f4a4d174e513c8397643a890548df\ (оригинальный Bento-дизайн без сторонних правок).
+- Все 108 тестов бэкенда и 37 тестов фронтенда 100% зеленые.
+
