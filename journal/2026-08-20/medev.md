@@ -253,3 +253,8 @@ pm test\ в пайплайн фронтенда.
 - Файл \ackend/src/main/resources/templates/resume/grok-monolith.html\ извлечен напрямую из коммита \ebd4f1b27e8f4a4d174e513c8397643a890548df\ (оригинальный Bento-дизайн без сторонних правок).
 - Все 108 тестов бэкенда и 37 тестов фронтенда 100% зеленые.
 
+
+### Окончательная установка эталонного Grok Monolith шаблона
+- \grok-monolith.html\ полностью приведен к эталону \esume-grok-monolith (2).html\ (чистый 12-колоночный CSS Grid, Space Grotesk 40px, 32px padding, 24px border-radius, темные теги без сжатия).
+- Все 108 тестов бэкенда и 37 тестов фронтенда 100% зеленые.
+
