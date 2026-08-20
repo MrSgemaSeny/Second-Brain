@@ -277,3 +277,4 @@ pm test\ в пайплайн фронтенда.
  -   * * T e s t s * * :   P a s s e d .  
  - **Fixed grok-monolith PDF layout issue**: Rewrote CSS using strict CSS 2.1 constructs (floats, percentage widths, display:table) so Flying Saucer generates the exact identical layout as Chrome CSS Grid (matching reference resume (3).pdf). All tests pass. Pushed to main.
 - **Refined milky-soft PDF layout**: Completely rewrote the milky-soft template to strictly use CSS 2.1 constructs, ensuring it successfully renders in PDF while perfectly retaining the beautiful '#f9f6f0' aesthetic and typography requested by the user.
+- **Fixed grok-monolith column wrapping**: Re-implemented the CSS 2.1 floats in grok-monolith.html using a strict zero-padding wrapper method. This prevents Flying Saucer from miscalculating widths and breaking the two-column grid into a single column, achieving a perfect visual match with the reference PDF.
