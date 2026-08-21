@@ -28,6 +28,12 @@
 - Актуализирован раздел JF-1C (ZhanFinance) в главном профиле GitHub (`MrSgemaSeny/README.md`): отражен Level 4 Production Release v1.0.0, 545 коммитов, 33 чистых рабочих дня, 120 Flyway-миграций, 14 модулей и закрытие 28 пунктов аудита.
 - Актуализирован корневой [`README.md`](file:///c:/Users/murat/IdeaProjects/JF-1C/README.md) проекта JF-1C: отражен релиз v1.0.0, цепочка миграций V1–V120, Security Headers, статус аудита и комплаенса. Изменения закоммичены и запушены в main.
 
+### Test Suite Audit & Verification
+- Проведен полный сквозной аудит и запуск всего тестового набора проекта:
+  - **Backend (JUnit 5 / Mockito):** 169 тестов (46 тестовых классов) — 100% SUCCESSFUL (`./gradlew test`).
+  - **Frontend (Vitest / RTL):** 65 тестов (17 тестовых файлов) — 100% PASSED (`npm test`).
+  - **Всего автоматических тестов в проекте:** **234 теста** (0 failures, 0 errors).
+
 ---
 
 ## 2. Архитектурный статус
