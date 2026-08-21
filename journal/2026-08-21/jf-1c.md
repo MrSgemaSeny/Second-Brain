@@ -344,10 +344,10 @@ OAuth redirect vs popup).
 
 ---
 
-### Checkpoint 2 Reached — All 7 Tier 2 (Known Issues & WARNINGs) Remediated
-- Все 7 задач Tier 2 из Phase 2 Remediation Plan успешно устранены, протестированы, закоммичены и запушены на `origin/audit/pre-release`:
-  1. **W2**: `153ed3c` — WebSocket teardown & visibility reconnect race guard
-  2. **W1**: `6de0c2f` — LMS secondary sort key tiebreaker (`orderIndex ASC, createdAt ASC, id ASC`)
+### Checkpoint 2 Reached — All Tier 2 (Known Issues & WARNINGs) Remediated
+- Все задачи Tier 2 из Phase 2 Remediation Plan успешно устранены, протестированы, закоммичены и запушены на `origin/audit/pre-release`:
+  1. **W2**: `153ed3c`, `6a9a5ff` — WebSocket teardown & visibility reconnect race guard (`ChatNotificationContext.tsx`)
+  2. **W1**: `6de0c2f`, `4604054` — LMS secondary sort key tiebreaker (`orderIndex ASC, createdAt ASC, id ASC`)
   3. **W3**: `b200959` — Missing `@CacheEvict` on stage/employee mutations in `AdminService` and `PipelineController`
   4. **W7**: `8ae8a0a` — `ResponseStatusException` handler in `GlobalExceptionHandler` with structured `requestId`
   5. **W8**: `f98dac1` — Null-safety guards on `DashboardService.lostReason` and `SubscriptionService.endsAt`
@@ -355,6 +355,13 @@ OAuth redirect vs popup).
   7. **W4**: `dd08d64` — React Query cache invalidation instead of `window.location.reload()`
   8. **W5**: `af9ec8e` — dnd-kit double-submit race condition lock in `TaskKanbanBoard`
   9. **W6**: `ba07686` — Scaffold Kazakh (`kk`) locale dictionaries in i18n bundle
+  10. **Pagination Expansion**: `d59de26` — Полная поддержка `Pageable` в контроллерах, репозиториях и сервисах Documents, Notifications, Invoices, Subscriptions
+  11. **Epic-04 Documentation**: `e44c227` — Обновлена документация Epic-04 по детерминированной сортировке
+- Полный прогон тестов:
+  - Backend (`./gradlew test --no-daemon`): **BUILD SUCCESSFUL (0 ошибок)**.
+  - Frontend (`npm test -- --run`): **17 test files passed, 65/65 tests passed (0 ошибок)**.
+- Статус Tier 2: **COMPLETE**.
+
 
 
 
