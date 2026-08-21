@@ -90,3 +90,15 @@ OAuth redirect vs popup).
   - Выборочная верификация подтвердила точность номеров строк и файлов для C1-C6, W1-W9, I1-I5.
 - Итоговый статус: Phase 1 Pre-Release Audit полностью подтвержден и готов к ревью человеком и началу Phase 2 (Remediation).
 
+### Phase 2 Remediation Launched (12:30 +05)
+- Источник плана: `C:\Users\murat\Downloads\jf1c-phase2-remediation-plan.md`
+- Governance: Ветка `audit/pre-release`, 1 баг = 1 коммит + регрессионный тест, diff перед коммитом.
+- Порядок выполнения Tier 1 (CRITICAL):
+  1. C6 — Seeder удаляет шаблоны при каждом старте (`OfficialDocumentTemplateSeeder`)
+  2. C5 — Missing @Transactional на 6 методах (`TaskService.requestTask` + 5 методов `AdminService`)
+  3. C4 — V107 NULL violation на чистой БД (миграция V111)
+  4. C1 — Avatar 404 (prefix mismatch)
+  5. C3 — Unbounded queries / отсутствие пагинации + TaskSpecification in-memory pagination
+  6. C2 — N+1 queries (LMS -> Documents -> Chat)
+- Чекпоинт 1 запланирован после завершения всех 6 CRITICAL.
+
