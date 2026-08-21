@@ -1,4 +1,4 @@
-﻿# JF-1C — 2026-08-21
+# JF-1C — 2026-08-21
 
 ## Сессия: Pre-release audit запущен
 
@@ -35,3 +35,13 @@ Hotfix: вернули 8080. Задокументировано в incident-02, 
 Вектор совместимости: Chrome 109 / Firefox 115, full browser matrix,
 исправлены логические ошибки (Tailwind v4 Lightning CSS, prefers-reduced-motion,
 OAuth redirect vs popup).
+
+### Frontend & CI/CD Audit (R1.6 & R1.7) завершён
+- Отчёт: `.agents/frontend_ci_explorer_1/frontend_ci_audit.md`
+- Находки:
+  - React Query invalidation: direct API calls in `TaskPoolPage.tsx` and modals (`TaskDetailsModal.tsx`, `TaskEditModal.tsx`) bypass `TASK_QUERY_KEYS.lists()` invalidation; `TaskDetailsModal` uses `window.location.reload()`. [WARNING]
+  - dnd-kit Kanban: direct in-place mutation in `onDragOver` + missing concurrency lock on rapid multi-drag. [WARNING]
+  - i18next: 407 hardcoded Cyrillic UI strings in JSX components; missing `kk` dictionary bundle. [WARNING]
+  - Dead code: orphaned `ProfilePage.tsx`, mismatched `ROUTES.EMPLOYEE_TASK_POOL` literal, 62 unused named imports. [INFO]
+  - Test coverage: Auth and Billing backend tests exist but lack specific edge cases (Pending employee login, Subscription renewal scheduler, Client pre-final stage transitions in `CrmAccessServiceTest`). [INFO]
+  - CI/CD: Deployments strictly block on test failure; missing PR trigger on workflows. [WARNING]
