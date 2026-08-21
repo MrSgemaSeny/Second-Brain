@@ -102,3 +102,15 @@ OAuth redirect vs popup).
   6. C2 — N+1 queries (LMS -> Documents -> Chat)
 - Чекпоинт 1 запланирован после завершения всех 6 CRITICAL.
 
+### C6 Investigation Completed (Explorer 1)
+- Исследован компонент: `OfficialDocumentTemplateSeeder.java` и `DocumentTemplateRepository.java`.
+- Подтверждена точная причина C6: `createTemplateIfAbsent` выполняет `ifPresent(t -> { documentRepository.nullifyTemplateReference(t.getId()); templateRepository.delete(t); })`. При `count() < 3` сидер удаляет существующие шаблоны и обнуляет ссылки на сгенерированные документы.
+- Сформулирована стратегия исправления:
+  1. Добавить `existsByNameIgnoreCase(String name)` в `DocumentTemplateRepository`.
+  2. Убрать `count() >= 3` и деструктивный `delete-then-insert` из `OfficialDocumentTemplateSeeder`.
+  3. Проверять существование перед созданием, пропускать существующие шаблоны без мутаций.
+  4. Генерировать DOCX байты лениво (только для отсутствующих шаблонов).
+- Специфицированы 4 регрессионных теста (`OfficialDocumentTemplateSeederTest`).
+- Отчёты сохранены в `.agents/teamwork_preview_explorer_c6_1/analysis.md` и `handoff.md`.
+
+
