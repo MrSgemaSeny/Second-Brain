@@ -13,6 +13,16 @@
 - Зафиксирована верификация готовности платформы по всем ключевым модулям (CRM Kanban, Task Pool с auto-reopen, Document Hub с генерацией PDF/DOCX, LMS курсы/главы/уроки, WebSocket/STOMP чаты, Telegram алерты для лидов, 6 ролевых моделей, публичный лендинг).
 - Подтверждено закрытие всех 28 находок pre-release аудита (6 CRITICAL, 9 WARNING, 5 INFO).
 
+### Milestone 1: Security Headers & Defense-in-Depth Middleware (R1)
+- Внедрены обязательные заголовки безопасности в `SecurityConfig.java`:
+  - Content-Security-Policy: `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; connect-src 'self' https: wss:;`
+  - X-Content-Type-Options: `nosniff`
+  - X-Frame-Options: `DENY`
+  - Referrer-Policy: `strict-origin-when-cross-origin`
+  - Permissions-Policy: `camera=(), microphone=(), geolocation=()`
+- Добавлен автоматизированный MockMvc тест в `SecurityConfigTest.java` для верификации всех 5 заголовков безопасности.
+- Тесты успешно скомпилированы и пройдены (0 failures).
+
 ---
 
 ## 2. Архитектурный статус
