@@ -412,9 +412,10 @@ OAuth redirect vs popup).
 
 ### Implementation Plan for Stage 1 & Stage 2 Created (15:56 +05)
 - Сформирован подробный план реализации для первых двух этапов:
-  - **Этап 1 (1-3 дня)**: CI/CD без падений на приватном репозитории + Cloudflare Pages config (`_headers`, `_redirects`), Security Headers в Spring Security, аудит зависимостей в CI, Epic-11 (Домен `zhanfinance.kz` + HSTS).
+  - **Этап 1 (1-3 дня)**: Security Headers в Spring Security, аудит зависимостей в CI, Epic-11 (Домен `zhanfinance.kz` + HSTS). (CI деплой приватного репозитория исключен по запросу).
   - **Этап 2 (1-2 недели)**: Epic-12 (Kaspi Pay QR и webhooks), Rate Limiting на защищенных бизнес-путях (Bucket4j per `userId`), WebSocket per-message ACL (`ChannelInterceptor`), Graceful JWT Key Rotation (`kid`).
-- Артефакт плана зафиксирован: `implementation_plan.md`.
+- Сформирован драфт промпта для мульти-агентной системы: `prompt_draft.md`.
+
 
 
 
