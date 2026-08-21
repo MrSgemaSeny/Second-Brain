@@ -148,4 +148,15 @@ OAuth redirect vs popup).
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус C5: **DONE**.
 
+### C4 Remediation Completed
+- Проблема: На чистой базе данных `V107__Seed_1C_Course_And_Curator.sql` вставляет `courses.created_by` через подзапрос `SELECT id FROM app_users WHERE role = 'ADMIN' LIMIT 1`. На чистой БД без предсозданного админа это возвращает NULL, что приводило к нарушению `NOT NULL` constraint на `courses.created_by`.
+- Внесённые изменения:
+  - Создана новая миграция `V119__fix_courses_created_by_null.sql`, выполняющая безопасный backfill `created_by` в `courses` и `assigned_by` в `course_curators` id первого администратора.
+  - Создан регрессионный тест `CoursesCreatedByRegressionTest.java` (проверка `courses.createdBy != null` и безопасности выполнения запроса V119).
+- Верификация: `./gradlew test --tests "com.example.zhanfinancebackend.modules.courses.CoursesCreatedByRegressionTest"` — `BUILD SUCCESSFUL in 1m 3s`.
+- Коммит зафиксирован: `a818d15` (`fix(db): add V119 migration backfilling courses.created_by to avoid null constraint failure (C4)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C4: **DONE**.
+
+
 
