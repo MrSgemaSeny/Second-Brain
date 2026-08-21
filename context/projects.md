@@ -21,14 +21,15 @@ _Обновлено: 2026-08-11_
 - **Миграции:** V1–V110 applied (immutable). V111 planned для фикса C4.
 - **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
 - **Текущая ветка:** audit/pre-release
-- **CRITICAL долг (Phase 2 remediation):**
+- **CRITICAL долг (Phase 2 remediation — Tier 1 COMPLETE):**
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
-  - C4 [DONE]: V107 NULL в courses.created_by → миграция V119 (commit `a818d15`)
+  - C4 [DONE]: V107 NULL в courses.created_by → миграция V119 (commits `a818d15`, `d1d14f3`)
   - C1 [DONE]: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService (commit `08c2cda`)
-  - C3 [IN PROGRESS]: Unbounded queries — AuditLog/Notifications/Invoices без пагинации
-  - C2: N+1 queries — курсы (1+N+NM), документы (1+3N), чат (1+2N)
-- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL, 9 WARNING, 5 INFO)
+  - C3 [DONE]: Unbounded queries — пагинация AuditLog + удаление collection fetch из TaskSpecification (commit `04c65a3`)
+  - C2 [DONE]: N+1 queries — @BatchSize в курсах/главах, @EntityGraph в документах, batch unread в чате (commit `9ce22be`)
+- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL [ALL RESOLVED], 9 WARNING, 5 INFO)
+
 
 
 
