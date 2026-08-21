@@ -5,11 +5,11 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 3 - Production-Ready MVP (Все Фазы 1-8 Roadmap завершены: Полная генерация профиля через AI, Smart Merge, 6 HTML/PDF шаблонов включая Clean ATS и GitHub Dark с поддержкой A4 Single-Page и Multi-Page режимов, Job Tracker CRM + Kanban, Публичное портфолио с SEO, UX скелетоны, Multi-Template README Generator, 100% Test Coverage: 91 backend + 37 frontend tests, ADR-001..006, полная безопасность). Готов к деплою на Fly.io / GitHub Pages.
-- **Стек:** Spring Boot 3.3 + React 19 + PostgreSQL + Flyway (V24) + Redis + Docker + Groq AI (Llama 3.3 70B) + Spring AI + pgvector + Vitest + Testcontainers
-- **Что это:** Data-first AI SaaS платформа для разработчиков. Умный парсинг GitHub (Source of Truth) и PDF (Smart Merge), AI-генерация профиля, Kanban-доска (CRM) с автоматическим AI-матчингом вакансий (Scraper с защитой от SSRF и лимитами), рендер 6 дизайн-шаблонов HTML и PDF резюме (включая Clean ATS), публичная страница портфолио (`/:username`) с OpenGraph и Schema.org разметкой, генератор GitHub Profile README.
-- **Деплой:** Готов к деплою (backend на Fly.io, frontend на GitHub Pages, локально через docker-compose)
-- **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`
+- **Статус:** Level 4 - Production-Ready v1.0 Release (Все Фазы 1-8 Roadmap и полный сквозной аудит завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, ADR-001..010, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем с поддержкой кириллицы).
+- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (Llama 3.1 70B) + Spring AI + Vitest + Flying Saucer + Actuator
+- **Что это:** Data-first AI SaaS платформа для разработчиков. Автоматическая генерация резюме и портфолио из GitHub (Source of Truth) и PDF (Smart Merge), Job Tracker CRM + Kanban с AI-матчингом, 6 дизайн-шаблонов HTML и PDF резюме, публичная страница портфолио (`/:username`) с OpenGraph/Schema.org, генератор GitHub Profile README.
+- **Деплой:** Готов к релизу v1.0 (Fly.io для бэкенда, GitHub Pages для фронтенда, Docker Compose).
+- **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`, `docs/RUNBOOK.md`
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
