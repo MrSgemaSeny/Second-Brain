@@ -391,12 +391,15 @@ OAuth redirect vs popup).
 
 ---
 
-### Strategic Security Engineering & Threat Modeling Architecture Review (15:50 +05)
-- Проведен глубокий стратегический разбор архитектуры безопасности по 7 ключевым направлениям (Threat Modeling STRIDE, Secrets Management, Supply Chain Security, Runtime Security & WAF/Alerting, Cryptography, Frontend Security Headers, Penetration Testing Mindset).
-- Сформирован план развития безопасности:
-  1. **Немедленно (до масштабирования)**: интеграция аудита зависимостей (`npm audit`, `./gradlew dependencyCheckAnalyze` в CI), security headers (CSP, HSTS, X-Content-Type-Options, Referrer-Policy).
-  2. **Среднесрочно**: бизнес-уровневый rate limiting, ротация JWT-ключей без даунтайма (`kid` header), алертинг на аномальные всплески 401/403.
-  3. **Долгосрочно**: превентивное моделирование угроз до написания кода (STRIDE), тестирование API через атакующие сценарии (IDOR, Mass Assignment, State Machine bypass).
-- Документация в `context/security_audit.md` обновлена.
+### Phased Security Architecture & Product Roadmap Approved (15:52 +05)
+- Согласован пошаговый план внедрения безопасности без блокировки продуктовой разработки:
+  - **Этап 1 (До 1-го клиента / текущие дни)**: Security Headers (`CSP`, `nosniff`, `DENY`, `Referrer-Policy`), `npm audit` + `dependencyCheckAnalyze` в CI (gate на High/Critical), HSTS в Cloudflare.
+  - **Этап 2 (До 10 клиентов / недели)**: Бизнес Rate Limiting (Bucket4j по `userId` на `/tasks`, `/documents`, `/search`), Graceful JWT Key Rotation (`kid`), WebSocket per-message authorization (`ChannelInterceptor`), Forced logout token blacklist.
+  - **Этап 3 (Зрелость / месяцы)**: OWASP ZAP в CI (Staging), SHA-256 хэширование актов/документов, внешний пентест (Burp Suite).
+- Синхронизация с эпиками:
+  - Текущая неделя: Epic-11 (Домен zhanfinance.kz + Cloudflare) + Epic-12 (Kaspi Pay).
+  - Следующий месяц: Epic-07 (Billing автоматизация) + Epic-15 (R2 Storage) + Бизнес Rate Limiting.
+  - Квартал: Epic-13 (1C интеграция) + JWT key rotation + Forced logout.
+
 
 

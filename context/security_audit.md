@@ -80,3 +80,30 @@
 - Security Headers: `Content-Security-Policy` (CSP), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`.
 - Subresource Integrity (SRI) on external assets.
 
+### 4.7. Phased Implementation Roadmap & Product Parallelism
+
+#### Этап 1: До первого платящего клиента (Дни)
+- **Security Headers Middleware**: Spring Security / WebMvcConfigurer + `_headers` / Cloudflare:
+  - `Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'`
+  - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: DENY`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- **CI Dependency Audit**: `npm audit --audit-level=high` и `./gradlew dependencyCheckAnalyze` (gate на High/Critical).
+- **HSTS**: Активация Strict-Transport-Security после подключения Cloudflare на `zhanfinance.kz`.
+
+#### Этап 2: До 10 платящих клиентов (Недели)
+- **Бизнес Rate Limiting (Bucket4j)**:
+  - `/api/v1/tasks/**` (100 req/min на `userId`)
+  - `/api/v1/documents/**` (контроль частоты скачиваний)
+  - `/api/v1/search/**` (защита ресурсоемкого поиска)
+- **Graceful JWT Key Rotation**: Заголовок `kid`, поддержка двух ключей (текущий + предыдущий с TTL 15 мин).
+- **WebSocket Per-Message Authorization**: `ChannelInterceptor.preSend()` валидация `userId` в destination (`/topic/chat/user-{id}`).
+- **Forced Logout / Token Revocation**: Механизм мгновенной инвалидации access-токенов при блокировке/увольнении.
+
+#### Этап 3: Зрелость (Месяцы, после стабильного revenue)
+- **OWASP ZAP в CI (Staging)**: Пассивное сканирование трафика тестов.
+- **Юридическая целостность документов**: SHA-256 контрольная сумма генерируемых актов/АВР в БД и на бланке.
+- **Ручной Penetration Test**: Аудит внешним security-инженером через Burp Suite.
+
+
