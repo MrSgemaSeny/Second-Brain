@@ -126,3 +126,9 @@ OAuth redirect vs popup).
 - Коммит зафиксирован: `d336623` (`fix(documents): C6 make OfficialDocumentTemplateSeeder idempotent without deleting existing templates`).
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус C6: **DONE**.
+
+### Autonomous Commits Authorization (12:50 +05)
+- Пользователь явно разрешил автономную фиксацию коммитов на ветке `audit/pre-release` (строго без коммитов в `main`).
+- Команда выполняет цепочку Tier 1 (CRITICAL: C5 -> C4 -> C1 -> C3 -> C2) автономно: 1 баг = 1 коммит + регрессионный тест + push в `origin/audit/pre-release`.
+- Остановка запланирована на Чекпоинте 1 после завершения всех 6 CRITICAL для сводного ревью `git diff --stat`.
+
