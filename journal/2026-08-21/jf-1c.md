@@ -113,4 +113,16 @@ OAuth redirect vs popup).
 - Специфицированы 4 регрессионных теста (`OfficialDocumentTemplateSeederTest`).
 - Отчёты сохранены в `.agents/teamwork_preview_explorer_c6_1/analysis.md` и `handoff.md`.
 
-
+### C6 Remediation Completed (Worker 1)
+- `DocumentTemplateRepository.java`: добавлен метод `boolean existsByNameIgnoreCase(String name)`.
+- `OfficialDocumentTemplateSeeder.java`:
+  - Переведён на `@EventListener(ApplicationReadyEvent.class)` в соответствии с AGENTS.md rule 4.
+  - Удалён деструктивный паттерн delete-then-insert (`templateRepository.delete` и `documentRepository.nullifyTemplateReference`).
+  - Удалена неиспользуемая зависимость `DocumentRepository`.
+  - Удалён глобальный `count() >= 3` guard.
+  - Реализована ленивая генерация DOCX через `DocxGenerator` только при `existsByNameIgnoreCase == false`.
+- `OfficialDocumentTemplateSeederTest.java`: созданы регрессионные тесты (5 тестов: свежая БД, повторный старт, кастомизированный шаблон, частичная БД, отсутствие admin пользователя).
+- Верификация: `./gradlew test --tests ...` и полный `./gradlew test` завершились успешно (BUILD SUCCESSFUL, exit code 0).
+- Коммит зафиксирован: `d336623` (`fix(documents): C6 make OfficialDocumentTemplateSeeder idempotent without deleting existing templates`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C6: **DONE**.
