@@ -227,6 +227,26 @@ OAuth redirect vs popup).
   9. **W6** — Hardcoded i18n строки (батчи + kk locale scaffold)
 - Остановка запланирована на Чекпоинте 2.
 
+### W2 Remediation Completed (10:05 UTC / 15:05 +05)
+- Проблема: `ChatNotificationContext.tsx`, `ClientChatPage.tsx`, `EmployeeChatPage.tsx`, и `ChatDrawer.tsx` при `visibilitychange` принудительно вызывали `client.forceDisconnect()`, что прерывало активный SockJS handshake и вызывало ошибку в консоли браузера "WebSocket is closed before the connection is established". При unmount вызов `client.deactivate()` производился во время in-flight handshake без проверки `isConnecting` и без `pendingDisconnect` guard.
+- Внесённые изменения:
+  - `ChatNotificationContext.tsx`, `ClientChatPage.tsx`, `EmployeeChatPage.tsx`, `ChatDrawer.tsx`:
+    1. Добавлены guard-флаги `isMounted`, `isConnecting` и `pendingDisconnect`.
+    2. Флаг `isConnecting = true` выставляется перед `client.activate()`, и сбрасывается в `false` в `onConnect`, `onWebSocketClose`, `onWebSocketError`, `onStompError`.
+    3. При unmount: если `client.connected === true`, выполняется безопасный `client.deactivate().catch(() => {})`. Если `isConnecting === true`, выставляется `pendingDisconnect = true`, и деактивация безопасно отрабатывает по завершению `onConnect` без закрытия сокета в процессе рукопожатия.
+    4. `handleVisibilityChange`: не выполняет `forceDisconnect()` и не активирует дублирующее соединение, если `client.connected || isConnecting || client.active`.
+    5. Добавлен хук `beforeConnect` для динамического обновления свежего JWT токена из `getAccessToken()`.
+  - `ChatNotificationContext.test.tsx`: создан всесторонний регрессионный сьют из 7 тестов (нормальный жизненный цикл, регрессия быстрого unmount во время handshake, visibilitychange во время in-flight connection, reconnect после обрыва соединения, корректная обработка WebSocket/STOMP ошибок, динамический токен в beforeConnect, decrement unread count).
+- Верификация:
+  - `npx vitest run` — 17 test files passed, 65/65 tests passed (0 failures).
+  - `npm run build` (tsc + vite build) — 0 errors.
+- Коммит зафиксирован: `153ed3c` (`fix(chat): guard WebSocket teardown and visibility reconnect against in-flight handshake race (W2)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W2: **DONE**.
+
+
+
+
 
 
 
