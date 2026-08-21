@@ -378,3 +378,14 @@ OAuth redirect vs popup).
 - Все фоновые субагенты команды (`teamwork_preview` и потомки) завершены через `manage_subagents kill_all`.
 - Активных процессов нет (0 активных субагентов).
 - Добавлен и запушен комплексный тест-сьют `OfficialDocumentTemplateSeederStressTest.java` (коммит `6311a76`).
+
+---
+
+### Merged audit/pre-release into main & Pushed (15:48 +05)
+- Ветка `audit/pre-release` успешно объединена с веткой `main` (коммит `f796369`).
+- Полная предрелизная регрессионная верификация на `main`:
+  - Backend: `./gradlew.bat test --no-daemon` — **BUILD SUCCESSFUL in 1m 27s (0 ошибок)**.
+  - Frontend: `npm test -- --run` — **17 test files passed, 65/65 tests passed (0 ошибок)**.
+- Ветка `main` успешно запушена на `origin/main` (`28a48fe..f796369`).
+- Релизная кодовая база JF-1C полностью стабилизирована и готова к деплою на прод.
+

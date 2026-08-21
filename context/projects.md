@@ -20,7 +20,7 @@ _Обновлено: 2026-08-11_
 - **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit, Search, Calendar, Landing
 - **Миграции:** V1–V110 applied (immutable). V111 planned для фикса C4.
 - **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
-- **Текущая ветка:** audit/pre-release
+- **Текущая ветка:** main (audit/pre-release merged & pushed)
 - **CRITICAL долг (Phase 2 remediation — Tier 1 & Tier 2 COMPLETE):**
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
