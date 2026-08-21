@@ -45,17 +45,24 @@
 
 ---
 
-### Milestone 2: Business-Level Rate Limiting with Bucket4j (R2) — Exploration & Design
-- Завершена детальная архитектурная проработка модуля rate limiting (`ApiRateLimitFilter`, `AuthRateLimitFilter`, `SecurityConfig`):
-  - Ключевание: аутентифицированные пользователи по `userId` (`user:<id>` из `SecurityContextHolder` / `UserPrincipal` / JWT), неаутентифицированные клиенты — фоллбэк по IP (`ip:<ip>` из `Fly-Client-IP` -> `X-Forwarded-For` -> `remoteAddr`).
-  - Гранулярные лимиты Bucket4j по тирам:
-    - `/api/v1/tasks/**` & `/api/v1/crm/tasks/**`: 100 req/min
-    - `/api/v1/documents/**` (download endpoints): 20 req/min
-    - `/api/v1/search/**`: 30 req/min
-    - Дефолтный тир `/api/v1/**`: 100 req/min
-  - Whitelist: сквозной пропуск без потребления токенов для `/actuator/**`, `/api/actuator/**`, `/health`.
-  - Порядок фильтров в `SecurityConfig`: перестановка `JwtAuthenticationFilter` перед `ApiRateLimitFilter` для надежного разрешения `userId` в `SecurityContextHolder`.
-  - Разработан детальный план интеграционных тестов с проверкой изоляции пользователей и IP фоллбэка.
+### Milestone 2: Business-Level Rate Limiting with Bucket4j (R2) — Implementation & Verification
+- Завершена реализация бизнес-уровневого rate limiting в `zhan-finance-backend`:
+  - `JwtService`: добавлен метод `extractUserIdIfValidAccessToken(String token)` для извлечения uid из JWT access token.
+  - `ApiRateLimitFilter`:
+    - Разрешение `clientKey`: аутентифицированный пользователь `user:<id>` из `SecurityContextHolder` (с фоллбэком на `auth.getName()` и извлечение из JWT cookie/header), неаутентифицированные клиенты — фоллбэк `ip:<ip>` из `Fly-Client-IP` -> `X-Forwarded-For` -> `X-Real-IP` -> `remoteAddr`.
+    - Тиры лимитирования (`RateLimitTier`):
+      - `TASKS` (`/tasks`, `/crm/tasks`): 100 req/min
+      - `DOCUMENT_DOWNLOAD` (`/documents`, `/document-templates`, `/download`, `/files`, `/uploads`): 20 req/min
+      - `SEARCH` (`/search`): 30 req/min
+      - `GENERAL` (все остальные API): 100 req/min
+    - Whitelist: сквозной пропуск без расходования токенов для `/actuator/**`, `/health`, `/api/health`, `/uploads/avatars/**`, `/ws/**`, swagger/docs и auth эндпоинтов (защищаемых отдельным `AuthRateLimitFilter`).
+    - Изоляция квот: ключи в Caffeine кэше формируются как `<TIER>:<CLIENT_KEY>`, благодаря чему исчерпание лимита поиска не блокирует операции с задачами.
+  - `SecurityConfig`: настроен порядок фильтров `authRateLimitFilter` -> `jwtAuthenticationFilter` -> `apiRateLimitFilter`, обеспечивающий заполненный `SecurityContextHolder` к моменту выполнения rate limiting.
+  - Тестирование:
+    - `ApiRateLimitFilterTest`: 8 модульных тестов, проверяющих изоляцию пользователей, фоллбэк по IP, лимиты по тирам (20 req/min для документов, 30 req/min для поиска, 100 req/min для задач), независимость квот между тирами, фоллбэк на JWT cookie и парсинг `X-Forwarded-For`.
+    - `RateLimitIntegrationTest`: SpringBootTest интеграционные тесты с MockMvc, проверяющие обход rate limit для `/actuator/health`, лимит загрузки документов и изоляцию пользователей.
+    - `JwtServiceTest`: модульные тесты для `extractUserIdIfValidAccessToken`.
+  - Верификация: полный набор backend-тестов пройден со 100% успехом (`./gradlew test` — 0 errors, 0 failures).
 
 ---
 
@@ -69,8 +76,8 @@
 ---
 
 ## 3. Следующие шаги (Next Steps)
-1. **Milestone 2 (R2):** Реализация воркером гранулярного rate limiting фильтра и интеграционных тестов.
-2. **Milestone 3 (R3):** WebSocket ChannelInterceptor STOMP авторизация (SUBSCRIBE / SEND destination matching).
-3. **Milestone 4 (R4):** Kaspi Business B2B QR генерация, платежный провайдер и вебхуки.
-4. **Epic-11:** Подключение собственного домена `zhanfinance.kz` и настройка Cloudflare CDN/WAF.
+1. **Milestone 3 (R3):** WebSocket ChannelInterceptor STOMP авторизация (SUBSCRIBE / SEND destination matching).
+2. **Milestone 4 (R4):** Kaspi Business B2B QR генерация, платежный провайдер и вебхуки.
+3. **Epic-11:** Подключение собственного домена `zhanfinance.kz` и настройка Cloudflare CDN/WAF.
+
 
