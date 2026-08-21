@@ -13,14 +13,23 @@ _Обновлено: 2026-08-11_
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Лвл 4 — задеплоен, идут первые клиенты
-- **Стек:** Spring Boot 3 + React 19 (TypeScript) + PostgreSQL + Fly.io
+- **Статус:** Лвл 4 — задеплоен, идут первые клиенты. Phase 7: pre-release audit remediation.
+- **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD
 - **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
 - **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
-- **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit
-- **Миграции:** V1–V110+
-- **Деплой:** backend → Fly.io, frontend → GitHub Pages
-- **Документация:** docs/PROJECT_GUIDE.md
+- **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit, Search, Calendar, Landing
+- **Миграции:** V1–V110 applied (immutable). V111 planned для фикса C4.
+- **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
+- **Текущая ветка:** audit/pre-release
+- **CRITICAL долг (Phase 2 remediation):**
+  - C1: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService
+  - C2: N+1 queries — курсы (1+N+NM), документы (1+3N), чат (1+2N)
+  - C3: Unbounded queries — AuditLog/Notifications/Invoices без пагинации
+  - C4: V107 NULL в courses.created_by → clean DB не поднимется → нужна V111
+  - C5: Missing @Transactional на TaskService.requestTask + 5 методах AdminService
+  - C6: OfficialDocumentTemplateSeeder удаляет шаблоны при каждом старте
+- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL, 9 WARNING, 5 INFO)
+
 
 ### Envie
 - **Репо:** github.com/MrSgemaSeny/Envie
