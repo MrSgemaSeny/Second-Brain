@@ -244,6 +244,99 @@ OAuth redirect vs popup).
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус W2: **DONE**.
 
+### W3 Remediation Completed (10:06 UTC / 15:06 +05)
+- Проблема: Мутации этапов воронки (`PipelineController.createStage`, `updateStage`, `deleteStage`) и статусов сотрудников (`AdminService.promoteToAdvisor`, `demoteToEmployee`, `toggleUserStatus`, `approveEmployee`, `rejectEmployee`) не содержали `@CacheEvict(value = {"dashboard_admin", "dashboard_employee", "dashboard_client"}, allEntries = true)`. В результате изменения этапов или сотрудников приводили к отображению устаревших агрегированных метрик в кеше дашборда.
+- Внесённые изменения:
+  - `AdminService.java`: добавлены аннотации `@CacheEvict` на методы `promoteToAdvisor`, `demoteToEmployee`, `toggleUserStatus`, `approveEmployee`, `rejectEmployee`.
+  - `PipelineController.java`: добавлены аннотации `@CacheEvict` на методы `createStage`, `updateStage`, `deleteStage`.
+  - `CacheEvictAnnotationsRegressionTest.java`: созданы регрессионные reflection-тесты для проверки наличия `@CacheEvict` на всех мутациях.
+- Верификация: `./gradlew test --tests *CacheEvictAnnotationsRegressionTest*` — `BUILD SUCCESSFUL in 26s` (0 ошибок).
+- Коммит зафиксирован: `b200959` (`fix(cache): add missing @CacheEvict to stage and employee mutations (W3)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W3: **DONE**.
+
+### W7 Remediation Completed (10:09 UTC / 15:09 +05)
+- Проблема: `GlobalExceptionHandler.java` не содержал явного обработчика для `org.springframework.web.server.ResponseStatusException`. При выбросе данного исключения (например, при проверках шаблонов документов или ручных валидациях в контроллерах) ответ мог падать в неструктурированный 500 fallback или дефолтную страницу ошибок Spring вместо стандартизированного JSON с кодом ошибки и уникальным `requestId`.
+- Внесённые изменения:
+  - `GlobalExceptionHandler.java`: добавлен явный `@ExceptionHandler(ResponseStatusException.class)`, извлекающий `statusCode`, `reason` и формирующий `ErrorResponse` с корректным HTTP статусом и `requestId`.
+  - `GlobalExceptionHandlerResponseStatusTest.java`: созданы регрессионные тесты (проверка обработки 404 NOT_FOUND и 400 BAD_REQUEST со структурированным `ErrorResponse` и валидным `requestId`).
+- Верификация: `./gradlew test --tests *GlobalExceptionHandlerResponseStatusTest*` — `BUILD SUCCESSFUL in 34s` (0 ошибок).
+- Коммит зафиксирован: `8ae8a0a` (`fix(exception): add ResponseStatusException handler to GlobalExceptionHandler with structured requestId (W7)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W7: **DONE**.
+
+### W8 Remediation Completed (10:11 UTC / 15:11 +05)
+- Проблема:
+  - `DashboardService.java:74`: метод `tasksByLostReason` выполнял `m.get("reason").toString()`, что приводило к `NullPointerException` при наличии в базе задач в статусе `LOST` с `lostReason = NULL`.
+  - `SubscriptionService.java:105`: метод `hasOverlap` вызывал `startsAt.isAfter(sub.getEndsAt())` и `endsAt.isBefore(sub.getStartsAt())` без проверки на `null`, что вызывало `NullPointerException` для бессрочных (open-ended) подписок.
+- Внесённые изменения:
+  - `DashboardService.java`: добавлена null-проверка с дефолтным значением `"Не указана"` и объединением дубликатов через `Long::sum`.
+  - `SubscriptionService.java`: добавлена полная null-safe логика для открытых дат подписок (`subEndsAt == null` или `endsAt == null`).
+  - `NullSafetyDashboardAndBillingRegressionTest.java`: созданы регрессионные тесты (проверка `getAdminDashboard` с null lostReason и проверка `SubscriptionService.create` с открытой датой окончания).
+- Верификация: `./gradlew test --tests *NullSafetyDashboardAndBillingRegressionTest*` — `BUILD SUCCESSFUL in 25s` (0 ошибок).
+- Коммит зафиксирован: `f98dac1` (`fix(crm,billing): add null-safety guards to DashboardService lostReason and SubscriptionService endsAt (W8)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W8: **DONE**.
+
+### W9 Remediation Completed (10:13 UTC / 15:13 +05)
+- Проблема: `DatabaseMigrationRunner.java` выполнял сырой DDL `CREATE TABLE IF NOT EXISTS course_curators (...)` при старте Spring через JDBC Template в обход версионирования Flyway (нарушение правил управления схемой и чексумм).
+- Внесённые изменения:
+  - Создана новая миграция `V120__create_course_curators_table.sql`, содержащая DDL создание таблицы `course_curators`, внешние ключи, уникальный констрейнт и индексы.
+  - `DatabaseMigrationRunner.java`: удалён вызов DDL `CREATE TABLE`, оставлены только идемпотентные DML вставки и обновления.
+  - `CourseCuratorsMigrationRegressionTest.java`: созданы регрессионные тесты (проверка наличия миграции V120 и отсутствия `CREATE TABLE` в runner).
+- Верификация: `./gradlew test --tests *CourseCuratorsMigrationRegressionTest*` — `BUILD SUCCESSFUL in 32s` (0 ошибок).
+- Коммит зафиксирован: `325a77f` (`fix(db): extract course_curators DDL into Flyway migration V120 and clean DatabaseMigrationRunner (W9)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W9: **DONE**.
+
+### W4 Remediation Completed (10:15 UTC / 15:15 +05)
+- Проблема: `TaskDetailsModal.tsx:345` при удалении задачи принудительно вызывал `window.location.reload()`, приводя к мерцанию экрана и сбросу состояния SPA. В `TaskPoolPage.tsx` назначение задачи не инвалидировало кэш `['tasks']`, `['adminDashboard']` и `['employeeStats']` в `queryClient`.
+- Внесённые изменения:
+  - `TaskDetailsModal.tsx`: удалён вызов `window.location.reload()`, добавлена реактивная инвалидация через `queryClient.invalidateQueries({ queryKey: ['tasks'] })` и `['adminDashboard']`.
+  - `TaskPoolPage.tsx`: удалён неиспользуемый импорт `getTasks`, добавлен `queryClient.invalidateQueries` для `tasks`, `adminDashboard` и `employeeStats`.
+- Верификация:
+  - `npx vitest run` — 17 test files passed, 65/65 tests passed (0 failures).
+  - `npm run build` — 0 errors.
+- Коммит зафиксирован: `dd08d64` (`fix(tasks): replace window.location.reload with React Query invalidation in TaskDetailsModal and TaskPoolPage (W4)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W4: **DONE**.
+
+### W5 Remediation Completed (10:16 UTC / 15:16 +05)
+- Проблема: В `TaskKanbanBoard.tsx` при быстром перетаскивании карточек или повторном drag-and-drop до завершения предыдущего серверного запроса `updateTaskStage` возникало состояние гонки (race condition) и параллельные дублирующие вызовы API с некорректным снимком колонок.
+- Внесённые изменения:
+  - `TaskKanbanBoard.tsx`: добавлен ref-сет `movingTaskIdsRef = useRef<Set<number>>(new Set())`.
+  - В `onDragStart` добавлена проверка блокировки для предотвращения захвата уже перемещаемой задачи.
+  - В `onDragEnd` добавлен атомарный захват блокировки `movingTaskIdsRef.current.add(taskIdNum)` с гарантированным освобождением в блоке `finally { movingTaskIdsRef.current.delete(taskIdNum) }`.
+- Верификация:
+  - `npx vitest run` — 17 test files passed, 65/65 tests passed (0 failures).
+  - `npm run build` — 0 errors.
+- Коммит зафиксирован: `af9ec8e` (`fix(kanban): prevent double-submit and race condition during rapid card drag-drop (W5)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W5: **DONE**.
+
+### W1 Remediation Completed (10:18 UTC / 15:18 +05)
+- Проблема: При создании глав (`Chapter`) и уроков (`Lesson`) со значением по умолчанию `orderIndex = 0` сортировка записей в базе данных была недетерминированной. `LessonProgressService` полагается на последовательный порядок обхода глав и уроков для открытия drip-контента и расчета прогресса курса.
+- Внесённые изменения:
+  - `Course.java`: обновлена аннотация `@OrderBy("orderIndex ASC, createdAt ASC, id ASC")` на коллекции `chapters`.
+  - `Chapter.java`: обновлена аннотация `@OrderBy("orderIndex ASC, createdAt ASC, id ASC")` на коллекции `lessons`.
+  - `ChapterRepository.java`: добавлены методы `findAllByCourseIdOrderByOrderIndexAscCreatedAtAsc` и `findAllByCourseIdOrderByOrderIndexAscCreatedAtAscIdAsc` с сохранением обратной совместимости для существующих сигнатур.
+  - `LessonRepository.java`: добавлены методы `findAllByChapterIdOrderByOrderIndexAscCreatedAtAsc` и `findAllByChapterIdOrderByOrderIndexAscCreatedAtAscIdAsc`.
+  - `LmsSortOrderRegressionTest.java`: обновлены и расширены регрессионные тесты (проверка `@OrderBy` метаданных, проверка наличия методов репозиториев, проверка компаратора при одинаковых `orderIndex` и различных `createdAt`, проверка приоритета `orderIndex` над `createdAt`).
+- Верификация:
+  - `./gradlew test --tests "com.example.zhanfinancebackend.modules.courses.LmsSortOrderRegressionTest"` — BUILD SUCCESSFUL (4/4 tests passed).
+  - `./gradlew test --tests "com.example.zhanfinancebackend.modules.courses.*"` — BUILD SUCCESSFUL (100% passed).
+  - `./gradlew test` — BUILD SUCCESSFUL (165/165 tests passed, 0 failures).
+- Коммит зафиксирован: `6de0c2f` (`fix(lms): add secondary sort key createdAt ASC to chapters and lessons (W1)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W1: **DONE**.
+
+
+
+
+
+
+
+
 
 
 
