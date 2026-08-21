@@ -132,3 +132,20 @@ OAuth redirect vs popup).
 - Команда выполняет цепочку Tier 1 (CRITICAL: C5 -> C4 -> C1 -> C3 -> C2) автономно: 1 баг = 1 коммит + регрессионный тест + push в `origin/audit/pre-release`.
 - Остановка запланирована на Чекпоинте 1 после завершения всех 6 CRITICAL для сводного ревью `git diff --stat`.
 
+### C5 Remediation Completed (Worker 1)
+- Исследован компонент: `AdminService.java` и `TaskService.java`.
+- Проверена и подтверждена проблема C5:
+  - Spring `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)` в `AuditService.java` игнорирует события при вызове из методов без активной транзакции (`fallbackExecution = false`).
+  - `AdminService.demoteToEmployee`, `toggleUserStatus`, `approveEmployee`, `rejectEmployee`, `createLearner` не имели `@Transactional`, из-за чего аудит-события терялись, а многотабличные мутации не откатывались при сбоях.
+  - `TaskService.requestTask` и `AdminService.promoteToAdvisor` уже имели `@Transactional`.
+- Внесённые изменения:
+  - `AdminService.java`: добавлен импорт `org.springframework.transaction.annotation.Transactional` и аннотированы `@Transactional` 5 мутирующих методов (`demoteToEmployee`, `toggleUserStatus`, `approveEmployee`, `rejectEmployee`, `createLearner`).
+  - `AdminServiceTest.java`: добавлены регрессионные reflection-тесты аннотации `@Transactional` на всех 6 мутирующих методах `AdminService` и `TaskService.requestTask`, а также поведенческие тесты для всех сценариев (успех, невалидная роль, дубликат email, not found, unassign задач/клиентов, инвалидация токенов).
+- Верификация:
+  - `./gradlew test --tests "com.example.zhanfinancebackend.modules.admin.service.AdminServiceTest"` — успешно (0 ошибок).
+  - `./gradlew test` (полный тестовый сьют) — успешно (BUILD SUCCESSFUL, exit code 0).
+- Коммит зафиксирован: `ba0caaf` (`fix(admin): add missing @Transactional to AdminService mutation methods (C5)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C5: **DONE**.
+
+
