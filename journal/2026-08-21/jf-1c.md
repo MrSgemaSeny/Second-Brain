@@ -214,6 +214,20 @@ OAuth redirect vs popup).
   5. **C3**: `04c65a3` — Pagination on audit logs + removal of collection fetch from `TaskSpecification`
   6. **C2**: `9ce22be` — N+1 query elimination in LMS, Documents, and Chat
 
+### Phase 2 Tier 2 (Known Issues & WARNINGs) Launched (14:56 +05)
+- Порядок выполнения:
+  1. **W2** — WebSocket teardown race (`ChatNotificationContext.tsx`)
+  2. **W1** — LMS sort order tiebreaker (`ChapterRepository`/`LessonRepository`)
+  3. **W3** — Missing `@CacheEvict` на stage/employee мутациях
+  4. **W7** — `ResponseStatusException` в `GlobalExceptionHandler`
+  5. **W8** — Null-safety на `DashboardService.lostReason` и `SubscriptionService.endsAt`
+  6. **W9** — `DatabaseMigrationRunner` вынос DDL в миграцию V120
+  7. **W4** — React Query invalidation (`TaskPoolPage`, `TaskDetailsModal`)
+  8. **W5** — dnd-kit double-submit race condition lock
+  9. **W6** — Hardcoded i18n строки (батчи + kk locale scaffold)
+- Остановка запланирована на Чекпоинте 2.
+
+
 
 
 
