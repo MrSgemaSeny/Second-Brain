@@ -151,12 +151,28 @@ OAuth redirect vs popup).
 ### C4 Remediation Completed
 - Проблема: На чистой базе данных `V107__Seed_1C_Course_And_Curator.sql` вставляет `courses.created_by` через подзапрос `SELECT id FROM app_users WHERE role = 'ADMIN' LIMIT 1`. На чистой БД без предсозданного админа это возвращает NULL, что приводило к нарушению `NOT NULL` constraint на `courses.created_by`.
 - Внесённые изменения:
-  - Создана новая миграция `V119__fix_courses_created_by_null.sql`, выполняющая безопасный backfill `created_by` в `courses` и `assigned_by` в `course_curators` id первого администратора.
-  - Создан регрессионный тест `CoursesCreatedByRegressionTest.java` (проверка `courses.createdBy != null` и безопасности выполнения запроса V119).
-- Верификация: `./gradlew test --tests "com.example.zhanfinancebackend.modules.courses.CoursesCreatedByRegressionTest"` — `BUILD SUCCESSFUL in 1m 3s`.
-- Коммит зафиксирован: `a818d15` (`fix(db): add V119 migration backfilling courses.created_by to avoid null constraint failure (C4)`).
+  - Создана новая миграция `V119__fix_courses_created_by_null.sql`, выполняющая безопасный и идемпотентный backfill `created_by` в `courses` и `assigned_by` в `course_curators` id первого администратора.
+  - Создан всесторонний регрессионный тест `CoursesCreatedByRegressionTest.java` (проверка наличия и синтаксиса миграции V119, валидности `courses.createdBy != null`, безопасности выполнения запросов V119, проверки JPA `@JoinColumn(nullable = false)` и создания курсов через `CourseService.createCourse`).
+- Верификация:
+  - `./gradlew test --tests "com.example.zhanfinancebackend.modules.courses.CoursesCreatedByRegressionTest"` — `BUILD SUCCESSFUL in 48s` (5/5 тестов успешно).
+  - `./gradlew test` (полный тестовый сьют) — `BUILD SUCCESSFUL in 1m 29s` (0 ошибок).
+- Коммиты зафиксированы:
+  - `a818d15` (`fix(db): add V119 migration backfilling courses.created_by to avoid null constraint failure (C4)`)
+  - `d1d14f3` (`test(courses): add comprehensive regression tests for C4 migration and created_by constraints`)
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус C4: **DONE**.
+
+### C1 Remediation Completed (09:36 UTC / 14:36 +05)
+- Проблема: `FileDownloadController.java:48` принудительно добавлял префикс `"avatars/"` к `storageKey`, в то время как `UserService.java:166-169` сохранял файл в `stored_files` без префикса (чистый UUID ключа), вызывая 404 на всех аватарах.
+- Внесённые изменения:
+  - `FileDownloadController.java`: `downloadAvatar(storageKey)` теперь передаёт `storageKey` напрямую в `serveResource(storageKey)`.
+  - `DatabaseStorageService.java`: добавлены fallback-проверки в `loadAsBytes` и `loadAsResource` — если файл не найден по переданному ключу, проверяется альтернативный вариант (с префиксом `"avatars/"` или без него), гарантируя полную обратную совместимость для всех существующих и будущих записей.
+  - `AvatarDownloadRegressionTest.java`: созданы регрессионные тесты (3 сценария: загрузка аватара без префикса, fallback на prefixed ключ, fallback на stripped ключ).
+- Верификация: `./gradlew test --tests *AvatarDownloadRegressionTest*` — `BUILD SUCCESSFUL in 46s` (0 ошибок).
+- Коммит зафиксирован: `08c2cda` (`fix(documents): normalize avatar storage key lookup with legacy fallback (C1)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C1: **DONE**.
+
 
 
 
