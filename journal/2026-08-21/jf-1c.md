@@ -366,7 +366,7 @@ OAuth redirect vs popup).
 
 ### Release Readiness 100% Verified (15:24 +05)
 - **Секреты**: проверены, только в переменных окружения / Fly Secrets / GitHub Secrets.
-- **Схема БД**: `ddl-auto` = `validate` в prod, все изменения схемы строго через миграции Flyway (цепочка V1..V120 чистая).
+- **Схема БД**: `ddl-auto` = `validate` in prod, все изменения схемы строго через миграции Flyway (цепочка V1..V120 чистая).
 - **Стабильность памяти**: устранен in-memory pagination в `TaskSpecification`, добавлен `@BatchSize` на коллекциях LMS, `@EntityGraph` на документах, пакетный unread в чате, полная пагинация `Pageable` на всех list-эндпоинтах.
 - **WebSocket**: защищен от гонок unmount/visibility change через `isMounted`, `isConnecting`, `pendingDisconnect`.
 - **Сборка бэкенда**: `./gradlew.bat build -x test --no-daemon` -> **BUILD SUCCESSFUL in 14s**.
@@ -374,22 +374,7 @@ OAuth redirect vs popup).
 - **Все известные дефекты закрыты**: C1 (аватары), W1 (сортировка курсов), W2 (WebSocket handshake race).
 - Ветка `audit/pre-release` полностью готова к объединению в `main`.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Subagents Clean Termination (15:32 +05)
+- Все фоновые субагенты команды (`teamwork_preview` и потомки) завершены через `manage_subagents kill_all`.
+- Активных процессов нет (0 активных субагентов).
+- Добавлен и запушен комплексный тест-сьют `OfficialDocumentTemplateSeederStressTest.java` (коммит `6311a76`).
