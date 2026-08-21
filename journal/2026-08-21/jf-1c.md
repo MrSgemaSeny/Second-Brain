@@ -45,6 +45,32 @@
 
 ---
 
+### Milestone 2: Business-Level Rate Limiting with Bucket4j (R2) — Exploration & Design
+- Завершена детальная архитектурная проработка модуля rate limiting (`ApiRateLimitFilter`, `AuthRateLimitFilter`, `SecurityConfig`):
+  - Ключевание: аутентифицированные пользователи по `userId` (`user:<id>` из `SecurityContextHolder` / `UserPrincipal` / JWT), неаутентифицированные клиенты — фоллбэк по IP (`ip:<ip>` из `Fly-Client-IP` -> `X-Forwarded-For` -> `remoteAddr`).
+  - Гранулярные лимиты Bucket4j по тирам:
+    - `/api/v1/tasks/**` & `/api/v1/crm/tasks/**`: 100 req/min
+    - `/api/v1/documents/**` (download endpoints): 20 req/min
+    - `/api/v1/search/**`: 30 req/min
+    - Дефолтный тир `/api/v1/**`: 100 req/min
+  - Whitelist: сквозной пропуск без потребления токенов для `/actuator/**`, `/api/actuator/**`, `/health`.
+  - Порядок фильтров в `SecurityConfig`: перестановка `JwtAuthenticationFilter` перед `ApiRateLimitFilter` для надежного разрешения `userId` в `SecurityContextHolder`.
+  - Разработан детальный план интеграционных тестов с проверкой изоляции пользователей и IP фоллбэка.
+
+---
+
+## 2. Архитектурный статус
+
+- **Backend:** Spring Boot 3.4+ / Java 17 / PostgreSQL 17 / Flyway (цепочка миграций V1–V120 без коллизий и с полной идемпотентностью сидеров).
+- **Frontend:** React 19 / TypeScript / Vite / Tailwind v4 / FSD / TanStack React Query v5.
+- **Инфраструктура:** Fly.io (Production Backend), GitHub Pages (Production Frontend SPA), GitHub Actions (CI/CD + Backup DB + Telegram Alerts).
+- **Тесты:** 100% зелёные unit и интеграционные тесты.
+
+---
+
 ## 3. Следующие шаги (Next Steps)
-1. **Epic-07 / Epic-12:** Интеграция биллинга и платежных шлюзов (WebKassa / Kaspi Pay).
-2. **Epic-11:** Подключение собственного домена `zhanfinance.kz` и настройка Cloudflare CDN/WAF.
+1. **Milestone 2 (R2):** Реализация воркером гранулярного rate limiting фильтра и интеграционных тестов.
+2. **Milestone 3 (R3):** WebSocket ChannelInterceptor STOMP авторизация (SUBSCRIBE / SEND destination matching).
+3. **Milestone 4 (R4):** Kaspi Business B2B QR генерация, платежный провайдер и вебхуки.
+4. **Epic-11:** Подключение собственного домена `zhanfinance.kz` и настройка Cloudflare CDN/WAF.
+
