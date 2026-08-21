@@ -389,3 +389,14 @@ OAuth redirect vs popup).
 - Ветка `main` успешно запушена на `origin/main` (`28a48fe..f796369`).
 - Релизная кодовая база JF-1C полностью стабилизирована и готова к деплою на прод.
 
+---
+
+### Strategic Security Engineering & Threat Modeling Architecture Review (15:50 +05)
+- Проведен глубокий стратегический разбор архитектуры безопасности по 7 ключевым направлениям (Threat Modeling STRIDE, Secrets Management, Supply Chain Security, Runtime Security & WAF/Alerting, Cryptography, Frontend Security Headers, Penetration Testing Mindset).
+- Сформирован план развития безопасности:
+  1. **Немедленно (до масштабирования)**: интеграция аудита зависимостей (`npm audit`, `./gradlew dependencyCheckAnalyze` в CI), security headers (CSP, HSTS, X-Content-Type-Options, Referrer-Policy).
+  2. **Среднесрочно**: бизнес-уровневый rate limiting, ротация JWT-ключей без даунтайма (`kid` header), алертинг на аномальные всплески 401/403.
+  3. **Долгосрочно**: превентивное моделирование угроз до написания кода (STRIDE), тестирование API через атакующие сценарии (IDOR, Mass Assignment, State Machine bypass).
+- Документация в `context/security_audit.md` обновлена.
+
+

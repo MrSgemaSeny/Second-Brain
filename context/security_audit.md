@@ -45,3 +45,38 @@
    - Gateway must add `X-Internal-Token` to *every* request proxied downstream.
    - Microservices must update `InternalTokenFilter` to apply to `/**`, validating the token on all requests to ensure they originated from the Gateway or a trusted internal service.
 4. **Purge Mock Data**: Systematically migrate all 20+ frontend features from `db_helper` to `TanStack Query` hooks connecting to the respective backend microservices.
+
+---
+
+## 4. JF-1C (ZhanFinance) — Senior Security & Threat Modeling Blueprint
+
+### 4.1. Threat Modeling (STRIDE Analysis)
+- **Spoofing**: Instant token revocation via `RefreshTokenService.revokeAll(user)` upon role change / dismissal. WebSocket handshake re-authentication.
+- **Tampering**: Sequential IDs (`task.id`) protected by row-level `CrmAccessService`. DTOs must exclude administrative fields (`assignedEmployeeId`, `stageType`) to prevent Mass Assignment.
+- **Repudiation**: `@TransactionalEventListener(phase = AFTER_COMMIT)` on `AuditService` logging IP, user, entity ID, and previous/new state.
+- **Information Disclosure**: Elimination of raw stack traces via `GlobalExceptionHandler` with UUID `requestId`. Secure avatar/document downloads with ACL validation.
+- **Denial of Service**: Two-layer rate limiting (`ApiRateLimitFilter` + `AuthRateLimitFilter`), removal of in-memory pagination (`TaskSpecification`), `@BatchSize(50)` on LMS collections.
+- **Elevation of Privilege**: `@PreAuthorize` + `CrmAccessService` verification for all CRM, Billing, Document, and Course operations.
+
+### 4.2. Secrets Management & Rotation Strategy
+- Zero-downtime JWT key rotation (key versioning: `kid` in JWT header with graceful validation of active + previous key).
+- Strict separation of staging vs production secrets (Fly.io secrets isolation).
+- Secret leak prevention: automated git pre-commit hooks and CI scan.
+
+### 4.3. Supply Chain Security Gate
+- Automated daily dependency scanning (`./gradlew dependencyCheckAnalyze`, `npm audit`).
+- Pinned dependency versions in `package.json` and `build.gradle`.
+
+### 4.4. Runtime Security & Anomaly Detection
+- Business-level rate limiting (max tasks/requests per client).
+- Security event alerting: alerts on brute-force attempts, consecutive 401/403 spikes, anomalous batch downloads.
+
+### 4.5. Cryptography & Data Integrity
+- Passwords: BCrypt (cost 10+) / Argon2id for password hashing.
+- 2FA TOTP backup codes: hashed via BCrypt / SHA-256 before storing in DB.
+- Document integrity: SHA-256 checksums / digital signature on generated official PDFs and DOCX templates.
+
+### 4.6. Frontend Defense-in-Depth
+- Security Headers: `Content-Security-Policy` (CSP), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`.
+- Subresource Integrity (SRI) on external assets.
+
