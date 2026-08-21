@@ -13,7 +13,7 @@ _Обновлено: 2026-08-11_
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Лвл 4 — задеплоен, идут первые клиенты. Phase 7: pre-release audit remediation.
+- **Статус:** Лвл 4 — задеплоен, идут первые клиенты. Pre-release audit remediation (Tier 1 & Tier 2) 100% COMPLETE. 0 errors, all tests green.
 - **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD
 - **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
 - **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
