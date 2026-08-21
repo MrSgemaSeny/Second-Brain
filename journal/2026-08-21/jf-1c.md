@@ -401,5 +401,13 @@ OAuth redirect vs popup).
   - Следующий месяц: Epic-07 (Billing автоматизация) + Epic-15 (R2 Storage) + Бизнес Rate Limiting.
   - Квартал: Epic-13 (1C интеграция) + JWT key rotation + Forced logout.
 
+---
+
+### GitHub Actions Pages Deployment (15:53 +05)
+- Ошибка в CI `deploy-pages@v4`: `Failed to create deployment (status: 404)`.
+- Причина: В настройках репозитория GitHub Pages `Source` не переключен на **"GitHub Actions"**.
+- Решение: Переключить `Source` на **GitHub Actions** в `https://github.com/MrSgemaSeny/JF-1C/settings/pages`.
+
+
 
 
