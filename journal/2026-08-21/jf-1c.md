@@ -405,8 +405,17 @@ OAuth redirect vs popup).
 
 ### GitHub Actions Pages Deployment (15:53 +05)
 - Ошибка в CI `deploy-pages@v4`: `Failed to create deployment (status: 404)`.
-- Причина: В настройках репозитория GitHub Pages `Source` не переключен на **"GitHub Actions"**.
-- Решение: Переключить `Source` на **GitHub Actions** в `https://github.com/MrSgemaSeny/JF-1C/settings/pages`.
+- Причина: В настройках репозитория GitHub Pages `Source` не переключен на **"GitHub Actions"** (для приватных репо требуется Pro).
+- Решение: Переход на бесплатный Cloudflare Pages для приватного репозитория + отключение `deploy-pages` в `ci.yml`.
+
+---
+
+### Implementation Plan for Stage 1 & Stage 2 Created (15:56 +05)
+- Сформирован подробный план реализации для первых двух этапов:
+  - **Этап 1 (1-3 дня)**: CI/CD без падений на приватном репозитории + Cloudflare Pages config (`_headers`, `_redirects`), Security Headers в Spring Security, аудит зависимостей в CI, Epic-11 (Домен `zhanfinance.kz` + HSTS).
+  - **Этап 2 (1-2 недели)**: Epic-12 (Kaspi Pay QR и webhooks), Rate Limiting на защищенных бизнес-путях (Bucket4j per `userId`), WebSocket per-message ACL (`ChannelInterceptor`), Graceful JWT Key Rotation (`kid`).
+- Артефакт плана зафиксирован: `implementation_plan.md`.
+
 
 
 
