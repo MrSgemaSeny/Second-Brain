@@ -412,12 +412,14 @@ OAuth redirect vs popup).
 
 ### Teamwork Multi-Agent Execution Launched (16:00 +05)
 - Запущена команда субагентов `teamwork_preview` (ID: `06ea14fa-2f1a-4d0d-ac02-c46a26a37048`).
+- Оркестратор развернут (ID: `b50c1308-d919-4c77-a0d0-9b674528708c`).
 - Скоуп:
   - **R1**: Security Headers (CSP, nosniff, DENY, Referrer-Policy, Permissions-Policy).
   - **R2**: Бизнес Rate Limiting (Bucket4j per `userId` + fallback на IP).
   - **R3**: WebSocket Per-Message ACL (`SUBSCRIBE` и `SEND` в `ChannelInterceptor`).
   - **R4**: Kaspi Business B2B Kaspi QR + платежные ссылки + mock webhook callback.
-- Ожидаем завершения и автоматических отчетов от субагентов.
+- Мониторинг активен (heartbeat 8-10 мин).
+
 
 
 
