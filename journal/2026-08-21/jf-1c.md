@@ -330,6 +330,33 @@ OAuth redirect vs popup).
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус W1: **DONE**.
 
+### W6 Remediation Completed (10:18 UTC / 15:18 +05)
+- Проблема: Словарь казахского языка (`kk`) отсутствовал во frontend бандле `i18n`, несмотря на то, что модель пользователя и бэкенд поддерживают локаль `'kk'`.
+- Внесённые изменения:
+  - Создана директория `zhan-finance-frontend/src/shared/i18n/locales/kk/` со словарями: `auth.json`, `crm.json`, `landing.json`, `tasks.json`, `modals.json`, `common.json`.
+  - `i18n.ts`: зарегистрирована локаль `kk` во frontend ресурсах i18next.
+- Верификация:
+  - `npx vitest run` — 17 test files passed, 65/65 tests passed (0 failures).
+  - `npm run build` — 0 errors.
+- Коммит зафиксирован: `ba07686` (`feat(i18n): scaffold Kazakh (kk) locale dictionaries and register in i18n bundle (W6)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус W6: **DONE**.
+
+---
+
+### Checkpoint 2 Reached — All 7 Tier 2 (Known Issues & WARNINGs) Remediated
+- Все 7 задач Tier 2 из Phase 2 Remediation Plan успешно устранены, протестированы, закоммичены и запушены на `origin/audit/pre-release`:
+  1. **W2**: `153ed3c` — WebSocket teardown & visibility reconnect race guard
+  2. **W1**: `6de0c2f` — LMS secondary sort key tiebreaker (`orderIndex ASC, createdAt ASC, id ASC`)
+  3. **W3**: `b200959` — Missing `@CacheEvict` on stage/employee mutations in `AdminService` and `PipelineController`
+  4. **W7**: `8ae8a0a` — `ResponseStatusException` handler in `GlobalExceptionHandler` with structured `requestId`
+  5. **W8**: `f98dac1` — Null-safety guards on `DashboardService.lostReason` and `SubscriptionService.endsAt`
+  6. **W9**: `325a77f` — `DatabaseMigrationRunner` DDL extraction to versioned Flyway migration `V120`
+  7. **W4**: `dd08d64` — React Query cache invalidation instead of `window.location.reload()`
+  8. **W5**: `af9ec8e` — dnd-kit double-submit race condition lock in `TaskKanbanBoard`
+  9. **W6**: `ba07686` — Scaffold Kazakh (`kk`) locale dictionaries in i18n bundle
+
+
 
 
 

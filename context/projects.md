@@ -21,14 +21,23 @@ _Обновлено: 2026-08-11_
 - **Миграции:** V1–V110 applied (immutable). V111 planned для фикса C4.
 - **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
 - **Текущая ветка:** audit/pre-release
-- **CRITICAL долг (Phase 2 remediation — Tier 1 COMPLETE):**
+- **CRITICAL долг (Phase 2 remediation — Tier 1 & Tier 2 COMPLETE):**
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
   - C4 [DONE]: V107 NULL в courses.created_by → миграция V119 (commits `a818d15`, `d1d14f3`)
   - C1 [DONE]: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService (commit `08c2cda`)
   - C3 [DONE]: Unbounded queries — пагинация AuditLog + удаление collection fetch из TaskSpecification (commit `04c65a3`)
   - C2 [DONE]: N+1 queries — @BatchSize в курсах/главах, @EntityGraph в документах, batch unread в чате (commit `9ce22be`)
-- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL [ALL RESOLVED], 9 WARNING, 5 INFO)
+  - W2 [DONE]: WebSocket teardown & visibility reconnect race guard (commit `153ed3c`)
+  - W1 [DONE]: LMS secondary sort key tiebreaker `orderIndex ASC, createdAt ASC, id ASC` (commit `6de0c2f`)
+  - W3 [DONE]: Missing @CacheEvict on stage and employee mutations (commit `b200959`)
+  - W7 [DONE]: ResponseStatusException structured error handler in GlobalExceptionHandler (commit `8ae8a0a`)
+  - W8 [DONE]: Null-safety guards on DashboardService.lostReason & SubscriptionService.endsAt (commit `f98dac1`)
+  - W9 [DONE]: Flyway migration V120 for course_curators DDL & clean runner (commit `325a77f`)
+  - W4 [DONE]: React Query invalidation in TaskDetailsModal & TaskPoolPage (commit `dd08d64`)
+  - W5 [DONE]: dnd-kit double-submit race condition lock in TaskKanbanBoard (commit `af9ec8e`)
+  - W6 [DONE]: Kazakh (kk) locale dictionary scaffold in frontend i18n (commit `ba07686`)
+- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL [ALL RESOLVED], 9 WARNING [ALL RESOLVED], 5 INFO)
 
 
 
