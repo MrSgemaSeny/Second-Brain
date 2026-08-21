@@ -13,14 +13,14 @@ _Обновлено: 2026-08-11_
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Лвл 4 — задеплоен, идут первые клиенты. Pre-release audit remediation (Tier 1 & Tier 2) 100% COMPLETE. 0 errors, all tests green.
+- **Статус:** Level 4 - Production-Ready v1.0.0 Release (Официальный релиз v1.0.0 опубликован на GitHub. Pre-release audit remediation Tier 1 & Tier 2 100% COMPLETE. 0 errors, all tests green).
 - **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD
 - **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
 - **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
 - **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit, Search, Calendar, Landing
-- **Миграции:** V1–V110 applied (immutable). V111 planned для фикса C4.
+- **Миграции:** V1–V120 applied (immutable).
 - **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
-- **Текущая ветка:** main (audit/pre-release merged & pushed)
+- **Текущая ветка:** main (audit/pre-release merged & pushed, tag v1.0.0 published)
 - **CRITICAL долг (Phase 2 remediation — Tier 1 & Tier 2 COMPLETE):**
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
