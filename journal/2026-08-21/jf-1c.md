@@ -20,8 +20,9 @@
   - X-Frame-Options: `DENY`
   - Referrer-Policy: `strict-origin-when-cross-origin`
   - Permissions-Policy: `camera=(), microphone=(), geolocation=()`
-- Добавлен автоматизированный MockMvc тест в `SecurityConfigTest.java` для верификации всех 5 заголовков безопасности.
-- Тесты успешно скомпилированы и пройдены (0 failures).
+- Добавлен автоматизированный MockMvc тест в `SecurityConfigTest.java` для верификации всех 5 заголовков безопасности по всем сценариям (200, 401, 403, 404).
+- Проведена независимая верификация челленджером (Challenger 2): проверены директивы CSP, отсутствие конфликтов заголовков и XSS/Clickjacking байпассов. Вердикт: APPROVE.
+- Тесты успешно скомпилированы и пройдены (0 failures, Vitest 65/65 passed).
 
 ### GitHub Profile & Project README Updates
 - Актуализирован раздел JF-1C (ZhanFinance) в главном профиле GitHub (`MrSgemaSeny/README.md`): отражен Level 4 Production Release v1.0.0, 545 коммитов, 33 чистых рабочих дня, 120 Flyway-миграций, 14 модулей и закрытие 28 пунктов аудита.

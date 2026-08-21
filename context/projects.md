@@ -5,10 +5,10 @@ _Обновлено: 2026-08-11_
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 4 - Production-Ready v1.0 Release (Все Фазы 1-8 Roadmap и полный сквозной аудит завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, ADR-001..010, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем с поддержкой кириллицы).
-- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (Llama 3.1 70B) + Spring AI + Vitest + Flying Saucer + Actuator
+- **Статус:** Level 3 - MVP Release (Все Фазы 1-8 Roadmap и полный сквозной аудит завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, ADR-001..010, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем с поддержкой кириллицы).
+- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (Llama 3.3 70B) + Spring AI + Vitest + Flying Saucer + Actuator
 - **Что это:** Data-first AI SaaS платформа для разработчиков. Автоматическая генерация резюме и портфолио из GitHub (Source of Truth) и PDF (Smart Merge), Job Tracker CRM + Kanban с AI-матчингом, 6 дизайн-шаблонов HTML и PDF резюме, публичная страница портфолио (`/:username`) с OpenGraph/Schema.org, генератор GitHub Profile README.
-- **Деплой:** Готов к релизу v1.0 (Fly.io для бэкенда, GitHub Pages для фронтенда, Docker Compose).
+- **Деплой:** Локальный запуск (Docker Compose) / Подготовлен к деплою (Fly.io + GitHub Pages).
 - **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`, `docs/RUNBOOK.md`
 
 ### JF-1C (ZhanFinance)
