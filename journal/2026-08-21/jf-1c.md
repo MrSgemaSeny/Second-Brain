@@ -60,3 +60,18 @@ OAuth redirect vs popup).
 - Независимый ревьюер: `.agents/reviewer_1/handoff.md`
 - Вердикт: APPROVE по всем 5 критериям рубрики.
 - Готовность к Фазе 2: Полная, сформирована приоритизированная матрица из 28 находок (P1 CRITICAL -> P2 Known Issues -> P3 WARNING -> P4 INFO).
+
+### Teamwork Quota Exhausted
+- Teamwork агент упал по квоте (429 Resource Exhausted) до начала Phase 2.
+- Все находки Phase 1 сохранены вручную в `.agents/audit_report.md` на ветке `audit/pre-release`.
+- Ветка запушена: `origin/audit/pre-release`.
+- Phase 2 (remediation) ведётся вручную по тем же правилам: один баг = один коммит.
+
+### Критический технический долг (из аудита)
+- C1: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService
+- C2: N+1 queries — курсы, документы, чат (1+N+NM паттерн)
+- C3: Unbounded queries — AuditLog, Notifications, Invoices без пагинации; TaskSpecification in-memory pagination
+- C4: V107 миграция — NULL в courses.created_by → clean DB с нуля не поднимется → нужна V111
+- C5: Missing @Transactional на 6 методах (TaskService.requestTask + 5 в AdminService) → потеря audit events
+- C6: OfficialDocumentTemplateSeeder удаляет шаблоны при каждом старте → продовые кастомные шаблоны уничтожаются при деплое
+
