@@ -410,11 +410,16 @@ OAuth redirect vs popup).
 
 ---
 
-### Implementation Plan for Stage 1 & Stage 2 Created (15:56 +05)
-- Сформирован подробный план реализации для первых двух этапов:
-  - **Этап 1 (1-3 дня)**: Security Headers в Spring Security, аудит зависимостей в CI, Epic-11 (Домен `zhanfinance.kz` + HSTS). (CI деплой приватного репозитория исключен по запросу).
-  - **Этап 2 (1-2 недели)**: Epic-12 (Kaspi Pay QR и webhooks), Rate Limiting на защищенных бизнес-путях (Bucket4j per `userId`), WebSocket per-message ACL (`ChannelInterceptor`), Graceful JWT Key Rotation (`kid`).
-- Сформирован драфт промпта для мульти-агентной системы: `prompt_draft.md`.
+### Teamwork Prompt Scoped & Refined (15:59 +05)
+- Скорректирован скоуп задач для мульти-агентной системы:
+  1. **R1**: Security Headers в Spring Security.
+  2. **R2**: Rate Limiting на уровне бизнес-эндпоинтов (Bucket4j per `userId` + fallback на client IP).
+  3. **R3**: WebSocket Per-Message ACL (авторизация `SUBSCRIBE` и `SEND` в `ChannelInterceptor`).
+  4. **R4**: Kaspi Business B2B Integration Service с чистой Mock-архитектурой для симуляции оплат юрлиц.
+  5. **R5 (JWT Key Rotation)**: Отменен по решению пользователя (избыточная сложность на текущем этапе).
+- Порядок выполнения: R1 -> R2 -> R3 -> R4.
+- Драфт зафиксирован: `prompt_draft.md`.
+
 
 
 
