@@ -410,15 +410,15 @@ OAuth redirect vs popup).
 
 ---
 
-### Teamwork Prompt Scoped & Refined (15:59 +05)
-- Скорректирован скоуп задач для мульти-агентной системы:
-  1. **R1**: Security Headers в Spring Security.
-  2. **R2**: Rate Limiting на уровне бизнес-эндпоинтов (Bucket4j per `userId` + fallback на client IP).
-  3. **R3**: WebSocket Per-Message ACL (авторизация `SUBSCRIBE` и `SEND` в `ChannelInterceptor`).
-  4. **R4**: Kaspi Business B2B Integration Service с чистой Mock-архитектурой для симуляции оплат юрлиц.
-  5. **R5 (JWT Key Rotation)**: Отменен по решению пользователя (избыточная сложность на текущем этапе).
-- Порядок выполнения: R1 -> R2 -> R3 -> R4.
-- Драфт зафиксирован: `prompt_draft.md`.
+### Teamwork Multi-Agent Execution Launched (16:00 +05)
+- Запущена команда субагентов `teamwork_preview` (ID: `06ea14fa-2f1a-4d0d-ac02-c46a26a37048`).
+- Скоуп:
+  - **R1**: Security Headers (CSP, nosniff, DENY, Referrer-Policy, Permissions-Policy).
+  - **R2**: Бизнес Rate Limiting (Bucket4j per `userId` + fallback на IP).
+  - **R3**: WebSocket Per-Message ACL (`SUBSCRIBE` и `SEND` в `ChannelInterceptor`).
+  - **R4**: Kaspi Business B2B Kaspi QR + платежные ссылки + mock webhook callback.
+- Ожидаем завершения и автоматических отчетов от субагентов.
+
 
 
 
