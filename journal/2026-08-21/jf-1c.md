@@ -23,8 +23,9 @@
 - Добавлен автоматизированный MockMvc тест в `SecurityConfigTest.java` для верификации всех 5 заголовков безопасности.
 - Тесты успешно скомпилированы и пройдены (0 failures).
 
-### GitHub Profile README Update
-- Актуализирован раздел JF-1C (ZhanFinance) в главном профиле GitHub (`MrSgemaSeny/README.md`): отражен Level 4 Production Release v1.0.0, 545 коммитов, 33 чистых рабочих дня, 120 Flyway-миграций, 14 модулей и закрытие 28 пунктов аудита. Изменения закоммичены и запушены в GitHub.
+### GitHub Profile & Project README Updates
+- Актуализирован раздел JF-1C (ZhanFinance) в главном профиле GitHub (`MrSgemaSeny/README.md`): отражен Level 4 Production Release v1.0.0, 545 коммитов, 33 чистых рабочих дня, 120 Flyway-миграций, 14 модулей и закрытие 28 пунктов аудита.
+- Актуализирован корневой [`README.md`](file:///c:/Users/murat/IdeaProjects/JF-1C/README.md) проекта JF-1C: отражен релиз v1.0.0, цепочка миграций V1–V120, Security Headers, статус аудита и комплаенса. Изменения закоммичены и запушены в main.
 
 ---
 
