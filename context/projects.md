@@ -22,13 +22,14 @@ _Обновлено: 2026-08-11_
 - **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
 - **Текущая ветка:** audit/pre-release
 - **CRITICAL долг (Phase 2 remediation):**
+  - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
+  - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
+  - C4 [IN PROGRESS]: V107 NULL в courses.created_by → миграция V111
   - C1: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService
-  - C2: N+1 queries — курсы (1+N+NM), документы (1+3N), чат (1+2N)
   - C3: Unbounded queries — AuditLog/Notifications/Invoices без пагинации
-  - C4: V107 NULL в courses.created_by → clean DB не поднимется → нужна V111
-  - C5: Missing @Transactional на TaskService.requestTask + 5 методах AdminService
-  - C6: OfficialDocumentTemplateSeeder удаляет шаблоны при каждом старте
+  - C2: N+1 queries — курсы (1+N+NM), документы (1+3N), чат (1+2N)
 - **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL, 9 WARNING, 5 INFO)
+
 
 
 ### Envie
