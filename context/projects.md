@@ -25,10 +25,11 @@ _Обновлено: 2026-08-11_
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
   - C4 [DONE]: V107 NULL в courses.created_by → миграция V119 (commit `a818d15`)
-  - C1 [IN PROGRESS]: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService
-  - C3: Unbounded queries — AuditLog/Notifications/Invoices без пагинации
+  - C1 [DONE]: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService (commit `08c2cda`)
+  - C3 [IN PROGRESS]: Unbounded queries — AuditLog/Notifications/Invoices без пагинации
   - C2: N+1 queries — курсы (1+N+NM), документы (1+3N), чат (1+2N)
 - **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL, 9 WARNING, 5 INFO)
+
 
 
 
