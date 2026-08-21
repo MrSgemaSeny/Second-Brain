@@ -173,6 +173,49 @@ OAuth redirect vs popup).
 - Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
 - Статус C1: **DONE**.
 
+### C3 Remediation Completed (09:44 UTC / 14:44 +05)
+- Проблема:
+  - `AuditLogController.java:26`: метод `getAllAuditLogs` возвращал всю таблицу `audit_logs` без пагинации и ограничений.
+  - `TaskSpecification.java:36`: `root.fetch("services", JoinType.LEFT)` выполнял fetch join на `@ManyToMany` коллекции внутри запроса с пагинацией (`getAllTasksPaged`), что вызывало предупреждение Hibernate `HHH000104` и принудительную загрузку всех строк таблицы в память JVM для последующего слайсинга в памяти (критический риск OOM на инстансе с 512MB RAM).
+- Внесённые изменения:
+  - `AuditLogController.java`: добавлены опциональные параметры пагинации `page` и `size` (с ограничением max 100 на страницу), а для непагинированных запросов введён жёсткий лимит `PageRequest.of(0, 200)` для предотвращения исчерпания памяти.
+  - `TaskSpecification.java`: удалён fetch join коллекции `services` из `TaskSpecification.filterTasks` (сущность `Task` уже имеет `@Fetch(FetchMode.SUBSELECT)` на `services`, поэтому дочерние услуги подгружаются эффективным подзапросом без падения в in-memory pagination).
+  - `AuditLogControllerPaginationTest.java`: созданы регрессионные тесты (проверка возврата `Page` при передаче `page/size`, проверка возврата ограниченного `List` при отсутствии параметров пагинации).
+- Верификация: `./gradlew test --tests *AuditLogControllerPaginationTest*` — `BUILD SUCCESSFUL in 30s` (0 ошибок).
+- Коммит зафиксирован: `04c65a3` (`fix(crm,audit): add pagination to audit logs and remove collection fetch from TaskSpecification (C3)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C3: **DONE**.
+
+### C2 Remediation Completed (09:48 UTC / 14:48 +05)
+- Проблема:
+  - Course catalog & chapters: ленивая загрузка коллекций `curators`, `chapters` и `lessons` приводила к N+1 запросам (`1 + N + NM`).
+  - Documents: запросы в `DocumentRepository` при выборке списков документов выполняли отдельные селекты на связанные сущности `user`, `uploadedBy`, `task`, `generatedFromTemplate` (`1 + 3N`).
+  - Chat contacts: `ChatService.getContacts` в цикле выполнял `countBySenderIdAndReceiverIdAndIsReadFalse` и `findLastMessage` для каждого контакта (`1 + 2N`).
+- Внесённые изменения:
+  - `Course.java`: добавлена аннотация `@BatchSize(size = 50)` на коллекции `curators` и `chapters`.
+  - `Chapter.java`: добавлена аннотация `@BatchSize(size = 50)` на коллекцию `lessons`.
+  - `DocumentRepository.java`: добавлена аннотация `@EntityGraph(attributePaths = {"user", "uploadedBy", "task", "generatedFromTemplate"})` на методы выборки документов (`findAllByOrderByCreatedAtDesc`, `findByUserIdOrderByCreatedAtDesc`, `findByUserIdOrTaskClientId`, `findForEmployee`, `findByTaskIdOrderByCreatedAtDesc`).
+  - `ChatMessageRepository.java`: добавлен групповой запрос `countUnreadByReceiverGroupedBySender`.
+  - `ChatService.java`: `getContacts` переведён на пакетную выборку непрочитанных сообщений через `unreadMap` в 1 запрос.
+  - `NPlusOneOptimizationRegressionTest.java`: созданы регрессионные тесты (проверка наличия `@BatchSize` на коллекциях `Course` и `Chapter`, проверка наличия `@EntityGraph` на методах `DocumentRepository`).
+- Верификация: `./gradlew test --tests *NPlusOneOptimizationRegressionTest*` — `BUILD SUCCESSFUL in 37s` (0 ошибок).
+- Коммит зафиксирован: `9ce22be` (`fix(perf): eliminate N+1 queries in LMS, Documents, and Chat modules (C2)`).
+- Ветка `audit/pre-release` успешно запушена на `origin/audit/pre-release`.
+- Статус C2: **DONE**.
+
+---
+
+### Checkpoint 1 Reached — All 6 Tier 1 (CRITICAL) Issues Remediated
+- Все 6 критических багов из Phase 1 Аудита успешно устранены, покрыты регрессионными тестами, закоммичены и запушены:
+  1. **C6**: `d336623` — `OfficialDocumentTemplateSeeder` non-destructive idempotency
+  2. **C5**: `ba0caaf` — `@Transactional` on `AdminService` mutation methods
+  3. **C4**: `a818d15`, `d1d14f3` — Migration `V119` courses.created_by backfill
+  4. **C1**: `08c2cda` — Avatar 404 storage key normalization with legacy fallback
+  5. **C3**: `04c65a3` — Pagination on audit logs + removal of collection fetch from `TaskSpecification`
+  6. **C2**: `9ce22be` — N+1 query elimination in LMS, Documents, and Chat
+
+
+
 
 
 
