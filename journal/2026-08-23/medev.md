@@ -17,6 +17,7 @@
 
 ### Frontend (React 19)
 - Интегрирован пакет `@vercel/analytics` (`<Analytics />` в `App.tsx`) для сбора метрик посещаемости и веб-аналитики на Vercel (`me-dev-two.vercel.app`).
+- Создан конфигурационный файл `frontend/vercel.json` с правилом SPA-rewrites (`"source": "/(.*)", "destination": "/index.html"`), устраняющий 404 NOT_FOUND при прямом переходе по маршрутам (`/login`, `/dashboard`, `/:username`).
 - Пройдены все 37 тестов Vitest и `npm run build` (0 warnings).
 
 ### AI Architecture & Model Standard
