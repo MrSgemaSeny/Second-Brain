@@ -29,6 +29,9 @@
   - **Billing Redirect Hardening:** Сконфигурирован `app.frontend-url: ${FRONTEND_URL:https://me-dev-two.vercel.app}` в `application-prod.yml` для исключения редиректов Stripe Checkout на localhost.
   - **OAuth2 Failure & Cancellation Handling:** Создан `OAuth2LoginFailureHandler`, который при отмене или ошибке OAuth авторизации на GitHub/Google очищает куки и перенаправляет пользователя обратно на страницу логина фронтенда (`/login?oauth_error=...`), исключая 401 Unauthorized на бэкенде.
 
+### Profile & GitHub Presence
+- Обновлен главный профильный `README.md` в репозитории `MrSgemaSeny/MrSgemaSeny`: удалены оборонительные и оправдательные формулировки, обновлен статус проекта `MeDev` до боевого продакшена (Level 4, ссылки на Vercel и Render), зафиксированы инженерные принципы.
+
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
 - Обновлены конфигурации `application.yml`, `README.md`, `.agents/AGENTS.md`, `.agents/CONTEXT.md`, а также базы Second Brain (`context/projects.md`, `context/prompts_for_ai.md`).
