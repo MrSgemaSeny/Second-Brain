@@ -23,6 +23,7 @@
   - `OAuth2LoginSuccessHandler.java` валидирует `redirect_uri` по списку `cors.allowed-origins` и корректно перенаправляет пользователя на origin, откуда пришел запрос (`me-dev-two.vercel.app` в проде, `localhost:5173` в деве).
   - Сконфигурированы профили `application-dev.yml` (localhost) и `application-prod.yml` (Vercel).
   - Перенесена секция `spring.security.oauth2.client.registration` в базовый `application.yml`, обеспечивая обязательную инициализацию `ClientRegistrationRepository` в профиле `prod` на Render.
+  - В `axios.ts` добавлен автоматический продакшен-фоллбэк на `https://medev-backend.onrender.com/api/v1` при сборке Vite в режиме `PROD` (`import.meta.env.PROD`), исключая обращения к localhost из облака.
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
