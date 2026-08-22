@@ -15,6 +15,10 @@
 - **ProfileService.java:** Исправлена ошибка компиляции (несоответствие типов `LocalDate` при маппинге DTO `AiExperienceDto` и `AiEducationDto`, добавлен недостающий импорт `java.time.LocalDate`).
 - **Сборка:** Локально проверена сборка `.\gradlew.bat build -x test` и прогон всех 253 тестов (`.\gradlew.bat test`) — 100% green.
 
+### Frontend (React 19)
+- Интегрирован пакет `@vercel/analytics` (`<Analytics />` в `App.tsx`) для сбора метрик посещаемости и веб-аналитики на Vercel (`me-dev-two.vercel.app`).
+- Пройдены все 37 тестов Vitest и `npm run build` (0 warnings).
+
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
 - Обновлены конфигурации `application.yml`, `README.md`, `.agents/AGENTS.md`, `.agents/CONTEXT.md`, а также базы Second Brain (`context/projects.md`, `context/prompts_for_ai.md`).
