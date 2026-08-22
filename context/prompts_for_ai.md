@@ -107,3 +107,4 @@ AI должен подсветить мне в чате (но не редакт�
 - [2026-08-13] AI Architecture: Для гарантированной отдачи JSON DTO, системный промпт должен запрещать любые markdown теги и комментарии.
 - [2026-08-17] Architecture: Для больших Enterprise HR/B2B платформ (Valeur) изначально закладывается микросервисная мультитенантная архитектура (Spring Cloud Gateway, JWT).
 - [2026-08-17] Frontend: Для data fetching строго используется `@tanstack/react-query` + нативный `fetch` (запрет на Axios) в рамках архитектуры FSD.
+- [2026-08-23] AI Stack (MeDev): Выбрана основная LLM модель `openai/gpt-oss-20b` через Groq API proxy для всех задач генерации, парсинга резюме и Smart Merge.
