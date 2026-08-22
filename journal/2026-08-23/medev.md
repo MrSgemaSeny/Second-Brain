@@ -42,3 +42,4 @@
 - **Live Smoke Test:**
   - `https://medev-backend.onrender.com/api/actuator/health` → `{"status":"UP","groups":["liveness","readiness"]}` (200 OK).
   - `https://me-dev-two.vercel.app/login` → 200 OK (SPA Routing активен, Vite bundle загружен).
+  - **End-to-End Live OAuth Test:** Полный цикл GitHub OAuth авторизации на `me-dev-two.vercel.app` → Render backend → PostgreSQL → генерация профиля → редирект в `/dashboard` успешно протестирован в боевом режиме.
