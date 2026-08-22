@@ -33,4 +33,7 @@
 ## 2. Результаты тестов и верификации
 - **Backend:** 253 passed (JUnit 5 + MockMvc + Testcontainers)
 - **Frontend:** 37 passed, production build `npm run build` успешен.
-- **Docker/Render:** Команда сборки `gradlew build -x test` отрабатывает без ошибок.
+- **Docker/Render:** Команда сборки `gradlew build -x test` отработала успешно, образ собран.
+- **Live Smoke Test:**
+  - `https://medev-backend.onrender.com/api/actuator/health` → `{"status":"UP","groups":["liveness","readiness"]}` (200 OK).
+  - `https://me-dev-two.vercel.app/login` → 200 OK (SPA Routing активен, Vite bundle загружен).
