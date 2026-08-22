@@ -30,7 +30,7 @@
   - **OAuth2 Failure & Cancellation Handling:** Создан `OAuth2LoginFailureHandler`, который при отмене или ошибке OAuth авторизации на GitHub/Google очищает куки и перенаправляет пользователя обратно на страницу логина фронтенда (`/login?oauth_error=...`), исключая 401 Unauthorized на бэкенде.
 
 ### Profile & GitHub Presence
-- Обновлен главный профильный `README.md` в репозитории `MrSgemaSeny/MrSgemaSeny`: удалены оборонительные и оправдательные формулировки, обновлен статус проекта `MeDev` до боевого продакшена (Level 4, ссылки на Vercel и Render), зафиксированы инженерные принципы.
+- Обновлен главный профильный `README.md` в репозитории `MrSgemaSeny/MrSgemaSeny`: удалены искусственные ярлыки и маркеры (Level 4/Level 3), возвращена аутентичная авторская линия нарратива, зафиксирован боевой статус `MeDev` с живыми ссылками на Vercel и Render.
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
