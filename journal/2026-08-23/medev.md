@@ -15,10 +15,13 @@
 - **ProfileService.java:** Исправлена ошибка компиляции (несоответствие типов `LocalDate` при маппинге DTO `AiExperienceDto` и `AiEducationDto`, добавлен недостающий импорт `java.time.LocalDate`).
 - **Сборка:** Локально проверена сборка `.\gradlew.bat build -x test` и прогон всех 253 тестов (`.\gradlew.bat test`) — 100% green.
 
-### Frontend (React 19)
-- Интегрирован пакет `@vercel/analytics` (`<Analytics />` в `App.tsx`) для сбора метрик посещаемости и веб-аналитики на Vercel (`me-dev-two.vercel.app`).
-- Создан конфигурационный файл `frontend/vercel.json` с правилом SPA-rewrites (`"source": "/(.*)", "destination": "/index.html"`), устраняющий 404 NOT_FOUND при прямом переходе по маршрутам (`/login`, `/dashboard`, `/:username`).
-- Пройдены все 37 тестов Vitest и `npm run build` (0 warnings).
+### Environment Separation & Dynamic OAuth Redirection (Dev / Prod)
+- **Frontend:** Созданы файлы окружения `.env.development` (`http://localhost:8080/api/v1`), `.env.production` (`https://medev-backend.onrender.com/api/v1`), `.env`.
+- **LoginPage.tsx:** Добавлена динамическая передача `?redirect_uri=${origin}` при инициализации OAuth авторизации GitHub и Google.
+- **Backend (Spring Boot):**
+  - `CookieOAuth2AuthorizationRequestRepository.java` сохраняет и очищает `redirect_uri` в защищенной cookie.
+  - `OAuth2LoginSuccessHandler.java` валидирует `redirect_uri` по списку `cors.allowed-origins` и корректно перенаправляет пользователя на origin, откуда пришел запрос (`me-dev-two.vercel.app` в проде, `localhost:5173` в деве).
+  - Сконфигурированы профили `application-dev.yml` (localhost) и `application-prod.yml` (Vercel).
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
