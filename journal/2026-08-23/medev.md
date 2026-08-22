@@ -27,6 +27,7 @@
   - **Cross-Origin Cookie Security:** `refresh_token` и `medev_link_jwt` переведены на `SameSite="None"`, `secure=true`, `path="/"`, обеспечивая доставку кук между доменами `*.vercel.app` и `*.onrender.com`.
   - **CORS & Preflight Hardening:** Добавлены расширенные заголовки (`Origin`, `Accept`, `X-Requested-With`, `sentry-trace`), экспонированы заголовки `Authorization`/`Set-Cookie` и включено кэширование preflight-запросов (`maxAge: 3600s`).
   - **Billing Redirect Hardening:** Сконфигурирован `app.frontend-url: ${FRONTEND_URL:https://me-dev-two.vercel.app}` в `application-prod.yml` для исключения редиректов Stripe Checkout на localhost.
+  - **OAuth2 Failure & Cancellation Handling:** Создан `OAuth2LoginFailureHandler`, который при отмене или ошибке OAuth авторизации на GitHub/Google очищает куки и перенаправляет пользователя обратно на страницу логина фронтенда (`/login?oauth_error=...`), исключая 401 Unauthorized на бэкенде.
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
