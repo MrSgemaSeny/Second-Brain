@@ -24,6 +24,9 @@
   - Сконфигурированы профили `application-dev.yml` (localhost) и `application-prod.yml` (Vercel).
   - Перенесена секция `spring.security.oauth2.client.registration` в базовый `application.yml`, обеспечивая обязательную инициализацию `ClientRegistrationRepository` в профиле `prod` на Render.
   - В `axios.ts` добавлен автоматический продакшен-фоллбэк на `https://medev-backend.onrender.com/api/v1` при сборке Vite в режиме `PROD` (`import.meta.env.PROD`), исключая обращения к localhost из облака.
+  - **Cross-Origin Cookie Security:** `refresh_token` и `medev_link_jwt` переведены на `SameSite="None"`, `secure=true`, `path="/"`, обеспечивая доставку кук между доменами `*.vercel.app` и `*.onrender.com`.
+  - **CORS & Preflight Hardening:** Добавлены расширенные заголовки (`Origin`, `Accept`, `X-Requested-With`, `sentry-trace`), экспонированы заголовки `Authorization`/`Set-Cookie` и включено кэширование preflight-запросов (`maxAge: 3600s`).
+  - **Billing Redirect Hardening:** Сконфигурирован `app.frontend-url: ${FRONTEND_URL:https://me-dev-two.vercel.app}` в `application-prod.yml` для исключения редиректов Stripe Checkout на localhost.
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
