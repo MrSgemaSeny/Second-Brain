@@ -22,6 +22,7 @@
   - `CookieOAuth2AuthorizationRequestRepository.java` сохраняет и очищает `redirect_uri` в защищенной cookie.
   - `OAuth2LoginSuccessHandler.java` валидирует `redirect_uri` по списку `cors.allowed-origins` и корректно перенаправляет пользователя на origin, откуда пришел запрос (`me-dev-two.vercel.app` в проде, `localhost:5173` в деве).
   - Сконфигурированы профили `application-dev.yml` (localhost) и `application-prod.yml` (Vercel).
+  - Перенесена секция `spring.security.oauth2.client.registration` в базовый `application.yml`, обеспечивая обязательную инициализацию `ClientRegistrationRepository` в профиле `prod` на Render.
 
 ### AI Architecture & Model Standard
 - Зафиксирована основная модель AI: **`openai/gpt-oss-20b`** (через Groq API прокси).
