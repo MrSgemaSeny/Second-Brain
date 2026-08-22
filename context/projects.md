@@ -8,7 +8,7 @@ _Обновлено: 2026-08-11_
 - **Статус:** Level 3 - MVP Release (Все Фазы 1-8 Roadmap и полный сквозной аудит завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, ADR-001..010, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем с поддержкой кириллицы).
 - **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (openai/gpt-oss-20b) + Spring AI + Vitest + Flying Saucer + Actuator
 - **Что это:** Data-first AI SaaS платформа для разработчиков. Автоматическая генерация резюме и портфолио из GitHub (Source of Truth) и PDF (Smart Merge), Job Tracker CRM + Kanban с AI-матчингом, 6 дизайн-шаблонов HTML и PDF резюме, публичная страница портфолио (`/:username`) с OpenGraph/Schema.org, генератор GitHub Profile README.
-- **Деплой:** Локальный запуск (Docker Compose) / Подготовлен к деплою (Fly.io + GitHub Pages).
+- **Деплой:** Production Live: Frontend на Vercel (`me-dev-two.vercel.app`), Backend & DB & Redis на Render (`medev-backend.onrender.com`, `medev-postgres`, `medev-redis`). Локальный запуск через Docker Compose (`postgres:5435`, `redis:6379`).
 - **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`, `docs/RUNBOOK.md`
 
 ### JF-1C (ZhanFinance)
