@@ -13,6 +13,9 @@
 - Верифицирован успешный билд и деплой SPA-фронтенда.
 - Фронтенд успешно доступен в продакшене по адресу: `https://mrsgemaseny.github.io/JF-1C/`.
 
+### База Знаний: Курс по вайбкодингу (Урок 1)
+- Оцифрованы и перенесены рукописные заметки урока 1 («Что такое вайбкодинг», инструменты, живые примеры) в файл [`knowledge/vibe_coding_lesson_1.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain%27s%20protocol%20-%20second%20brain/knowledge/vibe_coding_lesson_1.md).
+
 ---
 
 ## 2. Архитектурный статус
