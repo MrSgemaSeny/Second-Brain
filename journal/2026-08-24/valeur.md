@@ -3,12 +3,14 @@
 ## Статус сессии
 - **Запуск мульти-агентной системы**: Запущен `teamwork_preview` (Project Sentinel `715dc8d2-61c9-488f-9c8f-f9ab7540e5da` + Orchestrator `c4637870-160c-463b-84a0-2d79453575e1`).
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
-- **Liveness Verification**: Все проверки активности (Liveness check passed) успешно пройдены. Оркестратор и воркер `m1_worker_1` активны.
+- **Liveness Verification**: Проверка активности субагентов пройдена без замечаний.
 
-## Прогресс разработки вехи M1 (Iteration 5)
-- **E2E Testing Track ЗАВЕРШЕН ПОЛНОСТЬЮ**: Опубликованы `TEST_INFRA.md` и `TEST_READY.md` со сданным набором из 56 тестов (Tiers 1-4).
-- **Активное кодирование M1 Worker (`m1_worker_1`)**: Исполнитель завершает внедрение бэкенд RBAC (`OWNER`, `HR_MANAGER`, `VIEWER`), method-level security (`@PreAuthorize`), разрешения метаданных `tenantId` вакансий и исправление юнит-тестов Vitest на фронтенде.
-- **Оркестратор**: Задействовал команду верификации (Reviewers, Challengers, Auditor) в очереди на приемку M1 (M1 Verification Gate).
+## Прогресс разработки вехи M1 (Iteration 6)
+- **Исполнение кода M1 Worker (`m1_worker_1`)**:
+  - `identity-service`: Кодирование RBAC метод-уровня безопасности, жизненного цикла и ротации refresh-токенов.
+  - `frontend`: Обновление слоя авторизации FSD и подгонка клиентского окружения.
+- **E2E Testing Track**: Готов к выполнению проверочных прогонов на обновленных эндпоинтах.
+- **Оркестратор**: Все субагенты работают штатно, блокировки отсутствуют.
 
 ## Завершение исследовательской фазы M1
 - `m1_explorer_1` (Identity RBAC Backend): `Role.java` расширяется до `OWNER`, `HR_MANAGER`, `VIEWER` (с поддержкой `COMPANY_ADMIN`); `@EnableMethodSecurity` добавлена в `SecurityConfig.java`; ротация JWT настроена в `AuthService.register()`.
@@ -29,4 +31,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Sentinel подтвердил успешное завершение E2E трека и подготовку к фазе верификации (M1 Verification Gate). Liveness check пройден.
+- Sentinel подтвердил устойчивый процесс кодирования в `m1_worker_1`.
