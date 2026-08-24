@@ -1,48 +1,29 @@
-# Сессия 2026-08-24 — Финализация и достижение Level 2 MVP для Valeur
+# Сессия 2026-08-24 — Запуск коммерческого Enterprise-релиза Valeur
 
-## Итоговый статус проекта: Level 2 MVP — 100% ВЫПОЛНЕНО
-
-Все требования системного промпта и архитектурные инварианты закрытого Level 2 MVP полностью реализованы, протестированы и верифицированы.
-
----
-
-### 1. Архитектурные достижения и статус модулей
-
-#### R1. Auth & Multitenant Tenant Isolation (Веха M1 — 100% PASS)
-- **Ролевая матрица**: `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`, `COMPANY_ADMIN`, `ADMIN`.
-- **Изоляция данных**: `tenant_id UUID NOT NULL` во всех таблицах компаний. Извлечение `tenant_id` исключительно из JWT claims (`TenantContext` ThreadLocal).
-- **Безопасность**: `@EnableMethodSecurity` и `@PreAuthorize` на защищенных эндпоинтах бэкенда. Ротация refresh-токенов с отзывом старых токенов (`revoked=true`). Обработка `AccessDeniedException` (HTTP 403 Forbidden).
-
-#### R2. Vacancy Management Lifecycle (Веха M2 — 100% PASS)
-- **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`). Терминальный статус `DELETED` изолирован.
-- **Генерация Slug**: `SlugUtil` с поддержкой транслитерации кириллицы (русский/казахский) и уникального 8-значного hex-суффикса.
-- **Публичный доступ**: эндпоинт `/api/vacancies/public/{idOrSlug}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
-- **Frontend & Тестирование**: Добавлена страница `/vacancy/:id`, карточки вакансий, хуки откликов и 3 новых набора тестов (`vacancyStore.test.ts`, `VacancyCard.test.tsx`, `VacancyDetailPage.test.tsx`).
-
-#### R3. Candidate Profile & Application Workflow (Веха M3 — 100% PASS)
-- **Глобальный кандидат**: профиль без `tenant_id` (имя, контакты, резюме, ссылки).
-- **Конечный автомат `ApplicationStatus`**: `NEW` (`pending`) → `IN_REVIEW` → `INTERVIEW_SCHEDULED` → `OFFER_SENT` → `HIRED` / `REJECTED`.
-- **Приватность и внутренние заметки**: колонка `hr_note` (миграция `V2__add_hr_note_to_applications.sql`), доступная только работодателю тенанта и скрытая от кандидата. Межсервисный резолвинг `tenantId` исключает спуфинг.
-- **Frontend компоненты**: форма редактирования профиля, статус-степпер в `MyApplicationsPage`, ввод и просмотр заметок HR в `ApplicationsPage`.
-
-#### R4. HR & Candidate Dashboards (Веха M4 — 100% PASS)
-- **HR Dashboard (`DashboardPage`, `MyVacanciesPage`, `ApplicationsPage`)**: список вакансий тенанта с подсчетом откликов, фильтрация по статусу/кандидату, быстрый переход статусов с приватными заметками HR, аналитика.
-- **Candidate Portal (`FeedPage`, `MyApplicationsPage`, `ApplicantDetailPage`)**: просмотр поданных откликов со статусами в реальном времени, статус-степпер, публичный поиск вакансий.
+## 1. Текущий статус проекта
+- **Level 2 MVP**: 100% завершен и верифицирован (64/64 тестов Vitest, 102 бэкенд теста, 55 E2E тестов).
+- **Новый этап**: Коммерческий релиз Valeur Enterprise с 4 ключевыми киллер-фичами.
 
 ---
 
-### 2. Результаты полного тестового прогона (100% PASS)
+## 2. Скоуп коммерческого релиза (Killer Features)
 
-1. **`identity-service`**: **25 / 25 тестов PASSED** (`BUILD SUCCESSFUL`)
-2. **`vacancy-service`**: **34 / 34 тестов PASSED** (`BUILD SUCCESSFUL`)
-3. **`application-service`**: **42 / 42 тестов PASSED** (`BUILD SUCCESSFUL`)
-4. **`api-gateway`**: **1 / 1 тест PASSED** (`BUILD SUCCESSFUL`)
-5. **`frontend` (Vitest)**: **64 / 64 тестов PASSED** (`17/17 test files`, 100% green)
-6. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок)
-7. **`tests/e2e` (E2E Integration Suite)**: **55 / 55 тестов PASSED** (`17/17 test files`, Tiers 1-4)
+### R1. AI-Powered Resume Scoring & Smart Match
+- Автоматический скоринг резюме под требования вакансии через `ai-service` (Llama 3.3 70b via Groq).
+- Match % (0–100%), ключевые совпадения, пробелы в навыках, структурированный вердикт.
+
+### R2. Интерактивная Kanban-доска найма с SLA
+- Визуальный пайплайн этапов найма с нативным/легковесным Drag & Drop.
+- Таймеры нахождения кандидатов на этапе (SLA) с подсветкой задержек.
+
+### R3. Аналитика воронки найма & Time-to-Hire
+- Конверсия воронки, среднее время закрытия вакансий (Time-to-Hire), коэффициент отсева.
+
+### R4. База талантов (Talent Pool) & Быстрый поиск
+- Внутренний банк резюме компании со сквозным поиском по навыкам, опыту, тегам и быстрым приглашением на вакансии.
 
 ---
 
-### 3. Синхронизация с Git
-- Репозиторий **Valeur**: коммит `f1e8f97` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
-- Второй Мозг **Second-Brain**: все журналы зафиксированы.
+## 3. Статус мультиагентной команды
+- Мультиагентная команда `teamwork_preview` запущена (Conversation ID: `f3b0e59f-f5b2-4f33-ac3d-621aaf955293`).
+- Артефакт спецификации: [`prompt_draft.md`](file:///C:/Users/murat/.gemini/antigravity/brain/7caea6c2-8078-4f20-b236-107fd102f1d4/prompt_draft.md).
