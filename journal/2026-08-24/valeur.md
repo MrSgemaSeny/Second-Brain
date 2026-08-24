@@ -2,32 +2,32 @@
 
 ## Итоговый статус проекта: Level 2 MVP — 100% ВЫПОЛНЕНО
 
-Все требования системного промпта и архитектурные инварианты закрытого Level 2 MVP реализованы, протестированы и верифицированы.
+Все требования системного промпта и архитектурные инварианты закрытого Level 2 MVP полностью реализованы, протестированы и верифицированы.
 
 ---
 
 ### 1. Архитектурные достижения и статус модулей
 
-#### R1. Auth & Multitenant Tenant Isolation (Веха M1 — Верифицирована: 100% PASS)
+#### R1. Auth & Multitenant Tenant Isolation (Веха M1 — 100% PASS)
 - **Ролевая матрица**: `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`, `COMPANY_ADMIN`, `ADMIN`.
 - **Изоляция данных**: `tenant_id UUID NOT NULL` во всех таблицах компаний. Извлечение `tenant_id` исключительно из JWT claims (`TenantContext` ThreadLocal).
 - **Безопасность**: `@EnableMethodSecurity` и `@PreAuthorize` на защищенных эндпоинтах бэкенда. Ротация refresh-токенов с отзывом старых токенов (`revoked=true`). Обработка `AccessDeniedException` (HTTP 403 Forbidden).
 
-#### R2. Vacancy Management Lifecycle (Веха M2 — Верифицирована: 100% PASS)
+#### R2. Vacancy Management Lifecycle (Веха M2 — 100% PASS)
 - **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`). Терминальный статус `DELETED` изолирован.
 - **Генерация Slug**: `SlugUtil` с поддержкой транслитерации кириллицы (русский/казахский) и уникального 8-значного hex-суффикса.
 - **Публичный доступ**: эндпоинт `/api/vacancies/public/{idOrSlug}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
 - **Frontend & Тестирование**: Добавлена страница `/vacancy/:id`, карточки вакансий, хуки откликов и 3 новых набора тестов (`vacancyStore.test.ts`, `VacancyCard.test.tsx`, `VacancyDetailPage.test.tsx`).
 
-#### R3. Candidate Profile & Application Workflow (Веха M3 — Верифицирована: 100% PASS)
+#### R3. Candidate Profile & Application Workflow (Веха M3 — 100% PASS)
 - **Глобальный кандидат**: профиль без `tenant_id` (имя, контакты, резюме, ссылки).
 - **Конечный автомат `ApplicationStatus`**: `NEW` (`pending`) → `IN_REVIEW` → `INTERVIEW_SCHEDULED` → `OFFER_SENT` → `HIRED` / `REJECTED`.
 - **Приватность и внутренние заметки**: колонка `hr_note` (миграция `V2__add_hr_note_to_applications.sql`), доступная только работодателю тенанта и скрытая от кандидата. Межсервисный резолвинг `tenantId` исключает спуфинг.
 - **Frontend компоненты**: форма редактирования профиля, статус-степпер в `MyApplicationsPage`, ввод и просмотр заметок HR в `ApplicationsPage`.
 
-#### R4. HR & Candidate Dashboards (Веха M4 — Реализована)
-- **HR Dashboard**: список вакансий тенанта, откликов с бейджами статусов, фильтрация и быстрый переход статусов с приватными заметками. Форматирование зарплатных вилок (`salary.ts` / `salary.test.ts`).
-- **Candidate Portal**: просмотр своих откликов (`/my-applications`) с живым статусом и публичный поиск вакансий.
+#### R4. HR & Candidate Dashboards (Веха M4 — 100% PASS)
+- **HR Dashboard (`DashboardPage`, `MyVacanciesPage`, `ApplicationsPage`)**: список вакансий тенанта с подсчетом откликов, фильтрация по статусу/кандидату, быстрый переход статусов с приватными заметками HR, аналитика.
+- **Candidate Portal (`FeedPage`, `MyApplicationsPage`, `ApplicantDetailPage`)**: просмотр поданных откликов со статусами в реальном времени, статус-степпер, публичный поиск вакансий.
 
 ---
 
@@ -37,14 +37,12 @@
 2. **`vacancy-service`**: **34 / 34 тестов PASSED** (`BUILD SUCCESSFUL`)
 3. **`application-service`**: **42 / 42 тестов PASSED** (`BUILD SUCCESSFUL`)
 4. **`api-gateway`**: **1 / 1 тест PASSED** (`BUILD SUCCESSFUL`)
-5. **`frontend` (Vitest)**: **50 / 50 тестов PASSED** (`12/12 test files`, 100% green)
+5. **`frontend` (Vitest)**: **64 / 64 тестов PASSED** (`17/17 test files`, 100% green)
 6. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок)
 7. **`tests/e2e` (E2E Integration Suite)**: **55 / 55 тестов PASSED** (`17/17 test files`, Tiers 1-4)
 
 ---
 
-### 3. Синхронизация с Git & Аудит
-- **Milestone M3 Forensic Integrity Audit**: **CLEAN** (верифицировано `m3_auditor_1_r2`).
-- **Generation 3 Orchestrator**: Развернут для финализации M4/M5 (`f754720`).
-- Репозиторий **Valeur**: коммиты отправлены в `main` (`https://github.com/MrSgemaSeny/Valeur`).
+### 3. Синхронизация с Git
+- Репозиторий **Valeur**: коммит `f1e8f97` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все журналы зафиксированы.
