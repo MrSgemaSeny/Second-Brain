@@ -3,16 +3,12 @@
 ## Статус сессии
 - **Запуск мульти-агентной системы**: Запущен `teamwork_preview` (Project Sentinel `715dc8d2-61c9-488f-9c8f-f9ab7540e5da` + Orchestrator `c4637870-160c-463b-84a0-2d79453575e1`).
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
-- **Текущий статус**: Воркер `m1_worker_1` находится в активной фазе кодирования и отладки тестов изоляции `TenantIsolationTest` и RBAC в `identity-service`.
+- **Liveness Verification**: Все проверки активности (Liveness check passed) пройдены.
 
 ## Прогресс разработки вехи M1
-- **E2E Testing Track**: Готов (56 тестов по Tiers 1-4).
-- **Кодирование `identity-service`**:
-  - `Role.java`: расширен до `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`, `COMPANY_ADMIN`.
-  - `AuthService.java`: поддержка регистрации тенанта и назначения роли `OWNER`.
-  - `SecurityConfig.java`: подключение `@EnableMethodSecurity`.
-  - `TenantIsolationTest.java`: написание и отладка проверок изоляции эндпоинтов по ролям.
-- **Frontend FSD**: Обновление виджетов `HeaderCompany` и `HeaderApplicant` под новую ролевую модель.
+- **E2E Testing Track ЗАВЕРШЕН ПОЛНОСТЬЮ**: 55 автоматизированных интеграционных тестов написаны и проверены по всем уровням Tiers 1-4.
+- **Финализация M1 Worker (`m1_worker_1`)**: Воркер завершает имплементацию бэкенд RBAC и подгонку набора тестов Vitest на фронтенде.
+- **Оркестратор**: Команда верификации (Reviewers, Challengers, Forensic Auditor) находится в режиме ожидания ворот M1 (M1 Gate).
 
 ## Ключевые требования и архитектура Level 2 MVP
 1. **Бэкенд**: Spring Boot 3.3+, Spring Security 6, Spring Data JPA, Flyway, PostgreSQL 16, JWT с ротацией и аннулированием. Изоляция данных на уровне БД (`tenant_id UUID NOT NULL`), экстракция `tenant_id` из JWT claims (`TenantContext`).
@@ -21,4 +17,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Агент `m1_worker_1` активно доводит тесты и безопасность M1 до зелёного состояния.
+- Sentinel подтвердил готовность M1 к фазе верификации.
