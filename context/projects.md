@@ -69,20 +69,21 @@ _Обновлено: 2026-08-24_
 - **Жесты:** указательный = рисуем, два пальца = пауза, кулак = очистить
 - **Особенности:** Backpressure-синхронизация по WS, 3D-дистанции для инвариантности к ракурсу, сохранение PNG, эффекты (glow, spray).
 
+### Valeur (Enterprise HR & ATS Platform)
+- **Репо:** github.com/MrSgemaSeny/Valeur
+- **Статус:** Level 2 - MVP / In-Progress M1 (Spring Boot 3.3.4 + Gateway + PostgreSQL 16 + React 19 + Tailwind v4 + FSD).
+- **Стек:** Java 17 + Spring Boot 3.3.4 + Spring Security 6 + Spring Cloud Gateway + PostgreSQL 16 + Groq AI (Llama 3.3 70b) + React 19 + TanStack Query v5.
+- **Архитектура:** Микросервисы (`identity-service:8081`, `vacancy-service:8082`, `application-service:8083`, `ai-service:8084`, `api-gateway:8080`).
+- **Мультитенантность:** Изоляция по `TenantContext` и `tenant_id`. RBAC (`OWNER`, `HR_MANAGER`, `VIEWER`).
+- **Тесты:** 55 E2E тестов (Tiers 1-4).
+- **Документация:** `projects/valeur/valeur.md`
+
 ## В планах
 
 ### Склад
 - **Статус:** идея
 - **Что это:** Проект для больших экспериментов — мультитенантность, микросервисы, LLM
 - **Когда:** будущее
-
-### Valeur (ex. Valeur v2)
-- **Репо:** github.com/MrSgemaSeny/Valeur
-- **Статус:** Level 2 - Pet Project (Начало миграции с монолита на микросервисы)
-- **Стек:** Spring Boot 3.3 + React 19 + Spring Cloud Gateway + PostgreSQL 16 + FSD
-- **Что это:** Мультитенантная ATS/HR-платформа. Микросервисная архитектура (api-gateway, identity, vacancy, application, ai).
-- **Деплой:** локальный docker-compose (PostgreSQL)
-- **Документация:** `projects/valeur/valeur.md`
 
 ## Архивные / учебные
 

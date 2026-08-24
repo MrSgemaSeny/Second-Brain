@@ -27,12 +27,19 @@
 ## Архитектурные риски и долг (Tech Debt)
 - **OLTP Аналитика:** На данный момент агрегация аналитики происходит синхронно запросами в OLTP БД. С ростом данных это вызовет деградацию производительности. Требуется (в Roadmap) выделить `analytics-service` с асинхронным сбором метрик через брокер сообщений (Kafka/Rabbit) в OLAP.
 
-## Roadmap
-- **Фаза 1-5** — Done: Identity, vacancy, application, ai-service, api-gateway. Мультитенантность, JWT rotation.
-- **Фаза 6** — Done: Docker-compose полный, Dockerfiles для всех сервисов.
-- **Фаза 7** — Done: UserController, TenantController. Frontend на нативный fetch, TanStack Query v5, Tailwind v4, моки удалены.
-- **Фаза 8** — In Progress: Frontend core. Авторизация (login/register/refresh). Страницы вакансий для кандидата и компании. Подача отклика. Базовый дашборд по ролям.
-- **Фаза 9** — Planned: AI интеграция. Генерация саммари резюме через ai-service. Rate limit UI. Трекинг использования.
-- **Фаза 10** — Planned: Polish + Security. Фиксы из аудитов. Privacy Policy. Валидация секретов.
-- **Фаза 11** — Planned: Deploy. Fly.io или аналог. CI/CD через GitHub Actions. ENV management.
-- **Фаза 12** — Planned: Real users. Онбординг первого тенанта. Мониторинг. Feedback loop.
+## Roadmap & Текущий статус (Commercial Enterprise Release — R1–R4 Complete)
+- **R1 (AI Resume Scoring & Match - M1 Complete)**: Groq Llama 3.3 70B ATS evaluation prompt, Bucket4j rate limiting, `POST /internal/ai/match-score`, UI `AiMatchBadge` + `AiScoreBreakdownModal`.
+- **R2 (Kanban Hiring Board with SLA - M2 Complete)**: Flyway `V4`, `SlaCalculationService` (O(1), `ON_TRACK`, `WARNING`, `BREACHED` `isStale: true`), HTML5 Drag & Drop pipeline across 6 stages, TanStack Query optimistic updates.
+- **R3 (Hiring Funnel Analytics & Time-to-Hire - M3 Complete)**: Flyway `V5`, `ApplicationAnalyticsService` (Conversion Rate %, Time-to-Hire, SLA breakdown by vacancy), visual funnel UI.
+- **R4 (Talent Pool & Quick Search - M4 Complete)**: Flyway `V6`, private tags/notes CRUD (1-5 ratings), 1-click vacancy invitation with candidate `Notification`.
+
+## Verification Matrix
+- **Тесты**: 379/379 tests PASSED (100% Green):
+  - `ai-service`: 6/6
+  - `identity-service`: 28/28
+  - `vacancy-service`: 37/37
+  - `application-service`: 102/102
+  - `api-gateway`: 1/1
+  - `frontend (Vitest)`: 101/101
+  - `tests/e2e`: 104/104 (Tiers 1-4 + Adversarial)
+- **Next**: Подготовка к деплою (Fly.io / Render) и боевой онбординг первого тенанта.
