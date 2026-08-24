@@ -180,6 +180,7 @@
   },
   "active": "0a6f128fec5f9f47",
   "lastOpenFiles": [
+    "mem/private_history.md",
     "mem/identity.md",
     "mem/hobbies.md",
     "mem/people/boss.md",
@@ -204,7 +205,6 @@
     "projects/valeur/valeur.md",
     "projects/envie/envie.md",
     "projects/jf-1c/index.md",
-    "projects/medev/index.md",
-    "knowledge/index.md"
+    "projects/medev/index.md"
   ]
 }
