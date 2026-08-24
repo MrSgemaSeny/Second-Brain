@@ -25,5 +25,6 @@
 ---
 
 ## 3. Статус мультиагентной команды
-- Мультиагентная команда `teamwork_preview` запущена (Conversation ID: `f3b0e59f-f5b2-4f33-ac3d-621aaf955293`).
-- Артефакт спецификации: [`prompt_draft.md`](file:///C:/Users/murat/.gemini/antigravity/brain/7caea6c2-8078-4f20-b236-107fd102f1d4/prompt_draft.md).
+- Запущены 3 параллельных исследователя (`survey_explorer_ai_app_1`, `survey_explorer_analytics_talent_1`, `survey_explorer_frontend_e2e_1`) под управлением `orchestrator_4`.
+- Формируется архитектурный чертёж и матрица миграций для всех 4 требований.
+- Артефакты синхронизированы в репозитории [Valeur](https://github.com/MrSgemaSeny/Valeur) (`c919c41`).
