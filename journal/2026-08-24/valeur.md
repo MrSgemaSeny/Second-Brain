@@ -2,30 +2,33 @@
 
 ## 1. Текущий статус проекта
 - **Level 2 MVP**: 100% завершен и верифицирован (64/64 тестов Vitest, 102 бэкенд теста, 55 E2E тестов).
-- **Новый этап**: Коммерческий релиз Valeur Enterprise с 4 ключевыми киллер-фичами.
+- **Коммерческий Enterprise-релиз**: В активной реализации с расширенным E2E-сьютом из 92 тестов.
 
 ---
 
-## 2. Скоуп коммерческого релиза (Killer Features)
+## 2. Скоуп и статус киллер-фич
 
-### R1. AI-Powered Resume Scoring & Smart Match
-- Автоматический скоринг резюме под требования вакансии через `ai-service` (Llama 3.3 70b via Groq).
-- Добавлен системный промпт `resume_match.txt` для генерации JSON-вердикта: Match % (0–100%), ключевые совпадения, пробелы в навыках, структурированный вердикт.
+### R1. AI-Powered Resume Scoring & Smart Match (100% Реализован)
+- Созданы `InternalAiController`, `AiMatchScoreRequest`, `AiMatchScoreResponse` в `ai-service`.
+- Интегрирован промпт `resume_match.txt` (Groq Llama 3.3 70b) с расчетом Match % (0–100%), сильных сторон, пробелов и рекомендаций.
+- Миграция `V3__add_application_ai_scores.sql` в `application-service` для персистенции скоринга.
 
-### R2. Интерактивная Kanban-доска найма с SLA
-- Визуальный пайплайн этапов найма с нативным/легковесным Drag & Drop.
-- Добавлена миграция `V4__add_stage_tracking_and_status_history.sql`: колонка `stage_entered_at` и таблица `application_status_history` для точного подсчета SLA и истории переходов.
+### R2. Интерактивная Kanban-доска найма с SLA (100% Реализован)
+- `SlaCalculationService` рассчитывает длительность нахождения кандидата на этапе и подсвечивает превышение SLA (amber / red).
+- Фронтенд-фича `ApplicationsKanban` (`KanbanBoard`, `KanbanColumn`, `KanbanCard`, `SlaBadge`, `useKanbanBoard`) с плавным Drag & Drop и TanStack Query синхронизацией.
 
-### R3. Аналитика воронки найма & Time-to-Hire
-- Конверсия воронки, среднее время закрытия вакансий (Time-to-Hire), коэффициент отсева на основе `application_status_history`.
+### R3. Аналитика воронки найма & Time-to-Hire (В процессе)
+- Конверсия воронки и среднее время закрытия вакансий на основе `application_status_history`.
 
-### R4. База талантов (Talent Pool) & Быстрый поиск
+### R4. База талантов (Talent Pool) & Быстрый поиск (В процессе)
 - Внутренний банк резюме компании со сквозным поиском по навыкам, опыту, тегам и быстрым приглашением на вакансии.
 
 ---
 
-## 3. Статус мультиагентной команды
-- Развернуты параллельные рабочие агенты: `m1_worker_1` (AI Match), `m2_worker_1` (Kanban SLA), `e2e_test_writer_1` (Enterprise E2E Suite).
-- `e2e_test_writer_1`: Завершена реализация сквозного E2E тест-сьюта для коммерческого Enterprise-релиза (R1–R4). Добавлено 37 новых тестов во всех 4 уровнях (Tier 1–4). Всего в E2E сьюте: 92/92 тестов успешно проходят (100% green, 24 test suites).
-- Опубликован `TEST_READY.md`.
-- Артефакты синхронизированы в репозитории [Valeur](https://github.com/MrSgemaSeny/Valeur).
+## 3. Результаты тестирования Enterprise Release
+- **`tests/e2e`**: **92 / 92 тестов PASSED** (`24 / 24 test suites`, 100% green).
+- **`ai-service`**: **4 / 4 теста PASSED** (`BUILD SUCCESSFUL`).
+- **`application-service`**: **43 / 43 тестов PASSED** (`BUILD SUCCESSFUL`).
+- **`vacancy-service`**: **35 / 35 тестов PASSED** (`BUILD SUCCESSFUL`).
+- **`identity-service`**: **26 / 26 тестов PASSED** (`BUILD SUCCESSFUL`).
+- **Синхронизация Git**: Репозиторий [Valeur](https://github.com/MrSgemaSeny/Valeur) (`6119e76`).
