@@ -3,26 +3,16 @@
 ## Статус сессии
 - **Запуск мульти-агентной системы**: Запущен `teamwork_preview` (Project Sentinel `715dc8d2-61c9-488f-9c8f-f9ab7540e5da` + Orchestrator `c4637870-160c-463b-84a0-2d79453575e1`).
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
-- **Liveness Verification**: Проверка активности субагентов пройдена без замечаний.
+- **Текущий статус**: Воркер `m1_worker_1` находится в активной фазе кодирования и отладки тестов изоляции `TenantIsolationTest` и RBAC в `identity-service`.
 
-## Прогресс разработки вехи M1 (Iteration 6)
-- **Исполнение кода M1 Worker (`m1_worker_1`)**:
-  - `identity-service`: Кодирование RBAC метод-уровня безопасности, жизненного цикла и ротации refresh-токенов.
-  - `frontend`: Обновление слоя авторизации FSD и подгонка клиентского окружения.
-- **E2E Testing Track**: Готов к выполнению проверочных прогонов на обновленных эндпоинтах.
-- **Оркестратор**: Все субагенты работают штатно, блокировки отсутствуют.
-
-## Завершение исследовательской фазы M1
-- `m1_explorer_1` (Identity RBAC Backend): `Role.java` расширяется до `OWNER`, `HR_MANAGER`, `VIEWER` (с поддержкой `COMPANY_ADMIN`); `@EnableMethodSecurity` добавлена в `SecurityConfig.java`; ротация JWT настроена в `AuthService.register()`.
-- `m1_explorer_2` (Tenant Security) & `m1_explorer_3` (Frontend Auth) передали отметки архитектуры.
-
-## Реализация E2E тестового контура (test_writer_e2e_1)
-- **Паспорт инфраструктуры**: `TEST_INFRA.md` и `TEST_READY.md` в корне проекта.
-- **56 тестов по 4 уровням (Tiers 1-4)**:
-  - **Tier 1 (Feature Coverage)**: 23 теста (R1-R4).
-  - **Tier 2 (Boundary & Corner Cases)**: 21 тест (Spoofing, Replay Attack, Expired JWT, Deduplication, Unicode Resume).
-  - **Tier 3 (Cross-Feature Interaction)**: 8 тестов (Pairwise взаимодействия).
-  - **Tier 4 (Real-World Scenarios)**: 4 сквозных пользовательских сценария.
+## Прогресс разработки вехи M1
+- **E2E Testing Track**: Готов (56 тестов по Tiers 1-4).
+- **Кодирование `identity-service`**:
+  - `Role.java`: расширен до `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`, `COMPANY_ADMIN`.
+  - `AuthService.java`: поддержка регистрации тенанта и назначения роли `OWNER`.
+  - `SecurityConfig.java`: подключение `@EnableMethodSecurity`.
+  - `TenantIsolationTest.java`: написание и отладка проверок изоляции эндпоинтов по ролям.
+- **Frontend FSD**: Обновление виджетов `HeaderCompany` и `HeaderApplicant` под новую ролевую модель.
 
 ## Ключевые требования и архитектура Level 2 MVP
 1. **Бэкенд**: Spring Boot 3.3+, Spring Security 6, Spring Data JPA, Flyway, PostgreSQL 16, JWT с ротацией и аннулированием. Изоляция данных на уровне БД (`tenant_id UUID NOT NULL`), экстракция `tenant_id` из JWT claims (`TenantContext`).
@@ -31,4 +21,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Sentinel подтвердил устойчивый процесс кодирования в `m1_worker_1`.
+- Агент `m1_worker_1` активно доводит тесты и безопасность M1 до зелёного состояния.
