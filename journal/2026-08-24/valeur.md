@@ -43,6 +43,8 @@
 
 ---
 
-### 3. Синхронизация с Git
+### 3. Синхронизация с Git & Аудит
+- **Milestone M3 Forensic Integrity Audit**: **CLEAN** (верифицировано `m3_auditor_1_r2`).
 - Репозиторий **Valeur**: коммиты отправлены в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все журналы зафиксированы.
+
