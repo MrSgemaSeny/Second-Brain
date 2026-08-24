@@ -6,9 +6,9 @@
 - **Liveness & Rules Forwarding**: Зафиксированы системный промпт и правила архитектора (`ORIGINAL_REQUEST.md`), подтвержден активный статус Оркестратора.
 
 ## Прогресс разработки вехи M1 (Iteration 5)
-- **Активное кодирование M1 Worker (`m1_worker_1`)**: Исполнитель выполняет модификацию кода в микросервисах `identity-service`, `vacancy-service` и `application-service` (расширение до ролей `OWNER`, `HR_MANAGER`, `VIEWER`, аннотации `@PreAuthorize`, проверка `TenantContext` и JWT token rotation).
-- **Синхронизация E2E-тестового контура (`test_writer_e2e_1`)**: Активно дополняются интеграционные тесты для верификации изоляции данных по `tenant_id` и валидации новых эндпоинтов авторизации.
-- **Оркестратор**: Отслеживает жизненный цикл агентов и готовится к приемке и фазе верификации M1.
+- **E2E Testing Track ЗАВЕРШЕН ПОЛНОСТЬЮ**: Опубликованы `TEST_INFRA.md` и `TEST_READY.md` со сданным набором из 56 тестов (Tiers 1-4).
+- **Активное кодирование M1 Worker (`m1_worker_1`)**: Исполнитель завершает внедрение бэкенд RBAC (`OWNER`, `HR_MANAGER`, `VIEWER`), method-level security (`@PreAuthorize`), разрешения метаданных `tenantId` вакансий и исправление юнит-тестов Vitest на фронтенде.
+- **Оркестратор**: Задействовал команду верификации (Reviewers, Challengers, Auditor) в очереди на приемку M1 (M1 Verification Gate).
 
 ## Завершение исследовательской фазы M1
 - `m1_explorer_1` (Identity RBAC Backend): `Role.java` расширяется до `OWNER`, `HR_MANAGER`, `VIEWER` (с поддержкой `COMPANY_ADMIN`); `@EnableMethodSecurity` добавлена в `SecurityConfig.java`; ротация JWT настроена в `AuthService.register()`.
@@ -29,4 +29,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- `m1_worker_1` и `test_writer_e2e_1` активно исполняют код. Sentinel завершил очередную проверку жизнеспособности (Liveness check passed).
+- Sentinel подтвердил успешное завершение E2E трека и подготовку к фазе верификации (M1 Verification Gate).
