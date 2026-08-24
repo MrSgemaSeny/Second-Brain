@@ -38,3 +38,17 @@
 - `ai-service`: BUILD SUCCESSFUL
 - `frontend`: 23 vitest tests PASSED, `npm run build` SUCCESSFUL
 
+### 3. Независимая верификация E2E Test Suite (Challenger 2 — 2026-08-24)
+- **Команда**: `cd tests/e2e && npm test`
+- **Фреймворк**: Vitest v4.1.10 (Node.js / TypeScript ES2022)
+- **Результаты**:
+  - `17` тестовых файлов пройдены (17/17, 100%)
+  - `55` тестов пройдены (55/55, 100% PASS)
+  - Время выполнения: 2.99s (чистые тесты: 406ms)
+- **Покрытие требований**:
+  - **Tier 1 (Feature Coverage, 23 теста)**: R1 Auth & Tenant Isolation (6), R2 Vacancy Management (6), R3 Candidate Profile & Applications (6), R4 Dashboards (5).
+  - **Tier 2 (Boundary & Corner Cases, 21 тест)**: Gateway Header Spoofing Defense, Cross-Tenant Mutation Rejection (403), Token Expiration (401), Token Replay (400), View Deduplication, Contact Privacy Gate (403), Unicode/Kazakh Cyrillic handling.
+  - **Tier 3 (Cross-Feature, 8 тестов)**: Межсервисная изоляция, жизненный цикл отклика, каскадные уведомления, динамический переключатель приватности, ротация токенов.
+  - **Tier 4 (Real-World Scenarios, 4 E2E сценария)**: Полный цикл найма работодателя, полный цикл поиска и отклика кандидата, симуляция вредоносного взлома и утечки данных, восстановление сессии при истечении токена.
+- **Вердикт**: **APPROVE** (Отчет: `.agents/m1_challenger_2/handoff.md`).
+
