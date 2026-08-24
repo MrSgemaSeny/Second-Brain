@@ -1,48 +1,53 @@
-# Сессия 2026-08-24 — Финализация и достижение Level 2 MVP для Valeur
+# Сессия 2026-08-24 — Реализация и верификация Milestone M3: Candidate Profile & Application Workflow
 
-## Итоговый статус проекта: Level 2 MVP — 100% ВЫПОЛНЕНО
+## Итоговый статус Milestone M3: 100% ВЫПОЛНЕНО И ВЕРИФИЦИРОВАНО
 
-Все требования системного промпта и архитектурные инварианты закрытого Level 2 MVP реализованы, протестированы и верифицированы.
-
----
-
-### 1. Архитектурные достижения и статус модулей
-
-#### R1. Auth & Multitenant Tenant Isolation (Веха M1)
-- **Ролевая матрица**: `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`, `COMPANY_ADMIN`, `ADMIN`.
-- **Изоляция данных**: `tenant_id UUID NOT NULL` во всех таблицах компаний. Извлечение `tenant_id` исключительно из JWT claims (`TenantContext` ThreadLocal).
-- **Безопасность**: `@EnableMethodSecurity` и `@PreAuthorize` на защищенных эндпоинтах бэкенда. Ротация refresh-токенов с отзывом старых токенов (`revoked=true`). Обработка `AccessDeniedException` (HTTP 403 Forbidden).
-
-#### R2. Vacancy Management Lifecycle (Веха M2 — Верифицирована: APPROVE)
-- **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`). Терминальный статус `DELETED` изолирован.
-- **Генерация Slug**: `SlugUtil` с поддержкой транслитерации кириллицы (русский/казахский) и уникального 8-значного hex-суффикса.
-- **Публичный доступ**: эндпоинт `/api/vacancies/public/{idOrSlug}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
-- **Frontend & Тестирование**: Добавлена страница `/vacancy/:id`, карточки вакансий, хуки откликов и 3 новых набора тестов (`vacancyStore.test.ts`, `VacancyCard.test.tsx`, `VacancyDetailPage.test.tsx`).
-
-#### R3. Candidate Profile & Application Workflow (Веха M3 — 100% Реализована)
-- **Глобальный кандидат**: профиль без `tenant_id` (имя, контакты, резюме, ссылки).
-- **Конечный автомат `ApplicationStatus`**: `NEW` (`pending`) → `IN_REVIEW` → `INTERVIEW_SCHEDULED` → `OFFER_SENT` → `HIRED` / `REJECTED`.
-- **Приватность и внутренние заметки**: колонка `hr_note` (миграция `V2__add_hr_note_to_applications.sql`), доступная только работодателю тенанта и скрытая от кандидата. Межсервисный резолвинг `tenantId` исключает спуфинг.
-- **Тесты**: Добавлены сьюты `ApplicationStatusTest` и `ApplicationControllerTest`. Все 17 тестов `application-service` зеленые.
-
-#### R4. HR & Candidate Dashboards (Веха M4)
-- **HR Dashboard**: список вакансий тенанта, откликов с бейджами статусов, фильтрация и быстрый переход статусов с приватными заметками.
-- **Candidate Portal**: просмотр своих откликов (`/my-applications`) с живым статусом и публичный поиск вакансий.
+Все задачи этапа **Milestone M3 (Candidate Profile & Job Application Workflow)** полностью реализованы в соответствии с технической спецификацией `PROJECT.md` и `ORIGINAL_REQUEST.md`.
 
 ---
 
-### 2. Результаты полного тестового прогона (100% PASS)
+### 1. Реализованные компоненты и архитектурные решения
+
+#### Backend (`application-service` & `identity-service`)
+1. **Конечный автомат `ApplicationStatus`**:
+   - Реализован enum `ApplicationStatus` (`PENDING`, `NEW`, `IN_REVIEW`, `INTERVIEW_SCHEDULED`, `OFFER_SENT`, `HIRED`, `REJECTED`) в `kz.valeur.application.domain`.
+   - Внедрена нормализация входящих строковых статусов (`fromString`) с поддержкой case-insensitive значений, kebab-case, snake_case и алиасов.
+   - Метод `canTransitionTo` валидирует допустимость переходов жизненного цикла отклика.
+2. **Безопасность и конфиденциальность HR-заметок**:
+   - `ApplicationService.updateStatus` валидирует принадлежность тенанту через `TenantContext.getTenantId()`, выполняет проверку допустимости смены статуса и сохраняет приватную заметку `hrNote`.
+   - `mapToCandidateDto` жестко изолирует `hrNote` (`null`), предотвращая утечку внутренних комментариев рекрутеров кандидатам.
+   - `mapToTenantDto` возвращает `hrNote` авторизованным сотрудникам компании.
+   - При смене статуса автоматически создается `Notification` для кандидата.
+3. **Глобальный профиль кандидата в `identity-service`**:
+   - Верифицированы плоские эндпоинты `GET /api/users/me` и `PATCH /api/users/me` на базе `UserProfileDto`.
+
+#### Frontend (`frontend`)
+1. **Типизация и плоский контракт**:
+   - Интерфейс `UserProfile` в `src/entities/User/model/types.ts` расширен плоскими полями (`about`, `skills`, `university`, `specialization`, `githubUrl`, `phone`, `city`, `avatarUrl`, `experience`, `projects`, `contactSharingEnabled`, `resumeFile`).
+2. **Страницы профиля кандидата**:
+   - `src/pages/Applicant/ProfilePage/ui/ProfilePage.tsx` обновлен для прямого отображения плоских полей `UserProfileDto`, парсинга навыков и индикации открытия контактов.
+   - `src/features/Profile/ui/EditProfileForm.tsx` выполняет прямое чтение и сохранение плоских полей через `PATCH /api/users/me`.
+3. **Управление откликами для HR**:
+   - `src/features/ManageApplication/ui/ManageApplication.tsx` и `useManageApplication.ts` разблокированы для начального статуса `pending`/`new`, поддерживают полную воронку переходов (`in_review`, `interview_scheduled`, `offer_sent`, `hired`, `rejected`) и содержат модальное окно с полем ввода/просмотра внутренней заметки `hrNote`.
+   - `src/pages/Company/ApplicationsPage/ui/ApplicationsPage.tsx` агрегирует счетчики статусов и отображает `hrNote` в модальном окне предпросмотра кандидата.
+4. **Трекинг заявок кандидата**:
+   - `src/pages/Applicant/MyApplicationsPage/ui/MyApplicationsPage.tsx` снабжен расширенным степпером и бейджами со стилями для всех возможных статусов пайплайна.
+
+---
+
+### 2. Результаты тестирования (100% PASS)
 
 1. **`identity-service`**: **25 / 25 тестов PASSED** (`BUILD SUCCESSFUL`)
-2. **`vacancy-service`**: **34 / 34 тестов PASSED** (`BUILD SUCCESSFUL`)
-3. **`application-service`**: **17 / 17 тестов PASSED** (`BUILD SUCCESSFUL`)
-4. **`api-gateway`**: **1 / 1 тест PASSED** (`BUILD SUCCESSFUL`)
-5. **`frontend` (Vitest)**: **37 / 37 тестов PASSED** (`8/8 test files`, 100% green)
-6. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок)
-7. **`tests/e2e` (E2E Integration Suite)**: **55 / 55 тестов PASSED** (`17/17 test files`, Tiers 1-4)
+2. **`application-service`**: **42 / 42 тестов PASSED** (`BUILD SUCCESSFUL`)
+   - Включая `ApplicationStatusTest`, `ApplicationServiceTest` (валидация переходов, приватность DTO, сохранение `hrNote`), `ApplicationControllerTest` и `TenantIsolationTest`.
+3. **`frontend` (Vitest)**: **45 / 45 тестов PASSED** (`11 / 11 test files`)
+   - Добавлены новые тесты: `ProfilePage.test.tsx`, `MyApplicationsPage.test.tsx`, `ManageApplication.test.tsx`.
+4. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок).
+5. **`tests/e2e`**: **55 / 55 тестов PASSED** (`17 / 17 test suites`, Tiers 1-4).
+   - R3-специфичные сьюты: `r3_application.test.ts` (6/6), `r3_application_boundary.test.ts` (5/5).
 
 ---
 
 ### 3. Синхронизация с Git
-- Репозиторий **Valeur**: коммит `0723753` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
-- Второй Мозг **Second-Brain**: все журналы зафиксированы.
+- Изменения зафиксированы и отправлены в `origin/main`.
+- Второй Мозг **Second-Brain** синхронизирован.
