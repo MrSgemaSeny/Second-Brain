@@ -5,22 +5,36 @@
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
 - **Liveness Verification**: Пройден очередной цикл проверки жизнеспособности (Iteration 8 Liveness check passed). Процесс идет стабильно, блокировки отсутствуют.
 
-## Прогресс разработки вехи M1 (Iteration 7 & 8)
-- **E2E Testing Track ЗАВЕРШЕН ПОЛНОСТЬЮ**: 55 автоматизированных интеграционных тестов проверены по Tiers 1-4.
-- **Task 1 (Identity Service RBAC & Security) — ВЫПОЛНЕН УСПЕШНО**:
-  - Внедрены роли `OWNER`, `HR_MANAGER`, `VIEWER`.
-  - Подключен метод-уровень `@EnableMethodSecurity`.
-  - Все **25 бэкенд-тестов** `identity-service` проходят чисто и без ошибок (BUILD SUCCESSFUL).
-- **Task 2 (TenantContext & Metadata Resolution) — В АКТИВНОЙ РАБОТЕ**:
-  - `vacancy-service` и `application-service`: изоляция запросов по `TenantContext` и резолвинг метаданных тенантов.
-  - Подготовка к согласованию фронтенд-тестов Vitest.
-- **Следующий этап**: Синхронизация типов авторизации на фронтенде, прогон тестов Vitest, полный билд и передача на ворота верификации (Adversarial Review Gate).
+## Завершение вехи M1 (Auth & Multitenant Tenant Isolation) — 2026-08-24
 
-## Ключевые требования и архитектура Level 2 MVP
-1. **Бэкенд**: Spring Boot 3.3+, Spring Security 6, Spring Data JPA, Flyway, PostgreSQL 16, JWT с ротацией и аннулированием. Изоляция данных на уровне БД (`tenant_id UUID NOT NULL`), экстракция `tenant_id` из JWT claims (`TenantContext`).
-2. **Фронтенд**: React 19 + TypeScript + Vite + FSD + Tailwind v4 + TanStack Query v5.
-3. **Модули**: Auth (регистрация компании/тенанта, ролевой доступ OWNER, HR_MANAGER, VIEWER), Vacancy (DRAFT → PUBLISHED → CLOSED → ARCHIVED), Candidate (глобальный профиль), Application (статусная машина NEW → IN_REVIEW → INTERVIEW_SCHEDULED → OFFER_SENT → HIRED/REJECTED, внутренние заметки HR), HR & Candidate Dashboards.
-4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
+### 1. Реализованные задачи
+1. **`identity-service`**:
+   - `Role.java`: Расширен enum ролей (`CANDIDATE`, `COMPANY_ADMIN`, `OWNER`, `HR_MANAGER`, `VIEWER`, `ADMIN`).
+   - `SecurityConfig.java`: Подключен `@EnableMethodSecurity`.
+   - `AuthService.java`: Добавлена регистрация владельца компании (`Role.OWNER`) с автоматическим созданием тенанта, а также привязка `HR_MANAGER` и `VIEWER` к `tenantId`.
+   - `GlobalExceptionHandler.java`: Добавлен обработчик `AccessDeniedException` (возвращает HTTP 403 Forbidden вместо 500).
+   - Тесты: 25 тестов в `AuthServiceTest.java` и `TenantIsolationTest.java` (100% зеленые).
 
-## Проверки
-- `m1_worker_1` активно ведет реализацию Task 2. Все процессы под контролем Sentinel и Orchestrator.
+2. **`vacancy-service` и `application-service`**:
+   - `TenantContextFilter.java`: Белый список ролей обновлен для поддержки `OWNER`, `HR_MANAGER`, `VIEWER`.
+   - `InternalTokenFilter.java`: Проверка `X-Internal-Token` изолирована на эндпоинты `/internal/**`.
+   - Защита от подмены тенанта: `VacancyMetadataDto` и межсервисный клиент `VacancyServiceClient` возвращают метаданные вакансии (`id`, `tenantId`, `status`). В `ApplicationService.createApplication` `tenantId` извлекается из метаданных вакансии, исключая спуфинг тенанта кандидатом.
+   - `@PreAuthorize`: В `ApplicationController` открыт доступ для всех ролей компании (`COMPANY_ADMIN`, `OWNER`, `HR_MANAGER`, `VIEWER`, `ADMIN`).
+   - Тесты: Добавлены `ApplicationServiceTest.java` (8 тестов) и `TenantIsolationTest.java` (9 тестов) в `application-service`. Все тесты пройдены.
+
+3. **`frontend`**:
+   - `types.ts`: Расширен тип `Role`.
+   - `RouterProvider.tsx` и `useAuthLogic.ts`: Роли `OWNER`, `HR_MANAGER`, `VIEWER` маршрутизируются в `/company/*`.
+   - `apiClient.ts` и `AuthProvider.tsx`: Редирект при истечении сессии обновлен на `/auth`.
+   - Vitest: Тесты `LoginForm.test.tsx` и `RegisterForm.test.tsx` актуализированы (5 файлов тестов, 23 теста — 100% зеленые).
+   - Очищены пустые директории `styles/`.
+   - Vite билд (`npm run build`) успешен (0 ошибок).
+
+### 2. Результаты верификации
+- `identity-service`: 25 tests PASSED (BUILD SUCCESSFUL)
+- `vacancy-service`: 4 tests PASSED (BUILD SUCCESSFUL)
+- `application-service`: 17 tests PASSED (BUILD SUCCESSFUL)
+- `api-gateway`: 1 test PASSED (BUILD SUCCESSFUL)
+- `ai-service`: BUILD SUCCESSFUL
+- `frontend`: 23 vitest tests PASSED, `npm run build` SUCCESSFUL
+
