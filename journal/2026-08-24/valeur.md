@@ -13,16 +13,17 @@
 - **Изоляция данных**: `tenant_id UUID NOT NULL` во всех таблицах компаний. Извлечение `tenant_id` исключительно из JWT claims (`TenantContext` ThreadLocal).
 - **Безопасность**: `@EnableMethodSecurity` и `@PreAuthorize` на защищенных эндпоинтах бэкенда. Ротация refresh-токенов с отзывом старых токенов (`revoked=true`). Обработка `AccessDeniedException` (HTTP 403 Forbidden).
 
-#### R2. Vacancy Management Lifecycle (Веха M2 — Верифицирована 5 агентами: APPROVE)
+#### R2. Vacancy Management Lifecycle (Веха M2 — Верифицирована: APPROVE)
 - **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`). Терминальный статус `DELETED` изолирован.
 - **Генерация Slug**: `SlugUtil` с поддержкой транслитерации кириллицы (русский/казахский) и уникального 8-значного hex-суффикса.
 - **Публичный доступ**: эндпоинт `/api/vacancies/public/{idOrSlug}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
 - **Frontend & Тестирование**: Добавлена страница `/vacancy/:id`, карточки вакансий, хуки откликов и 3 новых набора тестов (`vacancyStore.test.ts`, `VacancyCard.test.tsx`, `VacancyDetailPage.test.tsx`).
 
-#### R3. Candidate Profile & Application Workflow (Веха M3)
+#### R3. Candidate Profile & Application Workflow (Веха M3 — 100% Реализована)
 - **Глобальный кандидат**: профиль без `tenant_id` (имя, контакты, резюме, ссылки).
-- **Статусная машина откликов**: `NEW` (`pending`) → `IN_REVIEW` → `INTERVIEW_SCHEDULED` → `OFFER_SENT` → `HIRED` / `REJECTED`.
+- **Конечный автомат `ApplicationStatus`**: `NEW` (`pending`) → `IN_REVIEW` → `INTERVIEW_SCHEDULED` → `OFFER_SENT` → `HIRED` / `REJECTED`.
 - **Приватность и внутренние заметки**: колонка `hr_note` (миграция `V2__add_hr_note_to_applications.sql`), доступная только работодателю тенанта и скрытая от кандидата. Межсервисный резолвинг `tenantId` исключает спуфинг.
+- **Тесты**: Добавлены сьюты `ApplicationStatusTest` и `ApplicationControllerTest`. Все 17 тестов `application-service` зеленые.
 
 #### R4. HR & Candidate Dashboards (Веха M4)
 - **HR Dashboard**: список вакансий тенанта, откликов с бейджами статусов, фильтрация и быстрый переход статусов с приватными заметками.
@@ -43,5 +44,5 @@
 ---
 
 ### 3. Синхронизация с Git
-- Репозиторий **Valeur**: коммиты отправлены в `main` (`https://github.com/MrSgemaSeny/Valeur`).
+- Репозиторий **Valeur**: коммит `0723753` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все журналы зафиксированы.
