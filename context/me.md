@@ -53,3 +53,12 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 - Лвл 4 — реальные клиенты, боевой деплой
 - Лвл 5 — enterprise, команда
 - Лвл 6 — мировой enterprise
+
+---
+
+## 🔗 Карта связей Второго Мозга (Knowledge Graph)
+- **Активные проекты:** [[projects/valeur/valeur|Valeur]], [[projects/mr-developer/mr-developer|Mr Developer]], [[projects/medev/medev|MeDev]], [[projects/jf-1c/jf-1c|JF-1C (ZhanFinance)]], [[projects/envie/envie|Envie]]
+- **Стратегия и память:** [[mem/goals|Долгосрочные цели]], [[mem/history|Ключевые вехи]], [[mem/people/student-1|Ученик 1]]
+- **Архитектура и темы:** [[wiki/topics/vibe-coding|Вайбкодинг]], [[wiki/concepts/fsd-architecture|FSD]], [[wiki/concepts/spring-security-jwt|Spring Security JWT]]
+- **База знаний:** [[knowledge/knowledge-index|Zettelkasten Индекс]]
+

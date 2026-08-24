@@ -24,3 +24,13 @@
 - [[09_9._следующий_шаг_(action_item)]] - 9. Следующий шаг (Action Item)
 - [[10_security_audit_v1]] - 10. Security Audit v1 (Уязвимости и техдолг)
 - [[11_security_audit_v2_logic]] - 11. Security Audit v2 (Логика и Архитектура)
+
+---
+
+## 🔗 Связи в Базе Знаний (Knowledge Graph)
+- **AI Архитектура:** [[knowledge/arch-ai-smart-merge|Smart Merge (GitHub + PDF)]], [[knowledge/arch-ai-structured-generation|Structured JSON DTO]], [[knowledge/sec-pii-llm-compliance|PII & Groq ToS]]
+- **Безопасность и Auth:** [[knowledge/sec-oauth2-stateless-cookies|Stateless OAuth2 Cookies]], [[knowledge/sec-spring-jwt-auth|Spring JWT]], [[knowledge/security-idor-rls|IDOR & RLS]]
+- **Фронтенд:** [[wiki/concepts/fsd-architecture|FSD Архитектура]], [[knowledge/frontend-architecture-fsd-dnd|FSD + dnd-kit]], [[knowledge/zustand-persist-access-token|Zustand Persist Token]]
+- **PDF & API:** [[knowledge/pdf-flying-saucer-constraints|Flying Saucer PDF]], [[knowledge/api-github-integration|GitHub API Integration]]
+- **Глобальный контекст:** [[context/projects|Реестр проектов]], [[mem/goals|Цели]], [[mem/history|История вех]]
+

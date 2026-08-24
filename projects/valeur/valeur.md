@@ -43,3 +43,12 @@
   - `frontend (Vitest)`: 101/101
   - `tests/e2e`: 104/104 (Tiers 1-4 + Adversarial)
 - **Next**: Подготовка к деплою (Fly.io / Render) и боевой онбординг первого тенанта.
+
+---
+
+## 🔗 Связи в Базе Знаний (Knowledge Graph)
+- **Концепты и стек:** [[wiki/concepts/fsd-architecture|FSD Архитектура]], [[wiki/concepts/spring-security-jwt|Spring Security 6 JWT]], [[knowledge/backend-threadlocal-tenant-context|Multi-Tenancy TenantContext]]
+- **Enterprise фичи:** [[knowledge/ats-ai-resume-scoring-groq|AI Resume Scoring]], [[knowledge/ats-kanban-sla-state-machine|Kanban SLA State Machine]], [[knowledge/ats-funnel-analytics-and-talent-pool|Funnel Analytics & Talent Pool]]
+- **Безопасность и шлюз:** [[knowledge/arch-api-gateway-jwt-injection|Gateway JWT Claims]], [[knowledge/sec-internal-service-token|Internal Service Token]]
+- **Глобальный контекст:** [[context/projects|Реестр проектов]], [[mem/goals|Цели]], [[mem/history|История вех]]
+

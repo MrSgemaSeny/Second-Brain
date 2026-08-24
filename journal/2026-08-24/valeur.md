@@ -6,7 +6,17 @@
 
 ---
 
-### 1. Архитектурный скоуп Enterprise-релиза
+### 1. Очистка репозитория (`.agents/`)
+- Удалены 52 временные рабочие папки субагентов (`m1_*`, `m2_*`, `m3_*`, `m4_*`, `orchestrator_*`, `survey_*`, `explorer_*`).
+- Сохранены ключевые системные файлы:
+  - `AGENTS.md` (Role & Project Guidelines).
+  - `CONTEXT.md` (Архитектурный контекст и статус всех 4 фич).
+  - `ORIGINAL_REQUEST.md` (Спецификация коммерческого релиза).
+  - `hooks/`, `hooks.json`, `scripts/`.
+
+---
+
+### 2. Архитектурный скоуп Enterprise-релиза
 
 #### R1. AI-Powered Resume Scoring & Smart Match
 - `ai-service`: `InternalAiController`, `AiMatchScoreRequest`/`Response`, промпт `resume_match.txt` (Groq Llama 3.3 70B, zero-PII).
@@ -29,7 +39,7 @@
 
 ---
 
-### 2. Сводная матрица верификации (100% PASS)
+### 3. Сводная матрица верификации (100% PASS)
 
 1. **`frontend` (Vitest)**: **101 / 101 тестов PASSED** (`29 / 29 test files`, 100% green).
 2. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок сборки).
@@ -42,7 +52,7 @@
 
 ---
 
-### 3. Фиксация в Базе Знаний (Second Brain `knowledge/`)
+### 4. Фиксация в Базе Знаний (Second Brain `knowledge/`)
 - [`knowledge/ats-ai-resume-scoring-groq.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-ai-resume-scoring-groq.md)
 - [`knowledge/ats-kanban-sla-state-machine.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-kanban-sla-state-machine.md)
 - [`knowledge/ats-funnel-analytics-and-talent-pool.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-funnel-analytics-and-talent-pool.md)
@@ -50,6 +60,6 @@
 
 ---
 
-### 4. Синхронизация Git
-- Репозиторий **Valeur**: коммит `6fbf99d` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
+### 5. Синхронизация Git
+- Репозиторий **Valeur**: коммит `5a6e083` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: коммит `main` актуален.
