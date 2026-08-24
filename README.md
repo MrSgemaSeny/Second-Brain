@@ -8,7 +8,7 @@
 
 ## Проблема, которую решает Brain's Protocol
 
-Каждый соло-разработчик, работающий с AI-агентами (Claude, GPT-4o, Gemini, OpenHands, Claude Code), сталкивается с одним и тем же:
+Каждый соло-разработчик, работающий с AI-агентами (Claude, GPT-4o, Gemini, OpenHands, Claude Code, Antigravity), сталкивается с одним и тем же:
 
 - Объясняешь каждому новому AI свой стек — **каждую сессию заново**.
 - AI пишет код «в вакууме», не зная архитектурных решений прошлых сессий.
@@ -80,6 +80,9 @@ Brain's Protocol решает всё это одной структурой и �
 
 ```
 Second-Brain/
+├── README.md               # Манифест и документация протокола
+├── MAINTENANCE.md          # Чеклист обслуживания (10 мин еженедельно / 30 мин ежемесячно)
+│
 ├── context/                # System Prompt для AI
 │   ├── me.md               # профиль, стек, принципы, цели
 │   ├── projects.md         # все проекты со статусами
@@ -87,9 +90,20 @@ Second-Brain/
 │   ├── prompts_for_ai.md   # правила общения, режимы, паттерны
 │   └── rules.md            # протокол сессии + железные правила
 │
+├── raw/                    # Входящий поток сырых данных
+│   ├── inbox.md            # быстрые мысли и ссылки без структуры
+│   ├── articles/           # статьи и спецификации
+│   └── screenshots/        # визуальные материалы
+│
+├── wiki/                   # Связанная база знаний (Knowledge Graph)
+│   ├── concepts/           # архитектурные паттерны (fsd, jwt)
+│   └── topics/             # сквозные темы (vibe-coding, mentorship)
+│
 ├── projects/               # обзоры проектов (модульные папки)
-│   ├── medev/              # data-first платформа резюме
-│   ├── jf-1c/              # B2B SaaS CRM (ZhanFinance)
+│   ├── valeur/             # мультитенантная HR-платформа (5 микросервисов, 379 тестов)
+│   ├── mr-developer/       # блог, 5-недельный курс вайбкодинга, менторство
+│   ├── medev/              # data-first платформа резюме (Production Live, 290 тестов)
+│   ├── jf-1c/              # B2B SaaS CRM (ZhanFinance v1.0.0, 120 миграций)
 │   ├── envie/              # личный Second Brain
 │   ├── air-canvas/         # рисование в воздухе (MediaPipe)
 │   ├── sklad/              # WMS будущего (в планах)
@@ -99,17 +113,32 @@ Second-Brain/
 │   └── YYYY-MM-DD/
 │       └── {project}.md    # что изменено/добавлено/удалено
 │
+├── output/                 # Финальные артефакты и deliverables
+│   ├── lessons/            # готовые методички уроков
+│   ├── prompts/            # пакеты промптов (БАЗИК, ПРО, МАСТЕР)
+│   ├── posts/              # публикации для Telegram и YouTube
+│   └── docs/               # внешняя документация
+│
+├── mem/                    # Долгосрочная идентичность
+│   ├── goals.md            # стратегические цели (1 мес / 6 мес / 1 год)
+│   ├── people/             # досье и контекст (student-1.md)
+│   └── history.md          # летопись ключевых вех карьеры и проектов
+│
 ├── knowledge/              # Zettelkasten — переиспользуемые знания
-│   ├── knowledge-index.md  # индекс по 20 заметкам
-│   └── *.md                 # паттерны, архитектура, хаки
+│   ├── knowledge-index.md  # индекс по заметкам
+│   └── *.md                # паттерны, архитектура, хаки
+│
+├── decisions/              # Архитектурные решения (ADR)
 │
 ├── templates/              # жизненный цикл проекта
 │   ├── AI_PROMPTS.md
 │   ├── Шаблон_для_проектов.md
 │   └── Шаблон_универсиальный.md
 │
+├── hooks_template/         # Шаблоны хуков для Antigravity и Git
+│
 └── templates_for_projects/ # под конкретные задачи
-    ├── claude.md            # CLAUDE.md для Claude Code
+    ├── claude.md           # CLAUDE.md для Claude Code
     ├── new-project.md
     ├── idea-card.md
     ├── epic.md
@@ -124,7 +153,7 @@ Second-Brain/
 **Соло-разработчикам и small-team фаундерам**, которые:
 
 - Ведут 2–5 проектов параллельно и теряют контекст между ними.
-- Работают с разными AI (Claude, GPT-4o, Gemini, OpenHands) — каждый раз заново объясняя одно и то же.
+- Работают с разными AI (Claude, GPT-4o, Gemini, OpenHands, Antigravity) — каждый раз заново объясняя одно и то же.
 - Хотят историю решений, а не только коммиты.
 - Устали повторять одни и те же архитектурные грабли.
 - Принимают архитектурные решения сами и хотят, чтобы AI говорил как peer, а не как джун.
@@ -135,14 +164,15 @@ Second-Brain/
 
 ### Стек, под который заточен протокол
 
-**Backend:** Java 17, Spring Boot 3, Spring Security, JPA/Hibernate, PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP).
+**Backend:** Java 17, Spring Boot 3.3, Spring Security 6, Spring Cloud Gateway, JPA/Hibernate, PostgreSQL, Flyway, Caffeine Cache, Bucket4j, WebSocket (STOMP).
 **Frontend:** React 19, TypeScript, Vite, Tailwind CSS v4, Feature-Sliced Design, React Query, Framer Motion.
-**Infra:** Docker, GitHub Actions, Fly.io, GitHub Pages.
+**Infra:** Docker, GitHub Actions, Fly.io, Render, Vercel, GitHub Pages.
+**AI:** Groq API (Llama 3.3 70B, GPT-OSS), Spring AI.
 **Extra:** Python, FastAPI, MediaPipe.
 
 ### Архитектурные принципы (вшиты в контекст)
 
-- Модульный монолит на бэкенде (не микросервисы на старте).
+- Модульный монолит на бэкенде (микросервисы только при подтверждённом масштабе, как в Valeur).
 - FSD на фронтенде — всегда.
 - Security first — безопасность в архитектуре, не патч.
 - Migrations only — схема БД только через Flyway, никогда руками.
@@ -170,7 +200,8 @@ Second-Brain/
 
 | Инструмент | Интеграция |
 |---|---|
-| **Claude / Gemini** | Промпт «Senior Software Architect и наставник» в `prompts_for_ai.md` |
+| **Antigravity / Gemini** | Пакет из 24 скиллов (`code-review-and-quality`, `source-driven-development`), хуки `enforce-workflow.ps1` |
+| **Claude (claude.ai)** | Промпт «Senior Software Architect и наставник» в `prompts_for_ai.md` |
 | **Claude Code** | Авточтение `CLAUDE.md` из корня репо (шаблон в `templates_for_projects/claude.md`) |
 | **OpenHands** | Модель Claude Sonnet, формат задач `[Действие] [Что] [Где] [Acceptance]` |
 | **GPT-4o** | Промпт под Full-Stack (Spring Boot + React TS), production-ready |
@@ -198,7 +229,7 @@ Second-Brain/
 
 ## База знаний (Zettelkasten)
 
-20 заметок, экстрагированных из реальных проектов и переиспользуемых в новых. Полный индекс — в `knowledge/knowledge-index.md`. Примеры:
+23+ заметок, экстрагированных из реальных проектов и переиспользуемых в новых. Полный индекс — в `knowledge/knowledge-index.md`. Примеры:
 
 - `security-idor-rls` — защита от IDOR и Row-Level Security в PostgreSQL.
 - `hack-thymeleaf-pdf` — PDF с кириллицей через Thymeleaf + OpenHTMLtoPDF.
@@ -206,6 +237,8 @@ Second-Brain/
 - `jvm-metaspace-tuning` — JVM для маленьких серверов (512MB RAM).
 - `backend_and_multi_tenancy_patterns` — паттерны мультитенантности.
 - `api-github-integration` — GitHub API: парсинг, рейтрейт, кеширование Redis.
+- `ats-ai-resume-scoring-groq` — скоринг резюме через Groq Llama 3.3 70B.
+- `ats-kanban-sla-state-machine` — интерактивный канбан найма со стейт-машиной и контролем SLA.
 
 ---
 
@@ -249,9 +282,11 @@ cd Second-Brain
 
 ## В цифрах
 
-- **187** файлов, **24** директории
-- **13** проектов описано (4 активных, 2 в планах, 7 архивных с ретроспективой)
-- **20** заметок в Zettelkasten-базе знаний
+- **200+** файлов, **24+** директории
+- **14** проектов описано (5 активных, 2 в планах, 7 архивных с ретроспективой)
+- **23+** заметок в Zettelkasten-базе знаний
+- **24** профессиональных скилла Antigravity
+- **379+** тестов в боевых сервисах
 - **6** шаблонов под конкретные задачи
 - **2** шаблона жизненного цикла проекта
 
