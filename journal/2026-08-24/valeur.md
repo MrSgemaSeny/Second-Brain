@@ -4,6 +4,13 @@
 - **Запуск мульти-агентной системы**: Запущен `teamwork_preview` (Project Sentinel `715dc8d2-61c9-488f-9c8f-f9ab7540e5da` + Orchestrator `c4637870-160c-463b-84a0-2d79453575e1`).
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
 
+## Прогресс развертывания (Iteration 1)
+- Оркестратор запустил **Phase 0** по 3 параллельным трекам:
+  - `explorer_survey_backend`: Исследование бэкенд-архитектуры и структуры модулей Spring Boot.
+  - `explorer_survey_frontend`: Аудит фронтенд-компонентов FSD и типов React 19.
+  - `spec_miner_e2e`: Сборка сквозных критериев приёмки (E2E matrix) по требованиям R1-R4.
+- Следующий этап: агрегирование результатов обследования кодовой базы в `PROJECT.md` и распараллеливание суборкестраторов по вехам R1-R4.
+
 ## Ключевые требования и архитектура Level 2 MVP
 1. **Бэкенд**: Spring Boot 3.3+, Spring Security 6, Spring Data JPA, Flyway, PostgreSQL 16, JWT с ротацией и аннулированием. Изоляция данных на уровне БД (`tenant_id UUID NOT NULL`), экстракция `tenant_id` из JWT claims (`TenantContext`).
 2. **Фронтенд**: React 19 + TypeScript + Vite + FSD + Tailwind v4 + TanStack Query v5.
@@ -11,4 +18,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Sentinel инициализирован, запущен мониторинг процесса выполнения.
+- Sentinel мониторит активных агентов Phase 0.
