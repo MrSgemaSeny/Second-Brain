@@ -7,9 +7,9 @@
 
 ## Прогресс развертывания (Iteration 1, 2 & 3)
 - **Phase 0 (Survey) завершена полностью**: Все интерфейсные контракты, структура бэкенда и фронтенда сведены в единый технический паспорт `PROJECT.md`.
-- **Завершение исследовательской фазы вехи M1 (Auth & Tenant Isolation)**:
+- **Исследовательская фаза вехи M1 (Auth & Tenant Isolation) завершена**:
+  - `m1_explorer_1` (Identity RBAC Backend): Завершил исследование `identity-service`. Подтверждено: `Role.java` расширяется до `OWNER`, `HR_MANAGER`, `VIEWER` (с обратной совместимостью `COMPANY_ADMIN`); `@EnableMethodSecurity` требуется в `SecurityConfig.java`; колонка `users.role` является `VARCHAR(50)`, поэтому DDL-миграция не требуется; ротация JWT настроена, требуется поддержка `OWNER` в `AuthService.register()`.
   - `m1_explorer_2` (Tenant Security) и `m1_explorer_3` (Frontend Auth) завершили сбор отчетов и фиксацию архитектурных решений.
-  - `m1_explorer_1` (Identity RBAC) и непрерывный трек тестов `test_writer_e2e_1` завершают финальные шаги выработки рекомендаций.
 - **Следующий этап**: Синтез отчетов обследования M1 Оркестратором и запуск исполнителей (`M1 Implementers`).
 
 ## Ключевые требования и архитектура Level 2 MVP
@@ -19,4 +19,6 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Liveness check пройдена. Оркестратор готовит синтез и отправку M1 worker.
+- `identity-service`: `gradlew.bat test` прошел успешно (BUILD SUCCESSFUL).
+- Отчеты сохранены в `.agents/m1_explorer_1/analysis.md` и `handoff.md`.
+
