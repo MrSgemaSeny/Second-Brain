@@ -50,5 +50,28 @@
   - **Tier 2 (Boundary & Corner Cases, 21 тест)**: Gateway Header Spoofing Defense, Cross-Tenant Mutation Rejection (403), Token Expiration (401), Token Replay (400), View Deduplication, Contact Privacy Gate (403), Unicode/Kazakh Cyrillic handling.
   - **Tier 3 (Cross-Feature, 8 тестов)**: Межсервисная изоляция, жизненный цикл отклика, каскадные уведомления, динамический переключатель приватности, ротация токенов.
   - **Tier 4 (Real-World Scenarios, 4 E2E сценария)**: Полный цикл найма работодателя, полный цикл поиска и отклика кандидата, симуляция вредоносного взлома и утечки данных, восстановление сессии при истечении токена.
-- **Вердикт**: **APPROVE** (Отчет: `.agents/m1_challenger_2/handoff.md`).
+### 4. Независимая верификация Reviewer 1 (Backend & Security — 2026-08-24)
+- **Область проверки**: `identity-service`, `vacancy-service`, `application-service`, `api-gateway`.
+- **Проверено**:
+  1. `Role.java`: поддерживает бизнес-роли тенанта (`CANDIDATE`, `COMPANY_ADMIN`, `OWNER`, `HR_MANAGER`, `VIEWER`), а системная роль `ADMIN` обрабатывается в фильтрах безопасности шлюза и сервисов.
+  2. Методная безопасность `@EnableMethodSecurity` и `@PreAuthorize`: активна в `identity-service` и `application-service`.
+  3. `TenantContextFilter`: белый список валидирует все допустимые роли (`ADMIN`, `COMPANY_ADMIN`, `OWNER`, `HR_MANAGER`, `VIEWER`, `CANDIDATE`).
+  4. Защита от спуфинга: `ApplicationService` разрешает `tenantId` исключительно из проверенных метаданных вакансии.
+  5. Тесты: `identity-service` (25/25), `vacancy-service` (4/4), `application-service` (17/17), `api-gateway` (1/1) — 100% BUILD SUCCESSFUL.
+- **Вердикт**: **APPROVE** (Отчет: `.agents/m1_reviewer_1/handoff.md`).
 
+### 5. Независимая верификация Challenger 1 (Empirical Verification & Invariant Stress-Testing — 2026-08-24)
+- **Область проверки**: Все сервисы (`identity-service`, `vacancy-service`, `application-service`, `api-gateway`), фронтенд и E2E тесты.
+- **Эмпирические результаты прогона тестов**:
+  - `identity-service`: 25/25 тестов PASSED (включая `AuthServiceTest` 17 тестов, `TenantIsolationTest` 8 тестов).
+  - `vacancy-service`: 4/4 тестов PASSED (включая `TenantIsolationTest`, `AdminVacancyControllerSecurityTest`).
+  - `application-service`: 17/17 тестов PASSED (включая `TenantIsolationTest` 9 тестов, `ApplicationServiceTest` 8 тестов).
+  - `api-gateway`: 1/1 тест PASSED (`HeaderSanitizationFilterTest`).
+  - `frontend`: 23/23 Vitest тестов PASSED, `npm run build` успешен (0 ошибок).
+  - `tests/e2e`: 55/55 тестов PASSED across 17 test suites (Tiers 1-4).
+- **Стресс-тестирование инвариантов безопасности**:
+  1. **Изоляция мутаций между тенантами**: подтверждена на уровне JPA и сервисной логики в `vacancy-service` и `application-service`. Межсервисное получение `tenantId` в `ApplicationService.createApplication` исключает клиентский спуфинг.
+  2. **Ротация и отзыв JWT Refresh Token**: при ротации старый токен помечается `revoked=true`. Повторное использование отозванного токена блокируется с `400 Bad Request`.
+  3. **Санитизация заголовков Gateway**: `HeaderSanitizationFilter` выполняется с приоритетом `HIGHEST_PRECEDENCE` и удаляет поддельные `X-User-Id`, `X-User-Role`, `X-Tenant-Id`, `X-Internal-Token`, `X-Forwarded-For`.
+  4. **Изоляция внутренних эндпоинтов**: `InternalTokenFilter` проверяет `X-Internal-Token` алгоритмом постоянного времени (`MessageDigest.isEqual`).
+- **Вердикт**: **APPROVE** (Отчет: `.agents/m1_challenger_1/handoff.md`).
