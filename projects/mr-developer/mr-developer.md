@@ -94,10 +94,10 @@ _Создано: 2026-08-24_
 
 ## Подпроекты
 
-### mentorship/
+### mentorship&courses/
 Работа с живыми студентами. Лог и статус каждого ученика.
-- [`mentorship/mentor.md`](mentorship/mentor.md) — профиль Ученика 1, программа, принципы
-- [`mentorship/_status.md`](mentorship/_status.md) — текущее ДЗ и этап
+- [`mentorship&courses/mentor.md`](mentorship&courses/mentor.md) — профиль Ученика 1, программа, принципы
+- [`mentorship&courses/_status.md`](mentorship&courses/_status.md) — текущее ДЗ и этап
 
 ---
 
