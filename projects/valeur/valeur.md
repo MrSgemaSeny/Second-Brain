@@ -27,28 +27,18 @@
 ## Архитектурные риски и долг (Tech Debt)
 - **OLTP Аналитика:** На данный момент агрегация аналитики происходит синхронно запросами в OLTP БД. С ростом данных это вызовет деградацию производительности. Требуется (в Roadmap) выделить `analytics-service` с асинхронным сбором метрик через брокер сообщений (Kafka/Rabbit) в OLAP.
 
-## Roadmap & Текущий статус (Commercial Enterprise Release — R1–R4 Complete)
-- **R1 (AI Resume Scoring & Match - M1 Complete)**: Groq Llama 3.3 70B ATS evaluation prompt, Bucket4j rate limiting, `POST /internal/ai/match-score`, UI `AiMatchBadge` + `AiScoreBreakdownModal`.
-- **R2 (Kanban Hiring Board with SLA - M2 Complete)**: Flyway `V4`, `SlaCalculationService` (O(1), `ON_TRACK`, `WARNING`, `BREACHED` `isStale: true`), HTML5 Drag & Drop pipeline across 6 stages, TanStack Query optimistic updates.
-- **R3 (Hiring Funnel Analytics & Time-to-Hire - M3 Complete)**: Flyway `V5`, `ApplicationAnalyticsService` (Conversion Rate %, Time-to-Hire, SLA breakdown by vacancy), visual funnel UI.
-- **R4 (Talent Pool & Quick Search - M4 Complete)**: Flyway `V6`, private tags/notes CRUD (1-5 ratings), 1-click vacancy invitation with candidate `Notification`.
-
-## Verification Matrix
-- **Тесты**: 379/379 tests PASSED (100% Green):
-  - `ai-service`: 6/6
-  - `identity-service`: 28/28
-  - `vacancy-service`: 37/37
-  - `application-service`: 102/102
-  - `api-gateway`: 1/1
-  - `frontend (Vitest)`: 101/101
-  - `tests/e2e`: 104/104 (Tiers 1-4 + Adversarial)
-- **Next**: Подготовка к деплою (Fly.io / Render) и боевой онбординг первого тенанта.
+## Roadmap & Текущий статус
+- **Фаза 1–6 (Done)**: Микросервисы (identity, vacancy, application, ai, api-gateway), мультитенантность (TenantContext), Docker Compose.
+- **Фаза 7 (Done)**: Нативный fetch, TanStack Query v5, Tailwind v4, FSD.
+- **Фаза 8 (In Progress)**: Frontend core и миграция страниц (Login/Register, дашборды, вакансии, отклики).
+- **Фаза 9 (Planned)**: Интеграция Llama 3.3 70B AI-скоринга и аналитики.
+- **Фаза 10 (Planned)**: E2E тестирование, закрытие техдолга и подготовка к деплою.
 
 ---
 
 ## 🔗 Связи в Базе Знаний (Knowledge Graph)
 - **Концепты и стек:** [[wiki/concepts/fsd-architecture|FSD Архитектура]], [[wiki/concepts/spring-security-jwt|Spring Security 6 JWT]], [[knowledge/backend-threadlocal-tenant-context|Multi-Tenancy TenantContext]]
-- **Enterprise фичи:** [[knowledge/ats-ai-resume-scoring-groq|AI Resume Scoring]], [[knowledge/ats-kanban-sla-state-machine|Kanban SLA State Machine]], [[knowledge/ats-funnel-analytics-and-talent-pool|Funnel Analytics & Talent Pool]]
 - **Безопасность и шлюз:** [[knowledge/arch-api-gateway-jwt-injection|Gateway JWT Claims]], [[knowledge/sec-internal-service-token|Internal Service Token]]
 - **Глобальный контекст:** [[context/projects|Реестр проектов]], [[mem/goals|Цели]], [[mem/history|История вех]]
+
 
