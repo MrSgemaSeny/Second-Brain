@@ -180,6 +180,11 @@
   },
   "active": "0a6f128fec5f9f47",
   "lastOpenFiles": [
+    "mem/identity.md",
+    "mem/hobbies.md",
+    "mem/people/boss.md",
+    "mem/people/dad.md",
+    "mem/people/damir.md",
     "projects/medev/07_risks_and_pitfalls.md",
     "context/me.md",
     "journal/2026-08-10/envie.md",
@@ -200,11 +205,6 @@
     "projects/envie/envie.md",
     "projects/jf-1c/index.md",
     "projects/medev/index.md",
-    "knowledge/index.md",
-    "projects/sklad/index.md",
-    "projects/backend-damir/index.md",
-    "projects/air-canvas/index.md",
-    "projects/envie/index.md",
-    "projects/chat-bot-backend/index.md"
+    "knowledge/index.md"
   ]
 }
