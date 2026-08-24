@@ -6,7 +6,15 @@
 
 ---
 
-### 1. Архитектурный скоуп Enterprise-релиза
+### 1. Аудит безопасности и резолюция GitGuardian
+- **Инцидент**: GitGuardian зафиксировал 7 алертов "Generic High Entropy Secret" на тестовые dummy-строки моков JWT/HMAC (`your-256-bit-secret-...`) в тестовом раннере `tests/e2e/src/client/jwtTestUtils.ts`.
+- **Решение**: Заменено на получение секрета из переменных окружения `process.env.JWT_SECRET || 'dev-local-jwt-mock-key'`.
+- **Проверка секретов**: В репозитории нет реальных продакшен-ключей (все реальные переменные изолированы в `.env`, который находится в `.gitignore`).
+- **Результат верификации**: **104 / 104 E2E тестов PASSED**.
+
+---
+
+### 2. Архитектурный скоуп Enterprise-релиза
 
 #### R1. AI-Powered Resume Scoring & Smart Match
 - `ai-service`: `InternalAiController`, `AiMatchScoreRequest`/`Response`, промпт `resume_match.txt` (Groq Llama 3.3 70B, zero-PII).
@@ -29,11 +37,11 @@
 
 ---
 
-### 2. Сводная матрица верификации (100% PASS)
+### 3. Сводная матрица верификации (100% PASS)
 
 1. **`frontend` (Vitest)**: **101 / 101 тестов PASSED** (`29 / 29 test files`, 100% green).
 2. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок сборки).
-3. **`tests/e2e`**: **92 / 92 тестов PASSED** (`24 / 24 test suites`, Tiers 1-4, 100% green).
+3. **`tests/e2e`**: **104 / 104 тестов PASSED** (`25 / 25 test suites`, Tiers 1-4 + Adversarial Challenge, 100% green).
 4. **`ai-service`**: **4 / 4 теста PASSED** (`BUILD SUCCESSFUL`).
 5. **`application-service`**: **54 / 54 тестов PASSED** (`BUILD SUCCESSFUL`).
 6. **`vacancy-service`**: **35 / 35 тестов PASSED** (`BUILD SUCCESSFUL`).
@@ -41,7 +49,7 @@
 
 ---
 
-### 3. Фиксация в Базе Знаний (Second Brain `knowledge/`)
+### 4. Фиксация в Базе Знаний (Second Brain `knowledge/`)
 - [`knowledge/ats-ai-resume-scoring-groq.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-ai-resume-scoring-groq.md)
 - [`knowledge/ats-kanban-sla-state-machine.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-kanban-sla-state-machine.md)
 - [`knowledge/ats-funnel-analytics-and-talent-pool.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/ats-funnel-analytics-and-talent-pool.md)
@@ -49,34 +57,6 @@
 
 ---
 
----
-
-### 4. Синхронизация Git
-- Репозиторий **Valeur**: коммит `5229491` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
+### 5. Синхронизация Git
+- Репозиторий **Valeur**: коммит `db35984` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все изменения зафиксированы в `main`.
-
----
-
-### 5. Стресс-тестирование & Граничная верификация (Adversarial Challenger)
-- Создан и запущен тестовый набор `tests/e2e/src/adversarial/adversarial_enterprise_stress.test.ts` (12 тестов, 100% PASS).
-- **R1 (AI Scoring)**: Проверена нейтрализация prompt injection, обработка экстремальных резюме (пустые навыки, 150+ навыков, спецсимволы/XSS/SQLi) и эвристический fallback.
-- **R2 (Kanban & SLA)**: Проверены прямые переходы в терминальные статусы (`HIRED`, `REJECTED`), последовательные цепочки переходов (5 этапов) и математика границы SLA на 70% и 100% времени.
-- **R3 (Analytics)**: Проверены вакансии с 0 откликов, 100% отсевом, 100% наймом, фильтрация будущих дат и защита от отрицательного Time-to-Hire.
-- **R4 (Talent Pool)**: Проверен поиск по regex/спецсимволам, идемпотентность тегов, валидация рейтинга заметок (строго 1-5) и запрет межтенантных инвайтов (HTTP 403).
-- **Итоговая матрица E2E**: 104 / 104 теста PASSED (`25 / 25 test suites`).
-
----
-
-### 6. Независимый судебный аудит целостности (Forensic Integrity Audit)
-- **Аудитор**: `final_auditor_1` (Forensic Auditor).
-- **Вердикт**: **`CLEAN`** (Нарушений целостности, скрытых моков или фейковых заглушек не обнаружено).
-- **Проверенный стек тестов**:
-  - `ai-service`: 6/6 тестов PASS.
-  - `identity-service`: 28/28 тестов PASS.
-  - `vacancy-service`: 37/37 тестов PASS.
-  - `application-service`: 102/102 тестов PASS.
-  - `api-gateway`: 1/1 тест PASS.
-  - `frontend` (Vitest): 101/101 тестов PASS + `npm run build` SUCCESS.
-  - `tests/e2e`: 104/104 теста PASS.
-  - **Общий итог**: 379/379 тестов PASS (100% green).
-- **Отчет**: `.agents/final_auditor_1/handoff.md`.
