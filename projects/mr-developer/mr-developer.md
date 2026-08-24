@@ -156,7 +156,11 @@ _Создано: 2026-08-24_
 - **`Basic prompt vs professional prompt.md`**: Сравнение генерации Spotify-лендинга на базе и на Pro-уровне (живая демонстрация силы промпт-инжиниринга).
 - **`My system prompt for claude.md`**: Системный промпт Senior Architect / наставника.
 - **`prompts_basic/`**: 20 готовых промптов (01_idea_validate … 20_docs_gen).
-- **`agents_template/.agents/`**: Боевой шаблон агента для проектов студентов (AGENTS.md, CONTEXT.md, ONBOARDING.md с холодным стартом, hooks.json, enforce-workflow.ps1, reminder.ps1).
+- **`agents_template/.agents/`**: Боевой шаблон агента для проектов студентов:
+  - `AGENTS.md` + `CONTEXT.md` + `ONBOARDING.md` (холодный старт) + `hooks.json` (хуки блокировки).
+  - **Встроенные скиллы (`skills/`)**:
+    - `code-review-and-quality` (5-осевой аудит перед коммитом: корректность, читаемость, архитектура, безопасность, перформанс).
+    - `source-driven-development` (работа строго по официальной документации актуальных версий библиотек, исключая устаревшие паттерны).
 - **`Second Brain - AI protocol/`**: Полный шаблон Второго Мозга для студентов (README, context, projects, journal, knowledge, decisions, templates_for_projects).
 
 ---
