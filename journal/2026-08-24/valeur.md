@@ -13,9 +13,10 @@
 - **Изоляция данных**: `tenant_id UUID NOT NULL` во всех таблицах компаний. Извлечение `tenant_id` исключительно из JWT claims (`TenantContext` ThreadLocal).
 - **Безопасность**: `@EnableMethodSecurity` и `@PreAuthorize` на защищенных эндпоинтах бэкенда. Ротация refresh-токенов с отзывом старых токенов (`revoked=true`). Обработка `AccessDeniedException` (HTTP 403 Forbidden).
 
-#### R2. Vacancy Management Lifecycle
-- **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`).
-- **Публичный доступ**: эндпоинт `/api/vacancies/public/{id}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
+#### R2. Vacancy Management Lifecycle (Веха M2)
+- **CRUD & Статусная машина**: `DRAFT` → `PUBLISHED` (`active`) → `CLOSED` → `ARCHIVED` (`deleted`). Терминальный статус `DELETED` изолирован.
+- **Генерация Slug**: `SlugUtil` с поддержкой транслитерации кириллицы (русский/казахский) и уникального 8-значного hex-суффикса.
+- **Публичный доступ**: эндпоинт `/api/vacancies/public/{idOrSlug}` и `/api/vacancies/public` с дедупликацией просмотров и фильтрацией только активных/опубликованных вакансий.
 - **Метод-уровень**: `@PreAuthorize("hasAnyRole('OWNER', 'HR_MANAGER', 'COMPANY_ADMIN', 'ADMIN')")` для мутаций.
 
 #### R3. Candidate Profile & Application Workflow
@@ -32,7 +33,7 @@
 ### 2. Результаты полного тестового прогона (100% PASS)
 
 1. **`identity-service`**: **25 / 25 тестов PASSED** (`BUILD SUCCESSFUL`)
-2. **`vacancy-service`**: **4 / 4 тестов PASSED** (`BUILD SUCCESSFUL`)
+2. **`vacancy-service`**: **34 / 34 тестов PASSED** (`BUILD SUCCESSFUL`)
 3. **`application-service`**: **17 / 17 тестов PASSED** (`BUILD SUCCESSFUL`)
 4. **`api-gateway`**: **1 / 1 тест PASSED** (`BUILD SUCCESSFUL`)
 5. **`frontend` (Vitest)**: **23 / 23 тестов PASSED** (`5/5 test files`, 100% green)
@@ -42,5 +43,5 @@
 ---
 
 ### 3. Синхронизация с Git
-- Репозиторий **Valeur**: коммит `7a54ce8` отправлен в `main` (`https://github.com/MrSgemaSeny/Valeur`).
+- Репозиторий **Valeur**: коммиты отправлены в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все журналы зафиксированы.
