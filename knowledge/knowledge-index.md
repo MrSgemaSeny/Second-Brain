@@ -14,6 +14,8 @@
 - [[jvm-metaspace-tuning]] - Правильная настройка JVM (Metaspace, Heap) для маленьких серверов (512MB RAM).
 - [[arch-api-gateway-jwt-injection]] - Инъекция JWT Claims на уровне API Gateway.
 - [[backend-threadlocal-tenant-context]] - Мультитенантность через ThreadLocal (TenantContext).
+- [[ats-kanban-sla-state-machine]] - Интерактивный Kanban найма с контролем SLA и конечным автоматом.
+- [[ats-funnel-analytics-and-talent-pool]] - Сквозная воронка найма (Time-to-Hire, конверсия стадий) и база талантов (Talent Pool CRM).
 
 ## Фронтенд (React, FSD)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
@@ -38,6 +40,7 @@
 - [[arch-ai-structured-generation]] - Использование LLM для генерации строгих JSON DTO (json_object, Graceful Degradation).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
+- [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
 
 ## Безопасность и Авторизация
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
@@ -53,4 +56,3 @@
 ## Инциденты (Production Post-Mortems)
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
 - [[incident-02-management-port-hibernate-crash]] - `management.server.port=8081` на Fly.io → Spring создаёт 2-й контекст → Hibernate 7 дублирует event listeners → crash. Фикс: держать порт на 8080, безопасность через Spring Security.
-
