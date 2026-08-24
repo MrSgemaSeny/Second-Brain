@@ -3,7 +3,7 @@
 ## Статус сессии
 - **Запуск мульти-агентной системы**: Запущен `teamwork_preview` (Project Sentinel `715dc8d2-61c9-488f-9c8f-f9ab7540e5da` + Orchestrator `c4637870-160c-463b-84a0-2d79453575e1`).
 - **Сформированный артефакт**: `prompt_draft.md` с полными требованиями Level 2 MVP для мультитенантной HR-платформы Valeur.
-- **Liveness & Rules Forwarding**: Зафиксированы системный промпт и правила архитектора (`ORIGINAL_REQUEST.md`), подтвержден активный статус Оркестратора.
+- **Liveness Verification**: Все проверки активности (Liveness check passed) успешно пройдены. Оркестратор и воркер `m1_worker_1` активны.
 
 ## Прогресс разработки вехи M1 (Iteration 5)
 - **E2E Testing Track ЗАВЕРШЕН ПОЛНОСТЬЮ**: Опубликованы `TEST_INFRA.md` и `TEST_READY.md` со сданным набором из 56 тестов (Tiers 1-4).
@@ -29,4 +29,4 @@
 4. **Тестирование**: JUnit 5 + Mockito на бэкенде, Vitest на фронтенде.
 
 ## Проверки
-- Sentinel подтвердил успешное завершение E2E трека и подготовку к фазе верификации (M1 Verification Gate).
+- Sentinel подтвердил успешное завершение E2E трека и подготовку к фазе верификации (M1 Verification Gate). Liveness check пройден.
