@@ -92,6 +92,15 @@ _Создано: 2026-08-24_
 
 ---
 
+## Подпроекты
+
+### mentorship/
+Работа с живыми студентами. Лог и статус каждого ученика.
+- [`mentorship/mentor.md`](mentorship/mentor.md) — профиль Ученика 1, программа, принципы
+- [`mentorship/_status.md`](mentorship/_status.md) — текущее ДЗ и этап
+
+---
+
 ## Roadmap
 
 - [ ] Опубликовать первый ролик на YouTube
