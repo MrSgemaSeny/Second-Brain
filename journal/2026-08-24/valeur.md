@@ -25,8 +25,8 @@
 - **Приватность и внутренние заметки**: колонка `hr_note` (миграция `V2__add_hr_note_to_applications.sql`), доступная только работодателю тенанта и скрытая от кандидата. Межсервисный резолвинг `tenantId` исключает спуфинг.
 - **Frontend компоненты**: форма редактирования профиля, статус-степпер в `MyApplicationsPage`, ввод и просмотр заметок HR в `ApplicationsPage`.
 
-#### R4. HR & Candidate Dashboards (Веха M4 — В процессе координации Gen 3)
-- **HR Dashboard**: список вакансий тенанта, откликов с бейджами статусов, фильтрация и быстрый переход статусов с приватными заметками.
+#### R4. HR & Candidate Dashboards (Веха M4 — Реализована)
+- **HR Dashboard**: список вакансий тенанта, откликов с бейджами статусов, фильтрация и быстрый переход статусов с приватными заметками. Форматирование зарплатных вилок (`salary.ts` / `salary.test.ts`).
 - **Candidate Portal**: просмотр своих откликов (`/my-applications`) с живым статусом и публичный поиск вакансий.
 
 ---
@@ -37,7 +37,7 @@
 2. **`vacancy-service`**: **34 / 34 тестов PASSED** (`BUILD SUCCESSFUL`)
 3. **`application-service`**: **42 / 42 тестов PASSED** (`BUILD SUCCESSFUL`)
 4. **`api-gateway`**: **1 / 1 тест PASSED** (`BUILD SUCCESSFUL`)
-5. **`frontend` (Vitest)**: **45 / 45 тестов PASSED** (`10/10 test files`, 100% green)
+5. **`frontend` (Vitest)**: **50 / 50 тестов PASSED** (`12/12 test files`, 100% green)
 6. **`frontend` (Production Build)**: **`npm run build` SUCCESSFUL** (0 ошибок)
 7. **`tests/e2e` (E2E Integration Suite)**: **55 / 55 тестов PASSED** (`17/17 test files`, Tiers 1-4)
 
@@ -45,6 +45,6 @@
 
 ### 3. Синхронизация с Git & Аудит
 - **Milestone M3 Forensic Integrity Audit**: **CLEAN** (верифицировано `m3_auditor_1_r2`).
-- **Generation 3 Orchestrator**: Развернут для финализации M4/M5 (`86bd8ea`).
+- **Generation 3 Orchestrator**: Развернут для финализации M4/M5 (`f754720`).
 - Репозиторий **Valeur**: коммиты отправлены в `main` (`https://github.com/MrSgemaSeny/Valeur`).
 - Второй Мозг **Second-Brain**: все журналы зафиксированы.
