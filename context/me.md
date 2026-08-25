@@ -57,7 +57,7 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 ---
 
 ## 🔗 Карта связей Второго Мозга (Knowledge Graph)
-- **Активные проекты:** [[projects/valeur/valeur|Valeur]], [[projects/mr-developer/mr-developer|Mr Developer]], [[projects/medev/medev|MeDev]], [[projects/jf-1c/jf-1c|JF-1C (ZhanFinance)]], [[projects/envie/envie|Envie]]
+- **Активные проекты:** [[projects/valeur/valeur|Valeur]], [[projects/mrdevcourses/mrdevcourses|MrDevCourses]], [[projects/mr-developer/mr-developer|Mr Developer]], [[projects/medev/medev|MeDev]], [[projects/jf-1c/jf-1c|JF-1C (ZhanFinance)]], [[projects/envie/envie|Envie]]
 - **Архитектура и концепты:** [[wiki/concepts/fsd-architecture|FSD]], [[wiki/concepts/spring-security-jwt|Spring Security JWT]], [[wiki/topics/vibe-coding|Вайбкодинг]]
 - **База знаний:** [[knowledge/knowledge-index|Zettelkasten Индекс]]
 - **Цели и история:** [[mem/goals|Цели]], [[mem/history|История вех]]

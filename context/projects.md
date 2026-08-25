@@ -3,6 +3,14 @@ _Обновлено: 2026-08-24_
 
 ## Активные
 
+### MrDevCourses (LMS Платформа)
+- **Репо:** github.com/MrSgemaSeny/MrDevCourses
+- **Проект:** `projects/mrdevcourses/mrdevcourses.md`
+- **Статус:** Level 3 Target (Фаза 0 — Инициализация и скаффолдинг завершены: Spring Boot 3.3.0 + React 19 + FSD + Tailwind v4 + Flyway V1-V5, 100% green tests).
+- **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL + React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query.
+- **Что это:** Обучающая платформа Mr Developer с drip-механикой (1 день — 1 урок по формуле `(NOW() - enrolled_at)`), YouTube embed плеером, личным кабинетом студента и админ-панелью.
+- **Лог:** `journal/YYYY-MM-DD/mrdevcourses.md`
+
 ### Mr Developer (Блог + Менторство + Курсы)
 - **Проект:** `projects/mr-developer/mr-developer.md`
 - **Статус:** Старт (2026-08-24). Первый ролик готов к публикации. Первый студент есть.
