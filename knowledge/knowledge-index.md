@@ -10,8 +10,9 @@
 - [[backend_and_multi_tenancy_patterns]] - Паттерны бэкенда и архитектура Multi-Tenancy (мультитенантность).
 - [[microservices_patterns]] - Архитектура микросервисов, API Gateway, межсервисная аутентификация.
 - [[career_portal_and_ats_design]] - Проектирование карьерных порталов и систем ATS.
-- [[warehouse_management_and_logistics_architecture]] - Архитектура логистики и управления складом.
-- [[jvm-metaspace-tuning]] - Правильная настройка JVM (Metaspace, Heap) для маленьких серверов (512MB RAM).
+- [[warehouse_management_and_logistics_architecture]] - Архитектура систем управления складом (WMS).
+- [[jvm-metaspace-tuning]] - Оптимизация памяти JVM (Metaspace, Heap) для малых инстансов (512MB RAM).
+- [[arch-load-testing-hikari-cache]] - Chaos Engineering, нагрузочное тестирование и исчерпание пула БД (HikariCP).
 - [[arch-api-gateway-jwt-injection]] - Инъекция JWT Claims на уровне API Gateway.
 - [[backend-threadlocal-tenant-context]] - Мультитенантность через ThreadLocal (TenantContext).
 - [[ats-kanban-sla-state-machine]] - Интерактивный Kanban найма с контролем SLA и конечным автоматом.
