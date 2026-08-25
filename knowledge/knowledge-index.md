@@ -12,7 +12,8 @@
 - [[career_portal_and_ats_design]] - Проектирование карьерных порталов и систем ATS.
 - [[warehouse_management_and_logistics_architecture]] - Архитектура систем управления складом (WMS).
 - [[jvm-metaspace-tuning]] - Оптимизация памяти JVM (Metaspace, Heap) для малых инстансов (512MB RAM).
-- [[arch-load-testing-hikari-cache]] - Chaos Engineering, нагрузочное тестирование и исчерпание пула БД (HikariCP).
+- [[arch-load-testing-hikari-cache]] - Chaos Engineering, базовое нагрузочное тестирование (заметка 1).
+- [[arch-production-resilience-and-load-testing]] - Проектирование отказоустойчивых систем и детальный анализ причин падения серверов (Connection Pools, OOM, Spike-тесты).
 - [[arch-api-gateway-jwt-injection]] - Инъекция JWT Claims на уровне API Gateway.
 - [[backend-threadlocal-tenant-context]] - Мультитенантность через ThreadLocal (TenantContext).
 - [[ats-kanban-sla-state-machine]] - Интерактивный Kanban найма с контролем SLA и конечным автоматом.
