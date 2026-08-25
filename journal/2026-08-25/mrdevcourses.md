@@ -1,46 +1,30 @@
-# Сессия: 2026-08-25 (MrDevCourses — Фазы 0..4: Полная реализация MVP платформы с дизайном Envie)
+# Сессия: 2026-08-25 (MrDevCourses — Доведение до совершенства на базе эталонов JF-1C, MeDev, Valeur, Envie)
 
 ## Выполненные задачи:
-1. **Дизайн-система в стиле Envie**:
-   - Токены темной темы (`#09090b` zinc-950, `rgba(24, 24, 27, 0.8)` с backdrop-blur-md, границы `#27272a`, акцентный `#fafafa` контрастный цвет для кнопок, тонкие кастомные скроллбары, zero decorative noise).
-   - Единый чистый стиль на всех страницах (Landing, Courses, Course Details, Lesson Player, Dashboard, Admin).
+1. **Глубокий архитектурный аудит и консилиум**:
+   - Аудит проектов `JF-1C` (Security Headers, Rate Limiting), `MeDev` (Audit Logging, Concurrency, Resilient DTOs), `Valeur` (Containerization, Clean Gateway), `Envie` (Zinc-950 Aesthetic, Interactive Visual Roadmap, Zero-gimmick UI).
+   - Полное обновление архитектурного манифеста `MrDevCourses.md`.
 
-2. **R1: Модуль Аутентификации (Auth Module)**:
-   - Google OAuth2 вход через Spring Security 6 с `CustomOAuth2UserService` (сохранение/обновление пользователя в PostgreSQL).
-   - Выпуск stateless JWT в `httpOnly` cookie (`mrdevcourses_token`, `SameSite=Lax`, `Secure` на проде).
-   - `SecurityUtils.getCurrentUserId()` для извлечения идентификатора пользователя из `SecurityContext`.
-   - Эндпоинты `GET /api/v1/auth/me` и `POST /api/v1/auth/logout`.
-   - Фронтенд: `AuthProvider`, `ProtectedRoute` (с поддержкой `adminOnly`), `LoginPage` с Google кнопкой.
+2. **Безопасность и Аудит (Security & Audit Layer)**:
+   - Создан `SecurityHeadersFilter` (CSP, X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy).
+   - Создан модуль аудита `AuditService` с сущностью `AuditLog` (миграция `V6__create_audit_logs.sql`).
+   - Залогированы ключевые события: вход, запись на курс, завершение уроков, действия админа.
 
-3. **R2: Модуль Курсов и Записи (Course & Enrollment Module)**:
-   - Сущности `Course` и `Enrollment` (с `UNIQUE(user_id, course_id)`).
-   - `CourseService`, `CourseRepository`, `EnrollmentRepository`.
-   - Публичный каталог `GET /api/v1/courses`, просмотр по slug `GET /api/v1/courses/{slug}`.
-   - Запись на курс `POST /api/v1/courses/{courseId}/enroll` с фиксацией времени старта `enrolled_at = NOW()`.
-   - Фронтенд: `CoursesPage`, `CourseDetailPage` с мгновенной записью и прогрессом.
+3. **Дисциплина и Геймификация (Study Streak Engine)**:
+   - Миграция `V7__add_streaks_and_certificates.sql` добавила учет стриков (`currentStreak`, `longestStreak`, `lastActiveDate`) и таблицу `certificates`.
+   - Автоматический расчет непрерывной серии дней обучения при прохождении уроков.
+   - Модальное окно `CertificateModal` для выдачи верифицируемого сертификата об окончании курса.
 
-4. **R3: Модуль Уроков и Серверный Drip Engine (Lesson Module)**:
-   - Сущности `Lesson` и `LessonProgress`.
-   - Строгая серверная Drip-формула: `(NOW() - enrolled_at) >= ((day_number - 1) * INTERVAL '1 day')`. День 1 доступен мгновенно.
-   - Серверная защита: при попытке открыть закрытый урок `GET /api/v1/courses/{courseId}/lessons/{lessonId}` сервер возвращает `403 Forbidden` с точной датой разблокировки.
-   - Отметка о завершении урока `POST /api/v1/courses/{courseId}/lessons/{lessonId}/complete`.
-   - Фронтенд: `LessonPage` с адаптивным YouTube embed плеером, конспектом, навигацией "Назад/Вперед" и боковой панелью программы с таймлайном.
+4. **Интерактивный UI в стиле Envie**:
+   - `CountdownTimer`: точный посекундный обратный отсчет до открытия уроков по Drip-графику.
+   - `VisualRoadmap`: соединенная визуальная карта дней курса с пульсирующим активным днем.
+   - `MarkdownViewer`: конспекты уроков с подсветкой кода, копированием сниппетов и блоками заметок `[!NOTE]`, `[!TIP]`, `[!WARNING]`.
 
-5. **R4: Модуль Прогресса и Дашборд Студента (Progress Module)**:
-   - Сервис `ProgressService` с расчетом текущего дня обучения `currentDay`, количества завершенных уроков, открытых уроков и времени открытия следующего урока `nextUnlockAt`.
-   - Эндпоинты `GET /api/v1/progress` и `GET /api/v1/progress/{courseId}`.
-   - Фронтенд: `DashboardPage` с прогресс-баром, карточками курсов и кнопкой быстрого продолжения.
+5. **Контейнеризация и Деплой**:
+   - `backend/Dockerfile` (multi-stage Eclipse Temurin 17 slim).
+   - `frontend/Dockerfile` (multi-stage Nginx alpine + `nginx.conf`).
+   - `docker-compose.yml` для мгновенного развертывания полного стека с PostgreSQL 16.
 
-6. **R5: Модуль Администрирования (Admin Module)**:
-   - Защита эндпоинтов аннотацией `@PreAuthorize("hasRole('ADMIN')")`.
-   - CRUD операции для курсов и уроков.
-   - Просмотр списка зарегистрированных студентов с их курсами и кнопкой ручного зачисления `POST /api/v1/admin/students/{userId}/enroll/{courseId}`.
-   - Фронтенд: `AdminPage` с табами "Курсы", "Уроки", "Студенты" и модальными окнами создания.
-
-7. **Автоматический сидинг начальных данных**:
-   - `DataSeeder` на `@EventListener(ApplicationReadyEvent.class)` создает курс по вайбкодингу на 5 дней и дефолтного админа при первом запуске.
-
-8. **Тесты и верификация**:
-   - Backend: Unit & Integration тесты сервисов `CourseServiceTest`, `LessonServiceDripTest`, `ProgressServiceTest`, `AdminServiceTest`, `MrDevCoursesApplicationTests` — 100% green (`BUILD SUCCESSFUL`).
-   - Frontend: 8 тестовых файлов Vitest, 21 тест — 100% green (`✓ 8 passed`).
-   - Production Build: `tsc -b && vite build` — 100% success, 0 ошибок.
+6. **Тестирование и верификация**:
+   - Backend: 57 / 57 тестов успешно пройдены (100% green, `SecurityHeadersTest`, `AuditServiceTest`, `LessonServiceDripTest`, `CourseServiceTest`, `AuthControllerTest`, `CourseControllerTest`, `MrDevCoursesApplicationTests`).
+   - Frontend: 8 тестовых файлов Vitest, 21 тест — 100% green, сборка production bundle `dist/` без ошибок.
