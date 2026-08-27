@@ -1,50 +1,56 @@
-# Journal: 2026-08-27 — MrDevCourses Enterprise Scaling & Security Hardening
+# Journal: 2026-08-27 — MrDevCourses Enterprise Scaling, Vectorization & Automation
 
 ## Overview
-Комплексное расширение и масштабирование образовательной платформы MrDevCourses на основе проверенных архитектурных паттернов из проектов-доноров (JF-1C, Valeur, MeDev).
+Комплексное расширение и масштабирование образовательной платформы MrDevCourses:
+1. Hardened Enterprise Release (Bucket4j Rate Limiter, Quick-Nav Drawer, PDF Certificates, Admin Analytics Dashboard).
+2. Enterprise Vectorization & Automation Subsystems (pgvector Hybrid RAG, Semantic AST Chunking, Automated AI Code Grader / Reviewer, Semantic Auto-linking, Transactional Outbox & Lifecycle Engine).
 
 ---
 
-## 1. Релиз ключевых модулей (R1 – R5)
+## 1. Релиз ключевых модулей
 
 ### [R1] Enterprise Security & Rate Limiting (Donor: JF-1C)
 - Интегрирован промышленный Token Bucket лимитер на базе **Bucket4j + Caffeine Cache** (`RateLimiterService`, `RateLimitingFilter`).
-- Гранулированные политики (Tiers):
-  - **Auth Tier** (`/v1/auth/**`): 10 запросов / 15 минут на IP.
-  - **AI Tier** (`/v1/ai/**`): 5 запросов / 1 минуту на User ID (или IP).
-  - **General Tier** (`/v1/**`): 60 запросов / 1 минуту на User ID (или IP).
-- Стандартизированные заголовки `X-RateLimit-Remaining`, `Retry-After`, статус `429 Too Many Requests`.
+- Гранулированные политики: Auth (10 req/15m/IP), AI (5 req/1m/user), General (60 req/1m/user/IP).
 
 ### [R2] Contextual Navigation & Quick-Nav Drawer (Donor: JF-1C)
-- Реализован боковой выдвижной ящик **QuickNavDrawer** с тремя режимами работы (`GlossaryView`, `ProgressView`, `RoadmapView`).
-- Интегрирован контекстный глоссарий терминов к урокам (`LessonContextPanel`) с возможностью быстрого перехода и поиска терминов без перезапуска и сброса активного плеера YouTube.
+- Боковой выдвижной ящик **QuickNavDrawer** (`GlossaryView`, `ProgressView`, `RoadmapView`).
+- Контекстный глоссарий терминов к урокам (`LessonContextPanel`) с возможностью поиска без прерывания видеоплеера.
 
-### [R3] AI Lesson Tutor Engine (Donor: Valeur / MeDev)
-- Бэкенд-модуль `modules/ai` с клиентом **Groq Llama 3.3 70B** (`GroqClient`), защитой от инъекций (`PromptSanitizer`) и заземлением в контекст урока.
-- Фронтенд-компонент `LessonAiTutorChat` со встроенным переключателем во вкладках урока, готовыми быстрыми подсказками и поддержкой Markdown.
+### [R3] Hybrid Vector RAG & Senior AI Tutor (pgvector + HNSW + RRF)
+- Миграция `V10__add_vectorization_and_automation.sql` с расширениями `vector` и `pg_trgm`.
+- HNSW-индексация векторных представлений уроков и глоссария (`vector(1536)`).
+- **MarkdownSemanticChunker**: AST-aware разбиение материалов уроков с сохранением неделимости блоков кода и классификацией типов чанков (`THEORY`, `CODE`, `GLOSSARY`, `HOMEWORK`).
+- **EmbeddingService**: батчевая нормализованная векторизация и расчет косинусного сходства.
+- **HybridSearchService**: гибридный поиск (Dense Cosine Similarity + Sparse BM25-like Text Search) с объединением результатов по алгоритму **Reciprocal Rank Fusion (RRF)**.
+- Инъекция семантических фрагментов с цитатами первоисточника (`AiCitation`) в промпт Groq Llama 3.3 70B.
 
-### [R4] Automated PDF Certificate Generation (Donor: JF-1C)
-- Интегрирован движок рендеринга PDF на базе **Thymeleaf + OpenHTMLtoPDF** (`CertificatePdfGenerator`, `CertificateService`).
-- Генерация официального сертификата при 100% прохождении программы курса.
-- Публичный эндпоинт верификации подлинности по уникальному коду (`/v1/certificates/verify/{code}`) и страница `CertificateVerifyPage.tsx`.
+### [R4] Automated AI Code Grader & Reviewer
+- Модуль сдачи практических заданий `modules/homework` (`HomeworkSubmission`, `AiCodeGraderService`, `HomeworkController`).
+- Статический анализатор безопасности: выявление захардкоженных секретов, конкатенации SQL и опасных вызовов Runtime.
+- Оценка решения через LLM с выставлением баллов (0-100), выявлением сильных сторон и замечаний уровня Senior Tech Lead.
+- Автоматический зачет урока (`LessonService.completeLesson`) при прохождении порога &ge; 80 баллов.
+- Интерактивный фронтенд-виджет `HomeworkSubmissionWidget` с редактором кода, историей сдачи и разбором ревью.
 
-### [R5] Admin Analytics & Retention Dashboard (Donor: Valeur)
-- Модуль аналитики `AdminAnalyticsService` с расчетом ключевых бизнес-метрик:
-  - Общий обзор (студенты, зачисления, процент завершений, средний стрик).
-  - Воронка конверсий и отвала студентов по дням курса (`getCourseFunnel`).
-  - Распределение активности и стриков по 5 когортам (`getStreakDistribution`).
-  - Анализ времени прохождения и удержания (`getCourseRetention`).
-- Богатый интерактивный интерфейс `AdminAnalyticsDashboard` с визуализацией воронки и когорт.
+### [R5] Transactional Outbox & Lifecycle Automation
+- Паттерн **Transactional Outbox** (`outbox_events`, `OutboxService`, `OutboxProcessor`) с обработкой по расписанию для надежной асинхронной доставки событий (векторизация курсов, синк глоссария).
+- **SemanticLinkingService**: автоматическое связывание терминов глоссария с материалами уроков.
+- **StudentLifecycleService**: мониторинг студентов с риском отвала (>48ч неактивности на открытых уроках) и генерация умных триггеров возврата.
+- Админ-эндпоинты управления очередями Outbox и аналитики рисков (`AutomationAdminController`).
+
+### [R6] Automated PDF Certificate Generation & Cohort Analytics
+- Генерация PDF сертификатов (Thymeleaf + OpenHTMLtoPDF) с верификацией по коду.
+- Когортная аналитика и воронка конверсий по дням курса.
 
 ---
 
 ## 2. Результаты автоматизированного тестирования
-- **Backend**: 98/98 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL`, `:jacocoTestReport` generated).
-- **Frontend**: 33/33 tests **100% GREEN** (11/11 test suites passed).
-- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production gzip chunks optimized.
+- **Backend**: 112/112 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL`, `:jacocoTestReport` verified).
+- **Frontend**: 34/34 Vitest tests **100% GREEN** (12/12 test suites passed).
+- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production chunks built in 7.46s.
 
 ---
 
 ## 3. Правило Workflow
-`ТЕСТЫ ПРОШЛИ -> ЗАПИСЬ В ЖУРНАЛ -> GIT PUSH`
-Все проверки пройдены, изменения готовы к коммиту и пушу.
+`ТЕСТЫ ПРОШЛИ -> ЗАПИСЬ В ЖУРНАЛ -> ОБНОВЛЕНИЕ CONTEXT.MD -> GIT PUSH`
+Все тесты зеленые, лог записан, контекст синхронизирован.
