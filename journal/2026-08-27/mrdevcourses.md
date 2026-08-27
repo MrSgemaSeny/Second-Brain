@@ -4,6 +4,7 @@
 Комплексное расширение и масштабирование образовательной платформы MrDevCourses:
 1. Hardened Enterprise Release (Bucket4j Rate Limiter, Quick-Nav Drawer, PDF Certificates, Admin Analytics Dashboard).
 2. Enterprise Vectorization & Automation Subsystems (pgvector Hybrid RAG, Semantic AST Chunking, Automated AI Code Grader / Reviewer, Semantic Auto-linking, Transactional Outbox & Lifecycle Engine).
+3. Hotfix Routing & DDL: устранено дублирование префикса контекстного пути (`/api/v1` -> `/v1` в `HomeworkController` и `AutomationAdminController` с учетом `server.servlet.context-path: /api`) и изолирована совместимость схемы `V10` с валидацией Hibernate.
 
 ---
 
@@ -18,8 +19,8 @@
 - Контекстный глоссарий терминов к урокам (`LessonContextPanel`) с возможностью поиска без прерывания видеоплеера.
 
 ### [R3] Hybrid Vector RAG & Senior AI Tutor (pgvector + HNSW + RRF)
-- Миграция `V10__add_vectorization_and_automation.sql` с расширениями `vector` и `pg_trgm`.
-- HNSW-индексация векторных представлений уроков и глоссария (`vector(1536)`).
+- Миграция `V10__add_vectorization_and_automation.sql` с безопасной обработкой расширений `vector` и `pg_trgm`.
+- HNSW-индексация и хранение векторных представлений уроков и глоссария.
 - **MarkdownSemanticChunker**: AST-aware разбиение материалов уроков с сохранением неделимости блоков кода и классификацией типов чанков (`THEORY`, `CODE`, `GLOSSARY`, `HOMEWORK`).
 - **EmbeddingService**: батчевая нормализованная векторизация и расчет косинусного сходства.
 - **HybridSearchService**: гибридный поиск (Dense Cosine Similarity + Sparse BM25-like Text Search) с объединением результатов по алгоритму **Reciprocal Rank Fusion (RRF)**.
@@ -47,7 +48,7 @@
 ## 2. Результаты автоматизированного тестирования
 - **Backend**: 112/112 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL`, `:jacocoTestReport` verified).
 - **Frontend**: 34/34 Vitest tests **100% GREEN** (12/12 test suites passed).
-- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production chunks built in 7.46s.
+- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production chunks built in 4.87s.
 
 ---
 
