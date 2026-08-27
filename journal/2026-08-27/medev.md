@@ -20,7 +20,13 @@
    - В `application-prod.yml` установлен `connection-timeout: 10000` (10s) и `maximum-pool-size: 10` (для безопасной работы с Render Free PostgreSQL).
    - Ограничен пул потоков Tomcat `threads.max: 25` для предотвращения перегрузки CPU.
 
-4. **Тесты**:
+4. **FSD-рефакторинг лендинга и подготовка к релизу**:
+   - Старый монолитный `LandingPage.tsx` (40 КБ) полностью удален.
+   - Созданы модульные FSD-виджеты в `src/widgets/landing/`: `Hero.tsx`, `Features.tsx`, `Pricing.tsx`, `Header.tsx`, `Footer.tsx`.
+   - Дизайн приведен к строгому GitHub Dark Mode без glassmorphism.
+   - Создан комплексный аудит проекта `AUDIT_2026-08-27.md` в корне репозитория (оценка A-, Level 4).
+
+5. **Тесты**:
    - Backend: 253/253 тестов прошли (`BUILD SUCCESSFUL`).
    - Frontend: 37/37 тестов прошли (`vitest run`).
    - Проверены обе сборки фронтенда: `npm run build` (Vercel, root path `/`) и `npm run build:github` (GitHub Pages, subpath `/MeDev/`).
