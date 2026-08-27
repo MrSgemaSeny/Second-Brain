@@ -1,18 +1,21 @@
 # Статус: MrDevCourses
-_Обновлено: 2026-08-25_
+_Обновлено: 2026-08-27_
 
-## Текущий уровень: Level 4 — Target Release (5-Axis Review Remediation, Performance Indexes V8, Zero N+1, A11y, Envie Dark UI)
-## Следующая веха: Production Hosting / Cloud Rollout (Fly.io + GitHub Pages/Vercel)
+## Текущий уровень: Level 4 — Enterprise Hardened & Scaled Release
+(R1 Rate Limiting + R2 Quick-Nav Drawer + R3 AI Tutor + R4 PDF Certificates + R5 Admin Analytics Funnel & Retention + Dual Layout Separation)
+
+## Следующая веха: Production Hosting / Cloud Rollout (Fly.io + GitHub Pages / Vercel)
 
 ## Открытые вопросы:
 - Нет
 
 ## Технический долг:
 - 0 CRITICAL, 0 WARNING, 0 MINOR
-- Forensic Audit: 100% CLEAN (без заглушек, без обходов, реальный state)
-- Тесты: 100% green (Бэкенд 58/58 тестов, Фронтенд 21/21 тест passing, build 100% success, bundle 137.65 kB gzipped)
-- Миграции БД: Flyway V1..V8 применены и согласованы
+- Forensic Audit: 100% CLEAN
+- Бэкенд тесты: 98 / 98 passing (100% Green, `:jacocoTestReport` сгенерирован)
+- Фронтенд тесты: 33 / 33 passing (11/11 Vitest suites)
+- Production Build: `npm run build` — 0 errors, 0 warnings
+- Миграции БД: Flyway V1..V9 применены и проверены
 
 ## Блокеры:
 - Нет
-

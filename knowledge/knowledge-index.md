@@ -25,22 +25,26 @@
 - [[frontend_fsd_and_ui_ux_patterns]] - UI/UX паттерны и продвинутое использование FSD.
 - [[zustand-persist-access-token]] - Решение проблемы с logout при рефреше в Zustand persist.
 - [[frontend-native-fetch-interceptor]] - Нативный Fetch с перехватом 401 (Refresh Token).
+- [[arch-contextual-quick-nav-drawer]] - Контекстная навигация (Quick-Nav Drawer) без размонтирования плеера.
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
 - [[pdf-generation-thymeleaf-flying-saucer]] - Генерация PDF (Thymeleaf + Flying Saucer).
 - [[hack-thymeleaf-pdf]] - Альтернативный стек генерации (Thymeleaf + OpenHTMLtoPDF) с поддержкой кириллицы.
+- [[arch-pdf-openhtmltopdf-thymeleaf]] - Векторная генерация PDF через Thymeleaf и OpenHTMLtoPDF с регистрацией шрифтов.
 - [[hack-websockets-stomp]] - Практические хаки для стабильной работы WebSockets.
 - [[pdf-flying-saucer-constraints]] - Строгие правила и ограничения для Flying Saucer (шрифты, CSS, page-break).
 - [[arch-hibernate-pitfalls]] - Опасности Hibernate (N+1 с MapStruct, orphanRemoval конфликты).
 - [[backend-rate-limiting-bucket4j]] - In-Memory Rate Limiting с Bucket4j.
+- [[arch-tiered-rate-limiting-bucket4j]] - Tiered Rate Limiting с Bucket4j и Caffeine (Auth, AI, General).
 
 ## Интеграции и AI
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
 - [[arch-ai-chat-integrations]] - Интеграция LLM в чаты (асинхронные воркеры, streaming, RAG).
 - [[arch-ai-smart-merge]] - Паттерн умного слияния данных из нескольких источников (API + PDF) через LLM.
 - [[arch-ai-structured-generation]] - Использование LLM для генерации строгих JSON DTO (json_object, Graceful Degradation).
-- [[arch-rag-indexing-vs-retrieval]] - RAG архитектура: разница между Indexing Pipeline (запись) и Retrieval (поиск). Анализ текущего состояния MeDev — pgvector заполнен, но similaritySearch не вызывается нигде.
+- [[arch-ai-tutor-lesson-grounding]] - AI-наставник с заземлением в контекст урока (Lesson Grounding) и защитой от инъекций.
+- [[arch-rag-indexing-vs-retrieval]] - RAG архитектура: разница между Indexing Pipeline (запись) и Retrieval (поиск).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 - [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
@@ -58,4 +62,5 @@
 
 ## Инциденты (Production Post-Mortems)
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
+- [[incident-02-management-port-hibernate-crash]] - Падение сервиса из-за конфликта портов и краша Hibernate.
 - [[incident-02-management-port-hibernate-crash]] - `management.server.port=8081` на Fly.io → Spring создаёт 2-й контекст → Hibernate 7 дублирует event listeners → crash. Фикс: держать порт на 8080, безопасность через Spring Security.
