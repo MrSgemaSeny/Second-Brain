@@ -28,7 +28,8 @@
 ---
 
 ## 🔗 Связи в Базе Знаний (Knowledge Graph)
-- **AI Архитектура:** [[knowledge/arch-ai-smart-merge|Smart Merge (GitHub + PDF)]], [[knowledge/arch-ai-structured-generation|Structured JSON DTO]], [[knowledge/sec-pii-llm-compliance|PII & Groq ToS]]
+- **AI Архитектура:** [[knowledge/arch-ai-smart-merge|Smart Merge (GitHub + PDF)]], [[knowledge/arch-ai-structured-generation|Structured JSON DTO]], [[knowledge/sec-pii-llm-compliance|PII & Groq ToS]], [[knowledge/arch-rag-indexing-vs-retrieval|RAG: Indexing vs Retrieval]]
+- **Незавершённые фичи (Backlog):** RAG Retrieval (`similaritySearch` не реализован — pgvector заполнен, но не используется). Приоритет: Job Tracker AI Match через `vectorStore.similaritySearch()` → контекст в промпт → Groq.
 - **Безопасность и Auth:** [[knowledge/sec-oauth2-stateless-cookies|Stateless OAuth2 Cookies]], [[knowledge/sec-spring-jwt-auth|Spring JWT]], [[knowledge/security-idor-rls|IDOR & RLS]]
 - **Производительность (Performance):** [[knowledge/arch-load-testing-hikari-cache|Chaos Engineering & HikariCP Exhaustion]]
 - **Фронтенд:** [[wiki/concepts/fsd-architecture|FSD Архитектура]], [[knowledge/frontend-architecture-fsd-dnd|FSD + dnd-kit]], [[knowledge/zustand-persist-access-token|Zustand Persist Token]]
