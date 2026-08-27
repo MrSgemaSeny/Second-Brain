@@ -1,10 +1,11 @@
-# Journal: 2026-08-27 — MrDevCourses Enterprise Scaling, Vectorization & Automation
+# Journal: 2026-08-27 — MrDevCourses Enterprise Scaling, Vectorization & Domain Hierarchy
 
 ## Overview
 Комплексное расширение и масштабирование образовательной платформы MrDevCourses:
 1. Hardened Enterprise Release (Bucket4j Rate Limiter, Quick-Nav Drawer, PDF Certificates, Admin Analytics Dashboard).
 2. Enterprise Vectorization & Automation Subsystems (pgvector Hybrid RAG, Semantic AST Chunking, Automated AI Code Grader / Reviewer, Semantic Auto-linking, Transactional Outbox & Lifecycle Engine).
-3. Hotfix Routing & DDL: устранено дублирование префикса контекстного пути (`/api/v1` -> `/v1` в `HomeworkController` и `AutomationAdminController` с учетом `server.servlet.context-path: /api`) и изолирована совместимость схемы `V10` с валидацией Hibernate.
+3. Hotfix Routing & DDL: устранено дублирование префикса контекстного пути (`/api/v1` -> `/v1` в контроллерах) и нормализована совместимость схемы `V10` с валидацией Hibernate.
+4. Enterprise Domain Hierarchy & Interactive Assessment (Flyway `V11`, `CourseModule`, `LessonMaterial`, `Quiz`, `QuizQuestion`, `QuizSubmission`, `Cohort`, `LessonQuizWidget`, `LessonMaterialsList`).
 
 ---
 
@@ -39,16 +40,22 @@
 - **StudentLifecycleService**: мониторинг студентов с риском отвала (>48ч неактивности на открытых уроках) и генерация умных триггеров возврата.
 - Админ-эндпоинты управления очередями Outbox и аналитики рисков (`AutomationAdminController`).
 
-### [R6] Automated PDF Certificate Generation & Cohort Analytics
-- Генерация PDF сертификатов (Thymeleaf + OpenHTMLtoPDF) с верификацией по коду.
-- Когортная аналитика и воронка конверсий по дням курса.
+### [R6] Enterprise Domain Hierarchy, Materials & Quizzes (LMS Architecture)
+- Миграция `V11__expand_domain_hierarchy.sql`:
+  - Иерархия модулей: `course_modules` (главы курса, группировка уроков, флаг free-preview).
+  - Расширение сущности уроков: `lesson_type` (VIDEO, ARTICLE, PRACTICE, QUIZ), `duration_minutes`, `is_free_preview`, `materials`.
+  - Прикрепляемые материалы: `lesson_materials` (чит-листы, репозитории, документация, PDF).
+  - Банк вопросов и тестирование: `quizzes`, `quiz_questions`, `quiz_question_options`, `quiz_submissions`.
+  - Потоки обучения: `cohorts` (привязка групп студентов к датам запуска).
+- `QuizService` & `QuizController`: безопасная выдача вопросов со скрытием правильных ответов (`QuizOptionDto`), серверная верификация, скоринг и авто-зачет урока при результате &ge; 80%.
+- Фронтенд: `LessonQuizWidget` (интерактивный тест с таймером, выбором ответов, разбором ошибок и пояснениями), `LessonMaterialsList` (каталог файлов и ссылок), аккордеон модулей на `CourseDetailPage`.
 
 ---
 
 ## 2. Результаты автоматизированного тестирования
-- **Backend**: 112/112 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL`, `:jacocoTestReport` verified).
-- **Frontend**: 34/34 Vitest tests **100% GREEN** (12/12 test suites passed).
-- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production chunks built in 4.87s.
+- **Backend**: 118/118 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL in 57s`, `:jacocoTestReport` verified).
+- **Frontend**: 35/35 Vitest tests **100% GREEN** (13/13 test suites passed).
+- **TypeScript / Build**: `npm run build` — 0 errors, 0 warnings, production chunks built in 4.05s.
 
 ---
 
