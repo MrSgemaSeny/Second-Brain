@@ -35,4 +35,7 @@
 1. `fayerman-source/deslop` — навык для очистки юридического текста от воды и "AI slop".
 2. `ai-that-works/deslop` — Python CLI инструмент для рерайтинга документов через Claude.
 3. `Dammyjay93/interface-design` — мощный навык для UI/UX frontend дизайна, который заставляет ИИ уходить от дефолтных паттернов (деслоп для фронтенда).
-4. `KyaniteLabs/tastecheck` — (в процессе/известен) набор из 15 UI frontend навыков для ИИ.
+4. `dabit3/deslop` — CLI инструмент для сканирования git diff на предмет code-slop (переусложненный/over-defensive код).
+5. `agent-sh/deslop` — 3-фазный пайплайн с авто-фиксом находок AI кода и откатом при падении тестов.
+6. `samber/cc-skills` (skill `frontend-design-deslop`) — структурный подход к фронтенду от концепции до a11y.
+7. `funboy322/avoid-ai-design` — мощный аудит-скилл для фронтенда с градацией находок по severity (P0-P2).
