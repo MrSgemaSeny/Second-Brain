@@ -1,30 +1,30 @@
-# Journal: 2026-08-28 — MrDevCourses MVP Footer Simplification & Clean UI
+# Journal: 2026-08-28 — MrDevCourses Strict Dark Palette & Monochrome Cleanup
 
 ## Overview
-Упрощение интерфейса и приведение футера к строгому MVP-уровню без лишнего визуального шума.
+Полная очистка интерфейса от градиентных синих размытий, кислотных цветов и переход на чистую монохромную темную тему:
+- Строгий глубокий темный фон `#09090b`.
+- Карточки `#121214` с аккуратной нейтральной границей `#27272a`.
+- Белые и цинковые иконки на черном фоне (`text-white`, `text-zinc-400`).
+- Отсутствие синих пятен, блюров и лишней визуальной пестроты.
 
 ---
 
-## 1. Что сделано
-- **Футер ([`Footer.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/footer/Footer.tsx))**:
-  - Удален статус-бейдж `Система активна (v2.4 Enterprise)`.
-  - Удалены громоздкие 5-колоночные списки с маркетинговыми тегами.
-  - Реализована строгая 3-блочная компоновка:
-    - **Слева**: бренд `MrDevCourses`, лаконичное описание платформы и копирайт.
-    - **Справа (2 колонки)**:
-      1. *Платформа* (Каталог курсов, Моё обучение, Проверка сертификата).
-      2. *Контакты* (GitHub репозиторий, Telegram канал).
+## 1. Что изменено
+- **Каталог курсов ([`CoursesPage.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/courses/CoursesPage.tsx))**:
+  - Удален синий/фиолетовый radial glow backdrop.
+  - Все бейджи и иконки переведены на чистый белый цвет (`text-white`).
+  - Карточки и инпуты приведены к единому стилю `#121214` / `#27272a`.
 - **Главная страница ([`LandingPage.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/landing/LandingPage.tsx))**:
-  - Удалены все устаревшие клише "1 день — 1 урок".
-  - Hero-секция и карточки приведены к единой темной теме `#090d13` / `#161b22`.
-- **Страница курса ([`CourseDetailPage.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/course/CourseDetailPage.tsx))**:
-  - Бейдж заменен на `Практическая программа`.
+  - Убраны градиентные подложки и цветные иконки.
+  - Строгие монохромные блоки преимуществ.
+- **Шапка и Футер ([`Header.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/header/Header.tsx), [`Footer.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/footer/Footer.tsx))**:
+  - Фон `#09090b`, граница `#27272a`, монохромные ссылки и иконки.
 
 ---
 
-## 2. Результаты тестирования
-- **Frontend**: 35/35 Vitest тестов **100% GREEN** (13 test suites passed).
-- **Сборка**: `npm run build` успешен (0 errors, 0 warnings).
+## 2. Результаты тестов
+- **Frontend**: 35/35 тестов **100% GREEN** (13 test suites).
+- **Сборка**: `npm run build` успешен (`built in 11.99s`, 0 ошибок).
 
 ---
 
