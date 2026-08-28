@@ -48,6 +48,7 @@
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 - [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
+- [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
 
 ## Безопасность и Авторизация
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
