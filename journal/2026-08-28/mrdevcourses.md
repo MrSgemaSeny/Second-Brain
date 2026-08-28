@@ -1,4 +1,4 @@
-﻿# Journal: 2026-08-28 — MrDevCourses UI Redesign, Strict Typography & Flyway V12
+# Journal: 2026-08-28 — MrDevCourses UI Redesign, Strict Typography & Flyway V12
 
 ## Overview
 Комплексный редизайн навигации и личного кабинета (удаление сайдбара, внедрение верхней навигации), нормализация типографики до 4 строгих размеров шрифта и добавление Flyway миграции V12 на 5 модулей и 30 уроков.
@@ -27,6 +27,19 @@
 
 ---
 
+4. **Аудит и синхронизация Second Brain (Brain's Protocol v2)**:
+   - Обновлены файлы контекста `context/me.md`, `context/projects.md`, `context/rules.md`.
+   - Зафиксированы архитектурные решения:
+     - `ADR-011-design-md-token-contract.md`
+     - `ADR-012-agents-lifecycle-hooks-standard.md`
+     - `ADR-013-dashboard-top-nav-over-sidebar.md`
+   - Добавлена база знаний: `knowledge/ai-deslop-strategy-tokens-audit.md` и обновлен `knowledge-index.md`.
+   - Обновлены цели `mem/goals.md` (Grant Period 2 проекта уровня 4 + 3-летний рубеж).
+   - Эталонные скрипты и конфиг хуков скопированы в `hooks_template/` (`hooks.json`, `pre-invocation.ps1`, `safety-gate.ps1`, `enforce-workflow.ps1`, `stop-check-commits.ps1`).
+   - В `output/` выгружен эталонный контракт `DESIGN_MRDEVCOURSES.md`.
+
+---
+
 ## 2. Результаты автоматизированного тестирования
 - **Frontend (React 19 / TypeScript / Vitest)**: 37/37 tests **100% GREEN** (14/14 test suites passed).
 - **Production Build**: `npm run build` (`tsc -b && vite build`) **100% SUCCESS** (0 ошибок, 0 предупреждений).
@@ -36,3 +49,9 @@
 ## 3. Правило Workflow
 `ТЕСТЫ ПРОШЛИ -> ЗАПИСЬ В ЖУРНАЛ -> ОБНОВЛЕНИЕ CONTEXT.MD -> GIT PUSH`
 Лог сессии зафиксирован. Все тесты и сборка в зеленой зоне.
+
+
+
+## 8. Фикс бага сборки Vite
+- При массовом переименовании сломались кавычки и JSX теги.
+- Баг устранен: выполнен git revert и повторный безопасный rename с использованием границ слов (\b). Сборка (npm run build) успешно проходит.
