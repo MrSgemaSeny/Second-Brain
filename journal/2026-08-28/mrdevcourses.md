@@ -1,52 +1,36 @@
-# Journal: 2026-08-28 — MrDevCourses User Profile Modal & Dropdown Menu
+# Journal: 2026-08-28 — MrDevCourses & MeDev Lifecycle Hooks & Workflow Automation Audit
 
 ## Overview
-Реализовано всплывающее меню профиля пользователя в шапке сайта:
-1. Создан интерактивный компонент [`UserProfileDropdown.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/header/UserProfileDropdown.tsx).
-2. При клике на плашку профиля/аватарку в шапке открывается модальное выпадающее меню со следующей информацией:
-   - Аватар, полное имя, email и роль пользователя (`STUDENT` / `ADMIN`).
-   - Статистика стриков (текущий стрик дней и личный рекорд).
-   - Быстрые переходы в личный кабинет («Моё обучение»), каталог курсов и админ-панель (для администратора).
-   - Кнопка безопасного выхода из аккаунта с вызовом `logout()` и редиректом на главную.
-3. Обработано закрытие по клику вне области (`useRef` + `mousedown`) и по нажатию клавиши `Escape`.
+Комплексный аудит и синхронизация подсистемы жизненных хуков (.agents/hooks.json и .agents/scripts/) для репозиториев MrDevCourses и MeDev с жестким закреплением протоколов Brain's Protocol.
 
 ---
 
-## 1. Что добавлено и изменено
-- **`widgets/header/UserProfileDropdown.tsx`**: компонент интерактивного выпадающего меню профиля.
-- **`widgets/header/UserProfileDropdown.test.tsx`**: юнит-тесты открытия меню, отображения email/стрика и вызова logout.
-- **`widgets/header/Header.tsx`**: интеграция `UserProfileDropdown` в глобальную шапку.
+## 1. Выявленные и устраненные дефекты аудита
+1. **Пустой hooks.json**:
+   - `hooks.json` в обоих проектах содержал пустой объект `{}`. Ни один из хуков не вызывался движком Antigravity.
+   - Зарегистрированы все 4 обработчика: `PreInvocation` (context-loader), `PreToolUse` (safety-gate, enforce-workflow), `Stop` (stop-commit-check).
+2. **Устранение конфликта в safety-gate.ps1**:
+   - Старая версия скрипта блокировала любые git-команды (`git commit`, `git push`), что ломало главное правило системы.
+   - Новая версия блокирует нерациональные shell-утилиты чтения (`cat`, `grep`, `sed`, `ls`, `head`, `tail`) и деструктивные операции (`git push --force`, `git reset --hard`), разрешая стандартные команды разработки и коммитов.
+3. **Защита от перехода через полночь (Midnight Boundary Rollover)**:
+   - `enforce-workflow.ps1` теперь проверяет не только текущую дату, но и вчерашний день (`AddDays(-1)`), а также имеет fallback-сканирование записей за последние 24 часа.
+4. **Защита от зацикливания Stop и расширение .gitignore**:
+   - `stop-check-commits.ps1` корректно проверяет статус рабочего дерева.
+   - `.gitignore` дополнен всеми временными директориями, кэшами Vite/Vitest, метаданными агентов и временными файлами (`.gemini/`, `.antigravity/`, `scratch/`, `tmp/`, `temp/`, `*.tmp`, `*.bak`).
+5. **Нормализация путей и потока ввода**:
+   - Исправлены относительные пути к репозиторию `Brain's protocol - second brain`.
+   - Добавлена проверка `[Console]::IsInputRedirected` для предотвращения зависания потока stdin.
+   - Установлена явная кодировка `[Console]::OutputEncoding = UTF8`.
 
 ---
 
-## 2. Результаты тестов
-- **Frontend**: 37/37 тестов **100% GREEN** (14 test suites passed).
-- **Сборка**: `npm run build` успешен (`built in 3.93s`, 0 ошибок).
+## 2. Результаты автоматизированного тестирования
+- **Backend (Spring Boot 3.3.0 / Java 17)**: 118/118 unit & integration tests **100% GREEN** (`BUILD SUCCESSFUL`, `:jacocoTestReport` verified).
+- **Frontend (React 19 / TypeScript / Vitest)**: 37/37 tests **100% GREEN** (14/14 test suites passed).
+- **Hooks Pipeline**: Все сценарии жизненного цикла протестированы в PowerShell.
 
 ---
 
-## 3. Workflow Rule
+## 3. Правило Workflow
 `ТЕСТЫ ПРОШЛИ -> ЗАПИСЬ В ЖУРНАЛ -> ОБНОВЛЕНИЕ CONTEXT.MD -> GIT PUSH`
-
----
-
-## 4. Загрузка Deslop и Agent Skills (Инфраструктура)
-По запросу скачаны и исследованы "deslop" промпты/навыки для AI агентов в директорию `.agents/`:
-1. `fayerman-source/deslop` — навык для очистки юридического текста от воды и "AI slop".
-2. `ai-that-works/deslop` — Python CLI инструмент для рерайтинга документов через Claude.
-3. `Dammyjay93/interface-design` — мощный навык для UI/UX frontend дизайна, который заставляет ИИ уходить от дефолтных паттернов (деслоп для фронтенда).
-4. `dabit3/deslop` — CLI инструмент для сканирования git diff на предмет code-slop (переусложненный/over-defensive код).
-5. `agent-sh/deslop` — 3-фазный пайплайн с авто-фиксом находок AI кода и откатом при падении тестов.
-6. `samber/cc-skills` (skill `frontend-design-deslop`) — структурный подход к фронтенду от концепции до a11y.
-7. `funboy322/avoid-ai-design` — мощный аудит-скилл для фронтенда с градацией находок по severity (P0-P2).
-
-
-## 5. ���������� ����������� AI-����� (������)
-- **��������:** �������� ���������� ������ ���� React-����������� (34 �����).
-- ���������� ��� glassmorphism ������� (backdrop-blur-md).
-- �������� ��� border-[#27272a] �� ������� border-white/5.
-- �������� ���������� ���������� (rounded-xl, 2xl, 3xl) �� ������� IDE-like rounded-sm.
-- ������� ����� blue-500 � indigo-400, �������� �� ����������� zinc.
-- �������� �������� ���� (shadow-2xl) �������� �� inset highlights.
-- **������:** ���������� �� ���� ����� (Landing, Admin, Lesson, CourseDetail) ������ ��������� �� ������ max-w-7xl mx-auto px-4 sm:px-6 lg:px-8.
-- **UX:** ������� onClick window.scrollTo(0, 0) �� ���������� ��������� ScrollToTop � �������.
+Лог сессии зафиксирован. Все барьеры безопасности и автоматизации активны.
