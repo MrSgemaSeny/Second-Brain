@@ -1,45 +1,48 @@
 # Мои проекты
-_Обновлено: 2026-08-24_
+_Обновлено: 2026-08-28_
 
 ## Активные
 
 ### MrDevCourses (LMS Платформа)
 - **Репо:** github.com/MrSgemaSeny/MrDevCourses
 - **Проект:** `projects/mrdevcourses/mrdevcourses.md`
-- **Статус:** Level 4 Enterprise Scaled Release (Bucket4j Token Bucket rate limiting, Quick-Nav contextual drawer, AI Lesson Tutor на базе Groq Llama 3.3 70B, автоматическая PDF генерация сертификатов с верификацией, Admin Analytics воронка и удержание. 98 backend тестов, 33 frontend теста, 100% green).
-- **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + Email/Password + JWT (httpOnly cookie) + PostgreSQL + Bucket4j + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query.
-- **Что это:** Обучающая платформа Mr Developer с drip-механикой (1 день — 1 урок по формуле `(NOW() - enrolled_at)`), YouTube embed плеером, глоссарием, AI наставником, личным кабинетом студента и когортной админ-аналитикой.
+- **Статус:** Level 4 - Enterprise Scaled Release (Флагманский LMS-продукт: Bucket4j Token Bucket rate limiting, Quick-Nav контекстный drawer, AI Lesson Tutor на базе Groq Llama 3.3 70B, автоматическая PDF генерация сертификатов с публичной верификацией, когортная аналитика удержания и воронки, FSD React 19 фронтенд с DESIGN.md дизайн-токенами).
+- **Стек:** Java 17 + Spring Boot 3.3 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL + Bucket4j + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query.
+- **Что это:** Обучающая платформа Mr Developer с drip-механикой (1 день — 1 урок по строгой SQL формуле `(NOW() - enrolled_at)`), YouTube embed плеером, глоссарием, AI наставником, личным кабинетом студента и когортной админ-аналитикой.
 - **Лог:** `journal/YYYY-MM-DD/mrdevcourses.md`
-
-### Mr Developer (Блог + Менторство + Курсы)
-- **Проект:** `projects/mr-developer/mr-developer.md`
-- **Статус:** Старт (2026-08-24). Первый ролик готов к публикации. Первый студент есть.
-- **Бренд:** Mr Developer / имя в видео — Орынбасар. Платформы: YouTube + Telegram.
-- **Аудитория:** 16–40 лет, без IT-базы, хотели войти в IT но не знали с чего начать.
-- **Продукт:** Курс по вайбкодингу. Бесплатный: лендинг → деплой. Платный: oAuth, CI/CD, резюме, офферы.
-- **Промпты:** БАЗИК (20 готовы) / ПРО (40) / МАСТЕР (78).
-- **Менторство:** `projects/mr-developer/mentorship&courses/` — Ученик 1 (Урок 1 проведён).
-- **Лог:** `journal/YYYY-MM-DD/mr-developer.md`
-
 
 ### MeDev (DevProfile)
 - **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 3 - MVP Release (Все Фазы 1-8 Roadmap и полный сквозной аудит завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, ADR-001..010, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем с поддержкой кириллицы).
-- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (openai/gpt-oss-20b) + Spring AI + Vitest + Flying Saucer + Actuator
+- **Статус:** Level 3+ Production Live Release (Все 8 фаз Roadmap завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем).
+- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (openai/gpt-oss-20b) + Spring AI + Vitest + Flying Saucer + Actuator.
 - **Что это:** Data-first AI SaaS платформа для разработчиков. Автоматическая генерация резюме и портфолио из GitHub (Source of Truth) и PDF (Smart Merge), Job Tracker CRM + Kanban с AI-матчингом, 6 дизайн-шаблонов HTML и PDF резюме, публичная страница портфолио (`/:username`) с OpenGraph/Schema.org, генератор GitHub Profile README.
-- **Деплой:** Production Live: Frontend на Vercel (`me-dev-two.vercel.app`), Backend & DB & Redis на Render (`medev-backend.onrender.com`, `medev-postgres`, `medev-redis`). Локальный запуск через Docker Compose (`postgres:5435`, `redis:6379`).
-- **Документация:** `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md`, `docs/DEPLOYMENT.md`, `docs/EPICS.md`, `docs/ADR.md`, `docs/SECURITY_AUDIT.md`, `docs/RUNBOOK.md`
+- **Деплой:** Production Live: Frontend на Vercel (`me-dev-two.vercel.app`), Backend & DB & Redis на Render (`medev-backend.onrender.com`, `medev-postgres`, `medev-redis`).
+
+### Valeur (ATS & HR-Portal)
+- **Репо:** github.com/MrSgemaSeny/Valeur
+- **Статус:** Level 2+ Active Development (Активная разработка и миграция монолита на микросервисную архитектуру).
+- **Стек:** Java 17 + Spring Boot 3.3.4 + Spring Security 6 + Spring Cloud Gateway + PostgreSQL 16 + Groq AI (Llama 3.3 70b) + React 19 + TanStack Query v5 + Tailwind v4 + FSD.
+- **Архитектура:** Микросервисы (`identity-service:8081`, `vacancy-service:8082`, `application-service:8083`, `ai-service:8084`, `api-gateway:8080`).
+- **Мультитенантность:** Изоляция по `TenantContext` и `tenant_id`. RBAC (`CANDIDATE`, `COMPANY_ADMIN`).
+- **Документация:** `projects/valeur/valeur.md`
+
+### Mr Developer (Блог + Менторство + Курсы)
+- **Проект:** `projects/mr-developer/mr-developer.md`
+- **Статус:** Активен (первый ролик готов к публикации, Ученик 1 на практическом треке).
+- **Бренд:** Mr Developer / имя в видео — Орынбасар. Платформы: YouTube + Telegram.
+- **Аудитория:** 16–40 лет, без IT-базы, стремящиеся освоить современную разработку и вайбкодинг.
+- **Продукт:** Курсы по вайбкодингу (Бесплатный: лендинг → деплой. Платный: oAuth, CI/CD, архитектура, резюме, офферы). Пакеты промптов БАЗИК / ПРО / МАСТЕР.
+- **Менторство:** `projects/mr-developer/mentorship&courses/` — Ученик 1.
+- **Лог:** `journal/YYYY-MM-DD/mr-developer.md`
 
 ### JF-1C (ZhanFinance)
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Level 4 - Production-Ready v1.0.0 Release (Официальный релиз v1.0.0 опубликован на GitHub. Pre-release audit remediation Tier 1 & Tier 2 100% COMPLETE. 0 errors, all tests green).
-- **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD
-- **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании
-- **Роли:** ADMIN, EMPLOYEE, CLIENT, LEARNER, CURATOR, ADVISOR
-- **Модули:** Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Audit, Search, Calendar, Landing
+- **Статус:** Level 4 - Production-Ready v1.0.0 Released (Официальный релиз v1.0.0 опубликован на GitHub, pre-release audit remediation 100% complete, проект на стадии поддержки и онбординга клиентов).
+- **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD.
+- **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании (Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Calendar).
 - **Миграции:** V1–V120 applied (immutable).
-- **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages
-- **Текущая ветка:** main (audit/pre-release merged & pushed, tag v1.0.0 published)
+- **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages.
+
 - **CRITICAL долг (Phase 2 remediation — Tier 1 & Tier 2 COMPLETE):**
   - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
   - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)

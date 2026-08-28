@@ -18,14 +18,18 @@
 - [[backend-threadlocal-tenant-context]] - Мультитенантность через ThreadLocal (TenantContext).
 - [[ats-kanban-sla-state-machine]] - Интерактивный Kanban найма с контролем SLA и конечным автоматом.
 - [[ats-funnel-analytics-and-talent-pool]] - Сквозная воронка найма (Time-to-Hire, конверсия стадий) и база талантов (Talent Pool CRM).
+- [[antigravity_hooks]] - Архитектура .agents Lifecycle Hooks (PreInvocation, Safety Gate, Enforce Workflow, Stop Check).
 
-## Фронтенд (React, FSD)
+## Фронтенд (React, FSD, UI Deslop)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
 - [[frontend-architecture-fsd-dnd]] - FSD архитектура в связке с Drag-and-Drop (dnd-kit) и Zustand.
 - [[frontend_fsd_and_ui_ux_patterns]] - UI/UX паттерны и продвинутое использование FSD.
 - [[zustand-persist-access-token]] - Решение проблемы с logout при рефреше в Zustand persist.
 - [[frontend-native-fetch-interceptor]] - Нативный Fetch с перехватом 401 (Refresh Token).
 - [[arch-contextual-quick-nav-drawer]] - Контекстная навигация (Quick-Nav Drawer) без размонтирования плеера.
+- [[ai-deslop-strategy-tokens-audit]] - Стратегия → Токены (DESIGN.md) → Аудит. 4 уровня шрифтов, функциональный layout.
+- [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
+
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
