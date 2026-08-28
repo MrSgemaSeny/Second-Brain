@@ -1,24 +1,27 @@
-# Journal: 2026-08-28 — MrDevCourses Zero-Hardcode Declarative Footer & Type-Safe Routes
+# Journal: 2026-08-28 — MrDevCourses User Profile Modal & Dropdown Menu
 
 ## Overview
-Полный переход на декларативную архитектуру футера:
-1. Вынесены централизованные типизированные маршруты [`shared/config/routes.ts`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/shared/config/routes.ts).
-2. Создан конфигурационный файл [`shared/config/footerConfig.ts`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/shared/config/footerConfig.ts) с типизацией секций, ссылок, соцсетей и юридической информации.
-3. Полностью удален графический логотип из футера — оставлена строгая текстовая типографика `MrDevCourses`.
-4. Компонент [`Footer.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/footer/Footer.tsx) очищен от любого хардкода: ссылки и блоки рендерятся динамически по декларативному конфигу.
+Реализовано всплывающее меню профиля пользователя в шапке сайта:
+1. Создан интерактивный компонент [`UserProfileDropdown.tsx`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/header/UserProfileDropdown.tsx).
+2. При клике на плашку профиля/аватарку в шапке открывается модальное выпадающее меню со следующей информацией:
+   - Аватар, полное имя, email и роль пользователя (`STUDENT` / `ADMIN`).
+   - Статистика стриков (текущий стрик дней и личный рекорд).
+   - Быстрые переходы в личный кабинет («Моё обучение»), каталог курсов и админ-панель (для администратора).
+   - Кнопка безопасного выхода из аккаунта с вызовом `logout()` и редиректом на главную.
+3. Обработано закрытие по клику вне области (`useRef` + `mousedown`) и по нажатию клавиши `Escape`.
 
 ---
 
 ## 1. Что добавлено и изменено
-- **`shared/config/routes.ts`**: типизированный словарь всех маршрутов системы (`ROUTES.HOME`, `ROUTES.COURSES`, `ROUTES.DASHBOARD` и др.).
-- **`shared/config/footerConfig.ts`**: декларативная схема структуры футера (бренд, описание, секции навигации, контакты, копирайт).
-- **`widgets/footer/Footer.tsx`**: чистый компонент-рендерер без хардкода и без графических плашек.
+- **`widgets/header/UserProfileDropdown.tsx`**: компонент интерактивного выпадающего меню профиля.
+- **`widgets/header/UserProfileDropdown.test.tsx`**: юнит-тесты открытия меню, отображения email/стрика и вызова logout.
+- **`widgets/header/Header.tsx`**: интеграция `UserProfileDropdown` в глобальную шапку.
 
 ---
 
 ## 2. Результаты тестов
-- **Frontend**: 35/35 тестов **100% GREEN** (13 test suites).
-- **Сборка**: `npm run build` успешен (`built in 7.07s`, 0 ошибок).
+- **Frontend**: 37/37 тестов **100% GREEN** (14 test suites passed).
+- **Сборка**: `npm run build` успешен (`built in 3.93s`, 0 ошибок).
 
 ---
 
