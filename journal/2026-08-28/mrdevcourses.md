@@ -27,3 +27,12 @@
 
 ## 3. Workflow Rule
 `ТЕСТЫ ПРОШЛИ -> ЗАПИСЬ В ЖУРНАЛ -> ОБНОВЛЕНИЕ CONTEXT.MD -> GIT PUSH`
+
+---
+
+## 4. Загрузка Deslop и Agent Skills (Инфраструктура)
+По запросу скачаны и исследованы "deslop" промпты/навыки для AI агентов в директорию `.agents/`:
+1. `fayerman-source/deslop` — навык для очистки юридического текста от воды и "AI slop".
+2. `ai-that-works/deslop` — Python CLI инструмент для рерайтинга документов через Claude.
+3. `Dammyjay93/interface-design` — мощный навык для UI/UX frontend дизайна, который заставляет ИИ уходить от дефолтных паттернов (деслоп для фронтенда).
+4. `KyaniteLabs/tastecheck` — (в процессе/известен) набор из 15 UI frontend навыков для ИИ.
