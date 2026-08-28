@@ -6,7 +6,7 @@ _Обновлено: 2026-08-28_
 ### MrDevCourses (LMS Платформа)
 - **Репо:** github.com/MrSgemaSeny/MrDevCourses
 - **Проект:** `projects/mrdevcourses/mrdevcourses.md`
-- **Статус:** Level 4 - Enterprise Scaled Release (Флагманский LMS-продукт: Bucket4j Token Bucket rate limiting, Quick-Nav контекстный drawer, AI Lesson Tutor на базе Groq Llama 3.3 70B, автоматическая PDF генерация сертификатов с публичной верификацией, когортная аналитика удержания и воронки, FSD React 19 фронтенд с DESIGN.md дизайн-токенами).
+- **Статус:** Level 3 - Educational MVP (Учебная LMS платформа. Максимальный уровень проекта — 3. Проект не предназначен для коммерческого релиза и не является Enterprise: Bucket4j rate limiting, Quick-Nav контекстный drawer, AI Lesson Tutor, PDF сертификаты, FSD React 19 с DESIGN.md дизайн-токенами).
 - **Стек:** Java 17 + Spring Boot 3.3 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL + Bucket4j + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query.
 - **Что это:** Обучающая платформа Mr Developer с drip-механикой (1 день — 1 урок по строгой SQL формуле `(NOW() - enrolled_at)`), YouTube embed плеером, глоссарием, AI наставником, личным кабинетом студента и когортной админ-аналитикой.
 - **Лог:** `journal/YYYY-MM-DD/mrdevcourses.md`

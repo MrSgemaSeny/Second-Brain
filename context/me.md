@@ -40,9 +40,10 @@ Feature-Sliced Design (FSD), React Query, Zustand, Framer Motion, dnd-kit, zod, 
 
 ## Цели (Grant Period & Roadmap)
 
-- **Grant Period Цель:** Запустить и довести до Уровня 4 минимум 2 проекта (MrDevCourses + MeDev/JF-1C) с реальными пользователями.
+- **Grant Period Цель:** Запустить и довести до Уровня 4 минимум 2 проекта (MeDev + JF-1C / Valeur) с реальными пользователями.
 - **3-летний майлстоун:** Полноценная экосистема SaaS-продуктов Mr Developer, High-Load Enterprise инфраструктура, менторский клуб.
-- **Текущий фокус:** Флагманская LMS-платформа MrDevCourses, запуск Telegram/YouTube каналов Mr Developer, масштабирование Valeur на микросервисы.
+- **Текущий фокус:** Учебная LMS-платформа MrDevCourses (Level 3 MVP), запуск Telegram/YouTube каналов Mr Developer, масштабирование Valeur на микросервисы.
+
 
 ## Уровни зрелости проектов (моя система)
 
