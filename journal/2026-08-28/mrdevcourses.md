@@ -142,3 +142,10 @@
 - Инициализирован мультиагентный пайплайн (Sentinel & Orchestrator).
 - Сформированы требования по Curriculum Studio, Student/RBAC Console, Analytics & Telemetry, Audit Logs.
 - Автономные агенты приступили к реализации.
+
+
+## 17. Промежуточный срез: разработка Admin Suite модулей
+- Создана миграция V15__admin_suite_schema_extensions.sql.
+- Добавлены контроллеры, DTO и сервисы для Curriculum, Cohorts, Students, Quizzes, Analytics и Telemetry.
+- Добавлены юнит-тесты контроллеров и сервисов.
+- Разработка продолжается в рамках мультиагентной системы.
