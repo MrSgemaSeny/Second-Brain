@@ -164,3 +164,9 @@
 ## 20. Промежуточный срез: контроллер аудита и модалки когорт
 - Добавлены AdminAuditController, AdminAuditQueryService, ModuleCard, CohortManagerModal.
 - Интеграция продолжается.
+
+
+## 21. Промежуточный срез: контроллер системы, StudentTable и роутер
+- Добавлены AdminSystemController, AdminSystemService, StudentTable, тесты контроллеров.
+- Обновлен router/index.tsx для админских маршрутов.
+- Интеграция продолжается.
