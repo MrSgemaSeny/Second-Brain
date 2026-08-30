@@ -125,3 +125,9 @@
 - **Миграция V15:** Добавлен скрипт V15__make_mrsgemaseny_admin.sql для обновления роли на ADMIN в базе данных по email/name mrsgemaseny.
 - **OAuth2 & Seeder:** Обновлен CustomOAuth2UserService и DataSeeder для автоматического назначения/сохранения роли ADMIN для mrsgemaseny при авторизации.
 - Бэкенд успешно собран.
+
+
+## 14. Откат миграции V15
+- Миграция V15__make_mrsgemaseny_admin.sql была полностью удалена по запросу пользователя.
+- Изменения в CustomOAuth2UserService и DataSeeder откатаны.
+- Бэкенд проверен и успешно собран.
