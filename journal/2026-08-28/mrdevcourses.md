@@ -131,3 +131,8 @@
 - Миграция V15__make_mrsgemaseny_admin.sql была полностью удалена по запросу пользователя.
 - Изменения в CustomOAuth2UserService и DataSeeder откатаны.
 - Бэкенд проверен и успешно собран.
+
+
+## 15. Исправление имени БД в application-dev.yml
+- В application-dev.yml имя БД возвращено на mrdevcourses (ранее было ошибочно заменено на MrDeveloper).
+- Команда для подключения через psql: psql -U test_user -d mrdevcourses
