@@ -159,3 +159,8 @@
 ## 19. Промежуточный срез: разработка виджетов учебного плана и аудита
 - Созданы виджеты admin-curriculum, ManualEnrollModal, StudentProgressDrawer, DTO для аудита и rate limiting.
 - Интеграция продолжается.
+
+
+## 20. Промежуточный срез: контроллер аудита и модалки когорт
+- Добавлены AdminAuditController, AdminAuditQueryService, ModuleCard, CohortManagerModal.
+- Интеграция продолжается.
