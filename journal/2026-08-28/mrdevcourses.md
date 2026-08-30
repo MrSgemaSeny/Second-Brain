@@ -154,3 +154,8 @@
 ## 18. Промежуточный срез: разработка фронтенд-виджетов телеметрии и студентов
 - Созданы виджеты admin-students, AdminAnalyticsDashboard, AiTutorTelemetryWidget, ExportReportModal, QuizHotspotsWidget.
 - Мультиагентная система активно завершает интеграционную фазу.
+
+
+## 19. Промежуточный срез: разработка виджетов учебного плана и аудита
+- Созданы виджеты admin-curriculum, ManualEnrollModal, StudentProgressDrawer, DTO для аудита и rate limiting.
+- Интеграция продолжается.
