@@ -193,3 +193,19 @@
 ### 1.20. Обновление видео-превью курса и мгновенное автовоспроизведение
 - Ссылка на видео-превью курса обновлена на `https://youtu.be/qnYl2ibf-rQ` (ID: `qnYl2ibf-rQ`).
 - В правом блоке карточки (`CourseStickyCard.tsx`) видео встроено напрямую через `iframe` с параметрами мгновенного автовоспроизведения (`autoplay=1&mute=1&controls=1&rel=0&playsinline=1`). Видео начинает воспроизводиться сразу при открытии страницы.
+
+### 1.21. Code Review (5-axis: Security + Architecture + Correctness + Performance + Readability)
+- **Результат ревью**: 3 Critical, 6 Required, 5 Optional, 3 Nit.
+- **Critical**:
+  1. `POST /v1/projects/{id}/like` — `permitAll` без auth, вектор бот-накрутки лайков.
+  2. Drip Content вычисляется в Java (`calculateUnlockTime`) вместо SQL-контракта `(NOW() - enrolled_at) >= ((day_number - 1) * INTERVAL '1 day')`.
+  3. Frontend: нет `<Suspense>` для lazy-загружаемых protected-роутов — crash приложения.
+- **Required**:
+  1. Hardcoded JWT fallback secret в `application.yml` и `JwtTokenProvider`.
+  2. Unbounded queries в `AdminService` (`findAll` без `Pageable`).
+  3. `AdminService` — God Object (нарушение SRP).
+  4. Frontend: отсутствие `onError` в `useQuery`/`useMutation` хуках.
+  5. TypeScript: `any` типы в catch-блоках и map callbacks.
+  6. FSD: entities root exports, widget-to-widget импорты.
+- **Security Posture (Positive)**: IDOR защита на 11 контроллерах, JWT httpOnly cookie, 3-tier Bucket4j rate limiting, BCrypt, CSP headers, anti-enumeration login, secrets в env vars.
+- **Полный отчет**: артефакт `code_review_report.md` в brain artifacts.
