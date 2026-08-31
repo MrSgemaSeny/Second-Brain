@@ -89,19 +89,23 @@
 
 
 
-## 31 августа 2026 — MrDevCourses сессия
-
-### Сделано
-- Закрыт human homework pipeline (V16 миграция)
-- Переименован AiCodeGraderService → HomeworkService
-- Обсуждена философия курса и психология студента
-- Создан файл: course_philosophy.md
-- Создан файл: mrdevcourses_roadmap.md (4 фазы)
-- Зафиксировано видение платформы: сайт как единый инструмент,
-  TG-бот как пульт ментора, кнопка "Не получается" как основа
-  будущего RAG-датасета
-
-### Следующий шаг (Фаза 0)
-- Урок как операционная карточка (ссылки + файлы + чеклист)
-- Кнопка "Не получается" → TG уведомление
-- TG-бот с командами /approve /reject /status /stuck /hw
+### 1.7. Глубокий аудит тестового покрытия и закрытие дыр (IDOR, Anti-Cheat, RBAC)
+- **Устранены все скрытые/обманные тесты**:
+  - Устранена утечка контекста безопасности в `AuthControllerTest` (`SecurityContextHolder.clearContext()`).
+  - Устранен конфликт слага в `AdminCurriculumControllerTest` (переход на уникальный `slug`).
+  - Устранено состояние гонки в `AdminSystemControllerTest` с фоновым `OutboxProcessor`.
+  - Исправлены RBAC ассерты и разграничение `Self-Demotion Guard (403)` и `Last-Admin Protection (400)` в `AdminSuiteE2ETest`.
+- **Новые тесты и закрытие дыр безопасности (IDOR + Anti-Cheat)**:
+  - `AdminHelpControllerTest` (6 новых тестов): Triage-очередь тикетов, фильтрация по статусу, резолв с менторским решением, RBAC блокировка (студентам 403, гостям 401).
+  - `HomeworkControllerTest`: Добавлен IDOR-тест (Студент 2 не видит сабмиты Студента 1), блокировка незачисленных пользователей (403).
+  - `StudentHelpControllerTest`: Добавлен IDOR-тест (Студент 2 не видит чужие SOS-тикеты), блокировка незачисленных пользователей (403).
+  - `QuizControllerTest`: Добавлена проверка **Anti-Cheat Option Masking** (поле `isCorrect` полностью удаляется из DTO перед отправкой студенту), проверка неверных ответов и подсчета баллов.
+- **Подключение Telegram-пульта ментора (`@MrDevelopersbot`)**:
+  - Бот верифицирован и привязан к личному ID ментора (`5029600728`).
+  - Токены вынесены строго в переменные окружения (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`), в кодовой базе 0 секретов.
+  - Настроены таймауты `RestTemplate` (`connect: 3s, read: 5s`).
+  - Проверена живая доставка уведомлений в Telegram.
+- **Итоговый статус верификации**:
+  - Backend (JUnit): **202/202 PASSED (100% Green при чистом `--rerun-tasks`)**.
+  - Frontend (Vitest): **64/64 PASSED across 27 suites (100% Green)**.
+  - Build: 0 ошибок.
