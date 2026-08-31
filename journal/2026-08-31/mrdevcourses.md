@@ -40,10 +40,11 @@
   - Кнопка **«На доработку»** (`NEEDS_IMPROVEMENT`): фиксирует обратную связь ментора, студент видит замечания в уроке и может прислать исправленную версию.
 - **Onboarding Модалка (`WelcomeOnboardingModal`)**: Сразу после записи объясняет цель курса (работающий сайт онлайн), даёт ссылку на закрытый Discord, чеклист инструментов и открывает Урок 1.
 - **Очистка UX урока (`LessonPage`)**: Удалены неиспользуемые AI-табы, интерфейс сфокусирован на конспекте, практике со сдачей ДЗ, квизах и материалах.
+- **Рефакторинг сервиса ДЗ**: Устаревший `AiCodeGraderService` переименован и переписан в чистый [`HomeworkService.java`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/backend/src/main/java/com/mrdev/modules/homework/service/HomeworkService.java) без лишних внешних ИИ-зависимостей.
 - **Тесты и сборка**:
   - JUnit: **184/184 backend тестов PASSED (100% Green)**.
-  - Vitest: **63/63 frontend тестов PASSED across 26 suites (100% Green)**.
-  - Build: `tsc -b && vite build` — **1792 модуля собрано без единой ошибки**.
+  - Vitest: **64/64 frontend тестов PASSED across 27 suites (100% Green)**.
+  - Build: `tsc -b && vite build` — **1789 модулей собрано без единой ошибки**.
 
 ---
 
