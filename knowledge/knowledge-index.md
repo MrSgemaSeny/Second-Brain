@@ -29,10 +29,11 @@
 - [[arch-contextual-quick-nav-drawer]] - Контекстная навигация (Quick-Nav Drawer) без размонтирования плеера.
 - [[ai-deslop-strategy-tokens-audit]] - Стратегия → Токены (DESIGN.md) → Аудит. 4 уровня шрифтов, функциональный layout.
 - [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
-
+- [[b2c-lms-course-discovery-and-video-preview]] - B2C витрина курсов, Hover-трейлеры и анатомия двухколоночного лендинга.
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
+- [[arch-transactional-outbox-event-automation]] - Transactional Outbox Pattern в монолите без внешних брокеров.
 - [[pdf-generation-thymeleaf-flying-saucer]] - Генерация PDF (Thymeleaf + Flying Saucer).
 - [[hack-thymeleaf-pdf]] - Альтернативный стек генерации (Thymeleaf + OpenHTMLtoPDF) с поддержкой кириллицы.
 - [[arch-pdf-openhtmltopdf-thymeleaf]] - Векторная генерация PDF через Thymeleaf и OpenHTMLtoPDF с регистрацией шрифтов.
@@ -41,6 +42,7 @@
 - [[arch-hibernate-pitfalls]] - Опасности Hibernate (N+1 с MapStruct, orphanRemoval конфликты).
 - [[backend-rate-limiting-bucket4j]] - In-Memory Rate Limiting с Bucket4j.
 - [[arch-tiered-rate-limiting-bucket4j]] - Tiered Rate Limiting с Bucket4j и Caffeine (Auth, AI, General).
+- [[arch-quiz-assessment-engine-anti-cheat]] - Движок интерактивных квизов, раздельные DTO и защита от списывания.
 
 ## Интеграции и AI
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
@@ -48,11 +50,12 @@
 - [[arch-ai-smart-merge]] - Паттерн умного слияния данных из нескольких источников (API + PDF) через LLM.
 - [[arch-ai-structured-generation]] - Использование LLM для генерации строгих JSON DTO (json_object, Graceful Degradation).
 - [[arch-ai-tutor-lesson-grounding]] - AI-наставник с заземлением в контекст урока (Lesson Grounding) и защитой от инъекций.
+- [[arch-hybrid-rag-dense-sparse-rrf]] - Гибридный RAG-поиск: pgvector HNSW (Dense) + tsvector (Sparse FTS) через Reciprocal Rank Fusion.
+- [[arch-ai-code-grader-and-security-scanner]] - Автоматический AI-грейдер кода со статическим AST-сканером безопасности.
 - [[arch-rag-indexing-vs-retrieval]] - RAG архитектура: разница между Indexing Pipeline (запись) и Retrieval (поиск).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 - [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
-- [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
 
 ## Безопасность и Авторизация
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
