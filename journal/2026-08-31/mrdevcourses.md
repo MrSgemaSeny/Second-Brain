@@ -32,7 +32,7 @@
 - Добавлены модульные тесты `CourseCurriculumAccordion.test.tsx` и `CourseStickyCard.test.tsx`.
 - **Vitest**: 63/63 теста (26 сьютов) успешно пройдены (100% Green).
 - **Сборка**: `npm run build` успешно собрала 1790 модулей без единой ошибки.
-- **Senior README.md**: Создан полноценный презентационный `README.md` с бейджами, архитектурной схемой, разбором 10 доменных модулей, ADR ссылками, Quick Start и метриками качества.
+- **Senior README.md**: Создан полноценный презентационный `README.md` с фиксацией зрелости **Level 3: Strong Educational MVP (Pre-Release Pilot)**, схемой деплоя на Fly.io + Vercel, списком переменных окружения, JVM memory tuning и чек-листом готовности к пилоту.
 
 ---
 
