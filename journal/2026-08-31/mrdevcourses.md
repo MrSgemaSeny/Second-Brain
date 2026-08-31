@@ -122,3 +122,20 @@
   - **Backend (JUnit)**: **209/209 PASSED (100% Green при `--rerun-tasks`)**.
   - **Frontend (Vitest)**: **67/67 PASSED across 28 suites (100% Green)**.
   - **Production Bundle**: `tsc -b && vite build` — 1792 модуля собрано без единой ошибки за 4.87s.
+
+### 1.9. Полное завершение Фазы 1 Роадмапа (Закрытие пилота: Stuck Engine + Стена проектов + Онбординг)
+- **Stuck Detection Engine (`StuckDetectionService.java`, `StuckDetectionServiceTest.java`)**:
+  - Фоновый автоматический опрос застрявших студентов (`lastActiveDate <= now - 3 days`).
+  - Мгновенная отправка структурированных Telegram-алертов в личку ментора с именем, почтой, курсом и рекомендацией по поддержке в Discord.
+  - Аудит-логирование детекции в `audit_logs`.
+- **Публичная стена проектов выпускников (`/projects`)**:
+  - Flyway миграция `V18__create_project_showcases.sql` (таблица `project_showcases`, индексы `featured`, `created_at`, `user_id`).
+  - `ProjectShowcaseController` (`GET /v1/projects`, `POST /v1/projects`, `POST /v1/projects/{id}/like`).
+  - Frontend: `ProjectsPage.tsx` с GitHub-grade дизайном, фильтрацией (Все / Избранные / Популярные), счетчиком лайков, кнопками Live Demo и исходного кода на GitHub.
+  - Модалка публикации `AddProjectModal.tsx`.
+- **Онбординг-флоу (`WelcomeOnboardingModal.tsx`, `WelcomeOnboardingModal.test.tsx`)**:
+  - 3-шаговый интерактивный гайд (цель курса — задеплоить первый сервис за 5 дней, правила вайбкодинга, прямая ссылка на закрытый Discord ментора).
+- **Итоговые метрики верификации Фазы 1**:
+  - **Backend (JUnit)**: **215/215 PASSED (100% Green при `--rerun-tasks`)**.
+  - **Frontend (Vitest)**: **71/71 PASSED across 30 suites (100% Green)**.
+  - **Production Bundle**: `tsc -b && vite build` — 1795 модулей собрано без единой ошибки за 4.60s.
