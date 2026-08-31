@@ -209,3 +209,10 @@
   6. FSD: entities root exports, widget-to-widget импорты.
 - **Security Posture (Positive)**: IDOR защита на 11 контроллерах, JWT httpOnly cookie, 3-tier Bucket4j rate limiting, BCrypt, CSP headers, anti-enumeration login, secrets в env vars.
 - **Полный отчет**: артефакт `code_review_report.md` в brain artifacts.
+
+### 1.22. Стандартизация продолжительности уроков — 90 минут
+- Flyway миграция `V19__set_lesson_duration_90_minutes.sql`: все уроки переведены на 90 минут (`UPDATE lessons SET duration_minutes = 90`).
+- Логика: 1 час видео/теория + 30 минут практического закрепления = 90 минут на каждый урок.
+
+### 1.23. Исправление ширины футера (несовпадение с основным блоком)
+- Контейнер футера (`Footer.tsx`) выровнен в `max-w-[1440px]` — теперь совпадает с контейнером хедера и страниц курса.
