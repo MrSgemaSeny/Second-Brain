@@ -6,9 +6,15 @@ _Обновлено: 2026-08-31_
 ### 1. MrDevCourses (Educational LMS & Vibe-Coding Platform)
 - **Репо:** github.com/MrSgemaSeny/MrDevCourses
 - **Проект:** `projects/mrdevcourses/mrdevcourses.md`
-- **Статус:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 26 сьютов Vitest [63 теста], 21 E2E тест JUnit в `AdminSuiteE2ETest`, 1790 модулей собрано).
-- **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL 17 (pgvector, pg_trgm) + Bucket4j (3-Tier Rate Limiting) + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + FSD Architecture.
-- **Что это:** Учебная платформа с расчётом drip-контента на уровне СУБД `(NOW() - enrolled_at)`, гибридным RAG-тьютором (Dense HNSW + Sparse FTS RRF), AI-грейдером кода с AST-сканером безопасности, защитой от списывания в квизах, двухколоночным B2C-лендингом и изолированной административной консолью (`AdminLayout`).
+- **Мастер Роадмап:** `C:\Users\murat\Downloads\mrdevcourses_roadmap.md` (синхронизирован в `projects/mrdevcourses/mrdevcourses_roadmap.md`)
+- **Статус:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 27 сьютов Vitest [64 теста], 184 backend-теста JUnit, 1789 модулей собрано).
+- **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL 17 (pgvector, pg_trgm) + Bucket4j + React 19 + TypeScript + Vite + Tailwind v4 + FSD Architecture.
+- **Философия менторства Mr Developer:**
+  1. *Zero Friction Setup*: Студент устанавливает весь софт (VS Code, Antigravity, Cursor, Git) по прямым ссылкам и пошаговым чеклистам прямо из карточки урока.
+  2. *SOS-кнопка «Не получается»*: Мгновенный запрос помощи из любого шага урока с отправкой push-уведомления ментору в Telegram.
+  3. *Telegram Dashboard ментора*: Уведомления о ДЗ, SOS-тикеты, stuck detection (3+ дня без активности) и бот-команды `/hw`, `/status`, `/approve`, `/reject`.
+  4. *Будущий RAG AI*: Векторный поиск pgvector по конспектам + FAQ база для снятия 60% рутины.
+  5. *GitHub-Grade UX*: Чистый, плотный, честный интерфейс уровня GitHub для фокуса на первом живом веб-приложении.
 - **Лог:** `journal/YYYY-MM-DD/mrdevcourses.md`
 
 ### 2. Zhan Finance (JF-1C) — Enterprise B2B SaaS Platform
