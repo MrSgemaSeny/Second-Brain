@@ -68,3 +68,15 @@
 - B2C витрина и страница курса готовы.
 - Консоль администратора изолирована в `AdminLayout`.
 - Проект полностью задокументирован в Second Brain и репозитории.
+
+---
+
+## 4. Синхронизация философии курса и педагогики во Второй Мозг
+- Добавлен системный модуль: [`projects/mrdevcourses/09_course_philosophy_and_mentorship.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/projects/mrdevcourses/09_course_philosophy_and_mentorship.md).
+  - Психология ЦА 16–25 лет: продажа трансформации идентичности («я тот, кто сделал приложение»), снятие страха отстать (FOMO) и стыда в Уроке 0.
+  - Матрица разделения зон: Автоматизация рутины (LMS, Drip, Homework verification, Stuck detection) vs Живые эмоции ментора в Discord (онбординг, поддержка при выгорании, архитектурные развилки).
+  - Обучение метанавыку работы с AI (паттерн Error-Loop, формулирование запросов, эскалация к ментору).
+  - Сквозной мини-проект от Урока 1 (деплой за 45 минут) до Урока 5 (публикация на стене проектов).
+- Создана Zettelkasten заметка: [`knowledge/pedagogy-and-automation-split-for-vibe-coding.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/pedagogy-and-automation-split-for-vibe-coding.md).
+- Обновлены индексы: [`projects/mrdevcourses/mrdevcourses.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/projects/mrdevcourses/mrdevcourses.md) и [`knowledge/knowledge-index.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/knowledge-index.md).
+

@@ -19,11 +19,13 @@
 - [[06_mvp_roadmap|6. Roadmap (Фазы реализации)]]
 - [[07_risks_and_pitfalls|7. Риски, подводные камни и извлечённые уроки]]
 - [[08_medev_reusability|8. Связи с MeDev (Что переиспользовать)]]
+- [[09_course_philosophy_and_mentorship|9. Философия курса и Архитектура Менторства]]
 - [[_status|Текущий статус и чек-лист готовности]]
 
 ---
 
 ## 🔗 Связи в Базе Знаний (Knowledge Graph)
+- **Педагогика & Автоматизация:** [[knowledge/pedagogy-and-automation-split-for-vibe-coding|Педагогика вайбкодинга и разделение автоматизации в LMS]]
 - **Архитектура & RAG:** [[knowledge/arch-hybrid-rag-dense-sparse-rrf|Гибридный RAG: pgvector HNSW + FTS RRF]], [[wiki/concepts/hybrid-rag-systems|Концепция RAG]]
 - **AI & Grader:** [[knowledge/arch-ai-code-grader-and-security-scanner|AI Grader & AST Guard]], [[knowledge/arch-ai-tutor-lesson-grounding|AI-тьютор с Grounding]]
 - **Квизы & Оценка:** [[knowledge/arch-quiz-assessment-engine-anti-cheat|Анти-чит движок квизов]]

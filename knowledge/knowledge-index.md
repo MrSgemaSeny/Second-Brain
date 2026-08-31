@@ -56,6 +56,7 @@
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 - [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
+- [[pedagogy-and-automation-split-for-vibe-coding]] - Педагогика вайбкодинга: трансформация идентичности, дофаминовый win на Уроке 1, Error-Loop и разделение зон LMS / Ментор.
 
 ## Безопасность и Авторизация
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
