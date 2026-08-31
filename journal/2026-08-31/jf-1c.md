@@ -47,3 +47,5 @@
 - В README.md (MrSgemaSeny) добавлены прямые ссылки на репозитории для всех проектов в разделе 'Путь'. Теперь у каждого проекта (Telegram Bot, Valeur, testCinema, JF-1C, Air Canvas, Envie, Second Brain, MrDevCourses) есть удобная кнопка '[Репозиторий]' в шапке описания.
 
 - Проекты в профиле (MrSgemaSeny/README.md) пересортированы в строгом соответствии с запросом: Football Bot, testCinema, JF-1C, Air Canvas, Envie, Second Brain, MeDev, Valeur, Mr Developer, MrDevCourses. Ссылка для testCinema исправлена на актуальную.
+
+- В README.md (MrSgemaSeny) текст '[? Наверх]' заменен на лаконичную кнопку в виде '<kbd>^</kbd>' без текста и эмодзи.
