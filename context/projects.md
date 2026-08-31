@@ -1,99 +1,55 @@
 # Мои проекты
-_Обновлено: 2026-08-28_
+_Обновлено: 2026-08-31_
 
-## Активные
+## Активные и Завершённые Проекты
 
-### MrDevCourses (LMS Платформа)
+### 1. MrDevCourses (Educational LMS & Vibe-Coding Platform)
 - **Репо:** github.com/MrSgemaSeny/MrDevCourses
 - **Проект:** `projects/mrdevcourses/mrdevcourses.md`
-- **Статус:** Level 3 - Educational MVP (Учебная LMS платформа. Максимальный уровень проекта — 3. Проект не предназначен для коммерческого релиза и не является Enterprise: Bucket4j rate limiting, Quick-Nav контекстный drawer, AI Lesson Tutor, PDF сертификаты, FSD React 19 с DESIGN.md дизайн-токенами).
-- **Стек:** Java 17 + Spring Boot 3.3 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL + Bucket4j + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query.
-- **Что это:** Обучающая платформа Mr Developer с drip-механикой (1 день — 1 урок по строгой SQL формуле `(NOW() - enrolled_at)`), YouTube embed плеером, глоссарием, AI наставником, личным кабинетом студента и когортной админ-аналитикой.
+- **Статус:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 26 сьютов Vitest [63 теста], 21 E2E тест JUnit в `AdminSuiteE2ETest`, 1790 модулей собрано).
+- **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL 17 (pgvector, pg_trgm) + Bucket4j (3-Tier Rate Limiting) + OpenHTMLtoPDF + Thymeleaf + React 19 + TypeScript + Vite + Tailwind v4 + FSD Architecture.
+- **Что это:** Учебная платформа с расчётом drip-контента на уровне СУБД `(NOW() - enrolled_at)`, гибридным RAG-тьютором (Dense HNSW + Sparse FTS RRF), AI-грейдером кода с AST-сканером безопасности, защитой от списывания в квизах, двухколоночным B2C-лендингом и изолированной административной консолью (`AdminLayout`).
 - **Лог:** `journal/YYYY-MM-DD/mrdevcourses.md`
 
-### MeDev (DevProfile)
-- **Репо:** github.com/MrSgemaSeny/MeDev
-- **Статус:** Level 3+ Production Live Release (Все 8 фаз Roadmap завершены: 253 backend теста, 37 frontend тестов, 0 warnings/errors, закрыты все W-1..W-9 уязвимости: AES-256-GCM, пессимистические блокировки, идемпотентность вебхуков, асинхронный аудит, 6 HTML/PDF тем).
-- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL (pgvector) + Flyway (V24) + Redis + Docker + Groq AI (openai/gpt-oss-20b) + Spring AI + Vitest + Flying Saucer + Actuator.
-- **Что это:** Data-first AI SaaS платформа для разработчиков. Автоматическая генерация резюме и портфолио из GitHub (Source of Truth) и PDF (Smart Merge), Job Tracker CRM + Kanban с AI-матчингом, 6 дизайн-шаблонов HTML и PDF резюме, публичная страница портфолио (`/:username`) с OpenGraph/Schema.org, генератор GitHub Profile README.
-- **Деплой:** Production Live: Frontend на Vercel (`me-dev-two.vercel.app`), Backend & DB & Redis на Render (`medev-backend.onrender.com`, `medev-postgres`, `medev-redis`).
-
-### Valeur (ATS & HR-Portal)
-- **Репо:** github.com/MrSgemaSeny/Valeur
-- **Статус:** Level 2+ Active Development (Активная разработка и миграция монолита на микросервисную архитектуру).
-- **Стек:** Java 17 + Spring Boot 3.3.4 + Spring Security 6 + Spring Cloud Gateway + PostgreSQL 16 + Groq AI (Llama 3.3 70b) + React 19 + TanStack Query v5 + Tailwind v4 + FSD.
-- **Архитектура:** Микросервисы (`identity-service:8081`, `vacancy-service:8082`, `application-service:8083`, `ai-service:8084`, `api-gateway:8080`).
-- **Мультитенантность:** Изоляция по `TenantContext` и `tenant_id`. RBAC (`CANDIDATE`, `COMPANY_ADMIN`).
-- **Документация:** `projects/valeur/valeur.md`
-
-### Mr Developer (Блог + Менторство + Курсы)
-- **Проект:** `projects/mr-developer/mr-developer.md`
-- **Статус:** Активен (первый ролик готов к публикации, Ученик 1 на практическом треке).
-- **Бренд:** Mr Developer / имя в видео — Орынбасар. Платформы: YouTube + Telegram.
-- **Аудитория:** 16–40 лет, без IT-базы, стремящиеся освоить современную разработку и вайбкодинг.
-- **Продукт:** Курсы по вайбкодингу (Бесплатный: лендинг → деплой. Платный: oAuth, CI/CD, архитектура, резюме, офферы). Пакеты промптов БАЗИК / ПРО / МАСТЕР.
-- **Менторство:** `projects/mr-developer/mentorship&courses/` — Ученик 1.
-- **Лог:** `journal/YYYY-MM-DD/mr-developer.md`
-
-### JF-1C (ZhanFinance)
+### 2. Zhan Finance (JF-1C) — Enterprise B2B SaaS Platform
 - **Репо:** github.com/MrSgemaSeny/JF-1C
-- **Статус:** Level 4 - Production-Ready v1.0.0 Released (Официальный релиз v1.0.0 опубликован на GitHub, pre-release audit remediation 100% complete, проект на стадии поддержки и онбординга клиентов).
-- **Стек:** Spring Boot 4.1 + React 19 (TypeScript) + PostgreSQL + Fly.io + Tailwind v4 + FSD.
-- **Что это:** B2B SaaS CRM для казахстанской бухгалтерской компании (Auth, CRM, Billing, Documents, LMS, Chat, Notifications, Calendar).
-- **Миграции:** V1–V120 applied (immutable).
-- **Деплой:** backend → Fly.io (zhanfinance.fly.dev), frontend → GitHub Pages.
+- **Проект:** `projects/jf-1c/jf-1c.md`
+- **Статус:** **Level 4 — Production-Ready v1.0.0 Released** (545 коммитов, 33 чистых рабочих дня, закрыты все 28 пунктов аудита безопасности).
+- **Стек:** Java 17 + Spring Boot 3.4+ + Spring Security 6 + PostgreSQL 17 + Flyway (цепочка миграций V1–V120) + React 19 + TypeScript + FSD + WebSockets (STOMP) + 2FA TOTP + OpenHTMLtoPDF + Caffeine Cache + Bucket4j.
+- **Что это:** Комплексная B2B SaaS платформа для бухгалтерского консалтинга и CRM в Казахстане (CRM Kanban, Task Pool, биллинг, документооборот, LMS, защищённые чаты, 6 ролей с Row-Level Security через `CrmAccessService`).
+- **Деплой:** Backend на Fly.io (`zhanfinance.fly.dev`), Frontend на GitHub Pages.
 
-- **CRITICAL долг (Phase 2 remediation — Tier 1 & Tier 2 COMPLETE):**
-  - C6 [DONE]: OfficialDocumentTemplateSeeder idempotency (commit `d336623`)
-  - C5 [DONE]: @Transactional на AdminService (commit `ba0caaf`)
-  - C4 [DONE]: V107 NULL в courses.created_by → миграция V119 (commits `a818d15`, `d1d14f3`)
-  - C1 [DONE]: Avatar 404 — prefix mismatch в FileDownloadController vs DatabaseStorageService (commit `08c2cda`)
-  - C3 [DONE]: Unbounded queries — пагинация AuditLog + удаление collection fetch из TaskSpecification (commit `04c65a3`)
-  - C2 [DONE]: N+1 queries — @BatchSize в курсах/главах, @EntityGraph в документах, batch unread в чате (commit `9ce22be`)
-  - W2 [DONE]: WebSocket teardown & visibility reconnect race guard (commit `153ed3c`)
-  - W1 [DONE]: LMS secondary sort key tiebreaker `orderIndex ASC, createdAt ASC, id ASC` (commit `6de0c2f`)
-  - W3 [DONE]: Missing @CacheEvict on stage and employee mutations (commit `b200959`)
-  - W7 [DONE]: ResponseStatusException structured error handler in GlobalExceptionHandler (commit `8ae8a0a`)
-  - W8 [DONE]: Null-safety guards on DashboardService.lostReason & SubscriptionService.endsAt (commit `f98dac1`)
-  - W9 [DONE]: Flyway migration V120 for course_curators DDL & clean runner (commit `325a77f`)
-  - W4 [DONE]: React Query invalidation in TaskDetailsModal & TaskPoolPage (commit `dd08d64`)
-  - W5 [DONE]: dnd-kit double-submit race condition lock in TaskKanbanBoard (commit `af9ec8e`)
-  - W6 [DONE]: Kazakh (kk) locale dictionary scaffold in frontend i18n (commit `ba07686`)
-- **Audit report:** `.agents/audit_report.md` (28 находок: 6 CRITICAL [ALL RESOLVED], 9 WARNING [ALL RESOLVED], 5 INFO)
+### 3. MeDev (DevProfile) — Data-First AI SaaS для Инженеров
+- **Репо:** github.com/MrSgemaSeny/MeDev
+- **Проект:** `projects/medev/medev.md`
+- **Статус:** **Level 4 — Pre-Launch / Private Beta Live** (253 backend теста, 37 frontend тестов, 0 warnings/errors, закрыты все W-1..W-9 уязвимости).
+- **Стек:** Spring Boot 3.3.0 + React 19 + PostgreSQL 17 (pgvector) + Flyway (V24) + Redis Valkey 8.1 (L2 Cache) + In-Memory Caffeine (L1 Cache) + Groq LLM (SSE-стриминг) + Flying Saucer + Vitest.
+- **Что это:** Платформа единого источника правды для разработчиков. Парсер GitHub API, алгоритм Smart Merge для старых PDF-резюме без галлюцинаций LLM, 6 дизайн-шаблонов резюме, публичное веб-портфолио (`/:username`) и Job Tracker CRM.
+- **Деплой:** Production Live: Frontend на Vercel (`me-dev-two.vercel.app`), Backend & DB & Redis на Render (`medev-backend.onrender.com`).
 
-
-
-
-
-
-### Envie
-- **Репо:** github.com/MrSgemaSeny/Envie
-- **Статус:** Готовы все Core-модули (Notes, Board, Ideas, Templates, Wallpaper, 3D Dashboard)
-- **Стек:** React 18 (TypeScript) + Vite + Tailwind v4 + FSD | Java 17 + Spring Boot 3 + PostgreSQL + Gradle
-- **Что это:** Личный рабочий штаб (Second Brain) — заметки, канбан, идеи, MD-база знаний, обои/видео, 3D Dashboard
-- **Деплой:** Frontend: GitHub Pages | Backend: localhost
-
-### Air Canvas
-- **Статус:** ЗАВЕРШЕН (Фаза 6 пройдена)
-- **Стек:** Python (FastAPI + MediaPipe) + React (TS + Canvas API) + WebSocket
-- **Что это:** Рисуешь в воздухе пальцем — линия появляется на экране
-- **Жесты:** указательный = рисуем, два пальца = пауза, кулак = очистить
-- **Особенности:** Backpressure-синхронизация по WS, 3D-дистанции для инвариантности к ракурсу, сохранение PNG, эффекты (glow, spray).
-
-### Valeur
+### 4. Valeur — Multi-Tenant Distributed ATS & AI Hiring Platform
 - **Репо:** github.com/MrSgemaSeny/Valeur
-- **Статус:** Level 2 - Pet Project / MVP (Активная разработка и миграция монолита на микросервисы).
-- **Стек:** Java 17 + Spring Boot 3.3.4 + Spring Security 6 + Spring Cloud Gateway + PostgreSQL 16 + Groq AI (Llama 3.3 70b) + React 19 + TanStack Query v5 + Tailwind v4 + FSD.
-- **Архитектура:** Микросервисы (`identity-service:8081`, `vacancy-service:8082`, `application-service:8083`, `ai-service:8084`, `api-gateway:8080`).
-- **Мультитенантность:** Изоляция по `TenantContext` и `tenant_id`. RBAC (`CANDIDATE`, `COMPANY_ADMIN`).
-- **Инфраструктура:** Docker Compose для всех сервисов и БД.
-- **Документация:** `projects/valeur/valeur.md`
+- **Проект:** `projects/valeur/valeur.md`
+- **Статус:** **Level 2–3 — Heavy Production-Ready MVP** (5 микросервисов + Spring Cloud Gateway, Docker Compose).
+- **Стек:** Java 17 + Spring Boot 3.3.4 + Spring Cloud Gateway + PostgreSQL 16 (4 схемы БД) + Groq AI (Llama 3.3 70B) + React 19 + TypeScript + FSD + TanStack Query v5.
+- **Архитектура:** Микросервисы (`identity-service:8081`, `vacancy-service:8082`, `application-service:8083`, `ai-service:8084`, `api-gateway:8080`). Изоляция данных компаний по `TenantContext` и `tenant_id`, межсервисный токен `X-Internal-Token`.
+- **Что это:** ATS-система с интеллектуальным скорингом резюме кандидатов по вакансиям, интерактивной Kanban-доской с SLA-контролем и кадровым резервом (Talent Pool CRM).
 
+### 5. Envie — Personal Headquarters & Knowledge Operating System
+- **Репо:** github.com/MrSgemaSeny/Envie
+- **Проект:** `projects/envie/envie.md`
+- **Статус:** **Level 3 — Personal Production OS** (Все 8 модулей реализованы, sub-15ms отклик).
+- **Стек:** Java 17 + Spring Boot 3.4 + PostgreSQL 17 + Flyway (V1–V7) + React 19 + TypeScript + FSD 2.1 + Tailwind v4 + Canvas 2D + Three.js.
+- **Что это:** Персональная инженерная операционная среда без облаков и сторонней авторизации. Заметки, плоский Канбан без Jira-бюрократии, инкубатор идей, D3 граф Markdown-шаблонов и 3D Wireframe глобус на HTML5 2D Canvas.
 
-## В планах
+### 6. Air Canvas
+- **Статус:** **Завершён**
+- **Стек:** Python (FastAPI + MediaPipe) + React (TypeScript + Canvas API) + WebSocket.
+- **Что это:** Бесконтактное рисование в воздухе пальцем перед веб-камерой с распознаванием 3D-жестов руки в реальном времени.
 
-### Склад
-- **Статус:** идея
+### 7. testCinema & Football Bot (Фундаментальный опыт)
+- **testCinema**: Дипломная киноплатформа (10 месяцев боевой эксплуатации, Spring Boot + FastAPI ML-сервисы рекомендаций + React FSD).
+- **Football Bot**: Telegram-бот на чистом Core Java + Raw JDBC без ORM, заложивший понимание транзакций, пулов соединений и производительности.
 - **Что это:** Проект для больших экспериментов — мультитенантность, микросервисы, LLM
 - **Когда:** будущее
 
