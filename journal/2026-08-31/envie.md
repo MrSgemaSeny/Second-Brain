@@ -11,6 +11,8 @@
   - Подробный обзор всех 8 ключевых модулей (Landing, Dashboard 3D, Notes, Board, Ideas, Templates, Wallpaper, For You).
   - Схема проекта с актуальной структурой директорий FSD и модулей бэкенда.
   - Цепочка миграций Flyway (V1–V7) с описанием неизменяемости.
+  - **Границы Продукта и Архитектурный Скоуп (Product Scope & Intentional Boundaries)**: Чёткая фиксация In-Scope (Zero-latency flow, суверенитет данных, строгая персистентность, универсальная 2D/3D графика без сбоев) и Out-of-Scope (отказ от многопользовательского RBAC, внешней телеметрии, SaaS-лока и AI-оверинжиниринга на CRUD-путях).
+  - **Варианты Развёртывания в Production**: Добавлены сценарии Homelab/Docker, персонального Cloud VPS и гибридного деплоя (GitHub Pages + Backend).
   - Инструкция по быстрому запуску (Docker, Gradle, Vite) с актуальными портами и тестами.
   - Свод инженерных стандартов (Zero Any, Motion Guardrails, Zero Emojis, Second Brain Protocol).
 
