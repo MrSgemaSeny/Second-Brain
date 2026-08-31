@@ -39,12 +39,19 @@
   - Кнопка **«Принять работу»** (`PASSED`): автоматически засчитывает урок и досрочно разблокирует следующий день курса.
   - Кнопка **«На доработку»** (`NEEDS_IMPROVEMENT`): фиксирует обратную связь ментора, студент видит замечания в уроке и может прислать исправленную версию.
 - **Onboarding Модалка (`WelcomeOnboardingModal`)**: Сразу после записи объясняет цель курса (работающий сайт онлайн), даёт ссылку на закрытый Discord, чеклист инструментов и открывает Урок 1.
-- **Очистка UX урока (`LessonPage`)**: Удалены неиспользуемые AI-табы, интерфейс сфокусирован на конспекте, практике со сдачей ДЗ, квизах и материалах.
-- **Рефакторинг сервиса ДЗ**: Устаревший `AiCodeGraderService` переименован и переписан в чистый [`HomeworkService.java`](file:///C:/Users/murat/IdeaProjects/new_world/MrDevCourses/backend/src/main/java/com/mrdev/modules/homework/service/HomeworkService.java) без лишних внешних ИИ-зависимостей.
+
+### 1.6. Фаза 0: Кнопка «Не получается», сбор датасета и Telegram-уведомления
+- **Data-First RAG Dataset (`V17__create_student_help_requests.sql`)**: Каждое нажатие «Не получается» персистится в PostgreSQL (`student_help_requests`) с сохранением `userId`, `lessonId`, `stepIdentifier`, `problemText`, `errorLogs` и статуса (`OPEN`, `RESOLVED`). Это живой золотой датасет реальных затыков студентов для будущего RAG.
+- **Мгновенные Telegram-алерты (`TelegramNotificationService`)**:
+  - При создании SOS-запроса ментору мгновенно падает push-уведомление с именем студента, курсом, уроком, шагом, текстом проблемы и логами ошибок.
+  - При сдаче ДЗ ментору падает алерт с прямыми ссылками на GitHub и Live Demo.
+- **UI виджет студента (`StudentHelpModal`, `LessonPage`)**:
+  - Кнопка **«Не получается?»** в карточке урока.
+  - Модалка с выбором шага, текстом затыка, полем для логов терминала и историей обращений со статусом.
 - **Тесты и сборка**:
-  - JUnit: **184/184 backend тестов PASSED (100% Green)**.
-  - Vitest: **64/64 frontend тестов PASSED across 27 suites (100% Green)**.
-  - Build: `tsc -b && vite build` — **1789 модулей собрано без единой ошибки**.
+  - Backend: **188/188 JUnit тестов PASSED (100% Green)**.
+  - Frontend: **65/65 Vitest тестов PASSED across 28 suites (100% Green)**.
+  - Production Build: `tsc -b && vite build` — **1791 модуль собран без единой ошибки**.
 
 ---
 
@@ -80,3 +87,21 @@
 - Создана Zettelkasten заметка: [`knowledge/pedagogy-and-automation-split-for-vibe-coding.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/pedagogy-and-automation-split-for-vibe-coding.md).
 - Обновлены индексы: [`projects/mrdevcourses/mrdevcourses.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/projects/mrdevcourses/mrdevcourses.md) и [`knowledge/knowledge-index.md`](file:///C:/Users/murat/IdeaProjects/new_world/Brain's%20protocol%20-%20second%20brain/knowledge/knowledge-index.md).
 
+
+
+## 31 августа 2026 — MrDevCourses сессия
+
+### Сделано
+- Закрыт human homework pipeline (V16 миграция)
+- Переименован AiCodeGraderService → HomeworkService
+- Обсуждена философия курса и психология студента
+- Создан файл: course_philosophy.md
+- Создан файл: mrdevcourses_roadmap.md (4 фазы)
+- Зафиксировано видение платформы: сайт как единый инструмент,
+  TG-бот как пульт ментора, кнопка "Не получается" как основа
+  будущего RAG-датасета
+
+### Следующий шаг (Фаза 0)
+- Урок как операционная карточка (ссылки + файлы + чеклист)
+- Кнопка "Не получается" → TG уведомление
+- TG-бот с командами /approve /reject /status /stuck /hw
