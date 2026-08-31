@@ -35,3 +35,5 @@
 3. **Epic-11:** РџРѕРґРєР»СЋС‡РµРЅРёРµ РєР°СЃС‚РѕРјРЅРѕРіРѕ РґРѕРјРµРЅР° `zhanfinance.kz` Рё Cloudflare WAF.
 
 - Проведен глубокий технический аудит всех проектов из директории 'All my projects' (JF-1C, MeDev, Valeur, MrDevCourses, Envie). Создана архитектурная ретроспектива в knowledge/portfolio_retrospective_all_projects.md, связывающая инженерный путь с идеологией менторства ('Я — настоящий результат').
+
+- Проанализированы отчеты Claude и Gemini (portfolio_analysis_claude.md, portfolio_analysis_gemini.md). В knowledge/portfolio_retrospective_all_projects.md добавлен раздел с критическим аудитом технического долга: ArchUnit для модульного монолита, Structured Logging (Correlation ID), стратегии кэширования при горизонтальном масштабировании и Test Pyramid.
