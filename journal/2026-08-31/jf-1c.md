@@ -45,3 +45,5 @@
 - В README.md (MrSgemaSeny) добавлено 'Оглавление' (Table of Contents) в начале документа и навигационные ссылки '[? Наверх](#оглавление)' перед каждым крупным разделом для удобства чтения.
 
 - В README.md (MrSgemaSeny) добавлены прямые ссылки на репозитории для всех проектов в разделе 'Путь'. Теперь у каждого проекта (Telegram Bot, Valeur, testCinema, JF-1C, Air Canvas, Envie, Second Brain, MrDevCourses) есть удобная кнопка '[Репозиторий]' в шапке описания.
+
+- Проекты в профиле (MrSgemaSeny/README.md) пересортированы в строгом соответствии с запросом: Football Bot, testCinema, JF-1C, Air Canvas, Envie, Second Brain, MeDev, Valeur, Mr Developer, MrDevCourses. Ссылка для testCinema исправлена на актуальную.
