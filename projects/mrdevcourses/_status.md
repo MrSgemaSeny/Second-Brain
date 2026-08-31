@@ -1,21 +1,9 @@
-# Статус: MrDevCourses
-_Обновлено: 2026-08-27_
+﻿# Статус проекта: MrDevCourses
 
-## Текущий уровень: Level 4 — Enterprise Hardened & Scaled Release
-(R1 Rate Limiting + R2 Quick-Nav Drawer + R3 AI Tutor + R4 PDF Certificates + R5 Admin Analytics Funnel & Retention + Dual Layout Separation)
-
-## Следующая веха: Production Hosting / Cloud Rollout (Fly.io + GitHub Pages / Vercel)
-
-## Открытые вопросы:
-- Нет
-
-## Технический долг:
-- 0 CRITICAL, 0 WARNING, 0 MINOR
-- Forensic Audit: 100% CLEAN
-- Бэкенд тесты: 98 / 98 passing (100% Green, `:jacocoTestReport` сгенерирован)
-- Фронтенд тесты: 33 / 33 passing (11/11 Vitest suites)
-- Production Build: `npm run build` — 0 errors, 0 warnings
-- Миграции БД: Flyway V1..V9 применены и проверены
-
-## Блокеры:
-- Нет
+**Текущая фаза:** Фаза 5 — B2C Discovery & Course Landing Experience
+**Дата обновления:** 2026-08-31
+**Текущее состояние:**
+- Бэкенд: 100% зелёные интеграционные и E2E тесты (21/21 в AdminSuiteE2ETest).
+- Фронтенд: 100% зелёные тесты Vitest (60/60 в 24 сьютах), production сборка без ошибок.
+- Архитектура: Модульный монолит, FSD, dual layout RBAC (AdminLayout vs Client Layout), httpOnly JWT, DB-calculated drip-content.
+- В работе: Реализация B2C витрины курсов (/courses) и B2C лендинга (/courses/:slug) с аккордеоном модулей, hover-трейлерами и Sticky Card.
