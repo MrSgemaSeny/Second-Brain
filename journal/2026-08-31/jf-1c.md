@@ -37,3 +37,5 @@
 - Проведен глубокий технический аудит всех проектов из директории 'All my projects' (JF-1C, MeDev, Valeur, MrDevCourses, Envie). Создана архитектурная ретроспектива в knowledge/portfolio_retrospective_all_projects.md, связывающая инженерный путь с идеологией менторства ('Я — настоящий результат').
 
 - Проанализированы отчеты Claude и Gemini (portfolio_analysis_claude.md, portfolio_analysis_gemini.md). В knowledge/portfolio_retrospective_all_projects.md добавлен раздел с критическим аудитом технического долга: ArchUnit для модульного монолита, Structured Logging (Correlation ID), стратегии кэширования при горизонтальном масштабировании и Test Pyramid.
+
+- Обновлен глобальный профиль GitHub (README.md в репозитории MrSgemaSeny). Добавлен проект MrDevCourses (Educational LMS & Vibe-Coding Platform). Обновлен технологический стек (pgvector, Bucket4j, Spring Cloud Gateway). Уточнены уровни зрелости (Level 3-4) для проектов MeDev и Envie. В раздел 'Mr Developer' добавлена корневая философия менторства ('настоящий результат').
