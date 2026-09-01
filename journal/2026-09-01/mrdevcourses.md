@@ -668,3 +668,26 @@
   - Backend: 248/248 JUnit тестов Green (100%).
   - Frontend: 78/78 Vitest тестов Green (100%).
   - Frontend Production Build: `tsc -b && vite build` успешно скомпилирован за 4.71s (0 ошибок типов).
+
+### 1.43. Observability First: OpenTelemetry Tracing, Correlation ID & Structured Logging
+
+- **Micrometer Tracing + OpenTelemetry Integration**:
+  - Добавлены зависимости `io.micrometer:micrometer-tracing-bridge-otel` и `net.logstash.logback:logstash-logback-encoder:7.4` в `backend/build.gradle`.
+  - В `application.yml` сконфигурированы `management.tracing.sampling.probability: 1.0` и форматы распространения контекста `W3C,B3`.
+- **Correlation ID Filter (`CorrelationIdFilter.java`)**:
+  - Создан фильтр с наивысшим приоритетом (`Ordered.HIGHEST_PRECEDENCE`), зарегистрированный первым в `SecurityConfig` перед `SecurityHeadersFilter`.
+  - Автоматически считывает входящий `X-Request-ID` или генерирует новый UUID.
+  - Наполняет MDC контекст полями `requestId`, `traceId`, `spanId`, `clientIp` (через `IpResolver`).
+  - Устанавливает `X-Request-ID` в заголовок ответа HTTP.
+  - Гарантирует очистку `MDC.clear()` в блоке `finally` для защиты пула потоков.
+  - Написан сьют модульных тестов `CorrelationIdFilterTest.java`.
+- **Structured JSON Logging (`logback-spring.xml`)**:
+  - Профиль `!prod & !json`: цветной форматированный вывод в консоль с `[appName,traceId,spanId,requestId]`.
+  - Профиль `prod | json`: однострочный структурированный JSON формат Logstash со всеми MDC полями для Grafana Loki / Logstash / CloudWatch.
+- **Frontend Correlation ID Injection (`src/shared/api/base.ts`)**:
+  - Нативный `fetchClient` автоматически генерирует и проставляет `X-Request-ID` в заголовки каждого исходящего HTTP запроса (`crypto.randomUUID()`).
+  - Извлекает `X-Request-ID` из заголовков ответа и инкапсулирует `requestId` в объект ошибки `ApiError` для сквозной телеметрии.
+- **Верификация**:
+  - Backend: 250/250 JUnit тестов Green (100%).
+  - Frontend: 78/78 Vitest тестов Green (100%).
+  - Frontend Production Build: `tsc -b && vite build` успешно скомпилирован за 4.71s (0 ошибок типов).
