@@ -302,10 +302,20 @@
 - **Bug 3 (Positional Extraction for /reject)**: Номер ID извлекается строго из аргумента `parts[1]`, а комментарий из `parts[2]`, исключая искажение цифр внутри комментария ментора (например, «День 5», «строка 12»).
 - **Верификация**: Backend 241/241 JUnit тестов Green (100%).
 
+### 1.20. Telegram Bot Dispatcher Stabilization & UI Alignment
+- **Telegram Bot Dispatcher**:
+  - Полностью очищен `processCommand` в `TelegramBotCommandService.java` от дублированных веток `switch`.
+  - Стабилизирована цепочка авто-связывания аккаунтов по username и email.
+- **Frontend & Navigation Alignment**:
+  - Сохранены консистентные отступы и монохромные стили в `ProfilePage.tsx` и `AdminHomeworksPage.tsx`.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.73s, 1802 modules).
+- **Production Build**: 0 ошибок (33.32s, 31 test files).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
