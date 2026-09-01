@@ -186,11 +186,32 @@
   - Обновлен `/help` с чистым оформлением без вводящих в заблуждение угловых скобок.
 - **Тесты**: 5 новых юнит-тестов в `TelegramBotCommandServiceTest` (241/241 JUnit тестов Green).
 
+### 1.12. Admin Console Hardening: Full Monochrome, System/Audit/Analytics Routes & RBAC Cleanup
+
+- **Monochrome Design System (Zero Clutter)**:
+  - Вычищены все разноцветные иконки типов уроков в `LessonRow.tsx` (`text-blue-400`, `text-emerald-400`, `text-amber-400` -> `text-zinc-400`).
+  - Бейджи PREVIEW/LOCKED и DRAFT/PUBLISHED переведены в строгий монохромный серый/белый стиль (`bg-zinc-800/text-white` и `bg-zinc-900/text-zinc-500`).
+  - Удалена колонка «Серия (Streak)», иконки Flame и Trophy из `StudentTable.tsx`.
+  - Убран чекбокс «Бесплатный предпросмотр» из модалок создания модулей и уроков (`CurriculumTree.tsx`, `ModuleCard.tsx`, `LessonRow.tsx`).
+
+- **Admin Routes & Telemetry**:
+  - Создана страница `AdminAuditPage.tsx` (`/admin/audit`) для инспекции неизменяемых логов безопасности.
+  - Создана страница `AdminSystemPage.tsx` (`/admin/system`) с мониторингом состояния сервера, PostgreSQL, JVM Memory и Bucket4j Rate Limits.
+  - Зарегистрированы маршруты `/admin/analytics`, `/admin/audit`, `/admin/system` в `app/router/index.tsx`.
+  - В `adminApi.ts` добавлены методы `getAuditLogs`, `getSystemHealth`, `getRateLimits`.
+
+- **RBAC Policy**:
+  - Администраторы (`role === 'ADMIN'`) имеют полный глобальный доступ ко всем курсам платформы. Кнопка «Зачисления» скрыта для админов, отображается статус «Все курсы (Админ)».
+
+- **Верификация**:
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` успешно собран за 7.48s (1802 модуля, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 241/241 тестов Green (100%).
+- **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.42s).
-- **Security Audit & Telegram Bot**: Все уязвимости устранены, бот полностью толерантен к пользовательскому вводу.
+- **Production Build**: 0 ошибок (7.48s, 1802 modules).
+- **Security Audit & Admin Console**: Все разделы админки (Обзор, Учебный план, Студенты, Проверка ДЗ, Аналитика, Аудит, Системный монитор) полностью функциональны.
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
