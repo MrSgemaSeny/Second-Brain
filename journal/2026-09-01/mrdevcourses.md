@@ -3,9 +3,9 @@
 ---
 
 ### 1.1. Security Hardening: Защита стены проектов (`/projects`) и 1-User-1-Like Toggle
-- Создана новая Flyway миграция `V20__create_project_likes_table.sql`:
+- Создана Flyway миграция `V20__create_project_likes_table.sql`:
   - Таблица `project_likes` с внешними ключами на `project_showcases(id)` и `users(id)` и ограничением `UNIQUE (project_id, user_id)`.
-- Созданы JPA сущность `ProjectLike` и репозиторий `ProjectLikeRepository` с методом `findProjectIdsLikedByUser`.
+- Созданы JPA сущность `ProjectLike` и репозиторий `ProjectLikeRepository`.
 - `ProjectShowcaseService.toggleLike(userId, projectId)`:
   - Реализован механизм toggle (повторный клик снимает лайк с декрементом счетчика).
   - При `getAllShowcases(currentUserId)` возвращается персональный флаг `hasLiked: boolean`.
@@ -15,79 +15,29 @@
 - `ProjectsPage.tsx`:
   - Интерактивная кнопка лайка с индикацией состояния `hasLiked`.
   - При клике неавторизованного пользователя происходит безопасный редирект на `/login`.
-- **Тесты**:
-  - `ProjectShowcaseControllerTest`: проверен 401 Unauthorized для анонимных лайков и корректный toggle счетчика для авторизованных.
 
-### 1.3. Редизайн страницы курса (CourseDetailPage: 1-колоночный Hero-лейаут)
-- Убран отдельный правый плавающий сайдбар (`CourseStickyCard`).
-- Кнопки основного действия («Посмотреть полное видео» и «Записаться на курс» / «Продолжить обучение») перенесены прямо в **Hero-блок под плашку автора** в основной колонке.
-- Видео-превью и карточка с параметрами курса (модули, уроки, видеочасы, формат + кнопка «Поделиться») гармонично интегрированы в основной поток страницы.
-- Проверены и успешно пройдены тесты `CourseDetailPage.test.tsx`.
+### 1.2. Frontend Resilience: Suspense для защищенных роутов
+- В `router/index.tsx` все защищенные роуты (`/courses`, `/courses/:slug`, `/courses/:cId/lessons/:lId`, `/dashboard`) обернуты в `wrap()` с `<Suspense fallback={<PageLoader />}>`, предотвращая падение React при задержках сети.
 
-### 1.4. Изоляция страниц авторизации (AuthLayout без Header и Footer)
-- Создан выделенный легковесный компонент `AuthLayout` (`frontend/src/app/layout/AuthLayout.tsx`), свободный от шапки и подвала платформы.
-- В `router/index.tsx` страницы `/auth`, `/login` и `/auth/callback` переведены на использование `AuthLayout`.
-- Страницы входа и регистрации теперь представляют собой чистый, сфокусированный экран авторизации в стиле GitHub.
-- Пройдены тесты `LoginPage.test.tsx` и `App.test.tsx`.
-
-### 1.5. Оптимизация вертикального ритма каталога (CoursesPage)
-- Удален принудительный класс `min-h-screen` из контейнера `CoursesPage.tsx`, создававший искусственный пустой зазор высотой в пол-экрана перед футером при малом количестве курсов.
-- За счет гибкого `main.flex-1` в корневом `App.tsx` футер аккуратно прижимается к низу страницы без образования пустот и лишнего скролла.
-- Проверены и пройдены тесты `CoursesPage.test.tsx`.
-
-### 1.6. Корректировка визуальной иерархии CTA-кнопок курса (CourseDetailPage)
-- Слева расположена приоритетная белая кнопка действия **«Записаться на курс»** со значком `<ArrowRight />`.
-- Справа размещена вторичная серая/контурная кнопка **«Посмотреть видео»** со значком `<Play />`.
-- Успешно пройдены юнит-тесты `CourseDetailPage.test.tsx`.
-
-### 1.7. Выравнивание сетки CourseDetailPage по левому краю контейнера
-- Контейнер `CourseDetailPage` возвращен к ширине `max-w-[1440px] px-4 sm:px-6 lg:px-8`, строго выравнивая контент по левому краю с логотипом и шапкой платформы без искусственного центрирования узкой полосой.
-- Успешно пройдены тесты `CourseDetailPage.test.tsx`.
-
-### 1.8. Ограничение ширины контента до 65% и компактный размер видео (CourseDetailPage)
-- Ширина основной колонки контента зафиксирована на `w-full lg:w-[65%] max-w-[960px]`, прижатой к левой границе сетки (без лишнего растягивания вправо).
-- Размер контейнера видео-превью ограничен компактным форматом `max-w-2xl max-h-[360px]` с аккуратными пропорциями.
-- Проверены и пройдены тесты `CourseDetailPage.test.tsx`.
-
-### 1.9. Установка ширины 75% и идеальное выравнивание правой границы видео (CourseDetailPage)
-- Ширина основной колонки контента установлена на `w-full lg:w-[75%] max-w-[1080px]`.
-- Карточка видео-превью переведена на `w-full`, благодаря чему её правая граница идеально совпадает по вертикали со всеми остальными блоками страницы («Чему вы научитесь на курсе», «Требования», «Программа курса» и FAQ).
-- Проверены и пройдены тесты `CourseDetailPage.test.tsx`.
-
-### 1.10. Создание страниц Privacy/Terms и очистка футера от v1.0 MVP
-- Созданы полноценные страницы в темном стиле платформы:
-  - [`PrivacyPage.tsx`](file:///c:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/legal/PrivacyPage.tsx) — «Политика конфиденциальности» (`/privacy`).
-  - [`TermsPage.tsx`](file:///c:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/legal/TermsPage.tsx) — «Условия использования» (`/terms`).
-- В `routes.ts` и `router/index.tsx` зарегистрированы маршруты `/privacy` и `/terms`.
-- В `footerConfig.ts` заглушки `#` заменены на реальные маршруты `ROUTES.PRIVACY` и `ROUTES.TERMS`.
-- В `Footer.tsx` удален текст `v1.0 MVP`, ссылки подключены через `<Link to>`, а нижний бар аккуратно выровнен.
-- Все 71 тест пройдены успешно.
-
-### 1.11. Очистка интерфейса Личного Кабинета (DashboardPage)
-- В шапке `DashboardPage.tsx` удалена иконка `Terminal` рядом с надписью «Личный кабинет».
-- Удалены блоки «Текущий стрик» и «Рекорд», сделав шапку кабинета максимально лаконичной и сфокусированной на курсах.
-- Проверены и пройдены тесты `DashboardPage.test.tsx`.
-
-### 1.12. Унификация левой границы и сетки 75% для всех страниц платформы
-- Все страницы платформы приведены к единому стандарту разметки:
-  - Внешний контейнер: `w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8` (строго совпадает с шапкой и футером).
-  - Внутренняя колонка: `w-full lg:w-[75%] max-w-[1080px] space-y-8`, строго прижатая к левой границе сетки.
-- Обновлены:
-  - `CoursesPage.tsx` (Каталог курсов)
-  - `DashboardPage.tsx` (Личный кабинет)
-  - `ProjectsPage.tsx` (Стена проектов)
-  - `CertificateVerifyPage.tsx` (Верификация сертификатов)
-  - `LandingPage.tsx` (Главная страница)
-- Проверены и пройдены все 71 тест.
-
-### 1.13. Выравнивание правой границы футера по 75% сетке блоков
-- Контент [`Footer.tsx`](file:///c:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/widgets/footer/Footer.tsx) обернут в колонку `w-full lg:w-[75%] max-w-[1080px] space-y-8`.
-- Правые блоки «Платформа» и «Контакты» теперь строго совпадают по правой вертикальной линии с карточками контента, аккордеоном FAQ и видео.
-- Проверены и пройдены все 71 тест.
+### 1.3. Student Profile Page & Settings (`/profile`)
+- **Flyway Миграция V21** (`V21__add_profile_fields_to_users.sql`):
+  - Добавлены колонки `telegram_username`, `github_username`, `bio`, `goal` в таблицу `users`.
+- **Бэкенд**:
+  - Обновлена сущность `User` и `CertificateRepository.countByUserId`.
+  - Созданы `UserProfileDto`, `UpdateUserProfileRequest`, `UserProfileService` и `UserProfileController` (`GET /v1/users/profile`, `PUT /v1/users/profile`).
+  - Автоматическая очистка символа `@` из Telegram и GitHub никнеймов при сохранении.
+  - Подсчет агрегированных метрик студента (`enrolledCoursesCount`, `completedLessonsCount`, `certificatesCount`).
+  - Тесты: `UserProfileControllerTest` (4 теста: GET/PUT с авторизацией, отказ 401 для анонимов, валидация).
+- **Фронтенд**:
+  - Создана страница `ProfilePage.tsx` в строгом GitHub-стиле (`#0d1117`, `#0e0e11`, `#18181b`).
+  - Сетка статистики (текущий и рекордный стрик, пройденные уроки, курсы, сертификаты выпускника).
+  - Редактирование профиля: Имя, аватар с живым предпросмотром, Telegram для ментора, GitHub, цель обучения с быстрыми пресетами и Bio.
+  - Добавлен пункт «Профиль и настройки» в `UserProfileDropdown.tsx`.
+  - Тесты: `ProfilePage.test.tsx` (2 теста).
 
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 216/216 тестов Green (100%).
-- **Frontend (Vitest)**: 71/71 тестов Green (100%).
-- **Production Build**: `tsc -b && vite build` — 1797 модулей собрано за 4.65s (0 ошибок).
+- **Backend (JUnit)**: 220/220 тестов Green (100%).
+- **Frontend (Vitest)**: 73/73 тестов Green (100%).
+- **Production Build**: 0 ошибок (4.35s).
