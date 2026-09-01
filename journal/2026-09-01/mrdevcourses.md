@@ -312,10 +312,25 @@
   - Backend: 241/241 JUnit тестов Green (100%).
   - Frontend: 73/73 Vitest тестов Green (100%).
 
+### 1.21. Telegram Bot Clean Fixes & UI Student Label Cleanup
+
+- **Backend (`TelegramBotCommandService.java`)**:
+  - Полностью удалена аннотация `@Transactional(readOnly = true)` с класса и неиспользуемый импорт `Transactional`.
+  - В методе `handleStudentUnlink` восстановлена очистка `user.setTelegramUsername(null);` при отвязке аккаунта.
+  - Реализована гибкая привязка Telegram по отправке email (`/link user@email.com` или просто `user@email.com`), по совпадению никнейма из профиля и по токенам `LINK_...`.
+- **Frontend (`ProfilePage.tsx`, `StudentLayout.tsx`, `AdminHomeworksPage.tsx`)**:
+  - Удалена избыточная надпись/бейдж `STUDENT` из профиля (отображается только роль `ADMIN` для администраторов).
+  - В заголовке заменено «Личный кабинет студента» на «Личный кабинет».
+  - Заменены дефолтные фоллбеки «Студент» на имя/email пользователя.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (14.74s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 241/241 тестов Green (100%).
+- **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (33.32s, 31 test files).
+- **Production Build**: 0 ошибок (14.74s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
