@@ -415,10 +415,23 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (6.17s, 0 ошибок).
 
+### 1.28. Zero Emoji Purge & Secret Hygiene Alignment
+
+- **Zero Emoji Compliance**:
+  - Полностью удалены все эмодзи из серверных сервисов Telegram (`TelegramBotCommandService.java`, `ProjectShowcaseService.java`, `TelegramNotificationService.java`).
+  - Все ответы бота и алерты переведены на чистый строгий монохромный текстовый формат `[...]`.
+- **Secret Hygiene**:
+  - Полностью удалены любые захардкоженные секреты/токены из конфигураций (`application-dev.yml`).
+  - Конфигурации используют исключительно безопасные плейсхолдеры переменных окружения `${...:}`.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: 0 ошибок (37.07s, 31 test files).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 236/236 тестов Green (100%).
+- **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (6.17s, 1802 modules).
+- **Production Build**: 0 ошибок (37.07s, 31 test files).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
