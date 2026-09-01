@@ -474,10 +474,25 @@
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Production Build: `tsc -b && vite build` (1802 модуля, 0 ошибок).
 
+### 1.32. Profile DTO: Map telegramChatId and Notification Preferences to Frontend
+
+- **Root Cause Analysis (Почему на сайте в профиле висел статус "НЕ ПРИВЯЗАН")**:
+  - В бэкенд DTO `UserProfileDto.java` отсутствовало поле `telegramChatId` (а также `emailNotificationsEnabled` и `telegramNotificationsEnabled`).
+  - При вызове эндпоинта `GET /api/v1/profile` сервис `UserProfileService.mapToDto` не передавал `user.getTelegramChatId()` во фронтенд.
+  - В результате в `ProfilePage.tsx` свойство `profile.telegramChatId` всегда оставалось `undefined`, и бейдж статуса отображал `НЕ ПРИВЯЗАН` даже после успешного связывания аккаунта ботом.
+- **Решение**:
+  - В `UserProfileDto.java` добавлены поля `telegramChatId`, `emailNotificationsEnabled`, `telegramNotificationsEnabled`.
+  - В `UserProfileService.mapToDto` настроено явное маппирование этих полей из сущности `User`.
+  - Теперь после привязки Telegram в чате статус в профиле на сайте мгновенно переключается в **`ПОДКЛЮЧЕН`**.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (1802 модуля, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (5.77s, 31 test files, 1802 modules).
+- **Production Build**: 0 ошибок (4.88s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
