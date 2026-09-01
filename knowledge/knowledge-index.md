@@ -21,6 +21,7 @@
 - [[antigravity_hooks]] - Архитектура .agents Lifecycle Hooks (PreInvocation, Safety Gate, Enforce Workflow, Stop Check).
 - [[antigravity-hooks-and-guardrails-evolution]] - История и эволюция хуков (архив reminder.ps1, git-reminder.ps1 и переход к hard guardrails).
 - [[agent-token-efficiency-and-vertical-troubleshooting]] - Анализ эффективности токенов: вертикальный целевой срез (Vertical Slice), PowerShell-операторы и Scoped Prompting.
+- [[observability-tracing-mdc-and-structured-logging]] - Observability First: Сквозной трейсинг (OpenTelemetry + Micrometer Tracing), Correlation ID (X-Request-ID), MDC и структурированное JSON-логирование (Logstash / Grafana Loki).
 
 ## Фронтенд (React, FSD, UI Deslop)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.

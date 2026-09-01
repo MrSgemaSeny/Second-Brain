@@ -691,3 +691,19 @@
   - Backend: 250/250 JUnit тестов Green (100%).
   - Frontend: 78/78 Vitest тестов Green (100%).
   - Frontend Production Build: `tsc -b && vite build` успешно скомпилирован за 4.71s (0 ошибок типов).
+
+### 1.44. Frontend CI/CD Pipeline & GitHub Pages Deployment
+
+- **GitHub Pages Deployment Workflow (`.github/workflows/deploy-pages.yml`)**:
+  - Сконфигурирован автоматический пайплайн сборки, тестирования и деплоя фронтенда на GitHub Pages при пуше в ветку `main` и ручном запуске (`workflow_dispatch`).
+  - Установлены необходимые права доступа `pages: write`, `id-token: write`, `contents: read` и конкурентность `group: "pages"`.
+  - Шаги сборки: Node.js 20, `npm ci`, `npm test -- --run` (78 тестов), сборка с переменной `VITE_BASE_PATH=/MrDevCourses/`.
+  - Генерация `404.html` из `index.html` в `dist/` для поддержки Single Page Application (SPA) маршрутизации при прямых переходах и обновлении страницы.
+  - Деплой через официальные экшены `actions/upload-pages-artifact@v3` и `actions/deploy-pages@v4`.
+- **Конфигурация Vite и Router (`vite.config.ts`, `router/index.tsx`, `vite-env.d.ts`)**:
+  - `vite.config.ts`: добавлен динамический `base: process.env.VITE_BASE_PATH || '/'` для корректной генерации путей к ассетам в подпапке репозитория.
+  - `router/index.tsx`: передан `basename: import.meta.env.BASE_URL` в `createBrowserRouter` для бесшовной клиентской навигации React Router.
+  - `src/vite-env.d.ts`: добавлены типы `vite/client` для полной TypeScript-типизации `import.meta.env`.
+- **Верификация**:
+  - Frontend Vitest: 78/78 тестов Green (100%).
+  - Frontend Production Build: `tsc -b && vite build` успешно собран за 4.63s без ошибок.
