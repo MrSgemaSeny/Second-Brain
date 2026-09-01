@@ -608,3 +608,18 @@
 - **Artillery 500 Errors Investigation Note**:
   - В нагрузочном тесте 487 запросов вернули 500 из-за попыток вызова защищенных контроллеров (например `/v1/admin/analytics/overview`) в рамках сессии виртуального пользователя после сбоя логина с фейковыми кредами (`admin@test.com`).
   - При тестировании под нагрузкой необходимо использовать реальные сидированные учетные данные из `DataSeeder` (`admin@mrdev.com`), чтобы исключить каскадные артефакты от непрошедшей аутентификации.
+
+### 1.39. Origin Validation Filter & Complete Security Hardening
+
+- **Anti-CSRF Protection (`OriginValidationFilter.java`)**:
+  - Создан фильтр `OriginValidationFilter`, зарегистрированный в `SecurityConfig` перед `UsernamePasswordAuthenticationFilter`.
+  - Для всех state-changing методов (`POST`, `PUT`, `PATCH`, `DELETE`) проверяется заголовок `Origin`.
+  - Запросы с чужих или неавторизованных доменов немедленно отклоняются со статусом `403 Forbidden` (`{"success":false,"error":"Cross-Origin request blocked by Origin validation"}`).
+  - Безопасные методы (`GET`, `HEAD`, `OPTIONS`) пропускаются без блокировки.
+- **Artillery Configuration Cleanup (`artillery.yml`)**:
+  - Удален некорректный блок `capture: header: set-cookie`, приводивший к 100% сбоям сценария `Student — Lessons + Progress Flow`.
+  - Встроенный `cookieJar` Artillery теперь бесшовно передает httpOnly куки между шагами виртуального пользователя.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Working Tree: Чисто.
