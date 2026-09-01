@@ -35,9 +35,21 @@
   - Добавлен пункт «Профиль и настройки» в `UserProfileDropdown.tsx`.
   - Тесты: `ProfilePage.test.tsx` (2 теста).
 
+### 1.4. AI Context Guards: Системный манифест и PowerShell Prompt Injection Hook
+- **Системный манифест (`.agents/AGENTS.md`)**:
+  - Добавлены XML-теги `<CRITICAL_INSTRUCTIONS>` со строгим запретом консольных CLI-утилит (cat, grep, ls, dir, head, tail, sed, awk) через `run_command` в пользу нативных API-тулов.
+  - Категорический запрет любых эмодзи во всех ответах, коде, коммитах и логах.
+  - Обязательное требование перечитывать `AGENTS.md` при сомнениях.
+- **PowerShell Prompt Injection Hook (`.agents/prompt-guard.ps1`)**:
+  - Функция `prompt` внедряет директивы в поток `[Console]::Error.WriteLine()`.
+  - При каждом выполнении команды ИИ получает напоминание в конце `stderr` и держит контекст без галлюцинаций.
+- **Инсталлятор (`setup-ai-guards.ps1`)**:
+  - Безопасно инжектирует хук в профиль PowerShell (`$PROFILE`) с маркерами `# >>> AI GUARDS HOOK >>>` без перезаписи пользовательских настроек.
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 220/220 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.35s).
+- **AI Guards**: Установлен и активирован в профиле PowerShell.
