@@ -260,10 +260,28 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.66s, 0 ошибок).
 
+### 1.17. Student Console Overhaul: Exclusive Student Filtering & Progress Columns
+
+- **Backend (`AdminStudentService.java`, `StudentDto.java`, `LessonProgressRepository.java`)**:
+  - В методе `searchStudents` установлен строгий фильтр `u.getRole() == Role.STUDENT`: администраторы исключены из консоли студентов, так как имеют глобальный доступ.
+  - В `StudentDto` добавлены поля `currentLessonTitle` (текущий/последний пройденный урок студента) и `estimatedFinishDate` (расчетная дата окончания на основе даты зачисления + длительность курса).
+  - В `LessonProgressRepository` добавлен пакетный запрос `findAllByUserIdsWithLesson(userIds)` для эффективного вычисления прогресса без N+1.
+- **Frontend (`StudentTable.tsx`, `StudentSearchFilter.tsx`, `AdminStudentsPage.tsx`)**:
+  - Удалена избыточная колонка «РОЛЬ RBAC» и фильтр по ролям «Все роли» (таблица предназначена исключительно для студентов).
+  - Добавлены новые информативные столбцы:
+    1. **НА КАКОМ УРОКЕ**: текущий урок студента (например, `Урок 1: Архитектура` или `Не начат`).
+    2. **ДАТА РЕГИСТРАЦИИ**: дата регистрации пользователя.
+    3. **ПРИМЕРНОЕ ОКОНЧАНИЕ**: расчетная дата завершения курса.
+  - Очищены все неиспользуемые импорты и параметры.
+- **Верификация**:
+  - Backend: `AdminStudentServiceTest` и 236 тестов Green (100%).
+  - Frontend: `StudentTable.test.tsx`, `StudentSearchFilter.test.tsx` и 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.99s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.66s, 1802 modules).
+- **Production Build**: 0 ошибок (4.99s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
