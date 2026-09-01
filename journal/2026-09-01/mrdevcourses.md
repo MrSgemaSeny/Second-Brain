@@ -118,10 +118,16 @@
 - **Тесты**:
   - `TelegramLinkControllerTest`, `EmailNotificationServiceTest`, `TelegramBotCommandServiceTest`, `StuckDetectionServiceTest`.
 
+### 1.8. Очистка репозитория от внешних .js инструментов и .gitattributes
+- Выполнен `git rm -r --cached` для всех внешних сторонних плагинов (`deslop-agent-sh`, `deslop-dabit3`, `deslop-ai-that-works`, `deslop-fayerman`, `avoid-ai-design`, `interface-design`, `cc-skills`), ошибочно индексировавшихся GitHub как JavaScript.
+- Обновлен `.gitignore`: исключены любые вложенные папки `.agents/*/`, кроме активного каталога `.agents/scripts/`.
+- Добавлен `.gitattributes` с директивами `linguist-vendored`, `linguist-documentation`, `linguist-detectable=false` для исключения служебных скриптов из статистики языков.
+- В репозитории теперь отображается корректный состав языков: **Java + TypeScript**.
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 228/228 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.42s).
-- **AI Guards & Hooks**: Полностью протестированы, legacy-скрипты заархивированы в Zettelkasten.
+- **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
