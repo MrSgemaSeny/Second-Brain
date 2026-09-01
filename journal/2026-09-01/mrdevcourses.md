@@ -287,10 +287,19 @@
   - Frontend: `ProfilePage.test.tsx` и 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.73s, 0 ошибок).
 
+### 1.19. Toggleable Goal Presets in Profile
+
+- **Frontend (`ProfilePage.tsx`)**:
+  - `handleGoalPresetClick`: Реализовано снятие выбора при повторном клике по уже выбранному пресету цели (`goal: prev.goal === preset ? '' : preset`).
+  - Повторный клик очищает поле цели и возвращает кнопку пресета в исходное нейтральное состояние.
+- **Верификация**:
+  - Frontend: `ProfilePage.test.tsx` и 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (7.93s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.73s, 1802 modules).
+- **Production Build**: 0 ошибок (7.93s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
