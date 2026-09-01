@@ -80,7 +80,25 @@
 ### 1.6. Архивирование legacy-хуков в базу знаний и очистка .agents/scripts
 - Создана архитектурная заметка в базе знаний Second Brain: `knowledge/antigravity-hooks-and-guardrails-evolution.md` с сохранением полного исходного кода `reminder.ps1` и `git-reminder.ps1`, контекста их 3-месячного использования и обоснованием перехода к hard guardrails.
 - Обновлен `knowledge-index.md` во Втором Мозге.
-- Удалены неиспользуемые файлы `reminder.ps1` и `git-reminder.ps1` из `.agents/scripts/`, обеспечив 100% соответствие `hooks.json`.
+- Удалены неиспользуемые файлы `reminder.ps1` and `git-reminder.ps1` из `.agents/scripts/`, обеспечив 100% соответствие `hooks.json`.
+
+---
+
+### 1.6. Phase 3: Common Pitfalls FAQ in Lessons & Drop-off Funnel Telemetry
+- **Flyway Migration V22** (`V22__create_lesson_pitfalls_table.sql`):
+  - Таблица `lesson_pitfalls` с полями `lesson_id`, `title`, `error_symptom`, `solution_markdown`, `order_index`, `created_at` с `ON DELETE CASCADE`.
+- **Бэкенд**:
+  - Создана JPA сущность `LessonPitfall` с аннотацией `@OnDelete(action = OnDeleteAction.CASCADE)` для полной совместимости с H2 и PostgreSQL.
+  - Созданы `LessonPitfallRepository`, `LessonPitfallDto`, `LessonPitfallService`, и `LessonPitfallController` (`GET /v1/courses/{courseId}/lessons/{lessonId}/pitfalls`).
+  - Добавлены методы в `HomeworkSubmissionRepository`: `countByLessonId` и `countByLessonIdAndStatus`.
+  - Обогащен DTO воронки `CourseFunnelStepDto` метриками `hwSubmissionsCount`, `hwRejectionsCount`, `isBottleneck`.
+  - Обновлен `AdminAnalyticsService.getCourseFunnel` с расчетом конверсии, отвала и детекцией узких мест курса.
+  - Создан контроллер-тест `LessonPitfallControllerTest` (2 теста, 100% Green).
+- **Фронтенд**:
+  - Создан компонент `LessonPitfallsAccordion.tsx` (`@/widgets/lesson-pitfalls/ui/LessonPitfallsAccordion`) с поиском ошибок, терминальным блоком симптома и копированием решения.
+  - Интегрирован аккордеон граблей и типичных ошибок в `LessonPage.tsx`.
+  - Обновлен `lessonApi.ts` с методом `getPitfalls`.
+  - Все тесты фронтенда (73/73) и production build (`npm run build`) успешно пройдены.
 
 ---
 
