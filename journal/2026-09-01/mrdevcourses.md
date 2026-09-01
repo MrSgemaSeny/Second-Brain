@@ -232,6 +232,22 @@
   - Frontend: `ProfilePage.test.tsx` обновлен и прошел успешно (73/73 тестов Green).
   - Production Build: `tsc -b && vite build` собран за 4.78s (0 ошибок).
 
+### 1.15. Fix Telegram Bot Username & Full ProfilePage Monochrome
+
+- **Telegram Bot Username Fix**:
+  - Причина ошибки `Username @MrDevCoursesBot not found`: в коде `TelegramLinkController.java` и конфигурациях дефолтным был указан несуществующий бот `MrDevCoursesBot`.
+  - Фикс: В `TelegramLinkController.java` и `application.yml` установлен реальный username бота: `${TELEGRAM_BOT_USERNAME:MrDevelopersbot}`. Ссылка генерации токена теперь открывает настоящего `@MrDevelopersbot`.
+- **ProfilePage Full Monochrome (Zero Clutter)**:
+  - Вычищены все цветные акценты (синий `sky-400`/`sky-600`, зеленый `emerald-400`, оранжевый `amber-400`, розовый `rose-950`).
+  - Кнопка «Подключить бота»: приведена к фирменному стилю платформы (`bg-white text-black font-semibold hover:bg-zinc-200`).
+  - Бейджи привязки: `ПОДКЛЮЧЕН` (`bg-zinc-800 text-white border-white/20`), `НЕ ПРИВЯЗАН` (`bg-zinc-900 text-zinc-500 border-white/5`).
+  - Кнопка «Отвязать»: строгий монохром `bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border-white/10`.
+  - Уведомления об успехе/ошибке переведены в нейтральный темный монохром `bg-zinc-900 border-white/10`.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.78s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
