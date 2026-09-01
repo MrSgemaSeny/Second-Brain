@@ -124,10 +124,32 @@
 - Добавлен `.gitattributes` с директивами `linguist-vendored`, `linguist-documentation`, `linguist-detectable=false` для исключения служебных скриптов из статистики языков.
 - В репозитории теперь отображается корректный состав языков: **Java + TypeScript**.
 
+### 1.9. Устранение критических уязвимостей безопасности (Security Audit Remediation)
+- **CRITICAL 1 (Java Deserialization в `CookieUtils`)**:
+  - Внедрена криптографическая подпись HMAC-SHA256 для cookie авторизационных запросов OAuth2.
+  - Десериализация выполняется только после успешной проверки HMAC в постоянное время (`MessageDigest.isEqual`). Любая попытка подделки отклоняется до десериализации.
+  - Написаны тесты в `CookieUtilsTest` (проверка валидной сериализации, отказ при модификации подписи и полезной нагрузки).
+- **CRITICAL 2 (OAuth Account Preemption / Takeover)**:
+  - В `CustomOAuth2UserService` при привязке Google-аккаунта к учетной записи с невалидированным паролем (`passwordHash != null && googleId == null`) пароль обнуляется (`passwordHash = null`) с записью в аудит-лог.
+  - Исключен сценарий захвата аккаунта атакующим, предварительно зарегистрировавшим чужой email.
+  - Покрыто тестом в `CustomOAuth2UserServiceTest`.
+- **CRITICAL 3 (Отзыв JWT при Logout через Blacklist)**:
+  - В `JwtTokenProvider` добавлен уникальный claim `jti` (UUID).
+  - Создан сервис `JwtBlacklistService` с потокобезопасным `ConcurrentHashMap<String, Instant>` и периодической TTL-очисткой.
+  - `JwtAuthenticationFilter` блокирует запросы с отозванными токенами.
+  - В `AuthController.logout` токен немедленно регистрируется в blacklist.
+  - Покрыто тестами в `JwtBlacklistServiceTest`, `JwtAuthenticationFilterTest`, `AuthControllerTest`.
+- **DataSeeder & Hardening**:
+  - `DataSeeder` ограничен профилем `@Profile("!prod")`.
+  - `StuckDetectionService`: запрос заменен на `findAllWithCourseAndUser()` JOIN FETCH, устраняя проблему N+1.
+  - `AuthController`: дублирование парсинга IP заменено на `ipResolver.resolveClientIp`.
+  - `application.yml`: `cookie-secure: ${JWT_COOKIE_SECURE:true}` по умолчанию.
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 228/228 тестов Green (100%).
+- **Backend (JUnit)**: 234/234 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.42s).
+- **Security Audit**: Все 3 CRITICAL уязвимости и сопутствующие предупреждения закрыты.
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
