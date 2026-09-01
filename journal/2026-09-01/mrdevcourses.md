@@ -387,10 +387,23 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (5.56s, 0 ошибок).
 
+### 1.26. Admin UI Cleanup: Remove Unwanted Headers & Status Badges
+
+- **Frontend (`AdminPage.tsx`, `AdminCurriculumPage.tsx`)**:
+  - Полностью удалена плашка «Панель администратора» со щитом из шапки.
+  - Удален бейдж «Активен / Черновик» и «ACTIVE / DRAFT» с карточек курсов.
+  - Удален заголовок «Доступные программы обучения» и счетчик курсов («1 курс»).
+  - Удален заголовок «Список курсов (1)» из таба курсов.
+  - Очищены неиспользуемые импорты (`Shield`, `Sparkles`).
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (5.63s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (5.56s, 1802 modules).
+- **Production Build**: 0 ошибок (5.63s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
