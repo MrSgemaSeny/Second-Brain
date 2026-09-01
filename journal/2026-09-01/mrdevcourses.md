@@ -520,6 +520,21 @@
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.53s, 1802 модуля, 0 ошибок).
 
+### 1.33. Rate Limiting Hardening: Exclude `/v1/auth/me` from Strict Auth Tier
+
+- **Problem & Root Cause**:
+  - При входе через Google OAuth2 или перезагрузке страницы фронтенд отправляет параллельные запросы к `/api/v1/auth/me` (проверка сессии в `AuthProvider`, роутере и компонентах).
+  - В `RateLimitingFilter.java` условие `path.startsWith("/v1/auth")` ошибочно применяло тир **AUTH** (10 запросов / 15 минут / IP) ко всем эндпоинтам авторизации, включая `/v1/auth/me`.
+  - В результате локальный IP `127.0.0.1` блокировался ошибкой HTTP 429 Too Many Requests на 15 минут (`retryAfter: 889s`).
+- **Backend Fix**:
+  - `RateLimitingFilter.java`: в `resolveTierForPath` добавлено условие `&& !path.endsWith("/auth/me")`.
+  - Эндпоинт `/v1/auth/me` теперь обслуживается тиром **GENERAL** (60 req/min/user/IP), а тир **AUTH** защищает исключительно эндпоинты входа и регистрации (`/v1/auth/login`, `/v1/auth/register`).
+  - Обновлены тесты `RateLimitingFilterTest` и `RateLimitingIntegrationTest`.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.53s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
