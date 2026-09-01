@@ -344,10 +344,27 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (14.74s, 0 ошибок).
 
+### 1.23. Knowledge Base: Mr Developer Course Specification & Student Profiles Sync
+
+- **Second Brain (`projects/mrdevcourses/mr-developer-course.md`)**:
+  - Создана подробная спецификация курса `Mr Developer Course` с метаданными:
+    - **Позиционирование & Бренд**: личный бренд MrDeveloper, вхождение в рынок вайбкодинга.
+    - **Видение платформы**: автоматизация уроков, устранение ручного ведения ментором, пошаговые инструкции, интеграция Telegram-алертов и RAG-помощника.
+    - **Промпт-пакеты**: Базик (20 файлов), Про (40 файлов), Мастер (78 файлов) со структурой `[КОНТЕКСТ] / [ЗАДАЧА] / [ОГРАНИЧЕНИЯ] / [РЕЗУЛЬТАТ]`.
+    - **Учебный план**: 5 недель × 6 уроков (30 уроков) с разбивкой по модулям (Введение, Маркетплейс FSD, Full-Stack 3D, CRM Kanban, Pensee RAG SaaS).
+    - **Карточки студентов**:
+      - Усман (`usmansulaimanov`): Неделя 2, Урок 2.4, репозиторий `test_marketplace` (QazaqMarket, Vite+TS+Tailwind, деплой на GitHub Pages).
+      - Ратмир (`rmekenov-pixel`): Неделя 1, Урок 1.3, репозиторий `landing` (Spotify лендинг, Vanilla HTML/CSS/JS, бухгалтер, Data Science AstanaHUB).
+  - Добавлена перекрестная ссылка в `projects/mrdevcourses/mrdevcourses.md`.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: 0 ошибок.
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 236/236 тестов Green (100%).
+- **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (14.74s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.

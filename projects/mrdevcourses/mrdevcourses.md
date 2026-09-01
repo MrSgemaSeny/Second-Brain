@@ -29,6 +29,7 @@
 ---
 
 ## 🔗 Связи в Базе Знаний (Knowledge Graph)
+- **Учебная программа & Студенты:** [[projects/mrdevcourses/mr-developer-course|Mr Developer Course (Учебный план, Промпты, Студенты)]]
 - **Педагогика & Автоматизация:** [[knowledge/pedagogy-and-automation-split-for-vibe-coding|Педагогика вайбкодинга и разделение автоматизации в LMS]]
 - **Архитектура & RAG:** [[knowledge/arch-hybrid-rag-dense-sparse-rrf|Гибридный RAG: pgvector HNSW + FTS RRF]], [[wiki/concepts/hybrid-rag-systems|Концепция RAG]]
 - **AI & Grader:** [[knowledge/arch-ai-code-grader-and-security-scanner|AI Grader & AST Guard]], [[knowledge/arch-ai-tutor-lesson-grounding|AI-тьютор с Grounding]]
