@@ -707,3 +707,14 @@
 - **Верификация**:
   - Frontend Vitest: 78/78 тестов Green (100%).
   - Frontend Production Build: `tsc -b && vite build` успешно собран за 4.63s без ошибок.
+
+### 1.45. Frontend Image Fallback & Broken Asset Handling
+
+- **Автоматическое скрытие и graceful fallback отсутствующих изображений**:
+  - `LandingPage.tsx`: добавлен `onError={() => setHeroImageError(true)}` и стейт `heroImageError` — при отсутствии или ошибке загрузки `/hero-image.png` контейнер с баннером и alt-текстом автоматически полностью скрывается без деградации верстки.
+  - `Logo.tsx`, `LoginPage.tsx`, `CourseDetailPage.tsx`: добавлены обработчики `onError` с переключением на монохромный текстовый бейдж `MD` при недоступности аватара.
+  - `UserProfileDropdown.tsx`, `AdminLayout.tsx`, `StudentLayout.tsx`, `ProfilePage.tsx`, `ProjectsPage.tsx`: добавлены `onError` обработчики и `referrerPolicy="no-referrer"` для защиты от битых аватарок профиля с откатом к буквенному инициалу.
+  - Все статические пути переведены на использование `${import.meta.env.BASE_URL}` для работы на GitHub Pages.
+- **Верификация**:
+  - Frontend Vitest: 78/78 тестов Green (100%).
+  - Frontend Production Build: `tsc -b && vite build` успешно собран за 4.82s без ошибок.
