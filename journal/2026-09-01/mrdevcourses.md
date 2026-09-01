@@ -506,10 +506,24 @@
 - **Верификация**:
   - Backend: 241/241 JUnit тестов Green (100%).
 
+### 1.32. Admin Analytics Full Monochrome Overhaul (Zero Visual Clutter)
+
+- **Frontend (`/admin/analytics`)**:
+  - Полностью зачищены все цветные акценты (зелёный `emerald`, жёлтый `amber`, оранжевый, синий, красный).
+  - Бейджи в заголовке, карточках KPI, AI-телеметрии и квизах переведены на строгий монохром `text-zinc-400`, `text-zinc-300`, `bg-zinc-800/900`, `border-white/10`.
+  - График воронки (`CourseFunnelChart.tsx`): градиенты заменены на нейтральную шкалу серых оттенков (`#27272a` -> `#52525b` и `#52525b` -> `#a1a1aa`), плашки отсева переведены в строгий `bg-white/5` / `text-zinc-300`.
+  - График ударного режима (`StreakDistributionChart.tsx`): градиент заменен на монохромный `#71717a` -> `#3f3f46`.
+  - Проблемные точки квизов (`QuizHotspotsWidget.tsx`): монохромные плашки ошибок `bg-zinc-800 text-zinc-200`.
+  - Модалка экспорта (`ExportReportModal.tsx`): вычищены все цветные акценты, иконки форматов и плашки обратной связи приведены к GitHub-style.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.53s, 1802 модуля, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.88s, 31 test files, 1802 modules).
+- **Production Build**: 0 ошибок (4.53s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
