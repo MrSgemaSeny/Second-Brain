@@ -217,10 +217,25 @@
   - Меню стало компактным, строгим и функциональным.
 - **Тесты**: Обновлены и успешно пройдены `UserProfileDropdown.test.tsx` и `CurriculumTree.test.tsx` (73/73 тестов Green).
 
+### 1.14. Real Metrics in User Profile: Learning Time & Completed Projects
+
+- **Backend Aggregation (`UserProfileService.java`, `UserProfileDto.java`)**:
+  - Удалена привязка к стрикам в профиле; добавлены поля `timeSpentMinutes` и `completedProjectsCount`.
+  - В `LessonProgressRepository` добавлен агрегационный JPQL-запрос `sumCompletedMinutesByUserId(userId)` (суммирование `durationMinutes` по всем пройденным урокам студента).
+  - В `ProjectShowcaseRepository` и `HomeworkSubmissionRepository` добавлены методы `countByUserId(userId)` и `countByUserIdAndStatus(userId, SubmissionStatus.PASSED)`.
+  - Реальный подсчет: `timeSpentMinutes = sumCompletedMinutes`, `completedProjectsCount = showcaseProjects + passedHomeworks`.
+- **Frontend UI (`ProfilePage.tsx`, `types.ts`)**:
+  - Карточки «ТЕКУЩИЙ СТРИК» и «РЕКОРД СТРИКА» заменены на «ВРЕМЯ ОБУЧЕНИЯ» (`Clock` и формат `${h} ч. ${m} мин.`) и «СДЕЛАНО ПРОЕКТОВ» (`FolderGit2` и точное число проектов).
+  - Данные на 100% реальные и динамические, поступают с бэкенда при вызове `GET /v1/users/profile`.
+- **Тесты и сборка**:
+  - Backend: `UserProfileControllerTest` обновлен и прошел успешно.
+  - Frontend: `ProfilePage.test.tsx` обновлен и прошел успешно (73/73 тестов Green).
+  - Production Build: `tsc -b && vite build` собран за 4.78s (0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (6.86s, 1802 modules).
+- **Production Build**: 0 ошибок (4.78s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
