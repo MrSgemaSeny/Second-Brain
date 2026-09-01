@@ -361,10 +361,22 @@
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Production Build: 0 ошибок.
 
+### 1.24. Full Curriculum Implementation into Database & Backend Seeder
+
+- **Flyway Migration (`V24__update_course_curriculum_to_mr_developer_curriculum.sql`)**:
+  - Создана миграция `V24`, полностью перезаписывающая все 5 модулей и 30 уроков курса `MrDeveloper` в PostgreSQL в строгом соответствии с авторским учебным планом (`mr-developer-curriculum.md`).
+  - Все названия уроков, модулей, описания, типы (`VIDEO`, `ARTICLE`, `PRACTICE`, `QUIZ`), тайминги и конспектные блоки обновлены на актуальные авторские тексты.
+- **Backend Seeder (`DataSeeder.java`)**:
+  - Обновлен сидер `DataSeeder.java` для развертывания идентичного дерева модулей и 30 уроков при чистом запуске.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (5.56s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 241/241 тестов Green (100%).
+- **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (14.74s, 1802 modules).
+- **Production Build**: 0 ошибок (5.56s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
