@@ -597,3 +597,14 @@
 
 ### 1.37. AI Hooks Hardening: UTF-8 Stream Encoding
 - В `.agents/scripts/` (`stop-check-commits.ps1`, `enforce-workflow.ps1`, `safety-gate.ps1`) добавлена явная директива `$OutputEncoding = [System.Text.Encoding]::UTF8` для исключения повреждения кириллических сообщений барьеров в Windows PowerShell.
+
+### 1.38. Security & Load Testing Debt Register (Pre-Deploy Checklist)
+
+- **CSRF & SameSite=None Audit**:
+  - Конфигурация: `SameSite=None` на проде обусловлен раздельным деплоем (Frontend Vercel + Backend Fly.io).
+  - Текущая защита: REST API строго ожидает `Content-Type: application/json`, поэтому классические простые HTML-формы (`application/x-www-form-urlencoded`) отсекаются `MappingJackson2HttpMessageConverter` со статусом `415 Unsupported Media Type` до исполнения бизнес-логики.
+  - Рекомендация к релизу: Добавить легковесный `OriginHeaderFilter` для методов `POST/PUT/DELETE`, сверяющий заголовок `Origin` с белым списком `allowed-origins`.
+
+- **Artillery 500 Errors Investigation Note**:
+  - В нагрузочном тесте 487 запросов вернули 500 из-за попыток вызова защищенных контроллеров (например `/v1/admin/analytics/overview`) в рамках сессии виртуального пользователя после сбоя логина с фейковыми кредами (`admin@test.com`).
+  - При тестировании под нагрузкой необходимо использовать реальные сидированные учетные данные из `DataSeeder` (`admin@mrdev.com`), чтобы исключить каскадные артефакты от непрошедшей аутентификации.
