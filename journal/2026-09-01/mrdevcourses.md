@@ -452,12 +452,19 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.88s, 0 ошибок).
 
-### 1.31. Documentation, ADR-005 & GitHub Actions CI/CD Architecture
+### 1.31. Documentation, ADR-005, README Polish & GitHub Actions CI/CD Architecture
 
 - **ADR & Documentation Overhaul**:
   - Создан `ADR-005: Telegram Bot Polling Runner и диспетчеризация команд ментора/студента` (`docs/decisions/ADR-005-telegram-bot-and-mentor-dispatching.md`).
   - Актуализированы все 5 эпиков (`Epics/Epic-01`..`Epic-05`) со статусом `Completed` и полным чек-листом реализованных задач.
-  - Обновлен `README.md` с архитектурой развертывания **Render + Vercel**, интеграцией GitHub Actions CI/CD пайплайна и актуальной статистикой тестов (241 JUnit + 73 Vitest).
+  - Синхронизирован `README.md`:
+    - Цепочка миграций Flyway обновлена до `V1..V24`.
+    - Полный состав 18 доменных модулей бэкенда (`help`, `homework`, `notification`, `project`, `stuck`, `telegram`, `user` и др.).
+    - Дерево документации обновлено с учетом `ADR-001..ADR-005`.
+    - Описание реальных метрик вместо стриков (хронометраж обучения + сданные проекты).
+    - Раздел Telegram-бота с русскими алиасами, защитой от утечки ошибок и dual-alerting.
+    - Изоляция `AdminLayout` вне public-shell.
+    - Архитектура развертывания **Render + Vercel** и пайплайн GitHub Actions CI/CD.
 - **CI/CD Automation (`.github/workflows/ci.yml`)**:
   - Настроен автоматический пайплайн GitHub Actions с двумя параллельными задачами:
     1. `backend-test-and-build`: установка JDK 17, запуск 241 JUnit тестов и сборка исполняемого bootJar.
