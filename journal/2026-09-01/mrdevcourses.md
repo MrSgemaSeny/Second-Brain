@@ -278,10 +278,19 @@
   - Frontend: `StudentTable.test.tsx`, `StudentSearchFilter.test.tsx` и 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.99s, 0 ошибок).
 
+### 1.18. Profile Form Layout: Relocate Section Dividers Below Content
+
+- **Frontend (`ProfilePage.tsx`)**:
+  - Удалены разделительные линии (`border-b border-white/5`) непосредственно под заголовками секций (`1. Основные данные`, `2. Каналы связи и репозитории`, `3. Главная цель`, `4. О себе`).
+  - Разделители перенесены в конец каждой секции (`pb-6 border-b border-white/10`), разделяя логические блоки формы после завершения ввода информации.
+- **Верификация**:
+  - Frontend: `ProfilePage.test.tsx` и 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.73s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.99s, 1802 modules).
+- **Production Build**: 0 ошибок (4.73s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
