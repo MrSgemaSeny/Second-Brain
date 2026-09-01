@@ -594,3 +594,6 @@
 - **Верификация**:
   - Backend: все тесты Green (exit code 0).
   - Frontend: изменений нет.
+
+### 1.37. AI Hooks Hardening: UTF-8 Stream Encoding
+- В `.agents/scripts/` (`stop-check-commits.ps1`, `enforce-workflow.ps1`, `safety-gate.ps1`) добавлена явная директива `$OutputEncoding = [System.Text.Encoding]::UTF8` для исключения повреждения кириллических сообщений барьеров в Windows PowerShell.
