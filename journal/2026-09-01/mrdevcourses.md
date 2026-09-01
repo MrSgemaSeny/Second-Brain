@@ -58,10 +58,15 @@
 - **`CONTEXT.md`**:
   - Добавлен раздел `## Current Operational Focus` в самое начало файла для мгновенной ориентации агента при старте сессии.
 
+### 1.6. Архивирование legacy-хуков в базу знаний и очистка .agents/scripts
+- Создана архитектурная заметка в базе знаний Second Brain: `knowledge/antigravity-hooks-and-guardrails-evolution.md` с сохранением полного исходного кода `reminder.ps1` и `git-reminder.ps1`, контекста их 3-месячного использования и обоснованием перехода к hard guardrails.
+- Обновлен `knowledge-index.md` во Втором Мозге.
+- Удалены неиспользуемые файлы `reminder.ps1` и `git-reminder.ps1` из `.agents/scripts/`, обеспечив 100% соответствие `hooks.json`.
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 220/220 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.35s).
-- **AI Guards & Hooks**: Полностью протестированы, динамические пути и валидация активны.
+- **AI Guards & Hooks**: Полностью протестированы, legacy-скрипты заархивированы в Zettelkasten.

@@ -19,6 +19,7 @@
 - [[ats-kanban-sla-state-machine]] - Интерактивный Kanban найма с контролем SLA и конечным автоматом.
 - [[ats-funnel-analytics-and-talent-pool]] - Сквозная воронка найма (Time-to-Hire, конверсия стадий) и база талантов (Talent Pool CRM).
 - [[antigravity_hooks]] - Архитектура .agents Lifecycle Hooks (PreInvocation, Safety Gate, Enforce Workflow, Stop Check).
+- [[antigravity-hooks-and-guardrails-evolution]] - История и эволюция хуков (архив reminder.ps1, git-reminder.ps1 и переход к hard guardrails).
 
 ## Фронтенд (React, FSD, UI Deslop)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
