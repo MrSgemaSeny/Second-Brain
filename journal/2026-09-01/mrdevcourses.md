@@ -576,3 +576,21 @@
   - **Проблема 2 (cookie capture)**: Artillery не может захватить `httpOnly` куки через header capture. Правильный подход — убрать `capture` и положиться на встроенный `cookieJar: enabled: true`, который передаёт куки автоматически внутри сессии VU.
   - **Проблема 3 (500s)**: Требуется проверить endpoint `/v1/courses/{courseId}/lessons` — возможно URL не соответствует реальному маппингу контроллера (нужно `/v1/lessons?courseId=...` или через enrollment).
   - Rate Limiter работает корректно — блокирует за 10 req/15min на AUTH тире и 60 req/min на GENERAL тире.
+
+### 1.36. Production Hardening: IpResolver, JWT Secret, Telegram Uniqueness
+
+- **IpResolver Fly.io / Cloudflare Support (`IpResolver.java`)**:
+  - Добавлены trusted proxy headers (`Fly-Client-IP`, `CF-Connecting-IP`, `True-Client-IP`) с приоритетной проверкой перед общими `X-Forwarded-For`.
+  - Добавлена строгая валидация IP через regex (IPv4) и базовую проверку IPv6, исключая мусорные значения.
+  - Рефакторинг: удалены неиспользуемые HTTP_* заголовки, добавлены комментарии к каждому слою проверки.
+- **JWT Secret Enforcement (`JwtTokenProvider.java`)**:
+  - Удален захардкоженный дефолтный секрет из `@Value`. Теперь `app.jwt.secret` обязателен для запуска приложения.
+  - Добавлена явная проверка `secret.isBlank()` с `IllegalStateException` при старте, предотвращая запуск с пустым/невалидным ключом.
+- **Telegram Uniqueness Check (`UserProfileService.java`)**:
+  - При обновлении профиля проверяется уникальность Telegram-никнейма через `findByTelegramUsernameIgnoreCase`.
+  - Если никнейм уже привязан к другому аккаунту, возвращается `409 CONFLICT` с понятным сообщением.
+- **Prod Config (`application-prod.yml`)**:
+  - JWT secret явно привязан к переменной окружения `${JWT_SECRET}`.
+- **Верификация**:
+  - Backend: все тесты Green (exit code 0).
+  - Frontend: изменений нет.
