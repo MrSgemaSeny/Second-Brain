@@ -542,3 +542,37 @@
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.53s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
+
+---
+
+### 1.34. Artillery Load Testing: Multi-Module Stress Test Setup & Results
+
+- **Инфраструктура**:
+  - Создан `artillery.yml` в корне проекта — конфиг нагрузочного тестирования для localhost:8080.
+  - Добавлен флаг `app.rate-limit.disabled: ${RATE_LIMIT_DISABLED:false}` в `application-dev.yml` и поддержка в `RateLimitingFilter.java` через `@Value`.
+  - Флаг позволяет полностью отключить Rate Limiter через `RATE_LIMIT_DISABLED=true` для корректного нагрузочного тестирования (иначе Artillery с одного IP немедленно попадает под `GENERAL` лимит 60 req/min).
+
+- **Конфигурация теста (artillery.yml)**:
+  - 3 фазы: Warmup (10 RPS, 10s) → Ramp (10→80 RPS, 20s) → Tsunami (150 RPS, 15s).
+  - 5 сценариев с весами (100%):
+    - `Public — Health + Courses Catalogue` (25%): `/actuator/health`, `/v1/courses`, `/v1/courses/{slug}`
+    - `Auth — Login + Me` (15%): `/v1/auth/login` → `/v1/auth/me`
+    - `Student — Lessons + Progress Flow` (30%): логин → уроки → прогресс
+    - `Student — Homework Module` (15%): логин → список ДЗ
+    - `Admin — Analytics + Students` (15%): логин → аналитика → список студентов
+
+- **Результаты (Прогон 2 — Rate Limiter отключён)**:
+  - Всего запросов: 7,293 за 47 секунд (средний RPS: 179).
+  - `http.codes.200`: 1,604 (22%) — реальные успешные ответы.
+  - `http.codes.400`: 2,448 (33%) — тестовые credentials (`student@test.com`) не существуют в сидированной БД.
+  - `http.codes.401`: 1,952 (26%) — запросы защищённых эндпоинтов без валидного cookie (ожидаемо после провала логина).
+  - `http.codes.404`: 802 (11%) — тестовые slug/id не существуют в БД.
+  - `http.codes.500`: 487 (6.7%) — [WARNING] требует расследования (вероятно NullPointerException при обращении к защищённым эндпоинтам с пустым SecurityContext после 400 на логин).
+  - `vusers.failed`: 983 — 100% отказ сценария `Student — Lessons + Progress Flow` из-за `capture: header set-cookie` не работает с httpOnly cookies в Artillery.
+
+- **Выводы и следующие шаги**:
+  - **Латентность здоровая**: p95 для 2xx = 8.9ms, p99 = 15ms, max = 164ms — Spring Boot + локальный PostgreSQL держат нагрузку отлично.
+  - **Проблема 1 (credentials)**: Нужно использовать реальные seed-логины из `DataSeeder`, а не вымышленные `student@test.com`.
+  - **Проблема 2 (cookie capture)**: Artillery не может захватить `httpOnly` куки через header capture. Правильный подход — убрать `capture` и положиться на встроенный `cookieJar: enabled: true`, который передаёт куки автоматически внутри сессии VU.
+  - **Проблема 3 (500s)**: Требуется проверить endpoint `/v1/courses/{courseId}/lessons` — возможно URL не соответствует реальному маппингу контроллера (нужно `/v1/lessons?courseId=...` или через enrollment).
+  - Rate Limiter работает корректно — блокирует за 10 req/15min на AUTH тире и 60 req/min на GENERAL тире.
