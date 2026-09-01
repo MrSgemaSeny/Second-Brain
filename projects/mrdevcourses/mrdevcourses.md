@@ -4,8 +4,12 @@
 **Деплой:** Fly.io (Backend) + Vercel / GitHub Pages (Frontend)  
 **API:** `/api/v1/**`  
 **Старт:** 2026-08-25  
-**Уровень:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 26 сьютов Vitest [63 теста], 21 E2E тест JUnit)  
-**Фаза:** Фазы 0–5 полностью завершены (B2C Discovery, Curriculum Accordion, Drip Calculation, AI Grader & AST Guard, Hybrid RAG RRF, Quiz Anti-Cheat, PDF Certificates, Admin Suite)
+**Уровень платформы:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 236 JUnit backend, 73 Vitest frontend)  
+**Фаза:** Фазы 0–5 полностью завершены (B2C Discovery, Curriculum Accordion, Drip Calculation, AI Grader & AST Guard, Hybrid RAG RRF, Quiz Anti-Cheat, PDF Certificates, Admin Suite, Telegram Bot)  
+**Линейка курсов платформы (`mr-developer-curriculum.md`):**
+- **Курсы Уровня 1 (Базовый)**: Вайбкодинг, AI-ассистенты, Git, FSD, Лендинг + Клиентский Маркетплейс
+- **Курс Уровня 2 (ОСНОВНОЙ КУРС / Флагман Mr Developer)**: Full-Stack (Spring Boot + React + PostgreSQL), RBAC, OAuth2, Three.js 3D (Трекер денег), CRM Kanban + Telegram Bot + CI/CD
+- **Курсы Уровня 3 (Продвинутый AI SaaS)**: AI Core, Streaming SSE, RAG, WebClient, PII-маскирование, Google SMTP (Pensee)
 
 ---
 

@@ -327,6 +327,23 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (14.74s, 0 ошибок).
 
+### 1.22. Flagship Curriculum & Course Levels Documentation Sync
+
+- **Классификация линейки курсов платформы (`mr-developer-curriculum.md`)**:
+  - Уровни сложности зафиксированы строго как **градация отдельных курсов платформы** (а не уроков/недель):
+    1. **Курсы Уровня 1 (Базовый)**: Вайбкодинг, AI-ассистенты, Git, FSD, Лендинг + Клиентский Маркетплейс.
+    2. **Курс Уровня 2 (ОСНОВНОЙ КУРС / Флагман Mr Developer)**: Архитектура, Full-Stack (Spring Boot + React + PostgreSQL), RBAC, OAuth 2.0, Three.js 3D (Трекер денег), CRM Kanban + Telegram Bot + CI/CD.
+    3. **Курсы Уровня 3 (Продвинутый)**: AI Core, Streaming SSE, RAG, WebClient, PII-маскирование, Google SMTP (Pensee).
+- **Синхронизация контекста и документации**:
+  - `MrDevCourses/.agents/CONTEXT.md`: зафиксирована линейка курсов по уровням с фокусом на Уровень 2 как основной курс.
+  - `MrDevCourses/README.md`: добавлена секция «Линейка Курсов по Уровням Сложности».
+  - `Second-Brain/projects/mrdevcourses/mrdevcourses.md`: обновлены метаданные и учебный план курсов.
+  - `Second-Brain/context/projects.md`: синхронизировано описание проекта MrDevCourses и структура курсов.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (14.74s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
