@@ -54,9 +54,18 @@
 - Карточка видео-превью переведена на `w-full`, благодаря чему её правая граница идеально совпадает по вертикали со всеми остальными блоками страницы («Чему вы научитесь на курсе», «Требования», «Программа курса» и FAQ).
 - Проверены и пройдены тесты `CourseDetailPage.test.tsx`.
 
+### 1.10. Создание страниц Privacy/Terms и очистка футера от v1.0 MVP
+- Созданы полноценные страницы в темном стиле платформы:
+  - [`PrivacyPage.tsx`](file:///c:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/legal/PrivacyPage.tsx) — «Политика конфиденциальности» (`/privacy`).
+  - [`TermsPage.tsx`](file:///c:/Users/murat/IdeaProjects/new_world/MrDevCourses/frontend/src/pages/legal/TermsPage.tsx) — «Условия использования» (`/terms`).
+- В `routes.ts` и `router/index.tsx` зарегистрированы маршруты `/privacy` и `/terms`.
+- В `footerConfig.ts` заглушки `#` заменены на реальные маршруты `ROUTES.PRIVACY` и `ROUTES.TERMS`.
+- В `Footer.tsx` удален текст `v1.0 MVP`, ссылки подключены через `<Link to>`, а нижний бар аккуратно выровнен.
+- Все 71 тест пройдены успешно.
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 216/216 тестов Green (100%).
 - **Frontend (Vitest)**: 71/71 тестов Green (100%).
-- **Production Build**: `tsc -b && vite build` — 1795 модулей собрано за 4.70s (0 ошибок).
+- **Production Build**: `tsc -b && vite build` — 1797 модулей собрано за 4.65s (0 ошибок).
