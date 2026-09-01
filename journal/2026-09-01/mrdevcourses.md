@@ -46,10 +46,22 @@
 - **Инсталлятор (`setup-ai-guards.ps1`)**:
   - Безопасно инжектирует хук в профиль PowerShell (`$PROFILE`) с маркерами `# >>> AI GUARDS HOOK >>>` без перезаписи пользовательских настроек.
 
+### 1.5. Hardening инфраструктуры хуков и устранение замечаний аудита
+- **`safety-gate.ps1`**:
+  - Расширен regex блокировки для PowerShell-утилит (`Get-Content`, `gc`, `type`, `Select-String`, `sls`, `Get-ChildItem`, `gci`, `dir`).
+  - Добавлено явное исключение для легитимных команд `git` (`git grep`, `git log`, `git status`).
+- **`stop-check-commits.ps1` & `enforce-workflow.ps1` & `pre-invocation.ps1`**:
+  - Устранен хардкод путей — внедрено динамическое разрешение путей к `MrDevCourses` и `Brain's protocol - second brain` через `$PSScriptRoot` и `$env:USERPROFILE`.
+- **`pre-invocation.ps1`**:
+  - Добавлен lightweight reminder (`[AI GUARD] Active Session`) для повторных вызовов (`invocationNum > 1`) для непрерывного удержания контекста без раздувания токенов.
+  - Внедрен автоконтроль размера `CONTEXT.md` (предупреждение при >200 строк).
+- **`CONTEXT.md`**:
+  - Добавлен раздел `## Current Operational Focus` в самое начало файла для мгновенной ориентации агента при старте сессии.
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 220/220 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.35s).
-- **AI Guards**: Установлен и активирован в профиле PowerShell.
+- **AI Guards & Hooks**: Полностью протестированы, динамические пути и валидация активны.
