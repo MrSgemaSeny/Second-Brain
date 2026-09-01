@@ -58,6 +58,25 @@
 - **`CONTEXT.md`**:
   - Добавлен раздел `## Current Operational Focus` в самое начало файла для мгновенной ориентации агента при старте сессии.
 
+### 1.6. Persistent Auth Sessions & Remember-Me (7-Day Standard, 30-Day Extended, No F5 Drop)
+- **Проблема**: При обновлении страницы (F5) или истечении суток сессия сбрасывалась и пользователя выбрасывало на страницу логина из-за короткого 24-часового TTL токена и отсутствия оптимистичной гидратации.
+- **Бэкенд**:
+  - `application.yml`: Стандартный срок жизни JWT увеличен до 7 дней (`expiration-ms: 604800000`), добавлен параметр для долгоживущей сессии на 30 дней (`remember-me-expiration-ms: 2592000000`).
+  - `JwtTokenProvider`: Реализована поддержка `rememberMeExpirationMs` и методы генерации токенов с claim `rememberMe`. Добавлен `@Autowired` на DI-конструкторе.
+  - `JwtCookieHelper`: Добавлен метод `addJwtCookie(response, token, rememberMe)` с вычислением `maxAge` для 7 дней или 30 дней.
+  - `LoginRequest` / `RegisterRequest`: Добавлено поле `private Boolean rememberMe = false;`.
+  - `EmailAuthService`: Чтение флага `rememberMe` из DTO и передача в генератор токенов и CookieHelper.
+  - `OAuth2AuthenticationSuccessHandler`: Автоматическая выдача 30-дневной сессии (`rememberMe = true`) для входа через Google OAuth2.
+  - Тесты: `JwtTokenProviderTest` (тест токена с rememberMe и 30-дневным сроком), `OAuth2AuthenticationSuccessHandlerTest`.
+- **Фронтенд**:
+  - `authContext.tsx`: Внедрена оптимистичная гидратация стейта пользователя из `localStorage` (`mrdev_user_session`). При перезагрузке страницы (F5) `user` мгновенно доступен в `useAuth()`, что полностью исключает ложные редиректы `ProtectedRoute` на `/auth` во время фонового выполнения `checkAuth()`. При получении 401 кэш очищается и происходит корректный логаут.
+  - `userApi.ts`: Поддержка передачи флага `rememberMe` в `loginWithEmail` и `register`.
+  - `EmailAuthForm.tsx`: Добавлен аккуратный чекбокс «Запомнить меня на 30 дней» (по умолчанию активен), стилизованный под Design System платформы.
+- **Верификация**:
+  - Backend: 221/221 JUnit тестов пройдены успешно (100% Green).
+  - Frontend: 73/73 Vitest тестов пройдены успешно (100% Green).
+  - Build: `tsc -b && vite build` успешно собран (1798 модулей, 0 ошибок).
+
 ### 1.6. Архивирование legacy-хуков в базу знаний и очистка .agents/scripts
 - Создана архитектурная заметка в базе знаний Second Brain: `knowledge/antigravity-hooks-and-guardrails-evolution.md` с сохранением полного исходного кода `reminder.ps1` и `git-reminder.ps1`, контекста их 3-месячного использования и обоснованием перехода к hard guardrails.
 - Обновлен `knowledge-index.md` во Втором Мозге.
