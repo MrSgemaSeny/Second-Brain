@@ -248,10 +248,22 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.78s, 0 ошибок).
 
+### 1.16. Admin Direct Routing to Admin Console upon Authentication
+
+- **Маршрутизация администратора (`/admin` вместо `/courses`)**:
+  - `EmailAuthForm.tsx`: При успешном входе через email/пароль или регистрации, если пользователь имеет роль `ADMIN` (`role === 'ADMIN'`), немедленно перенаправляется на `/admin`, а студент — на `/courses`.
+  - `LoginPage.tsx`: Если уже авторизованный администратор переходит на страницу входа, редирект направляет его на `/admin` (`to={user?.role === 'ADMIN' ? '/admin' : '/courses'}`).
+  - `AuthCallbackPage.tsx`: При возврате из Google OAuth2 авторизации проверяется профиль и администратор сразу перенаправляется в `/admin`.
+  - `authContext.tsx`: Методы `loginWithEmail` и `register` теперь возвращают типизированный объект `Promise<User>`, предоставляя вызывающим формам актуальные данные о роли.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.66s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.78s, 1802 modules).
+- **Production Build**: 0 ошибок (4.66s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
