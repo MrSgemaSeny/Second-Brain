@@ -441,10 +441,21 @@
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Production Build: `tsc -b && vite build` (1802 модуля, 0 ошибок).
 
+### 1.30. Admin UI: Course Delete Action Permanent Removal
+
+- **Frontend (`AdminPage.tsx`, `AdminCurriculumPage.tsx`, `AdminSuiteE2E.test.tsx`)**:
+  - Полностью удалена кнопка удаления курса (иконка корзины `Trash2`) с карточек курсов в `AdminPage.tsx` и `AdminCurriculumPage.tsx`.
+  - Курсы защищены от случайного удаления через UI.
+  - Тест `AdminSuiteE2E.test.tsx` (Tier 4) переведен на тестирование модального окна удаления уроков.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (4.88s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 241/241 тестов Green (100%).
+- **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (5.77s, 31 test files, 1802 modules).
+- **Production Build**: 0 ошибок (4.88s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
