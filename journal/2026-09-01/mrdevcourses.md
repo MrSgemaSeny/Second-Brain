@@ -296,10 +296,16 @@
   - Frontend: `ProfilePage.test.tsx` и 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (7.93s, 0 ошибок).
 
+### 1.19. Telegram Bot: Fix Polling Runner Filter & Exception Leak
+- **Bug 1 (Runner Filter Bypass)**: В `TelegramBotPollingRunner.java` условие `text.startsWith("/")` блокировало прохождение сообщений на русском языке без слэша (`дз`, `принять 1`, `статус`, `застряли`, `помощь`). Условие удалено — все непустые входящие сообщения теперь передаются в `commandService.processCommand`.
+- **Bug 2 (Exception Leak Prevention)**: В `TelegramBotCommandService` перехваченные исключения больше не возвращают сырой `e.getMessage()` в Telegram-чат, защищая внутреннюю структуру БД и ошибок Hibernate. Возвращается общее пользовательское сообщение.
+- **Bug 3 (Positional Extraction for /reject)**: Номер ID извлекается строго из аргумента `parts[1]`, а комментарий из `parts[2]`, исключая искажение цифр внутри комментария ментора (например, «День 5», «строка 12»).
+- **Верификация**: Backend 241/241 JUnit тестов Green (100%).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 236/236 тестов Green (100%).
+- **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (7.93s, 1802 modules).
+- **Production Build**: 0 ошибок (4.73s, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
