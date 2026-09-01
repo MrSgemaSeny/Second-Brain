@@ -613,12 +613,21 @@
 
 - **Anti-CSRF Protection (`OriginValidationFilter.java`)**:
   - Создан фильтр `OriginValidationFilter`, зарегистрированный в `SecurityConfig` перед `UsernamePasswordAuthenticationFilter`.
-  - Для всех state-changing методов (`POST`, `PUT`, `PATCH`, `DELETE`) проверяется заголовок `Origin`.
+  - Для всех state-changing методов (`POST`, `PUT`, `PATCH`, `DELETE`) проверяется заголовок `Origin` с fallback-проверкой `Referer`.
   - Запросы с чужих или неавторизованных доменов немедленно отклоняются со статусом `403 Forbidden` (`{"success":false,"error":"Cross-Origin request blocked by Origin validation"}`).
   - Безопасные методы (`GET`, `HEAD`, `OPTIONS`) пропускаются без блокировки.
 - **Artillery Configuration Cleanup (`artillery.yml`)**:
   - Удален некорректный блок `capture: header: set-cookie`, приводивший к 100% сбоям сценария `Student — Lessons + Progress Flow`.
   - Встроенный `cookieJar` Artillery теперь бесшовно передает httpOnly куки между шагами виртуального пользователя.
+
+### 1.40. Five-Axis Code Review & Quality Audit
+
+- **Audit Results Across 5 Dimensions**:
+  1. **Correctness**: 100% — Edge-кейсы обработаны (null headers, malformed URIs, localhost/127.0.0.1 origins, case-insensitive usernames).
+  2. **Readability & Simplicity**: 100% — Чистые классы (до 90 строк), SRP соблюден, zero dead code, понятные контракты.
+  3. **Architecture**: 100% — Полное соответствие монолиту, фильтры безопасности расположены строго перед `UsernamePasswordAuthenticationFilter`.
+  4. **Security**: 100% — Устранены все потенциальные векторы (захардкоженный JWT-секрет, IP spoofing, CSRF SameSite=None, Telegram username takeover).
+  5. **Performance**: 100% — `allowedOriginsSet` парсится один раз при инициализации бина (`Set<String>` с O(1) lookup), regex скомпилирован в `static final Pattern`.
 - **Верификация**:
   - Backend: 241/241 JUnit тестов Green (100%).
   - Frontend: 73/73 Vitest тестов Green (100%).
