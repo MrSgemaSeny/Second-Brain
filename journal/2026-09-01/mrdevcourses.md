@@ -452,10 +452,25 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (4.88s, 0 ошибок).
 
+### 1.31. Documentation, ADR-005 & GitHub Actions CI/CD Architecture
+
+- **ADR & Documentation Overhaul**:
+  - Создан `ADR-005: Telegram Bot Polling Runner и диспетчеризация команд ментора/студента` (`docs/decisions/ADR-005-telegram-bot-and-mentor-dispatching.md`).
+  - Актуализированы все 5 эпиков (`Epics/Epic-01`..`Epic-05`) со статусом `Completed` и полным чек-листом реализованных задач.
+  - Обновлен `README.md` с архитектурой развертывания **Render + Vercel**, интеграцией GitHub Actions CI/CD пайплайна и актуальной статистикой тестов (241 JUnit + 73 Vitest).
+- **CI/CD Automation (`.github/workflows/ci.yml`)**:
+  - Настроен автоматический пайплайн GitHub Actions с двумя параллельными задачами:
+    1. `backend-test-and-build`: установка JDK 17, запуск 241 JUnit тестов и сборка исполняемого bootJar.
+    2. `frontend-test-and-build`: установка Node 20, проверка типов TypeScript, прогон 73 Vitest тестов и сборка production SPA бандла.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (1802 модуля, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 236/236 тестов Green (100%).
+- **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.88s, 31 test files, 1802 modules).
+- **Production Build**: 0 ошибок (5.77s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
