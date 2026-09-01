@@ -216,3 +216,8 @@
 
 ### 1.23. Исправление ширины футера (несовпадение с основным блоком)
 - Контейнер футера (`Footer.tsx`) выровнен в `max-w-[1440px]` — теперь совпадает с контейнером хедера и страниц курса.
+
+### 1.24. Генеральная очистка проекта от временных файлов и мусора
+- Удалены временные и устаревшие markdown-файлы из корня: `CLAUDE.md`, `MrDevCourses.md`, `ORIGINAL_REQUEST.md`, `PROJECT.md`, `TEST_INFRA.md`, `navigation-architecture.md`.
+- Зачищены временные служебные папки субагентов из `.agents/` (`explorer_backend_survey`, `explorer_frontend_survey`, `orchestrator_1`, `worker_m1..m4` и т.д.).
+- Структура репозитория приведена к идеальному порядку. Все тесты (71/71 frontend, 215/215 backend) 100% Green.
