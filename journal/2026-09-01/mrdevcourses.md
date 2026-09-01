@@ -652,3 +652,19 @@
   - Backend: 241/241 JUnit тестов Green (100%).
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Frontend Build: `npm run build` (tsc + vite) успешно пройден за 4.89s (0 ошибок типов).
+
+### 1.42. Student Full-Lifecycle E2E Suite (TDD Implementation)
+
+- **Backend E2E Suite (`StudentSuiteE2ETest.java`)**:
+  - Реализован комплексный интеграционный тест по методологии TDD (RED -> GREEN -> REFACTOR) с 5 уровнями сценариев:
+    - **Tier 1 (Onboarding & Enrollment)**: регистрация студента с получением JWT в cookie, публичный просмотр каталога `/v1/courses`, переход в `/v1/courses/{slug}` и запись на курс `/v1/courses/{id}/enroll`.
+    - **Tier 2 (Drip & Progression)**: проверка доступности урока Дня 1, строгая блокировка доступа к уроку Дня 2 (`403 Forbidden`) по DB-интервалу drip content, завершение урока `/v1/courses/{id}/lessons/{lessonId}/complete`.
+    - **Tier 3 (Homework & Review Loop)**: отправка ДЗ с GitHub/Live Demo URL, нахождение в очереди ментора `/v1/admin/homeworks`, проверка ментором с feedback и авто-завершение урока при `PASSED`.
+    - **Tier 4 (Anti-Cheat Quiz & SOS Ticket)**: получение вопросов квиза со скрытыми правильными ответами (Anti-Cheat), отправка ответов `/v1/lessons/{id}/quiz/submit` со 100% результатом; создание SOS-тикета помощи `/v1/courses/{courseId}/lessons/{lessonId}/help-requests` с сохранением в `student_help_requests`.
+    - **Tier 5 (Graduation & Certificate)**: верификация сертификата выпускника по коду `/v1/certificates/verify/{code}` в публичном доступе без авторизации.
+- **Frontend E2E Suite (`StudentSuiteE2E.test.tsx`)**:
+  - Реализованы сквозные тесты UI-потока студента (CoursesPage -> CourseDetailPage -> LessonPage -> Homework Submit -> Quiz Submit -> Help SOS Request).
+- **Верификация**:
+  - Backend: 248/248 JUnit тестов Green (100%).
+  - Frontend: 78/78 Vitest тестов Green (100%).
+  - Frontend Production Build: `tsc -b && vite build` успешно скомпилирован за 4.71s (0 ошибок типов).
