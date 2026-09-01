@@ -147,6 +147,22 @@
 
 ---
 
+### 1.10. Bug Fixes: AdminPage crash & Auth UI gap
+
+- **Bug: `students.map is not a function` (AdminPage.tsx:555)**:
+  - Причина: `res.data.data` возвращал `null` с бэкенда (пустой список студентов). Деструктуризация `data: students = []` срабатывает только при `undefined`, но не при `null`.
+  - Фикс: В `adminApi.getStudents` добавлен null-coalescing оператор `return res.data.data ?? []`.
+  - Файл: `frontend/src/entities/admin/api/adminApi.ts`.
+
+- **Bug: Большой gap между кнопками "Войти" и "Войти через Google"**:
+  - Причина: CSS-класс `my-4 pt-1` на дивайдере "или" генерировал ~36px лишнего отступа в дополнение к `space-y-4` родительской формы.
+  - Фикс: Заменен на `my-2` — разделитель прилегает плотно и пропорционально.
+  - Файл: `frontend/src/features/auth/ui/EmailAuthForm.tsx`.
+
+- **Верификация**: Frontend 73/73 Vitest тестов Green (100%).
+
+---
+
 ### Статус Верификации:
 - **Backend (JUnit)**: 234/234 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
