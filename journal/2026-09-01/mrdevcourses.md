@@ -1,27 +1,29 @@
-# Журнал разработки — MrDevCourses
-**Дата**: 2026-09-01
-**Тема**: Обновление CTA-кнопки на странице курса (CourseStickyCard)
+# Журнал разработки — MrDevCourses (2026-09-01)
 
 ---
 
-## 1. Выполненные задачи
+### 1.1. Security Hardening: Защита стены проектов (`/projects`) и 1-User-1-Like Toggle
+- Создана новая Flyway миграция `V20__create_project_likes_table.sql`:
+  - Таблица `project_likes` с внешними ключами на `project_showcases(id)` и `users(id)` и ограничением `UNIQUE (project_id, user_id)`.
+- Созданы JPA сущность `ProjectLike` и репозиторий `ProjectLikeRepository` с методом `findProjectIdsLikedByUser`.
+- `ProjectShowcaseService.toggleLike(userId, projectId)`:
+  - Реализован механизм toggle (повторный клик снимает лайк с декрементом счетчика).
+  - При `getAllShowcases(currentUserId)` возвращается персональный флаг `hasLiked: boolean`.
+- `ProjectShowcaseController`:
+  - `POST /api/v1/projects/{id}/like` защищен `@PreAuthorize("isAuthenticated()")`.
+  - В `SecurityConfig.java` снят `permitAll` для POST лайков.
+- `ProjectsPage.tsx`:
+  - Интерактивная кнопка лайка с индикацией состояния `hasLiked`.
+  - При клике неавторизованного пользователя происходит безопасный редирект на `/login`.
+- **Тесты**:
+  - `ProjectShowcaseControllerTest`: проверен 401 Unauthorized для анонимных лайков и корректный toggle счетчика для авторизованных.
 
-### 1.1. Обновление CTA-кнопки существующего курса
-- В компоненте `CourseStickyCard` кнопка действия переименована в **«Посмотреть полное видео»** со значком `<Play />`.
-- Подключен вызов обработчика `onPlayTrailer` для открытия полноэкранного видео/трейлера со звуком.
-- Удален неиспользуемый импорт `ArrowRight`.
-- Обновлены и успешно пройдены модульные тесты `CourseStickyCard.test.tsx`.
-
-### 1.2. Редизайн страницы авторизации в GitHub-grade стиль (LoginPage)
-- Приведена структура страницы входа к эталонному GitHub-лейауту:
-  - Центрированный круглый аватар автора Mr Developer и лаконичный заголовок `Вход в MrDeveloper` / `Регистрация в MrDeveloper`.
-  - Основная карточка: поля `Email`, `Имя` (при регистрации), `Пароль`, кнопка `Войти` / `Создать аккаунт`, разделитель `или` и кнопка `Войти через Google` в строгом темном стиле с цветным логотипом Google.
-  - Нижний блок: переключение режимов `Впервые в MrDeveloper? Создать аккаунт` / `Уже есть аккаунт? Войти`.
-  - Убран лишний информационный баннер-рекомендация сверху.
-- Обновлены и успешно пройдены модульные тесты `LoginPage.test.tsx` и `GoogleLoginButton.test.tsx`.
+### 1.2. Frontend Resilience: Suspense для защищенных роутов
+- В `router/index.tsx` все защищенные роуты (`/courses`, `/courses/:slug`, `/courses/:cId/lessons/:lId`, `/dashboard`) обернуты в `wrap()` с `<Suspense fallback={<PageLoader />}>`, предотвращая падение React при медленном сетевом соединении.
 
 ---
 
-## 2. Метрики верификации
-- **Frontend (Vitest)**: 71/71 тестов PASSED across 30 suites (100% Green).
-- **Production Build**: `tsc -b && vite build` — 1795 модулей успешно скомпилированы за 5.04s без единой ошибки.
+### Статус Верификации:
+- **Backend (JUnit)**: 216/216 тестов Green (100%).
+- **Frontend (Vitest)**: 71/71 тестов Green (100%).
+- **Production Build**: 0 ошибок (4.7s).
