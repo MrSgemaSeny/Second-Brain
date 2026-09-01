@@ -373,6 +373,20 @@
   - Frontend: 73/73 тестов Green (100%).
   - Production Build: `tsc -b && vite build` (5.56s, 0 ошибок).
 
+### 1.25. Telegram Bot: Fix Priority Inversion in Account Linking for Mentor & Students
+
+- **Root Cause Analysis (Почему не привязывался Telegram)**:
+  - В `TelegramBotCommandService.java` блок `if (isMentor)` стоял перед логикой связывания по email (`extractEmailFromText`) и перед авто-связыванием по Telegram `@username` (`findByTelegramUsernameIgnoreCase`).
+  - Когда ментор/администратор отправлял в Telegram-чат `/start`, `/link` или любое сообщение, бот сразу перехватывал его в `switch (isMentor)` и возвращал пульт ментора (`handleMentorHelp()`), полностью пропуская шаги авто-связывания аккаунта `orkathebestt@gmail.com` с `chatId`.
+  - В результате в базе данных `user.telegram_username` был заполнен, но `user.telegram_chat_id` оставался `NULL`, из-за чего на сайте отображался статус `НЕ ПРИВЯЗАН`, а команда `/progress` выводила `Telegram: Не привязан`.
+- **Решение**:
+  - Логика привязки (`LINK_<token>`, по email и авто-связывание по совпадению никнейма Telegram) вынесена наверх перед блоком обработки команд ментора.
+  - Теперь при отправке любого сообщения боту аккаунт мгновенно привязывается к `telegram_chat_id`, после чего для ментора отображается подтверждение привязки и пульт команд.
+- **Верификация**:
+  - Backend: 236/236 тестов Green (100%).
+  - Frontend: 73/73 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (5.56s, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
