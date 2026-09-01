@@ -100,10 +100,28 @@
   - Обновлен `lessonApi.ts` с методом `getPitfalls`.
   - Все тесты фронтенда (73/73) и production build (`npm run build`) успешно пройдены.
 
+### 1.7. Telegram Bot, Dual Alerts & Transactional Email Notification Layer
+- **Flyway Migration V23** (`V23__create_notifications_and_telegram_bot_tables.sql`):
+  - Поля `telegram_chat_id`, `telegram_linked_at`, `email_notifications_enabled`, `telegram_notifications_enabled`, `last_inactivity_email_sent_at` в таблице `users`.
+  - Таблица `notification_outbox` с индексами `(status, next_retry_at)` и `telegram_chat_id`.
+- **Бэкенд**:
+  - `EmailNotificationService`: адаптивные HTML-шаблоны (welcome для Google-пользователей, проверка ДЗ, открытие drip-уроков, SOS-сигналы ментору, напоминания о неактивности с 7-дневным троттлингом и ссылкой отписки).
+  - `TelegramBotCommandService`: поддержка команд ментора (`/hw`, `/approve`, `/reject`, `/status`, `/stuck`, `/progress @student`, `/broadcast`) и команд студента (`/start LINK_<token>`, `/status`, `/unlink`, `/help`).
+  - `TelegramLinkTokenService` и `TelegramLinkController` (`POST /v1/telegram/link-token`, `DELETE /v1/telegram/unlink`).
+  - `StudentHelpService`: дублирование критических SOS-алертов в Telegram ментора и на Email ментора одновременно.
+  - `HomeworkService`: отправка вердикта проверки ДЗ на Email студента и в Telegram (если привязан).
+  - `OAuth2AuthenticationSuccessHandler`: отправка welcome-письма новым студентам при первой регистрации через Google.
+  - `StuckDetectionService`: автоматическая отправка email-напоминаний неактивным студентам (>=3 дней) с защитой от спама (не чаще 1 раза в 7 дней).
+- **Фронтенд**:
+  - `userApi`: методы `getTelegramLinkToken` и `unlinkTelegram`.
+  - `ProfilePage.tsx`: блок привязки Telegram с отображением бейджа статуса, кнопки генерации ссылки и отвязки.
+- **Тесты**:
+  - `TelegramLinkControllerTest`, `EmailNotificationServiceTest`, `TelegramBotCommandServiceTest`, `StuckDetectionServiceTest`.
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 220/220 тестов Green (100%).
+- **Backend (JUnit)**: 228/228 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (4.35s).
+- **Production Build**: 0 ошибок (4.42s).
 - **AI Guards & Hooks**: Полностью протестированы, legacy-скрипты заархивированы в Zettelkasten.
