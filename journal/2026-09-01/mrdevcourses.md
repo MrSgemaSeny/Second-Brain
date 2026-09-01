@@ -161,11 +161,19 @@
 
 - **Верификация**: Frontend 73/73 Vitest тестов Green (100%).
 
+### 1.11. Telegram Bot: Fix LazyInitializationException in /stuck & /status
+- **Bug**: `LazyInitializationException` при вызове команд ментора `/stuck` и `/status` в Telegram из-за отсутствия JPA-сессии при ленивой загрузке сущностей `User` из `Enrollment`.
+- **Фикс**:
+  - `TelegramBotCommandService` помечен `@Transactional(readOnly = true)`.
+  - В методах `handleStatus` и `handleStuck` вызовы `findAll()` заменены на `findAllWithCourseAndUser()` (JOIN FETCH).
+  - Добавлены юнит-тесты `mentorStatus_Success` и `mentorStuck_Success` в `TelegramBotCommandServiceTest`.
+- **Верификация**: Backend 236/236 тестов Green (100%).
+
 ---
 
 ### Статус Верификации:
-- **Backend (JUnit)**: 234/234 тестов Green (100%).
+- **Backend (JUnit)**: 236/236 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
 - **Production Build**: 0 ошибок (4.42s).
-- **Security Audit**: Все 3 CRITICAL уязвимости и сопутствующие предупреждения закрыты.
+- **Security Audit & Telegram Bot**: Все уязвимости устранены, бот успешно обрабатывает команды ментора.
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
