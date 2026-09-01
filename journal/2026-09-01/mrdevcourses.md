@@ -632,3 +632,23 @@
   - Backend: 241/241 JUnit тестов Green (100%).
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Working Tree: Чисто.
+
+### 1.41. Native Fetch Interceptor (ADR-005) & PostgreSQL Append-Only Audit Triggers (V25)
+
+- **Frontend Native Fetch Migration (`src/shared/api/base.ts`, `package.json`)**:
+  - Полный отказ от библиотеки `axios` и выравнивание с межпроектным стандартом `ADR-005` и `knowledge/frontend-native-fetch-interceptor.md`.
+  - Реализован типизированный `apiClient` на базе нативного `fetch`:
+    - Прозрачная передача `credentials: 'include'` для httpOnly cookie.
+    - Автоматическая обработка параметров `params` (`Record<string, unknown> | object | URLSearchParams`).
+    - Поддержка `responseType: 'blob'` и `responseType: 'text'` (для скачивания отчетов аналитики).
+    - Класс ошибки `ApiError` с полями `status`, `data` и свойством `response: { status, data }` для 100% обратной совместимости со всеми 17 API клиентами в `entities/`.
+    - Пакет `axios` удален из `package.json`.
+- **Database Append-Only Audit Triggers (`V25__audit_triggers_security.sql`)**:
+  - Реализован паттерн `knowledge/db-trigger-audit-logs.md`.
+  - Создана функция `prevent_audit_logs_modification()` и триггер `trg_audit_logs_prevent_modification` на `BEFORE UPDATE OR DELETE ON audit_logs`, блокирующий любые попытки модификации или удаления записей аудита на уровне СУБД (гарантия Append-Only).
+  - Создан триггер `trg_audit_user_role_change` на `AFTER UPDATE ON users` для автоматической фиксации смены ролей со старыми/новыми значениями в JSON.
+  - Создан триггер `trg_audit_enrollment_status_change` на `AFTER UPDATE ON enrollments` для фиксации изменений статусов подписок на курсы.
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Frontend Build: `npm run build` (tsc + vite) успешно пройден за 4.89s (0 ошибок типов).
