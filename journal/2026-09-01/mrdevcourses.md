@@ -428,10 +428,23 @@
   - Frontend: 73/73 Vitest тестов Green (100%).
   - Production Build: 0 ошибок (37.07s, 31 test files).
 
+### 1.29. Security Audit & Final Hardening Verification
+
+- **Security & Leaked Secrets Comprehensive Audit**:
+  - Выполнен полный аудит всего репозитория на предмет утечек приватных токенов, API-ключей, OAuth secrets, JWT секретов и паролей.
+  - Подтверждено: боевые токены и секреты отсутствуют в репозитории и истории коммитов, изоляция через переменные окружения (`GOOGLE_CLIENT_SECRET`, `TELEGRAM_BOT_TOKEN`, `DATABASE_PASSWORD`, `JWT_SECRET`).
+  - Все fallback-значения ограничены локальной средой разработки.
+- **Admin UI Polish**:
+  - Устранена лишняя кнопка удаления единственного курса из шапки админ-панели (`AdminCurriculumPage.tsx`).
+- **Верификация**:
+  - Backend: 241/241 JUnit тестов Green (100%).
+  - Frontend: 73/73 Vitest тестов Green (100%).
+  - Production Build: `tsc -b && vite build` (1802 модуля, 0 ошибок).
+
 ---
 
 ### Статус Верификации:
 - **Backend (JUnit)**: 241/241 тестов Green (100%).
 - **Frontend (Vitest)**: 73/73 тестов Green (100%).
-- **Production Build**: 0 ошибок (37.07s, 31 test files).
+- **Production Build**: 0 ошибок (5.77s, 31 test files, 1802 modules).
 - **Working Tree**: 100% чистый репозиторий, 0 мусорных файлов.
