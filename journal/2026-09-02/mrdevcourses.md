@@ -379,17 +379,27 @@
 - **Верификация**:
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (5.03s, 1749 модулей).
 
-### 1.29. Полное удаление элементов геймификации Streak из UI, аналитики и Telegram-бота
+### 1.30. Полная зачистка концепции Streak из Java Backend, сущностей, DTO и всех тестов
 
-- **Фронтенд и UI Kit**:
-  - `StudentProgressDrawer.tsx`: удалены бейджи стриков, иконки Flame и Trophy, стилизованные янтарные границы; оставлена строгая монохромная дата последней активности.
-  - `StudentLayout.tsx`: удален сайдбар-бейдж стриков студента.
-  - `AdminAnalyticsDashboard.tsx`: карточка «Ср. Streak» заменена на продуктовый KPI «Активность за 7 дней», диаграмма `StreakDistributionChart` удалена в пользу полноразмерной воронки `CourseFunnelChart`.
-  - `ExportReportModal.tsx`: удалены упоминания стриков из описания экспорта.
-- **Telegram Bot (`TelegramBotCommandService.java`)**:
-  - Очищены строки вывода текущего/рекордного стрика в карточках студентов, общем статусе и проверке прогресса.
-- **Artillery**:
-  - Заменен устаревший эндпоинт стриков на `/v1/admin/analytics/overview`.
+- **Backend Модели и DTO**:
+  - `User.java`: удалены поля `@Column currentStreak` и `longestStreak`.
+  - `UserDto.java` и `UserProfileDto.java`: удалены поля `currentStreak`, `longestStreak` и маппинг.
+  - `StudentDto.java` и `StudentProgressDetailDto.java`: удалены поля `currentStreak`, `longestStreak`.
+  - `AdminOverviewMetricsDto.java` и `AdminAnalyticsDto.java`: удалено поле `averageStreak`.
+  - `StreakDistributionDto.java`: файл удален из кодовой базы.
+- **Backend Сервисы и Контроллеры**:
+  - `LessonService.java`: удален метод расчета стрика `updateUserStreak(User)` и заменен на лаконичное сохранение времени активности `updateUserLastActive(User)`.
+  - `AdminAnalyticsService.java`: удалены методы `getStreakDistribution()` и `createStreakDto()`, расчет `averageStreak`, и секция стриков из JSON/CSV экспортов платформы.
+  - `AdminAnalyticsController.java`: удален эндпоинт `GET /v1/admin/analytics/streaks`.
+  - `AdminStudentService.java` и `UserProfileService.java`: очищены билдеры DTO от вызовов `currentStreak`/`longestStreak`.
+- **Frontend Модели и API**:
+  - `frontend/src/entities/adminAnalyticsApi.ts`, `user/model/types.ts`, `shared/types/index.ts`: удалены все типы и эндпоинты `StreakDistribution`, `averageStreak`, `currentStreak`, `longestStreak`.
+  - Удалены неиспользуемые компоненты диаграмм `StreakDistributionChart.tsx`.
+- **Тестовое покрытие**:
+  - Все MockMvc контроллерные тесты, unit-тесты сервисов и E2E тесты бэкенда (`AdminAnalyticsControllerTest`, `AdminStudentControllerTest`, `AdminSuiteE2ETest`, `AdminAnalyticsServiceTest`, `AdminStudentServiceTest`, `UserProfileControllerTest`, `TelegramBotCommandServiceTest`, `LessonServiceDripTest`, `StudentSuiteE2ETest`) очищены от стриков.
+  - Все юнит- и E2E-тесты фронтенда (`AdminAnalyticsPage`, `AdminStudentsPage`, `AdminSuiteE2E`, `LessonPage`, `ProfilePage`, `StudentTable`, `AdminAnalyticsDashboard`, `UserProfileDropdown`, `QuickNavDrawer`) очищены и приведены к актуальным DTO.
 - **Верификация**:
-  - Frontend Vitest: 80/80 тестов Green (100%).
-  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.47s, 1748 модулей).
+  - Backend JUnit 5: 249/249 тестов Green (100% Passed, BUILD SUCCESSFUL).
+  - Frontend Vitest: 80/80 тестов Green (100% Passed, 33 тест-файла).
+  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.37s, 1748 модулей).
+
