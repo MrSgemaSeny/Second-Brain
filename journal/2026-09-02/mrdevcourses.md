@@ -327,3 +327,12 @@
 - **Верификация**:
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.48s, 1749 модулей).
+
+### 1.23. Актуализация документации README.md (Live Demo, Knowledge Base, System Telemetry, Tests)
+
+- **Обновление `README.md`**:
+  - Добавлен бейдж Live Demo на GitHub Pages (`https://mrsgemaseny.github.io/MrDevCourses/`).
+  - Добавлены модули 11 и 12 в список ключевых подсистем: *Obsidian-Style Knowledge Base & Hashtag Glossary* (`/docs`) и *Subsystem Health & Live Telemetry* (`/admin/system`).
+  - Синхронизированы актуальные метрики тестов: 250/250 JUnit 5 (100% Green) и 80/80 Vitest (33 сьюта), цепочка миграций Flyway (`V1..V28`).
+- **Верификация**:
+  - Все тесты и сборка полностью подтверждены.
