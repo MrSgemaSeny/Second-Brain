@@ -166,3 +166,24 @@
 - **Верификация**:
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.27s).
+
+### 1.12. Глобальная зачистка всех зеленых и цветных оттенков (Strict Black & White Standard)
+
+- **Полное удаление всех классов `emerald`, `green`, `rose`, `amber`, `blue` из UI**:
+  - `HomeworkSubmissionWidget.tsx`:
+    - Зеленые индикаторы, иконка глобуса и кнопка «Отправить ментору» переведены в строгий черно-белый контраст (`bg-white hover:bg-zinc-200 text-black`, белые точки и монохромные ссылки).
+    - Бейджи статусов сдачи переведены в монохромный формат (`bg-white/10 text-white border border-white/20 font-mono`).
+  - `MarkdownViewer.tsx`:
+    - Убраны зеленые подсветки инлайн-кода `text-emerald-400` -> `text-zinc-200 font-mono`, `Check` иконки переведены на белый.
+    - Все Callout-алерты переведены на градации серого и черного `#141418` / `#18181b` с белыми и серыми иконками.
+  - `WelcomeOnboardingModal.tsx`:
+    - Удалены все `emerald` точки, бейджи «ОБЯЗАТЕЛЬНО», кнопка старта переведена на `bg-white hover:bg-zinc-200 text-black`.
+  - `LessonQuizWidget.tsx`, `RoadmapView.tsx`, `VisualRoadmap.tsx`:
+    - Бейджи прохождения, линии связей и статусы переведены в монохромные стили.
+  - `AdminHomeworksPage.tsx`, `AdminStudentsPage.tsx`, `StudentProgressDrawer.tsx`, `CurriculumTree.tsx`, `CohortManagerModal.tsx`, `YouTubeValidator.tsx`, `MaterialManagerModal.tsx`, `ModuleCard.tsx`:
+    - Зачищены все цветные фильтры, иконки типов материалов, валидаторы YouTube и бейджи статусов.
+  - `CertificateVerifyPage.tsx` и `CertificateModal.tsx`:
+    - Монохромная печать и бейджи официального подтверждения.
+- **Верификация**:
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.51s).
