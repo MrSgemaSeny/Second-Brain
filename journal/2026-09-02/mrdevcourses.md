@@ -250,3 +250,13 @@
   - Backend JUnit: 250/250 тестов Green (100%).
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.25s).
+
+### 1.17. Очистка рамок и бейджей в таблице студентов (Strict Text Layout in StudentTable)
+
+- **Удаление рамок и плашек у названий курсов и текущих уроков (`StudentTable.tsx`)**:
+  - В колонках «Зачислен на курсы» и «На каком уроке» удалены фоновые плашки (`bg-zinc-800`, `border-white/5`, `px-2 py-0.5 rounded`).
+  - Отображение переведено на чистый типографический текст (`text-[11px] text-zinc-300 font-mono`) в точном соответствии со стилем колонок «Дата регистрации» и «Примерное окончание».
+- **Верификация**:
+  - Backend JUnit: 250/250 тестов Green (100%).
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.69s).
