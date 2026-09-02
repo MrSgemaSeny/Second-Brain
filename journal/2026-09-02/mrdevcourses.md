@@ -105,3 +105,13 @@
 - **Верификация**:
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Production Build: `tsc -b && vite build` — 0 ошибок (4.25s).
+
+### 1.8. Устранение ложного срабатывания GitGuardian (Secret incident fix)
+
+- **Причина алерта**: В учебных примерах кода глоссария (`glossaryData.ts`) в JSON-примерах HTTP-запроса и MockMvc теста содержались строковые литералы вида `"password": "secretPassword123"` и `"password": "123456"`, которые автоматический сканер GitGuardian распознал как Generic Password.
+- **Исправление**:
+  - Все тестовые плейсхолдеры паролей в сниппетах кода заменены на нейтральные идентификаторы `raw_user_password` и `raw_test_pass`.
+  - Устранены любые совпадения с регулярными выражениями поиска секретов.
+- **Верификация**:
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` — 0 ошибок (4.73s).
