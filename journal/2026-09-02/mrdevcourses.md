@@ -115,3 +115,19 @@
 - **Верификация**:
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Production Build: `tsc -b && vite build` — 0 ошибок (4.73s).
+
+### 1.9. Внедрение кластерной карты знаний в стиле Obsidian на странице `/docs`
+
+- **Концептуальная группировка (Obsidian-Style Knowledge Clusters)**:
+  - Создано 5 тематических кластеров связей, объединяющих взаимосвязанные темы вокруг центральных хабов:
+    1. `Безопасность и Авторизация` (Центральный хаб: *Spring Security & Фильтры* -> Спутники: *JWT, OAuth 2.0, BCrypt, RLS/IDOR, Bucket4j, CORS, PII Masker*).
+    2. `Бэкенд и Базы данных` (Центральный хаб: *Spring Boot 3* -> Спутники: *3-Tier Architecture, JPA, Связи таблиц, Flyway, @Transactional, Redis, ExceptionHandler, HTTP Protocol, REST, Drip-content*).
+    3. `Фронтенд и FSD Архитектура` (Центральный хаб: *Feature-Sliced Design* -> Спутники: *React, TS vs JS, Vite, SPA, React Query, Zustand, Hooks, DTO, Zod, Shared API, Tailwind CSS, Lucide, Glassmorphism*).
+    4. `AI и Вайбкодинг` (Центральный хаб: *Вайбкодинг* -> Спутники: *Prompt Engineering, Basic vs Pro, System Prompt, Groq Llama 3.3, SSE Streaming, OpenHTMLtoPDF*).
+    5. `Git, DevOps и Тестирование` (Центральный хаб: *Git & CI/CD* -> Спутники: *Repository, Commit, Branch, Staging, .gitignore, PR, Merge/Rebase, GitHub Pages, Пирамида тестов, Unit, Mockito, Integration*).
+- **Интерфейс «Всё сразу видно»**:
+  - Добавлен переключатель режимов: `Кластерная карта (Obsidian)` (компактный обзор всех связей на одном экране) и `Развернутые статьи`.
+  - Внедрен интерактивный **Obsidian Concept Inspector**: при клике на любой узел мгновенно открывается окно с полным разбором темы, примером кода с 1-клик копированием и переходом к уроку программы без потери контекста.
+- **Верификация**:
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` — 0 ошибок (4.52s).
