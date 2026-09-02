@@ -378,3 +378,18 @@
   - Заголовок приведен к `text-2xl font-bold tracking-tight text-white leading-tight`.
 - **Верификация**:
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (5.03s, 1749 модулей).
+
+### 1.29. Полное удаление элементов геймификации Streak из UI, аналитики и Telegram-бота
+
+- **Фронтенд и UI Kit**:
+  - `StudentProgressDrawer.tsx`: удалены бейджи стриков, иконки Flame и Trophy, стилизованные янтарные границы; оставлена строгая монохромная дата последней активности.
+  - `StudentLayout.tsx`: удален сайдбар-бейдж стриков студента.
+  - `AdminAnalyticsDashboard.tsx`: карточка «Ср. Streak» заменена на продуктовый KPI «Активность за 7 дней», диаграмма `StreakDistributionChart` удалена в пользу полноразмерной воронки `CourseFunnelChart`.
+  - `ExportReportModal.tsx`: удалены упоминания стриков из описания экспорта.
+- **Telegram Bot (`TelegramBotCommandService.java`)**:
+  - Очищены строки вывода текущего/рекордного стрика в карточках студентов, общем статусе и проверке прогресса.
+- **Artillery**:
+  - Заменен устаревший эндпоинт стриков на `/v1/admin/analytics/overview`.
+- **Верификация**:
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.47s, 1748 модулей).
