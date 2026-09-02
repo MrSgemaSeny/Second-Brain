@@ -260,3 +260,20 @@
   - Backend JUnit: 250/250 тестов Green (100%).
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.69s).
+
+### 1.18. Восстановление Системного Монитора `/admin/system` (System Monitor Fix)
+
+- **Причина неработающего монитора**:
+  - Фронтенд-интерфейсы `SystemHealth` и `RateLimitTelemetry` в `adminApi.ts` содержали устаревшие плоские поля (`jvmTotalMemoryMb`, `jvmFreeMemoryMb`, `activeThreads`, `dbStatus`, `uptimeSeconds`, `totalRejectedRequests`, `authLimitRemaining`), которые соответствовали давно несуществующей структуре API.
+  - Бэкенд давно был переписан на вложенную богатую схему (`SystemHealthDto` с вложенными `JvmStatsDto`, `DatabaseStatsDto`, `HikariPoolStatsDto`, `FlywayStatsDto`, `OutboxStatsDto`), а `RateLimitTelemetryDto` — с `totalThrottledRequests`, `tiers` (Map<String, RateLimitTierDto>).
+  - В `JvmStatsDto.java` отсутствовало поле `activeThreads` (было только `availableProcessors`), из-за чего потоки вообще не возвращались.
+- **Исправления**:
+  1. **Бэкенд** (`JvmStatsDto.java`): добавлено поле `int activeThreads`.
+  2. **Бэкенд** (`AdminSystemService.java`): в `getJvmStats()` добавлен вызов `ManagementFactory.getThreadMXBean().getThreadCount()` для заполнения `activeThreads`.
+  3. **Фронтенд** (`adminApi.ts`): полностью переписаны интерфейсы `SystemHealth` и `RateLimitTelemetry` в соответствие с реальным бэкенд-контрактом (добавлены `JvmStats`, `DatabaseStats`, `HikariPoolStats`, `FlywayStats`, `OutboxStats`, `RateLimitTier`).
+  4. **Фронтенд** (`AdminSystemPage.tsx`): добавлены производные вычисления с безопасными фоллбеками (`jvmUsedMb`, `jvmTotalMb`, `uptimeSeconds`, `activeThreads`, `dbStatus`), расширен UI тремя новыми секциями: **Пул соединений (HikariCP)**, **Миграции БД (Flyway)** и **Очередь Outbox**.
+  5. Удалены неиспользуемые импорты (`Activity` в `AdminSystemPage.tsx`, `Shield` в `AdminAuditPage.tsx`, `BarChart3` в `AdminAnalyticsPage.tsx`).
+- **Верификация**:
+  - Backend JUnit: 250/250 тестов Green (100%).
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.83s, 1749 модулей).
