@@ -76,3 +76,16 @@
   - Backend JUnit: 250/250 тестов Green (100%).
   - Frontend Vitest: 80/80 тестов Green (100%).
   - Frontend Build: `tsc -b && vite build` — 0 ошибок (4.33s).
+
+### 1.6. Комплексное расширение базы знаний и терминологии по всем 10 материалам
+
+- **Масштабное обновление `glossaryData.ts`**:
+  - В словарь добавлено более 40 новых фундаментальных терминов и концепций из 10 теоретических файлов программы:
+    - **Неделя 1 (ИИ и Git)**: `Вайбкодинг`, `Промпт-инжиниринг`, `Basic vs Pro Prompting`, `Системный ролевой промпт`, `Git`, `Репозиторий`, `Коммит`, `Ветка`, `Индекс (Staging)`, `.gitignore`, `Pull Request`, `Merge & Rebase`, `Конфликт слияния`, `GitHub Pages`, `Glassmorphism UI`, `Single-File Landing`.
+    - **Неделя 2 (Фронтенд)**: `JavaScript vs TypeScript`, `Vite`, `SPA vs MPA`, `React (UI = f(data))`, `DTO`, `Zod`, `Shared API`, `React Hooks`, `State Management`, `Zustand`, `FSD`, `Lucide Icons`, `Tailwind CSS v4`.
+    - **Неделя 3 (HTTP, REST, Бэкенд)**: `HTTP Protocol`, `HTTP Request Anatomy`, `HTTP Methods`, `HTTP Status Codes`, `REST Architecture`, `Path vs Query Params`, `CORS & Preflight`, `Spring Boot 3`, `Трехслойная архитектура`, `JPA Entity`, `Связи таблиц`, `Flyway`, `JWT`, `Redis`, `BCrypt`, `Spring Security`, `GlobalExceptionHandler`, `@Transactional`, `OAuth 2.0`.
+    - **Тестирование и Качество**: `Пирамида тестирования`, `Unit Testing`, `Mockito`, `Интеграционное тестирование`, `CI/CD`, `PII Masker`.
+  - Каждый термин снабжен категорией, кратким определением, подробным архитектурным объяснением, примером кода с подсветкой и привязкой к конкретным урокам (`relatedDayNumbers`).
+- **Верификация**:
+  - Frontend Vitest: 80/80 тестов Green (100%).
+  - Production Build: `tsc -b && vite build` — 0 ошибок (4.38s).
