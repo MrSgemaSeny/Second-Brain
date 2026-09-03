@@ -16,3 +16,10 @@
 - **Контекст и синхронизация**:
   - Обновлен .agents/CONTEXT.md в JF-1C.
   - Выполнен коммит и пуш в main.
+
+### 1.2. Исправление ошибки 409 "Конфликт данных" при регистрации
+- **Проблема**: При попытке регистрации с уже существующим email (если он не привязан к Google) фронтенд ошибочно пускал пользователя на второй шаг, а бэкенд возвращал ConflictException (EMAIL_ALREADY_REGISTERED), который GlobalExceptionHandler маскировал под универсальную ошибку "error.conflict" ("Конфликт данных").
+- **Решение**:
+  - В zhan-finance-frontend/src/pages/auth/register/RegisterPage.tsx добавлена проверка es.exists для локальных аккаунтов. Теперь форма блокируется и показывает локализованную ошибку.
+  - В zhan-finance-backend/.../GlobalExceptionHandler.java исправлена логика обработки ConflictException. Теперь ошибка EMAIL_ALREADY_REGISTERED корректно транслируется.
+- **Статус**: Исправления закоммичены.
