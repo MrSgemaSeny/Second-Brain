@@ -40,3 +40,10 @@
   - **Backend**: Stateful JWT Filter (запрос в БД при каждом API вызове), проблема N+1 запросов в CourseService.
   - **Frontend**: Нарушение FSD (импорты из features в entities в TaskDetailsModal), God Object TaskDetailsModal.tsx (~1000 строк), тихие сбои UI при ошибках API, почти полное отсутствие TDD.
 - **Статус**: Отчет передан разработчику, ожидается апрув на рефакторинг.
+
+### 1.6. Рефакторинг критического техдолга (Phase 1)
+- **Проблема**: Выявленные в аудите баги производительности и архитектуры.
+- **Решение**:
+  - **Backend**: JwtAuthenticationFilter переписан на stateless-модель. Роли извлекаются напрямую из JWT Claims, удален блокирующий вызов loadUserByUsername на каждый запрос. В CourseRepository добавлен EntityGraph для решения проблемы N+1 запросов при getAllCourses().
+  - **Frontend**: В TaskDetailsModal и TaskPoolPage исправлены хардкод-строки инвалидации кэша на TASK_QUERY_KEYS. Добавлены 	oast.error во все catch-блоки модального окна для фиксации "тихих сбоев".
+- **Статус**: Изменения протестированы (./gradlew test успешен), закомичены и отправлены в main.
