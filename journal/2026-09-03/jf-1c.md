@@ -23,3 +23,8 @@
   - В zhan-finance-frontend/src/pages/auth/register/RegisterPage.tsx добавлена проверка es.exists для локальных аккаунтов. Теперь форма блокируется и показывает локализованную ошибку.
   - В zhan-finance-backend/.../GlobalExceptionHandler.java исправлена логика обработки ConflictException. Теперь ошибка EMAIL_ALREADY_REGISTERED корректно транслируется.
 - **Статус**: Исправления закоммичены.
+
+### 1.3. Оптимизация сборки Docker (уменьшение build context)
+- **Проблема**: Контекст сборки на Fly.io весил 146 MB, что сильно замедляло каждый деплой.
+- **Решение**: Добавлен файл zhan-finance-backend/.dockerignore, исключающий папки uild/, .gradle/, .git/ и временные файлы. Контекст сокращен до ~2 MB.
+- **Статус**: Изменения закоммичены и отправлены в main.
