@@ -28,3 +28,16 @@
   - Frontend: 80/80 тестов Vitest прошли успешно (33 test files passed).
   - Серверы запущены: Spring Boot 3 на порту 8080 (`/api`) и Vite на порту 5173.
 
+### 1.3. Очистка StuckDetectionService и подавление предупреждений парсера кук
+
+- **StuckDetectionService**:
+  - Исключены пользователи с ролью `ADMIN` из сканирования застрявших студентов (администраторы не должны классифицироваться как студенты).
+  - Исправлен расчёт неактивности: вместо хардкода `99` при пустом `lastActiveDate` берётся дата зачисления (`enrolledAt`) или создания аккаунта (`createdAt`).
+  - Полностью удалён эмодзи `👤` в соответствии с глобальным правилом Zero Emojis.
+  - Добавлен юнит-тест `detectStuckStudents_SkipsAdminsEvenIfInactive` в `StuckDetectionServiceTest`.
+- **Логирование Tomcat кук**:
+  - В `logback-spring.xml` добавлен логгер `org.apache.tomcat.util.http.parser.Cookie` с уровнем `WARN` для подавления информационных сообщений при получении неэкранированных JSON-кук Google One Tap (`g_state`).
+- **Верификация тестов**:
+  - Backend: 250/250 тестов JUnit 5 прошли успешно (`BUILD SUCCESSFUL in 3m 11s`).
+
+
