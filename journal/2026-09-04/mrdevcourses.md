@@ -159,3 +159,14 @@
   - Frontend (Vitest): 80/80 тестов в 33 сьютах пройдены успешно.
   - Frontend Build: `tsc -b && vite build` собран без ошибок (1749 модулей, 4.42s).
 
+### 1.17. Фикс CI/CD автодеплоя для кастомного домена (VITE_BASE_PATH)
+
+- **Контекст и проблема**:
+  - При открытии сайта `mrsgemaseny.com` возникал белый экран и 404 ошибки на загрузку бандлов (`assets/query-DfpZENkZ.js` и др.).
+  - Причина: в `.github/workflows/deploy-pages.yml` был захардкожен `VITE_BASE_PATH: /MrDevCourses/` (для работы на `*.github.io/MrDevCourses/`).
+- **Исправление**:
+  - В `.github/workflows/deploy-pages.yml` значение `VITE_BASE_PATH` изменено на `/` (корневой путь для кастомного apex-домена).
+  - Сгенерированный `dist/index.html` теперь загружает ресурсы по прямым путям `/assets/...`.
+- **Верификация**:
+  - Frontend Build: `tsc -b && vite build` с `VITE_BASE_PATH=/` успешно скомпилирован.
+
