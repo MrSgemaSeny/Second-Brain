@@ -38,4 +38,16 @@
 - **Верификация тестов**:
   - Backend тесты пройдены успешно (`BUILD SUCCESSFUL in 42s`).
 
+### 1.4. Обновление Урока 7 (Неделя 2, Урок 1): Фронтенд-словарь живым языком и FSD (Миграция V61)
+
+- **Контент и учебный план**:
+  - Обновлён Урок 7: «Фронтенд: словарь живым языком и архитектура Feature-Sliced Design (FSD)».
+  - Интегрирован подробный фронтенд-глоссарий (`frontend-glossary.md`): JavaScript, TypeScript, сборщик Vite, отличие Landing vs SPA, декларативный React 19, Tailwind CSS, Lucide Icons, контракты DTO, Zod-валидация, Shared API, управление состоянием (useState, React Query, Zustand) и методология FSD с правилами однонаправленного импорта и Public API (`index.ts`).
+- **База данных и миграции**:
+  - Создана новая Flyway-миграция `V61__update_lesson_7_frontend_glossary_and_fsd.sql`.
+  - Миграция успешно применена к базе данных PostgreSQL и зарегистрирована в `flyway_schema_history`.
+- **Верификация тестов**:
+  - Backend тесты пройдены успешно (`BUILD SUCCESSFUL in 58s`).
+
+
 
