@@ -33,6 +33,7 @@
 - [[ai-deslop-strategy-tokens-audit]] - Стратегия → Токены (DESIGN.md) → Аудит. 4 уровня шрифтов, функциональный layout.
 - [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
 - [[b2c-lms-course-discovery-and-video-preview]] - B2C витрина курсов, Hover-трейлеры и анатомия двухколоночного лендинга.
+- [[frontend-distinctive-design-and-anti-slop]] - Отличительный дизайн интерфейсов: борьба со стереотипами AI-генерации (Claude palette, SaaS card kit, типографический шум).
 
 ## Бэкенд и Базы Данных
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
