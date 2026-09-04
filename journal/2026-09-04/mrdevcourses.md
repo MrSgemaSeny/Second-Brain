@@ -170,3 +170,11 @@
 - **Верификация**:
   - Frontend Build: `tsc -b && vite build` с `VITE_BASE_PATH=/` успешно скомпилирован.
 
+### 1.18. Перевод платформы MrDevCourses на изолированный поддомен courses.mrsgemaseny.com
+
+- **Архитектурное решение**:
+  - Принята модель экосистемы поддоменов (`courses.mrsgemaseny.com`, `medev.mrsgemaseny.com`, `finance.mrsgemaseny.com`, `envie.mrsgemaseny.com`) для полной изоляции сессий, cookie и независимого деплоя сервисов.
+  - В `frontend/public/CNAME` домен переключен на `courses.mrsgemaseny.com`.
+- **Верификация тестов**:
+  - Frontend (Vitest): 80/80 тестов в 33 сьютах пройдены успешно.
+
