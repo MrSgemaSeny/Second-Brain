@@ -35,10 +35,13 @@
 6. Проверяет нужно ли дополнить `prompts_for_ai.md`
 7. ВЫПОЛНЯЕТ GIT PUSH
 
-## Стандарт `.agents` Lifecycle Hooks для всех проектов
+## Стандарт `.agents` Lifecycle Hooks и Управления Памятью
 
-Каждый проект в `new_world` обязан содержать директорию `.agents/` со следующей конфигурацией `hooks.json`:
-- **PreInvocation (`pre-invocation.ps1`)**: Автоматически подгружает на 1-м шаге сессии `.agents/CONTEXT.md` и ключевые файлы Second Brain (`me.md`, `projects.md`, `rules.md`).
+Каждый проект в `new_world` обязан следовать трёхуровневой модели памяти (Tiered Memory Model):
+- **PreInvocation (`pre-invocation.ps1`)**:
+  * **Шаг 1 (invocationNum = 1)**: Инжектирует только `.agents/CONTEXT.md` (<150 строк) и вайтлист Second Brain (`rules.md`, `me.md`, `projects.md`). Лимит: не более 120 строк на файл.
+  * **Повторные шаги (invocationNum > 1)**: Инжектирует только 1-строчный Attention Sink анкор, предотвращая раздувание контекста.
+  * **On-Demand (L2 Archival Memory)**: Спецификации, старые аудиты и знания читаются точечно через нативный `view_file`.
 - **PreToolUse (`safety-gate.ps1`)**: Блокирует использование неэффективных CLI-утилит чтения (`cat`, `grep`, `sed`, `ls`, `head`, `tail`) и деструктивные git-команды (`push --force`, `reset --hard`), форсируя использование нативных инструментов Antigravity.
 - **PreToolUse (`enforce-workflow.ps1`)**: Перехватывает вызов `git push` и проверяет наличие отчета в `Brain's protocol - second brain/journal/` с поддержкой 24-часового плавающего окна.
 - **Stop (`stop-check-commits.ps1`)**: Проверяет `git status --porcelain` в основном проекте и Second Brain. Возвращает `decision: continue`, пока все изменения не закоммичены.

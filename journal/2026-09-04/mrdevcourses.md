@@ -126,3 +126,14 @@
   - Обновлены хуки `MrDevCourses/.agents/scripts/pre-invocation.ps1` и `Brain's protocol - second brain/hooks_template/scripts/pre-invocation.ps1`.
 - **Результат**:
   - Снижение стартового расхода токенов на сессию на ~75% (с ~25k до ~6k токенов).
+
+### 1.12. Объединение проекта, знаний, скиллов и Второго Мозга в единую экосистему
+
+- **Концепция**:
+  - Проект `MrDevCourses`, база знаний Second Brain, скиллы и хуки объединены в саморегулирующийся единый механизм с активным управлением памятью агента.
+- **Новые компоненты и инструменты**:
+  - Создан скрипт аудита и мониторинга здоровья памяти: `Brain's protocol - second brain/scripts/memory-manager.ps1`.
+  - Обновлён `knowledge-index.md` с регистрацией раздела «Управление памятью, токенами и контекстом LLM».
+  - Обновлён `rules.md` с закреплением стандарта трёхуровневой памяти (L1 Working Memory, L2 Archival Memory, L3 Codebase & DB).
+  - Скрипт `memory-manager.ps1` проверен: L1 Working Memory ~4.4k токенов, L2 архив изолирован, Attention Sinks активны.
+
