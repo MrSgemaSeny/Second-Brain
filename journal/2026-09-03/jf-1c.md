@@ -47,3 +47,9 @@
   - **Backend**: JwtAuthenticationFilter переписан на stateless-модель. Роли извлекаются напрямую из JWT Claims, удален блокирующий вызов loadUserByUsername на каждый запрос. В CourseRepository добавлен EntityGraph для решения проблемы N+1 запросов при getAllCourses().
   - **Frontend**: В TaskDetailsModal и TaskPoolPage исправлены хардкод-строки инвалидации кэша на TASK_QUERY_KEYS. Добавлены 	oast.error во все catch-блоки модального окна для фиксации "тихих сбоев".
 - **Статус**: Изменения протестированы (./gradlew test успешен), закомичены и отправлены в main.
+
+### Code Review & Performance Fixes
+- Fixed N+1 queries in ChatService (getContacts) by adding findLastMessagesForUser with DISTINCT ON SQL.
+- Fixed N+1 queries in DocumentService (generateZipArchive) by adding findDocumentsByIds with @EntityGraph.
+- Fixed unbounded memory-leak query in SubscriptionService.hasOverlap by replacing in-memory loop with existsOverlappingSubscription SQL query.
+- Fixed frontend vitest logs (false positive STOMP/Toast errors) by adding global mocks to setup.ts.
