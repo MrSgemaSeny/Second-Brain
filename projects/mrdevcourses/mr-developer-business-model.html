@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MR Developer — Бизнес-модель</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .page {
+    width: 794px;
+    min-height: 1123px;
+    margin: 0 auto;
+    padding: 56px 64px;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 20px;
+    margin-bottom: 36px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  .header .subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    color: #888;
+    letter-spacing: 0.5px;
+  }
+
+  /* SECTION HEADERS */
+  h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* TWO COLUMN LAYOUT */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+
+  /* AUDIENCE */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .audience-item {
+    color: #444;
+  }
+
+  .audience-item span {
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+
+  .tag-row {
+    margin-top: 10px;
+    color: #888;
+    font-size: 10px;
+  }
+
+  /* COURSES */
+  .course-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .course-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .course-num {
+    font-size: 10px;
+    font-weight: 500;
+    color: #bbb;
+    min-width: 20px;
+    padding-top: 1px;
+  }
+
+  .course-content .title {
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+  }
+
+  .course-content .desc {
+    color: #666;
+    font-size: 10.5px;
+  }
+
+  /* TARIFFS */
+  .tariff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+  }
+
+  .tariff-card {
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+  }
+
+  .tariff-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+
+  .tariff-price {
+    font-size: 11px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  .tariff-format {
+    font-size: 10px;
+    color: #999;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .tariff-features {
+    list-style: none;
+    font-size: 10.5px;
+    color: #555;
+  }
+
+  .tariff-features li {
+    margin-bottom: 4px;
+    padding-left: 10px;
+    position: relative;
+  }
+
+  .tariff-features li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #ccc;
+  }
+
+  /* POSITIONING */
+  .positioning {
+    border: 1px solid #e0e0e0;
+    padding: 16px 20px;
+    color: #444;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 10px;
+    color: #bbb;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>MR Developer</h1>
+    <div class="subtitle">Курсы по программированию · Вайбкодинг · Веб-приложения</div>
+  </div>
+
+  <!-- AUDIENCE + COURSES -->
+  <div class="two-col">
+
+    <div class="section">
+      <h2>Целевая аудитория</h2>
+      <div class="audience-grid">
+        <div class="audience-item"><span>Основная</span><br>16–25 лет</div>
+        <div class="audience-item"><span>Возможная</span><br>16–40 лет</div>
+      </div>
+      <div style="margin-top: 14px; color: #444; font-size: 11px; line-height: 1.8;">
+        Программирование · Разработка сайтов<br>
+        Использование ИИ · Новый путь в IT<br>
+        Разработка приложений
+      </div>
+      <div class="tag-row">Реклама: Instagram · TikTok · Threads</div>
+    </div>
+
+    <div class="section">
+      <h2>Линейка курсов</h2>
+
+      <div class="course-item">
+        <div class="course-num">01</div>
+        <div class="course-content">
+          <div class="title">Основной курс</div>
+          <div class="desc">Разработка веб-приложений за 5 недель<br>1–2 ч × 5 дней = 30–50 часов</div>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <div class="course-num">02</div>
+        <div class="course-content">
+          <div class="title">Усложнённые курсы</div>
+          <div class="desc">Сложные веб-приложения, мобайл (Android / Apple), внедрение ИИ</div>
+        </div>
+      </div>
+
+      <div class="course-item">
+        <div class="course-num">03</div>
+        <div class="course-content">
+          <div class="title">Дополнительные курсы</div>
+          <div class="desc">Базовые по IT-сферам, разработке и ИИ</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TARIFFS -->
+  <div class="section">
+    <h2>Тарифы</h2>
+    <div class="tariff-grid">
+
+      <div class="tariff-card">
+        <div class="tariff-name">Самостоятельно</div>
+        <div class="tariff-price">4 000 / 10 000 / 15 000 ₸</div>
+        <div class="tariff-format">Онлайн</div>
+        <ul class="tariff-features">
+          <li>Сайт со всей базой материалов</li>
+          <li>ИИ-бот для ответов на вопросы</li>
+          <li>Удобный интерфейс</li>
+        </ul>
+      </div>
+
+      <div class="tariff-card">
+        <div class="tariff-name">Куратор</div>
+        <div class="tariff-price">8 000 / 10 000 / 20 000 ₸</div>
+        <div class="tariff-format">Онлайн + офлайн</div>
+        <ul class="tariff-features">
+          <li>Объяснение материалов курса</li>
+          <li>Хороший ИИ-ассистент</li>
+          <li>Помощь при вопросах</li>
+        </ul>
+      </div>
+
+      <div class="tariff-card">
+        <div class="tariff-name">Ментор</div>
+        <div class="tariff-price">14 000 / 25 000 / 50 000 ₸</div>
+        <div class="tariff-format">Онлайн + офлайн</div>
+        <ul class="tariff-features">
+          <li>Личная помощь и сопровождение</li>
+          <li>ИИ от курса — 2 500 ₸/мес</li>
+          <li>Премиум-материалы (блокнот, ручки)</li>
+          <li>Помощь в разработке продукта</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div class="section">
+    <h2>Позиционирование</h2>
+    <div class="positioning">
+      MR Developer — понятная точка входа в современную разработку: от первых шагов в программировании до создания веб- и мобильных продуктов с использованием ИИ.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>MR Developer</span>
+    <span>Бизнес-модель образовательного направления</span>
+  </div>
+
+</div>
+</body>
+</html>

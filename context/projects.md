@@ -6,12 +6,15 @@ _Обновлено: 2026-08-31_
 ### 1. MrDevCourses (Educational LMS & Vibe-Coding Platform)
 - **Репо:** github.com/MrSgemaSeny/MrDevCourses
 - **Проект:** `projects/mrdevcourses/mrdevcourses.md`
+- **Бизнес-модель и Тарифы:** `projects/mrdevcourses/10_business_model.md`
+  - *Аудитория:* 16–25 лет (основная) / 16–40 лет · Каналы: Instagram, TikTok, Threads.
+  - *Тарифы:* Самостоятельно (4k/10k/15k ₸), Куратор (8k/10k/20k ₸), Ментор (14k/25k/50k ₸).
 - **Мастер Роадмап:** `C:\Users\murat\Downloads\mrdevcourses_roadmap.md` (синхронизирован в `projects/mrdevcourses/mrdevcourses_roadmap.md`)
 - **Учебный план курсов:** `mr-developer-curriculum.md`
   - *Курсы Уровня 1 (Базовый)*: Вайбкодинг, тулинг, Git, FSD, Лендинг + Клиентский Маркетплейс.
   - *Курс Уровня 2 (ОСНОВНОЙ КУРС / Флагман Mr Developer)*: Full-Stack (Spring Boot + React + PostgreSQL), RBAC, OAuth 2.0, Three.js 3D (Трекер денег), CRM Kanban + Telegram Bot + CI/CD.
   - *Курсы Уровня 3 (Продвинутый)*: AI Core, Streaming SSE, RAG, WebClient, PII-маскирование, Google SMTP (Pensee).
-- **Статус:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 73 теста Vitest, 236 backend-тестов JUnit, 0 ошибок сборки).
+- **Статус:** **Level 3 — Strong Educational MVP / Pre-Release Pilot** (100% Green: 80 тестов Vitest, 250 backend-тестов JUnit, 0 ошибок сборки).
 - **Стек:** Java 17 + Spring Boot 3.3.0 + Spring Security 6 + Google OAuth2 + JWT (httpOnly cookie) + PostgreSQL 17 (pgvector, pg_trgm) + Bucket4j + React 19 + TypeScript + Vite + Tailwind v4 + FSD Architecture.
 - **Философия менторства Mr Developer:**
   1. *Zero Friction Setup*: Студент устанавливает весь софт (VS Code, Antigravity, Cursor, Git) по прямым ссылкам и пошаговым чеклистам прямо из карточки урока.
