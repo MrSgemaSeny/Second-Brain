@@ -22,11 +22,22 @@ if (Test-Path $contextMd) {
     $injectSteps += @{ ephemeralMessage = "[AUTO-INJECTED] CONTENTS OF .agents/CONTEXT.md:`n$content" }
 }
 
+# Tiered Memory Architecture: Only inject essential active context (rules, me, projects)
+$coreWhitelist = @("rules.md", "me.md", "projects.md")
+
 $brainDir = "C:\Users\murat\IdeaProjects\new_world\Brain's protocol - second brain\context"
 if (Test-Path $brainDir) {
-    foreach ($file in Get-ChildItem -Path $brainDir -Filter "*.md") {
-        $content = Get-Content $file.FullName -Raw -Encoding UTF8
-        $injectSteps += @{ ephemeralMessage = "[AUTO-INJECTED SECOND BRAIN] $($file.Name):`n$content" }
+    foreach ($fileName in $coreWhitelist) {
+        $filePath = Join-Path $brainDir $fileName
+        if (Test-Path $filePath) {
+            $lines = Get-Content $filePath -Encoding UTF8
+            if ($lines.Count -gt 120) {
+                $content = ($lines | Select-Object -First 120) -join "`n"
+            } else {
+                $content = $lines -join "`n"
+            }
+            $injectSteps += @{ ephemeralMessage = "[AUTO-INJECTED SECOND BRAIN] $fileName:`n$content" }
+        }
     }
 }
 

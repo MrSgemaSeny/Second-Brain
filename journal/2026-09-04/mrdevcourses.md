@@ -113,3 +113,16 @@
   - Frontend (Vitest): 80/80 тестов в 33 сьютах пройдены успешно.
   - Frontend Build: `tsc -b && vite build` собран за 4.54s без единой ошибки.
 
+### 1.11. Внедрение архитектуры оптимизации памяти агента (Letta / StreamingLLM / Adaptive Memory)
+
+- **Контекст и проблема**:
+  - Чрезмерный расход контекстного окна и токенов из-за слепой инъекции всех файлов `context/*.md` на каждом запуске хука `pre-invocation.ps1` (включая нерелевантные файлы других проектов).
+- **Архитектурные изменения**:
+  - Применена трёхуровневая модель памяти (Tiered Memory Model по образцу MemGPT/Letta и StreamingLLM):
+    * **L1 (Working Memory)**: Минимальный системный контекст (`CONTEXT.md`, `rules.md`, `me.md`, `projects.md`), строгий лимит до 120 строк на файл.
+    * **L2 (Archival Memory)**: Спецификации других продуктов (`medev_resume_design.md`, `security_audit.md`, `ecosystem_strategy.md`) перемещены в режим доступа по требованию (on-demand через инструменты чтения).
+    * **Attention Sinks**: Для повторных вызовов (`invocationNum > 1`) включен компактный 1-строчный анкор директив, исключающий раздувание контекста.
+  - Создан архитектурный документ: `knowledge/llm-memory-and-context-optimization.md` во Втором Мозге.
+  - Обновлены хуки `MrDevCourses/.agents/scripts/pre-invocation.ps1` и `Brain's protocol - second brain/hooks_template/scripts/pre-invocation.ps1`.
+- **Результат**:
+  - Снижение стартового расхода токенов на сессию на ~75% (с ~25k до ~6k токенов).
