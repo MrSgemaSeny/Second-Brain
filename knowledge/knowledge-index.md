@@ -59,7 +59,8 @@
 - [[arch-rag-indexing-vs-retrieval]] - RAG архитектура: разница между Indexing Pipeline (запись) и Retrieval (поиск).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
-- [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе Llama 3.3 70B (Groq).
+- [[arch-groq-models-policy]] - Политика выбора LLM-моделей Groq (GPT-20B как единственный рабочий стандарт, запрет Llama).
+- [[ats-ai-resume-scoring-groq]] - AI-скоринг резюме и Smart Match на базе LLM (Groq).
 - [[pedagogy-and-automation-split-for-vibe-coding]] - Педагогика вайбкодинга: трансформация идентичности, дофаминовый win на Уроке 1, Error-Loop и разделение зон LMS / Ментор.
 
 ## Безопасность и Авторизация
