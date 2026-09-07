@@ -46,4 +46,46 @@
   - Единственной публичной точкой входа лендинга остается `https://medev.mrsgemaseny.com` (Next.js 15 SSG).
 - Статус тестов: 38/38 unit тестов frontend, 253/253 backend.
 
+## 8. Полный аудит соответствия и устранение дефектов (13 пунктов)
+- **Colour Contrast (WCAG 2.1 AA)**:
+  - Исправлена переменная `--color-text-muted` в `frontend/src/index.css`: в `.dark` с `#6e7681` (контраст 4.02:1, FAIL) на `#8b949e` (контраст 6.05:1, PASS); в `:root` (light) с `#818b98` на `#59636e` (контраст 4.6:1, PASS).
+  - Устранены неконтрастные классы `text-gray-500` в правовых документах и `text-[#7d8590]` в `AiChatWidget.tsx`.
+- **Alt text on images**:
+  - Заменены шаблонные `alt="Avatar"` на содержательные подписи во всех компонентах (`DashboardPage`, `AboutSection`, `UserProfileDropdown`, `GithubImport`, `PortfolioView`).
+  - Добавлены `aria-hidden="true"` и `focusable="false"` для векторных иконок GitHub в обоих проектах.
+- **Refund Policy**:
+  - Создана страница `landing/app/refund/page.tsx` с регламентом 14-дневной гарантии возврата средств для PRO, сроками (3 дня рассмотрение, 5-10 дней выплата) и контактами `support@medev.mrsgemaseny.com`.
+  - Создан компонент `frontend/src/pages/legal/RefundPolicy.tsx` и зарегистрирован маршрут `/refund` в `AppRouter.tsx`.
+  - Добавлены ссылки на Политику возврата в футеры лендинга и SPA, а также в карточки и модалку оплаты Kaspi Pay/Stripe (`PricingPage.tsx` и `Pricing.tsx`).
+- **Privacy Policy & Terms of Service**:
+  - Обе страницы расширены до полноценных юридических документов: указан оператор данных (MeDev / Murat Orynbasar, РК), разделы сбора данных GitHub OAuth, шифрование токенов, гарантия отсутствия обучения моделей Groq LLM на данных пользователей, права на удаление аккаунта за 48 часов, юрисдикция РК и досудебный порядок.
+- **Accessibility (A11y)**:
+  - Реализован WAI-ARIA паттерн для аккордеона FAQ в `landing/components/Faq.tsx` (`aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby`).
+  - Добавлены клавиатурные стили фокуса `focus-visible:ring-2 focus-visible:ring-[#2ea043] focus-visible:outline-none` на все кнопки и ссылки лендинга и SPA.
+  - Добавлены явные `aria-label` для icon-only кнопок (закрытие и отправка в `AiChatWidget.tsx`, кнопки в `KanbanBoard.tsx`).
+  - В `Modal.tsx` внедрены `role="dialog"`, `aria-modal="true"`, `aria-labelledby="modal-title"`.
+  - В `landing/app/layout.tsx` добавлен доступный Skip Link ("Перейти к основному содержимому").
+- **Remove fake reviews**:
+  - Проведена проверка кодовой базы: подтверждено 0 фейковых отзывов, фиктивных цитат или нарисованных рейтингов. Продукт честен.
+- **3rd party embeds & битые ссылки**:
+  - Заменены все битые ссылки на несуществующий домен `https://medev.app` на официальный `https://medev.mrsgemaseny.com` в `PortfolioView.tsx` и backend markdown шаблонах (`readme-creative.md`, `readme-full.md`).
+- **Copyright on images**:
+  - Удален неиспользуемый файл `frontend/src/assets/hero.png`.
+- **Cookies policy & Banner**:
+  - Создан и внедрен доступный `CookieBanner` в `landing/` и `frontend/` с сохранением согласия в `localStorage`.
+- **Tracking**:
+  - Подтверждено использование исключительно cookieless Vercel Web Analytics; отсутствие сторонних рекламных пикселей зафиксировано в документах.
+- **Form consent**:
+  - Под формами регистрации (`RegisterPage.tsx`), входа (`LoginPage.tsx`) и кнопками OAuth добавлен обязательный текст согласия с Условиями и Политикой конфиденциальности.
+  - В загрузчик резюме (`ImportResumePage.tsx`) добавлен дисклеймер об обработке данных и автоматическом PII-маскировании.
+- **Local laws**:
+  - Обеспечено соответствие ЗРК «О персональных данных и их защите» № 94-V (согласие на трансграничную передачу, право на удаление) и ЗРК «О защите прав потребителей» № 274-IV (цены в тенге, условия возврата цифровых услуг).
+- **Строгое соблюдение Rule 11**:
+  - В заголовке `AiChatWidget.tsx` ошибочная подпись `Llama 3.3 70B` исправлена на `GPT-20B · SSE Stream`.
+- **Статус тестов**:
+  - Backend: 253/253 JUnit тестов успешно (Gradle).
+  - Frontend: 38/38 unit тестов успешно (Vitest), сборка Vite успешна (924ms).
+  - Landing: Next.js 15 SSG build (9/9 статических страниц) успешно.
+
+
 
