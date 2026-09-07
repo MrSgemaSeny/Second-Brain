@@ -31,7 +31,11 @@
   - `Cta.tsx`: Добавлен финальный блок *"Готов попробовать?"* перед футером.
   - `Footer.tsx`: Очищен от v1.0 и технических меток live-окружения.
   - `layout.tsx`: Обновлены метаданные OpenGraph и поисковые теги.
-- Сборка и тесты:
-  - Landing Next.js 15: 8/8 страниц SSG собрано успешно (0 ошибок).
+## 5. Добавление OpenGraph изображения (og-image.png)
+- Создано брендовое изображение `landing/public/og-image.png` размером 1200x630px в строгом стиле GitHub Dark Mode (`#0d1117`, акцент `#2ea043`, логотип MeDev, заголовок и ключевые преимущества).
+- В `landing/app/layout.tsx` добавлены метаданные `openGraph.images` и `twitter.images` со ссылкой на `https://medev.mrsgemaseny.com/og-image.png`.
+- Статус сборки и тестов:
+  - Landing Next.js 15: 8/8 страниц SSG собрано (0 ошибок).
   - Frontend SPA: 38/38 unit тестов пройдено.
   - Backend: 253/253 JUnit тестов пройдено.
+
