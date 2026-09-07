@@ -213,6 +213,40 @@
   7. **tracker (CRITICAL/P0)**: SSRF в `WebScraperService` на внутренние IP (169.254.169.254, 127.0.0.1), DoS при парсинге тяжелых HTML (нет maxBodySize/таймаута), Stored XSS в тексте вакансий.
 - **Сформирован план устранения**: Сначала P0 блокирующие уязвимости (`resume` + `tracker`), затем P1 финансовые и сессионные риски (`auth` + `billing`), далее P2/P3 масштабирование.
 
+## 13. Реализация исправлений по итогам сквозного аудита (P0, P1, P2/P3)
+- **Фаза 1: Блокеры безопасности и DoS-защита (P0)**:
+  - `WebScraperService.java` (`tracker`):
+    - Добавлен лимит размера загружаемого документа `maxBodySize(2 * 1024 * 1024)` (2 МБ) для защиты от OOM DoS.
+    - Таймаут соединения и чтения снижен с 10 с до 4000 мс для защиты от зависания потоков.
+    - Добавлена глубокая фильтрация SSRF: блокировка облачного метадата-IP `169.254.169.254` и `isAnyLocalAddress()`.
+    - Добавлена санитизация HTML текста вакансий через `Jsoup.clean(..., Safelist.none())` для защиты от Stored XSS в Kanban.
+  - `PdfGeneratorService.java` (`resume`):
+    - Полная защита Flying Saucer XML-парсера от XXE: настроен безопасный `DocumentBuilderFactory` с отключением внешних сущностей (`external-general-entities: false`, `external-parameter-entities: false`, `load-external-dtd: false`, `XIncludeAware: false`, `ExpandEntityReferences: false`).
+    - Защита от падений на спецсимволах (`&`, `<`, `>`) при разборе XML.
+- **Фаза 2: Авторизация и Финансовая целостность (P1)**:
+  - `JwtFilter.java` (`auth`):
+    - При обнаружении токена в Redis blacklist запрос немедленно обрывается с кодом `401 Unauthorized` (`response.sendError`) без передачи выполнения анонимным фильтрам.
+  - `AuthController.java` (`auth`):
+    - Усилен `validateCsrf`: при отсутствии заголовка `Origin` извлекается и валидируется хост из `Referer`. Если оба заголовка отсутствуют или недопустимы при аутентифицированных cookie — запрос отклоняется с `403 Forbidden`.
+  - `AuthService.java` (`auth`):
+    - Внедрен 15-секундный Grace Period для старого Refresh-токена в Redis (`refresh:{userId}:{deviceId}:grace`), исключающий race condition и логаут при параллельных запросах из нескольких вкладок.
+    - В методе `logout()` производится атомарное удаление как основной сессии, так и grace-ключа.
+  - `KaspiPayService.java` (`billing`):
+    - Снята блокировка на повторную покупку для активных PRO пользователей: теперь разрешено продлевать подписку с добавлением месяцев к существующей дате `subscriptionExpiresAt`.
+  - `StripeService.java` (`billing`):
+    - В `handleSuccessfulCheckout` и `upgradeUserByCustomer` проставляется `subscriptionExpiresAt = LocalDateTime.now().plusMonths(1)`, обеспечивая синхронизацию с планировщиком `SubscriptionService`. Очистка даты при даунгрейде.
+- **Фаза 3: Валидация и Стабильность (P2/P3)**:
+  - `ProfileService.java` (`profile`):
+    - Метод `updateSectionOrder` защищен строгой валидацией: белый список секций (`summary`, `experience`, `education`, `skills`, `languages`, `projects`), проверка на дубликаты и ограничение размера списка.
+  - `ProfileController.java` & `ReorderRequest.java`:
+    - Добавлена аннотация `@Valid` на все эндпоинты изменения порядка элементов (`experience`, `education`, `skills`, `languages`, `projects`), а также `@NotNull` валидация для элементов списка ID.
+  - `TokenAccountingService.java` (`ai`):
+    - Добавлена аннотация `@Transactional` на асинхронный метод `recordUsageAsync` для надежной фиксации транзакций.
+- **Результаты верификации**:
+  - Backend: 262/262 JUnit тестов успешно (100% green).
+  - Frontend: 38/38 Vitest тестов успешно (100% green).
+
+
 
 
 
