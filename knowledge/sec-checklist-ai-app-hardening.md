@@ -1,4 +1,4 @@
-﻿# Чеклист 2: Технический аудит безопасности веб-приложений (AI-Built App Hardening)
+# Чеклист 2: Технический аудит безопасности веб-приложений (AI-Built App Hardening)
 
 База знаний по защите архитектуры современных веб-приложений (Spring Boot, React SPA, PostgreSQL), созданных с участием AI-инструментов, от критических уязвимостей (OWASP Top 10, ASVS).
 
@@ -190,3 +190,82 @@
 - **Правильная настройка сборки (Vite / Webpack)**:
   - Для публичного продакшена: `build.sourcemap: false`.
   - Для интеграции со сборщиками ошибок (Sentry): Использовать режим `sourcemap: 'hidden'` в связке с плагином `@sentry/vite-plugin`, который загружает карты напрямую в защищенное хранилище Sentry и удаляет `.map` файлы из каталога деплоя перед публикацией в CDN/GitHub Pages.
+
+---
+
+## 38. Практическая реализация в кодовой базе (Production Reference MeDev)
+
+Ниже приведены проверенные в бою паттерны закрытия пунктов 20–37 в стеке Spring Boot 3.3 + React 19 / Next.js 15:
+
+### 1. Санитизация URL и строгий CSP (XSS, п. 20)
+```typescript
+// frontend/src/shared/lib/utils.ts
+export function sanitizeUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  const dangerousSchemes = ['javascript:', 'data:', 'vbscript:', 'file:'];
+  const lower = trimmed.toLowerCase();
+  for (const scheme of dangerousSchemes) {
+    if (lower.startsWith(scheme)) return '';
+  }
+  return trimmed;
+}
+```
+Все ссылки пользователя оборачиваются в `sanitizeUrl(url)` и рендерятся с `rel="noopener noreferrer"`.
+В `SecurityConfig.java` и `vercel.json` задается жесткий CSP:
+`default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none';`
+
+### 2. Защита Cookie-эндпоинтов от CSRF (п. 21)
+Для stateless SPA токены передаются в `Authorization: Bearer`, но эндпоинты `/auth/refresh` и `/auth/logout` читают refresh-токен из HTTP-only cookie.
+Защита:
+1. Обязательный кастомный заголовок `X-Requested-With: XMLHttpRequest` в Axios-клиенте (браузер блокирует отправку кастомных заголовков при межсайтовом вызове без preflight).
+2. Серверная проверка соответствия заголовка `Origin` разрешенному списку в `AuthController.java`:
+```java
+private void validateCsrf(HttpServletRequest request) {
+    String origin = request.getHeader("Origin");
+    if (origin != null && !origin.isBlank()) {
+        boolean match = allowedOrigins.stream().anyMatch(o -> o.equalsIgnoreCase(origin));
+        if (!match) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden Origin");
+    }
+}
+```
+
+### 3. Защита от PDF DoS / Бомб памяти (п. 22)
+Проверка magic bytes `%PDF` и ограничение на количество страниц до парсинга содержимого:
+```java
+// AiAnalysisService.java
+try (PDDocument document = Loader.loadPDF(file.getBytes())) {
+    if (document.getNumberOfPages() > 30) {
+        throw new IllegalArgumentException("PDF exceeds maximum allowed pages (30)");
+    }
+}
+```
+
+### 4. Защита от SSRF при обращении к внешним ресурсам (п. 24)
+При скачивании аватаров или вебхуках блокируются приватные диапазоны IP, отключаются автоматические редиректы и валидируется хост:
+```java
+// PdfGeneratorService.java
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setInstanceFollowRedirects(false); // Запрет скрытых редиректов на 169.254.169.254
+InetAddress address = InetAddress.getByName(url.getHost());
+if (address.isSiteLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress()) {
+    throw new SecurityException("SSRF blocked: private IP range");
+}
+```
+
+### 5. Безопасный сброс пароля (п. 25)
+- Генерация токена: `SecureRandom` 256 бит (hex-строка 64 символа).
+- Хранение в Redis: `reset:token:<token>` со значением `userId` и TTL 15 минут.
+- Anti-enumeration: вызов `/forgot-password` всегда возвращает HTTP 200 с универсальным сообщением.
+- Инвалидация: при сбросе пароля токен удаляется, и аннулируются все активные refresh-сессии пользователя (`refresh:<userId>:*`).
+
+### 6. Черный список JWT (п. 26) и Fail-Fast секреты (п. 27)
+- При логауте access-токен заносится в Redis: `blacklist:access:<token>` с TTL, равным оставшемуся времени жизни токена (`extractExpiration(token)`).
+- `JwtFilter` проверяет Redis перед аутентификацией: если ключ найден, запрос отклоняется с 401 Unauthorized.
+- При старте сервиса выполняется проверка `@PostConstruct`: если длина секретного ключа меньше 32 байт (256 бит), приложение не запускается.
+
+### 7. Отключение Source Maps в продакшене (п. 37)
+- `frontend/vite.config.ts`: `build: { sourcemap: false }`.
+- `landing/next.config.ts`: `productionBrowserSourceMaps: false`.
+- Исключает раскрытие исходного TypeScript-кода и путей через DevTools.
+

@@ -140,6 +140,69 @@
   - Живой тест оркестратора через Node.js: вызов субагента-ревьюера успешно завершился с кодом 0 и выдал глубокий разбор рисков CORS в консоль.
   - Frontend: 38/38 unit-тестов Vitest пройдены.
 
+## 11. Комплексный аудит безопасности и закрытие уязвимостей (Пункты 20–37: OWASP & Defense in Depth)
+- **20. XSS (Cross-Site Scripting)**:
+  - Создана утилита `sanitizeUrl` (`frontend/src/shared/lib/utils.ts`) с фильтрацией опасных псевдопротоколов (`javascript:`, `data:`, `vbscript:`, `file:`).
+  - Применена санитизация для всех пользовательских ссылок в `PortfolioView.tsx`, `ProjectsSection.tsx`, `KanbanBoard.tsx` с обязательным атрибутом `rel="noopener noreferrer"`.
+  - Добавлена `@Pattern` валидация для URL-полей в `UpdateProfileRequest.java`, `ProjectRequest.java`, `CreateJobApplicationRequest.java`, `UpdateJobApplicationRequest.java`.
+  - Внедрены строгие заголовки CSP (`default-src 'self'; ...`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` в `SecurityConfig.java`, `landing/next.config.ts`, `frontend/vercel.json`, а также в `ResumeController.java`.
+- **21. CSRF (Cross-Site Request Forgery)**:
+  - В `frontend/src/shared/api/axios.ts` добавлен заголовок `X-Requested-With: XMLHttpRequest` в базовый инстанс Axios и в вызовы `/auth/refresh`.
+  - В `AuthController.java` реализован метод `validateCsrf(request)` для эндпоинтов `/v1/auth/refresh` и `/v1/auth/logout` с валидацией заголовка `Origin` против белого списка `cors.allowed-origins`.
+- **22. Insecure File Uploads**:
+  - В `AiAnalysisService.java` внедрена проверка числа страниц в загружаемом PDF (`document.getNumberOfPages() > 30`) для блокировки PDF-бомб (память/CPU DoS).
+  - Сохранена строгая проверка magic bytes (`%PDF`), MIME-типа (`application/pdf`), лимита 10MB и потоковая обработка в памяти без сохранения на диск.
+- **23. Path Traversal**:
+  - В `PromptLoader.java` добавлена проверка имени промпта регулярным выражением `^[a-zA-Z0-9_-]+$`.
+  - Зафиксированы константные безопасные имена скачиваемых файлов (`resume.pdf`, `medev_profile.json`).
+- **24. SSRF (Server-Side Request Forgery)**:
+  - В `PdfGeneratorService.java` (`fetchAvatarBase64`): regex-валидация GitHub username (`^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$`), отключение автоматических редиректов (`setInstanceFollowRedirects(false)`), принудительный протокол `https://`, белый список доменов (`github.com`, `.github.com`, `.githubusercontent.com`), блокировка приватных (RFC 1918), loopback и link-local IP (`address.isSiteLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress()`).
+  - В `GitHubService.java`: regex-валидация `repoPath` (`^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$`) перед вызовом GitHub API.
+- **25. Broken Password Reset**:
+  - Созданы DTO `ForgotPasswordRequest.java` и `ResetPasswordRequest.java`.
+  - В `AuthService.java` реализован метод `forgotPassword` (`SecureRandom` 256 бит, SHA-256 хеш токена в Redis `reset:token:<token>`, TTL 15 минут, anti-enumeration ответ) и `resetPassword` (однократный токен, BCrypt хеширование, удаление всех сессий `refresh:<userId>:*`).
+  - В `AuthController.java` добавлены эндпоинты `POST /v1/auth/forgot-password` и `POST /v1/auth/reset-password`.
+  - Во фронтенде создан `ResetPasswordPage.tsx`, добавлен маршрут `/reset-password` в `AppRouter.tsx` и ссылка «Забыли пароль?» в `LoginPage.tsx`.
+- **26. Weak Session Management**:
+  - В `JwtService.java` добавлен метод `extractExpiration(token)`.
+  - В `AuthService.java` при логауте access-токен вносится в Redis-блэклист `blacklist:access:<token>` с TTL до его фактического истечения.
+  - В `JwtFilter.java` добавлена проверка блэклиста перед установкой аутентификации в `SecurityContext`.
+  - Написаны тесты в `JwtFilterTest.java` и `AuthServiceTest.java`.
+- **27. JWT Secrets**:
+  - В `JwtService.java` внедрена fail-fast проверка длины секрета (минимум 256 бит / 32 байта) при старте приложения (`@PostConstruct`).
+  - Секреты строго изолированы в переменных окружения (`${JWT_SECRET}`).
+- **28. Permissive CORS**:
+  - `SecurityConfig.java` парсит `cors.allowed-origins`, исключая пустые строки и wildcard (`*`) при включенных credentials.
+- **29. Rate Limits**:
+  - Лимиты запросов подтверждены: `AuthRateLimiter` (20 req/min), `PublicRateLimiter` (60 req/min), `AiRateLimiter` (10 req/min).
+- **30. Exposed Environments**:
+  - Spring Boot Actuator: доступ закрыт ролью `ADMIN`, health details доступны только при авторизации.
+  - Swagger UI отключен в продакшене. Секреты вынесены в env vars.
+- **31. Default Credentials**:
+  - Отсутствуют стандартные учетные записи `admin / admin` и `postgres / postgres`. Инициализация администратора через окружение.
+- **32. Unsigned Webhooks**:
+  - Stripe вебхуки валидируются через `Webhook.constructEvent` по секрету подписи.
+  - Kaspi Pay вебхуки валидируются через HMAC-SHA256 и константное сравнение `MessageDigest.isEqual`.
+- **33. FE Payment Checks**:
+  - Серверные проверки PRO-плана в `ResumeController.java` (`user.getPlan() == PRO`) и `AiApplicationService.java` (`subscriptionService.assertPro(userId)`).
+- **34. IDOR / BOLA**:
+  - Изоляция данных на уровне сервисов: `SecurityUtils.getCurrentUserId()` + строгие проверки владения в `ExperienceService`, `JobApplicationService`, `ProfileService`.
+- **35. APIs + User Input**:
+  - Защита от SQL-инъекций через Spring Data JPA и именованные параметры (`:param`).
+  - `@Pattern` валидация для внешних URL. Защита от перечисления учетных записей (Account Enumeration) с унифицированными ответами.
+- **36. Exposed Logs**:
+  - `@ToString.Exclude` в JPA-сущностях на конфиденциальные поля.
+  - Маскирование токенов в логах (`substring(0, 8) + "..."`).
+  - Сокрытие внутренних стек-трейсов в `GlobalExceptionHandler.java`.
+- **37. Exposed Source Maps**:
+  - `frontend/vite.config.ts`: `build.sourcemap: false`.
+  - `landing/next.config.ts`: `productionBrowserSourceMaps: false`.
+- **Финальный статус верификации**:
+  - Backend: 255/255 JUnit тестов успешно (100% green).
+  - Frontend: 38/38 Vitest тестов успешно (100% green).
+  - Landing: Next.js 15 SSG build (9/9 статических страниц) успешно.
+
+
 
 
 
