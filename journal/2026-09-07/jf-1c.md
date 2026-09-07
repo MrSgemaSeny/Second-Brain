@@ -13,9 +13,14 @@
    - Создана заметка `knowledge/vibe-coding-gaps-part2-infra-devops-security-sre.md` (Blue-Green/Canary деплой, Liveness/Readiness, Observability, IaC Terraform, P99 Latency, Zero-downtime миграции и Postmortems).
    - Обновлен индекс знаний `knowledge/knowledge-index.md` (разделы «Архитектура и Системный Дизайн» и «Безопасность и Авторизация»).
 
-## Ключевые критические точки для исправления в JF-1C:
-- **[CRITICAL] Invoice Mutation (Пункт 33-34)**: В `InvoiceAccessService.java` клиент (`CLIENT`) может отправлять `PUT /invoices/{id}` и менять сумму и статус на `PAID`. Требуется исключить `Role.CLIENT` из прав на изменение счетов.
-- **[CRITICAL] Source Maps Leak (Пункт 37)**: В `zhan-finance-frontend/vite.config.ts` параметр `build.sourcemap: true` публикует `.map` файлы на GitHub Pages, раскрывая оригинальный TypeScript-код. Требуется отключить или использовать `sourcemap: 'hidden'`.
-- **[CRITICAL] Юридические страницы (Пункты 3, 4, 7, 10, 15)**: Создать страницы `/privacy-policy`, `/terms`, `/refund-policy`, `/cookies-policy` и баннер `CookieConsent`.
-- **[CRITICAL] Согласие в формах (Пункт 12)**: Добавить дисклеймер согласия на обработку ПДн под кнопками в формах контактов и регистрации.
-- **[WARNING] Account Enumeration (Пункт 35)**: Эндпоинт `/v1/auth/check-email` раскрывает факт существования пользователей третьим лицам.
+## Реализованные исправления (День 1 - Быстрые победы):
+- **#37 — Source Maps Leak**: В `zhan-finance-frontend/vite.config.ts` выставлено `sourcemap: false`. Проверен продакшн билд: файлы `.map` не генерируются в `dist/`.
+- **#33 — Invoice Mutation IDOR**: В `InvoiceAccessService.java` клиент (`CLIENT`) исключен из `canWrite` и `canCreateFor`. В `InvoiceController.java` операции создания и обновления ограничены `hasAnyRole('ADMIN', 'EMPLOYEE')`, а удаление — `hasRole('ADMIN')`. Обновлены тесты `InvoiceAccessServiceTest.java` и `ApiSmokeTests.java`.
+- **#35 — Account Enumeration via `/check-email`**: В `AuthRateLimitFilter.java` добавлен отдельный лимитер `checkEmailCache` (5 запросов в минуту на IP) с поддержкой всех вариантов префиксов API.
+
+## Следующий этап (День 2 - Юридический блок):
+- Создать страницы `/privacy-policy`, `/terms`, `/refund-policy`, `/cookie-policy`.
+- Подключить маршруты в `App.tsx`.
+- Заменить заглушки `href="#"` в `Footer.tsx` на рабочие роуты с плавной прокруткой наверх.
+- Добавить баннер согласия с куки `CookieConsent.tsx`.
+- Добавить согласие на обработку ПДн под формами.
