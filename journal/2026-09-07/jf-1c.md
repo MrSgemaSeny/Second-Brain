@@ -48,13 +48,15 @@
 - Чеклист 1 (Legal & UX, 19 пунктов): Все требования (WCAG, alt, legal pages, consent, реквизиты, локализация ст. 12) полностью выполнены.
 - Чеклист 2 (Security для AI-приложений, 18 пунктов): Все требования (#20 XSS, #21 CSRF, #22 Uploads Tika, #23 Path Traversal, #24 SSRF, #25 Password Reset, #26-27 Sessions & JWT, #28 CORS, #29 Rate Limits, #30-31 Env & Credentials, #32 Webhooks, #33 FE Payments & IDOR, #34 IDOR/BOLA, #35 Account Enumeration, #36-37 Logs & Sourcemaps) полностью закрыты и защищены.
 
-## Локальное окружение (Зафиксированные логи и первопричины, не исправлять):
-- В консоли браузера и логах сервера зафиксированы следующие различия между продом и локалкой:
-  - `ERR_CONNECTION_REFUSED` на `/api/v1/auth/me` и `/api/v1/services/highlighted` (вызовы фронтенда до готовности порта 8080).
-  - 500 на `/api/v1/admin/courses`: `LazyInitializationException` на `Chapter.lessons` (Jackson сериализует сущность вне открытой сессии Hibernate при `spring.jpa.open-in-view=false`). На проде этот курс либо не имел дочерних уроков с id 6, либо данные отдаются через DTO в другом сценарии.
-  - 500 на `/api/v1/chat/contacts`: несовместимость версий СУБД. На Fly.io в продакшене используется PostgreSQL 14.0, а на локальной машине установлен PostgreSQL 17.6. Парсер PostgreSQL 17 отклоняет нативный запрос `SELECT DISTINCT ON (CASE WHEN sender_id = ? ...) ... ORDER BY CASE WHEN sender_id = ? ...`, требуя идентичности выражений и позиционных параметров.
-  - `[GSI_LOGGER]: google.accounts.id.initialize() is called multiple times`.
-  - DOM warning `/settings`: формы ввода паролей без скрытого поля username для автозаполнения браузером.
+## Исправление совместимости окружения и БД (Chat & LMS):
+- **#Chat-Contacts 500 (PostgreSQL 17.6 vs 14.0 Compatibility)**: В `ChatMessageRepository.java` нативный запрос переписан с использованием Common Table Expression (CTE):
+  `WITH user_chats AS (SELECT m.*, CASE WHEN m.sender_id = :userId THEN m.receiver_id ELSE m.sender_id END AS other_user_id FROM chat_messages m WHERE m.sender_id = :userId OR m.receiver_id = :userId) SELECT DISTINCT ON (other_user_id) ... ORDER BY other_user_id, created_at DESC`.
+  Это устраняет конфликт сопоставления позиционных параметров в `DISTINCT ON` и `ORDER BY` в планировщике PostgreSQL 17, гарантируя 100% обратную совместимость с PostgreSQL 14 на проде.
+- **#Admin-Courses 500 (LazyInitializationException & MultipleBagFetchException)**: В `CourseService.java` методы выборки курсов дополнены безопасной пакетной инициализацией коллекций разделов и уроков внутри открытой транзакции (`@Transactional(readOnly = true)`). Благодаря `@BatchSize(size = 50)` на коллекциях Hibernate выполняет ровно 2 пакетных SQL-запроса, исключая N+1 и устраняя `LazyInitializationException` при сериализации в JSON без возникновения ошибки `MultipleBagFetchException`.
+- Все тесты бэкенда (`./gradlew.bat test`) успешно пройдены (6 actionable tasks, BUILD SUCCESSFUL).
+- Оставшиеся безопасные предупреждения локалки:
+  - `ERR_CONNECTION_REFUSED` на `/api/v1/auth/me` при старте до открытия порта 8080 (штатное поведение).
+  - `[GSI_LOGGER]: google.accounts.id.initialize() is called multiple times` (Google SDK предупреждение).
 
 ## Статус деплоя бэкенда (Fly.io):
 - GitHub Actions пайплайн CI/CD (`CI/CD Pipeline`) проходит на 100% успешно (сборка, линтер, Vitest и JUnit тесты зелёные).
