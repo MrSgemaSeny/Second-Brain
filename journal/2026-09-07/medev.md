@@ -202,6 +202,18 @@
   - Frontend: 38/38 Vitest тестов успешно (100% green).
   - Landing: Next.js 15 SSG build (9/9 статических страниц) успешно.
 
+## 12. Полный сквозной аудит всех модулей через Multi-Agent Orchestrator
+- **Методология**: Каждый модуль последовательно прошел двойной аудит (Architect + Reviewer) через `scripts/orchestrate.js`:
+  1. **auth (HIGH)**: Race condition при ротации refresh-токенов в параллельных запросах, обход CSRF при отсутствии Origin, пропуск отозванных токенов в `JwtFilter`.
+  2. **profile (MEDIUM)**: N+1 при выборке агрегата Profile, рассинхронизация двухуровневого кэша Caffeine/Redis при CRUD дочерних сущностей, отсутствие строгой валидации в `ReorderRequest`.
+  3. **github (MEDIUM)**: Блокировка пула потоков Tomcat синхронными вызовами GitHub API, скрытые ошибки GraphQL rate limits (HTTP 200), отсутствие версионирования ключа `ENCRYPTION_SECRET`.
+  4. **ai (HIGH)**: Race conditions в `TokenAccountingService`, списание квот до фактического ответа LLM, утечка ресурсов при незакрытых SSE-сессиях, разрыв между индексацией и retrieval в pgvector.
+  5. **resume (CRITICAL/P0)**: DoS от синхронной генерации PDF на 0.1 vCPU, SSRF/XXE в Flying Saucer через неэкранированные XML-сущности и `<img>`, падение парсера на `&` в bio.
+  6. **billing (HIGH)**: Отсутствие таблицы `idempotency_keys` для вебхуков Stripe/Kaspi, сжигание оплаченных дней при продлении подписки от `now()`.
+  7. **tracker (CRITICAL/P0)**: SSRF в `WebScraperService` на внутренние IP (169.254.169.254, 127.0.0.1), DoS при парсинге тяжелых HTML (нет maxBodySize/таймаута), Stored XSS в тексте вакансий.
+- **Сформирован план устранения**: Сначала P0 блокирующие уязвимости (`resume` + `tracker`), затем P1 финансовые и сессионные риски (`auth` + `billing`), далее P2/P3 масштабирование.
+
+
 
 
 
