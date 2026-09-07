@@ -48,11 +48,13 @@
 - Чеклист 1 (Legal & UX, 19 пунктов): Все требования (WCAG, alt, legal pages, consent, реквизиты, локализация ст. 12) полностью выполнены.
 - Чеклист 2 (Security для AI-приложений, 18 пунктов): Все требования (#20 XSS, #21 CSRF, #22 Uploads Tika, #23 Path Traversal, #24 SSRF, #25 Password Reset, #26-27 Sessions & JWT, #28 CORS, #29 Rate Limits, #30-31 Env & Credentials, #32 Webhooks, #33 FE Payments & IDOR, #34 IDOR/BOLA, #35 Account Enumeration, #36-37 Logs & Sourcemaps) полностью закрыты и защищены.
 
-## Локальное окружение (Зафиксированные логи для последующего анализа, не исправлять):
-- В консоли браузера зафиксированы следующие события:
-  - `ERR_CONNECTION_REFUSED` на `/api/v1/auth/me` и `/api/v1/services/highlighted` (до полного старта бэкенда).
-  - 500 Internal Server Error на `/api/v1/admin/courses` (Ref IDs: `b676e0bb-...`, `abed1447-...`) и `/api/v1/chat/contacts` (Ref IDs: `2d248be2-...`, `f16f9865-...`) на локальной БД.
+## Локальное окружение (Зафиксированные логи и первопричины, не исправлять):
+- В консоли браузера и логах сервера зафиксированы следующие различия между продом и локалкой:
+  - `ERR_CONNECTION_REFUSED` на `/api/v1/auth/me` и `/api/v1/services/highlighted` (вызовы фронтенда до готовности порта 8080).
+  - 500 на `/api/v1/admin/courses`: `LazyInitializationException` на `Chapter.lessons` (Jackson сериализует сущность вне открытой сессии Hibernate при `spring.jpa.open-in-view=false`). На проде этот курс либо не имел дочерних уроков с id 6, либо данные отдаются через DTO в другом сценарии.
+  - 500 на `/api/v1/chat/contacts`: несовместимость версий СУБД. На Fly.io в продакшене используется PostgreSQL 14.0, а на локальной машине установлен PostgreSQL 17.6. Парсер PostgreSQL 17 отклоняет нативный запрос `SELECT DISTINCT ON (CASE WHEN sender_id = ? ...) ... ORDER BY CASE WHEN sender_id = ? ...`, требуя идентичности выражений и позиционных параметров.
   - `[GSI_LOGGER]: google.accounts.id.initialize() is called multiple times`.
   - DOM warning `/settings`: формы ввода паролей без скрытого поля username для автозаполнения браузером.
+
 
 
