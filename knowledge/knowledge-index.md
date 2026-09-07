@@ -76,6 +76,7 @@
 - [[sec-mvp-to-prod-checklist]] - Переход от MVP к Production: Чек-лист безопасности и типичные компромиссы.
 - [[sec-checklist-legal-ux-compliance]] - Чеклист Legal, Compliance и UX: доступность WCAG, локализация баз данных РК (ст. 12), публичная оферта, политика возврата и минимизация данных (Пункты 1–19).
 - [[sec-checklist-ai-app-hardening]] - Чеклист технической безопасности веб-приложений (AI-Built App Hardening): XSS, CSRF, BOLA/IDOR в счетах, защита загрузок Tika, Source Maps leak, Rate Limits и JWT (Пункты 20–37).
+- [[sec-playbook-saas-remediation-kz]] - Практический плейбук: защита SaaS от IDOR в биллинге, отключение source maps, anti-enumeration Bucket4j и юридический комплаенс в Республике Казахстан.
 - [[sec-internal-service-token]] - Защита межсервисного взаимодействия (X-Internal-Token).
 
 ## Управление памятью, токенами и контекстом LLM (Letta / MemGPT / StreamingLLM)

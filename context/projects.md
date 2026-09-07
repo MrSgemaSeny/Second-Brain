@@ -27,7 +27,7 @@ _Обновлено: 2026-08-31_
 ### 2. Zhan Finance (JF-1C) — Enterprise B2B SaaS Platform
 - **Репо:** github.com/MrSgemaSeny/JF-1C
 - **Проект:** `projects/jf-1c/jf-1c.md`
-- **Статус:** **Level 4 — Production-Ready v1.0.0 Released** (545 коммитов, 33 чистых рабочих дня, закрыты все 28 пунктов аудита безопасности).
+- **Статус:** **Level 4 — Production-Ready v1.0.0 Released & Legally Hardened** (Пройден 37-пунктовый аудит: закрыты IDOR в инвойсах, отключены source maps, лимитирован /check-email, внедрен юридический блок РК по ст. 12 Закона № 94-V, оферта с налоговым дисклеймером, оферта возвратов, cookies баннер; см. [ADR-015](../decisions/ADR-015-saas-security-hardening-and-legal-compliance-kz.md)).
 - **Стек:** Java 17 + Spring Boot 3.4+ + Spring Security 6 + PostgreSQL 17 + Flyway (цепочка миграций V1–V120) + React 19 + TypeScript + FSD + WebSockets (STOMP) + 2FA TOTP + OpenHTMLtoPDF + Caffeine Cache + Bucket4j.
 - **Что это:** Комплексная B2B SaaS платформа для бухгалтерского консалтинга и CRM в Казахстане (CRM Kanban, Task Pool, биллинг, документооборот, LMS, защищённые чаты, 6 ролей с Row-Level Security через `CrmAccessService`).
 - **Деплой:** Backend на Fly.io (`zhanfinance.fly.dev`), Frontend на GitHub Pages.
