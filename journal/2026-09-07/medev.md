@@ -126,6 +126,21 @@
   - Frontend: 38/38 unit тестов Vitest зелёные (100%), Vite build успешен.
   - Landing: Next.js 15 SSG build (9/9 статических страниц) успешен.
 
+## 10. Multi-Agent Orchestration & Cursor / Claude Bridge Setup
+- **Создан локальный оркестратор (`scripts/orchestrate.js`)**:
+  - Поддержка ролей: `reviewer` (код/безопасность), `architect` (FSD/архитектура), `copywriter` (тексты), `tester` (граничные кейсы).
+  - Поддержка бэкендов: OpenRouter (модель по умолчанию `dots-studio/dots-3-note-preview:free` / `nvidia/nemotron`) и Claude Code CLI (`claude -p`).
+  - Парсинг рассуждений (`reasoning` / `content`), таймаут 45с, очистка `<think>` тегов.
+- **Интеграция с Cursor (`.cursorrules`)**:
+  - В корень MeDev внедрен `.cursorrules` с инструкциями вызова оркестратора `node scripts/orchestrate.js --role <role> --prompt "<task>"`.
+- **Харденинг фронтенда**:
+  - `vite.config.ts`: `sourcemap: false` для продакшн сборки.
+  - `vercel.json`: внедрены CSP и Security Headers.
+- **Верификация**:
+  - Живой тест оркестратора через Node.js: вызов субагента-ревьюера успешно завершился с кодом 0 и выдал глубокий разбор рисков CORS в консоль.
+  - Frontend: 38/38 unit-тестов Vitest пройдены.
+
+
 
 
 
