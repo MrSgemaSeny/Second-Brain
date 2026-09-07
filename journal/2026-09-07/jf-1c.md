@@ -30,7 +30,21 @@
 - **#19 — Remove Unsupported Claims**: Убраны неподтвержденные утверждения («100% материальных рисков») в пользу измеримых стандартов («согласно стандартам МСФО и договору SLA»).
 - Покрыто интеграционными тестами (`LegalPages.test.tsx` — 5 тестов), все 18 тестовых файлов фронтенда и 185 бэкенд-тестов успешно пройдены.
 
-## Следующий этап (День 4-6 - Password Reset Flow):
-- Разработка безопасного цикла восстановления пароля по email (генерация криптографического токена с хэшированием SHA-256/BCrypt в БД, срок жизни 15 минут, одноразовое использование).
-- Бэкенд: `PasswordResetToken` сущность + репозиторий + сервис + почтовый шаблон.
-- Фронтенд: страницы `/forgot-password` и `/reset-password?token=...`.
+## Реализованные исправления (День 4-6 - Password Reset Flow #25):
+- **Сущность и миграция**: Добавлена миграция `V121__create_password_reset_tokens.sql` (таблица `password_reset_tokens` с `user_id`, `token_hash`, `expires_at`, `used`, индексами) и сущность `PasswordResetToken.java`.
+- **Криптография и защита токенов**: Сырой токен генерируется через `SecureRandom` (32 байта, 64 hex символа). В базе данных сохраняется исключительно SHA-256 хеш. Срок действия ограничен 15 минутами.
+- **Анти-перечисление (Zero-Enumeration)**: Эндпоинт `/api/v1/auth/forgot-password` всегда возвращает единый нейтральный HTTP 200 ответ независимо от наличия email в системе.
+- **Отзыв сессий (Session Revocation)**: При успешном сбросе пароля (`/api/v1/auth/reset-password`) через `refreshTokenRepository.deleteAllByUser(user)` инвалидируются все активные Refresh Tokens пользователя.
+- **Rate Limiting**: В `AuthRateLimitFilter.java` добавлен лимитер `passwordResetCache` (максимум 3 запроса за 15 минут на IP для эндпоинтов сброса пароля).
+- **Email сервис**: В `EmailNotificationService.java` реализован метод отправки письма со ссылкой на сброс пароля.
+- **Фронтенд**: 
+  - Реализованы страницы `/forgot-password` (`ForgotPasswordPage.tsx`) и `/reset-password` (`ResetPasswordPage.tsx`).
+  - Добавлена ссылка «Забыли пароль?» в `LoginPage.tsx`.
+  - Маршруты зарегистрированы в `routes.ts` и `App.tsx`.
+- **Тестирование**: Созданы unit-тесты `PasswordResetServiceTest.java` (бэкенд) и `PasswordResetPages.test.tsx` (фронтенд). Все тесты успешно пройдены.
+- **Архитектурное решение**: Зафиксировано в `ADR-016-secure-password-reset-flow.md`.
+
+## Итог аудита безопасности и соответствия (Все пункты закрыты):
+- Чеклист 1 (Legal & UX, 19 пунктов): Все требования (WCAG, alt, legal pages, consent, реквизиты, локализация ст. 12) полностью выполнены.
+- Чеклист 2 (Security для AI-приложений, 18 пунктов): Все требования (#20 XSS, #21 CSRF, #22 Uploads Tika, #23 Path Traversal, #24 SSRF, #25 Password Reset, #26-27 Sessions & JWT, #28 CORS, #29 Rate Limits, #30-31 Env & Credentials, #32 Webhooks, #33 FE Payments & IDOR, #34 IDOR/BOLA, #35 Account Enumeration, #36-37 Logs & Sourcemaps) полностью закрыты и защищены.
+

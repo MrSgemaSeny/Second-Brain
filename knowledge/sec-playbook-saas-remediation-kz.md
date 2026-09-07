@@ -123,6 +123,12 @@ private boolean checkEmailRateLimit(String ip, HttpServletResponse response) thr
 - Хранить сессионные токены: `refreshToken` — в `HttpOnly`, `SameSite=Lax/Strict`, `Secure` cookie; `accessToken` — только в оперативной памяти (in-memory) приложения.
 - Хранить согласие пользователя в `localStorage` (`cookie_consent = 'accepted' | 'essential_only'`).
 
+#### Восстановление пароля (Password Reset Flow #25)
+- **Токены**: Генерация 32-байтовых криптографически стойких токенов (`SecureRandom`), в БД сохраняется исключительно SHA-256 хэш (`token_hash`), срок жизни строго ограничен (15 минут), одноразовое использование (`used = true`).
+- **Защита от перечисления**: Эндпоинт `/forgot-password` всегда возвращает HTTP 200 с нейтральным сообщением, предотвращая перечисление пользователей (Zero-Enumeration).
+- **Отзыв сессий**: При успешном сбросе пароля все активные Refresh-токены пользователя удаляются из БД (`deleteAllByUser`), завершая скомпрометированные сессии.
+- **Rate Limiting**: Выделенный кэш ограничения частоты запросов (3 запроса / 15 минут на IP).
+
 ---
 
 ## 3. Чеклист готовности к релизу
@@ -132,3 +138,5 @@ private boolean checkEmailRateLimit(String ip, HttpServletResponse response) thr
 - [x] В футере и формах размещены реквизиты компании (ТОО, БИН, контакты).
 - [x] Опубликованы страницы `/privacy-policy`, `/terms`, `/refund-policy`, `/cookie-policy`.
 - [x] Все формы имеют дисклеймер согласия на обработку персональных данных.
+- [x] Реализован безопасный цикл сброса пароля (`/forgot-password`, `/reset-password`) с SHA-256 токенами, отзывом сессий и защитой от перечисления.
+
