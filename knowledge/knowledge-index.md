@@ -22,6 +22,8 @@
 - [[antigravity-hooks-and-guardrails-evolution]] - История и эволюция хуков (архив reminder.ps1, git-reminder.ps1 и переход к hard guardrails).
 - [[agent-token-efficiency-and-vertical-troubleshooting]] - Анализ эффективности токенов: вертикальный целевой срез (Vertical Slice), PowerShell-операторы и Scoped Prompting.
 - [[observability-tracing-mdc-and-structured-logging]] - Observability First: Сквозной трейсинг (OpenTelemetry + Micrometer Tracing), Correlation ID (X-Request-ID), MDC и структурированное JSON-логирование (Logstash / Grafana Loki).
+- [[vibe-coding-gaps-part1-network-databases-realtime]] - Вайб-кодинг vs Инженерия (Часть 1): Сетевой слой, Circuit Breaker, Idempotency, очередей DLQ, CAP, индексы БД, N+1, пулы соединений и блокировки.
+- [[vibe-coding-gaps-part2-infra-devops-security-sre]] - Вайб-кодинг vs Инженерия (Часть 2): Blue-Green/Canary деплой, Liveness/Readiness, Observability, IaC Terraform, P99 Latency, Zero-downtime миграции и Postmortems.
 
 ## Фронтенд (React, FSD, UI Deslop)
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
