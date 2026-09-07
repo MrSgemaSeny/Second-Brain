@@ -1,4 +1,4 @@
-﻿# Журнал: JF-1C (ZhanFinance)
+# Журнал: JF-1C (ZhanFinance)
 Дата: 2026-09-07
 
 ## Выполненные задачи:
@@ -9,7 +9,9 @@
 2. **Сохранение в Базу Знаний (Second Brain Knowledge)**:
    - Создана заметка `knowledge/sec-checklist-legal-ux-compliance.md` (Чеклист 1: Пункты 1–19).
    - Создана заметка `knowledge/sec-checklist-ai-app-hardening.md` (Чеклист 2: Пункты 20–37).
-   - Обновлен индекс знаний `knowledge/knowledge-index.md` в разделе «Безопасность и Авторизация».
+   - Создана заметка `knowledge/vibe-coding-gaps-part1-network-databases-realtime.md` (Сетевой слой, Circuit Breaker, Idempotency, очереди DLQ, CAP, индексы БД, N+1, пулы соединений и блокировки).
+   - Создана заметка `knowledge/vibe-coding-gaps-part2-infra-devops-security-sre.md` (Blue-Green/Canary деплой, Liveness/Readiness, Observability, IaC Terraform, P99 Latency, Zero-downtime миграции и Postmortems).
+   - Обновлен индекс знаний `knowledge/knowledge-index.md` (разделы «Архитектура и Системный Дизайн» и «Безопасность и Авторизация»).
 
 ## Ключевые критические точки для исправления в JF-1C:
 - **[CRITICAL] Invoice Mutation (Пункт 33-34)**: В `InvoiceAccessService.java` клиент (`CLIENT`) может отправлять `PUT /invoices/{id}` и менять сумму и статус на `PAID`. Требуется исключить `Role.CLIENT` из прав на изменение счетов.
