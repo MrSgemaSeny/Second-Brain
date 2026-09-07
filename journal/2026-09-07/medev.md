@@ -34,8 +34,13 @@
 ## 5. Добавление OpenGraph изображения (og-image.png)
 - Создано брендовое изображение `landing/public/og-image.png` размером 1200x630px в строгом стиле GitHub Dark Mode (`#0d1117`, акцент `#2ea043`, логотип MeDev, заголовок и ключевые преимущества).
 - В `landing/app/layout.tsx` добавлены метаданные `openGraph.images` и `twitter.images` со ссылкой на `https://medev.mrsgemaseny.com/og-image.png`.
+## 6. Редизайн типографики и тотальная очистка от визуального мусора
+- Полностью удалены все микро-бейджи, серые теги категорий, микро-буллеты со списочками и мелкий текст.
+- Настроены 2 ключевых шрифта через `next/font/google`: `Inter` (основной sans) и `JetBrains Mono` (mono).
+- Верстка переведена на крупную, выразительную и читаемую типографику (H1 `text-6xl`/`text-7xl`, секции `text-3xl`/`text-5xl`, тело `text-base`/`text-lg`/`text-xl`).
 - Статус сборки и тестов:
   - Landing Next.js 15: 8/8 страниц SSG собрано (0 ошибок).
   - Frontend SPA: 38/38 unit тестов пройдено.
   - Backend: 253/253 JUnit тестов пройдено.
+
 
