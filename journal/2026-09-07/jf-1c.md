@@ -56,5 +56,8 @@
   - `[GSI_LOGGER]: google.accounts.id.initialize() is called multiple times`.
   - DOM warning `/settings`: формы ввода паролей без скрытого поля username для автозаполнения браузером.
 
-
-
+## Статус деплоя бэкенда (Fly.io):
+- GitHub Actions пайплайн CI/CD (`CI/CD Pipeline`) проходит на 100% успешно (сборка, линтер, Vitest и JUnit тесты зелёные).
+- Деплой на Fly.io (`deploy-backend.yml`, runs #169, #170) падает с ошибкой 403:
+  `ensure depot builder failed, please try again (status 403): Your account has overdue invoices. Please update your payment information: https://fly.io/dashboard/orka-best/billing`.
+  Причина: неоплаченный счет на аккаунте Fly.io (`orka-best`). Код не меняем, зафиксировано.
