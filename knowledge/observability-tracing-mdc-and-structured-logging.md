@@ -84,3 +84,149 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
 1. **Мгновенная локализация ошибок**: Поиск в Grafana Loki `{service="MrDevCourses"} | json | requestId="c84b7a12"` выводит всю цепочку выполнения за 1 секунду.
 2. **Zero-overhead на клиенте**: Браузер всегда имеет `requestId` для корректного отображения ошибок и логирования в Sentry / Crashlytics.
 3. **Готовность к распределенной архитектуре**: При выносе микросервисов `traceId` и `X-Request-ID` прозрачно пробрасываются через заголовки HTTP (W3C traceparent).
+
+---
+
+## Тестирование Структурированного Логирования и Маскирования
+
+Проверка логирования в автоматизированных тестах критична: логирование — это контракт между кодом и системой мониторинга/комплаенса.
+
+### 1. Тестирование прохождения Correlation ID через стек
+
+#### А. Синхронный HTTP-запрос и ответ:
+Тест проверяет, что переданный клиентом заголовок подхватывается в MDC, возвращается в ответе и корректно очищается:
+
+```java
+@SpringBootTest
+@AutoConfigureMockMvc
+class CorrelationIdFlowTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void shouldPropagateIncomingRequestIdToResponseAndMdc() throws Exception {
+        String testRequestId = "req-custom-uuid-12345";
+
+        mockMvc.perform(get("/api/v1/services/highlighted")
+                .header("X-Request-ID", testRequestId))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Request-ID", testRequestId));
+
+        // После завершения запроса MDC обязан быть очищен
+        assertThat(MDC.get("requestId")).isNull();
+    }
+}
+```
+
+#### Б. Передача в асинхронные потоки (`@Async` / `TaskExecutor`):
+По умолчанию `ThreadLocal` и MDC **не копируются** в пулы потоков `ThreadPoolTaskExecutor`. Без специального декоратора фоновые задачи (отправка писем, уведомления в Telegram) теряют Correlation ID.
+Для решения используется `TaskDecorator`:
+
+```java
+public class MdcTaskDecorator implements TaskDecorator {
+    @Override
+    public Runnable decorate(Runnable runnable) {
+        Map<String, String> contextMap = MDC.getCopyOfContextMap();
+        return () -> {
+            try {
+                if (contextMap != null) MDC.setContextMap(contextMap);
+                runnable.run();
+            } finally {
+                MDC.clear();
+            }
+        };
+    }
+}
+```
+
+**Тест асинхронного распространения MDC:**
+```java
+@Test
+void shouldPropagateMdcToAsyncWorker() throws Exception {
+    String parentRequestId = "async-trace-777";
+    MDC.put("requestId", parentRequestId);
+
+    CompletableFuture<String> futureResult = asyncWorkerService.executeAsyncTask();
+
+    String asyncMdcRequestId = futureResult.get(5, TimeUnit.SECONDS);
+    assertThat(asyncMdcRequestId).isEqualTo(parentRequestId);
+
+    MDC.clear();
+}
+```
+
+#### В. Проброс в исходящие вызовы (`RestClient` / `WebClient`):
+Клиентский интерцептор обязан инжектировать `X-Request-ID` из текущего MDC во внешние запросы (WebKassa, Kaspi Pay, Telegram API):
+
+```java
+@Test
+void shouldInjectRequestIdIntoOutgoingRestClientRequests() {
+    MDC.put("requestId", "outbound-cor-888");
+
+    mockServer.expect(requestTo("https://api.telegram.org/bot123/sendMessage"))
+              .andExpect(header("X-Request-ID", "outbound-cor-888"))
+              .andRespond(withSuccess());
+
+    telegramAlertService.sendNotification("Test alert");
+    mockServer.verify();
+
+    MDC.clear();
+}
+```
+
+---
+
+### 2. Тестирование маскирования конфиденциальных полей (Sensitive Masking)
+
+#### Правило безопасности (PII / Secrets Leak Prevention):
+Пароли (`password`), токены (`refreshToken`, `accessToken`, `preAuthToken`), CVC/CVV, номера кредитных карт и секретные ключи **никогда не должны появляться в открытом виде** в логах (`stdout`, файлы, Logstash, Sentry).
+
+#### Инструмент проверки: `ListAppender<ILoggingEvent>`
+Для тестирования логирования используется стандартный механизм перехвата событий Logback:
+
+```java
+class SensitiveDataLoggingTest {
+
+    private ListAppender<ILoggingEvent> listAppender;
+    private Logger authLogger;
+
+    @BeforeEach
+    void setUp() {
+        authLogger = (Logger) LoggerFactory.getLogger(AuthService.class);
+        listAppender = new ListAppender<>();
+        listAppender.start();
+        authLogger.addAppender(listAppender);
+    }
+
+    @AfterEach
+    void tearDown() {
+        authLogger.detachAppender(listAppender);
+    }
+
+    @Test
+    void shouldMaskPasswordAndTokensInLogs() {
+        AuthService authService = new AuthService(...);
+        LoginRequest request = new LoginRequest("user@zhanfinance.kz", "UltraSecretPassword123!");
+
+        authService.authenticate(request);
+
+        // Проверяем все залогированные сообщения
+        List<ILoggingEvent> logs = listAppender.list;
+        assertThat(logs).isNotEmpty();
+
+        for (ILoggingEvent event : logs) {
+            String message = event.getFormattedMessage();
+            
+            // 1. Открытый пароль НИКОГДА не должен присутствовать в логе
+            assertThat(message).doesNotContain("UltraSecretPassword123!");
+            
+            // 2. Если поле пароля логируется, оно должно быть замаскировано
+            if (message.contains("password")) {
+                assertThat(message).containsPattern("password\\s*[:=]\\s*(\\*\\*\\*|\\[MASKED\\])");
+            }
+        }
+    }
+}
+```
+

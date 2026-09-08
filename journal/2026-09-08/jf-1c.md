@@ -43,3 +43,19 @@
    - **`knowledge/qa-testing-classification-and-strategies.md`**:
      - Разделы 3.3 (Rate Limit Testing) и 5.2 (Cache Invalidation & TTL Expiry) обновлены с учетом этих архитектурных нюансов.
 
+4. **Углубление тестирования безопасности аудита и Observability**:
+   - **`knowledge/db-trigger-audit-logs.md`**:
+     - Описано свойство WORM (Write Once, Read Many) для аудит-логов в финансовых системах.
+     - Добавлен полный набор триггеров PostgreSQL: `BEFORE UPDATE`, `BEFORE DELETE` (на строку) и `BEFORE TRUNCATE` (на таблицу/оператор).
+     - Разработан интеграционный тестовый сьют `AuditLogImmutabilityIntegrationTest` на базе реального PostgreSQL (Testcontainers) для валидации блокировки `UPDATE`, `DELETE`, `TRUNCATE` и ORM `auditLogRepository.delete()`.
+     - Зафиксировано требование маскирования чувствительных полей (`AuditEntityListener`) до выполнения `INSERT`.
+   - **`knowledge/observability-tracing-mdc-and-structured-logging.md`**:
+     - Добавлен раздел «Тестирование Структурированного Логирования и Маскирования».
+     - Описан сквозной тест распространения Correlation ID (`X-Request-ID`): входящий HTTP-запрос, помещение в MDC, возвращение в заголовке ответа и гарантированная очистка `MDC.clear()` в блоке `finally`.
+     - Описана передача MDC в асинхронные воркеры (`@Async` / `ThreadPoolTaskExecutor`) через `MdcTaskDecorator` и тест сохранения контекста.
+     - Описан проброс `X-Request-ID` в исходящие вызовы внешних API (`RestClient` / `WebClient`) через интерцепторы с валидацией через `MockRestServiceServer`.
+     - Добавлен тест маскирования паролей, токенов и PII в логах через Logback `ListAppender<ILoggingEvent>`.
+   - **`knowledge/qa-testing-classification-and-strategies.md`**:
+     - Дополнен подразделами 5.4 (Тестирование неизменяемости Audit-логов) и 5.5 (Тестирование Observability и структурированного логирования).
+
+
