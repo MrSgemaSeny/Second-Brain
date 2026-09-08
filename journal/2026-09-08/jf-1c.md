@@ -113,4 +113,15 @@
      - Блок `ensure` приведен к формату Artillery v2 (`p95: 3000`, `maxErrorRate: 1`).
      - Нестандартный `hasProperty` заменен на связку `statusCode: 200` + `contentType: json` с активацией плагина `expect: {}`.
      - Добавлен хук `extractPendingEmpId` в `processor.js` (через `afterResponse`), сопоставляющий `empEmail` конкретного виртуального пользователя со списком pending-заявок. Это полностью исключает race condition при параллельном исполнении (когда два VU брали первого `$.data[0].id` и один получал 404/null).
-   - Успешно верифицирован соло-прогон `artillery run --solo` с кодом возврата 0 и 100% успешных проверок.
+     - Успешно верифицирован соло-прогон `artillery run --solo` с кодом возврата 0 и 100% успешных проверок.
+
+8. **Боевой IDOR-аудит и результаты нагрузочного тестирования API (`tests/e2e/idor-live.mjs`)**:
+   - **IDOR Live Security Test**:
+     - Разработан и исполнен автоматизированный сьют `tests/e2e/idor-live.mjs` (21 проверка матриц RBAC/ABAC на боевом проде `https://zhanfinance.fly.dev/api`).
+     - Результат: 15 тестов пройдены, 6 выявили критические уязвимости и дефекты:
+       1. `[CRITICAL BUG]` Мутация чужих инвойсов клиентом: `PUT /v1/billing/invoices/{id}` возвращает 200 вместо 403. Клиент имеет возможность менять параметры счета.
+       2. `[HIGH BUG]` Нарушение роли ADVISOR в CRM: `PUT /v1/crm/tasks/{id}` возвращает 200 вместо 403. Консультант имеет права на изменение задач в `CrmAccessService.canUpdateTaskDetails`.
+       3. `[HIGH BUG]` Нарушение роли ADVISOR в Документах: `DELETE /v1/documents/{id}` возвращает 200 вместо 403. Консультант может удалять чужие документы в `DocumentAccessService.canWrite`.
+       4. `[MEDIUM BUG]` Ошибка рендеринга PDF инвойса: `GET /v1/billing/invoices/{id}/pdf` падает с HTTP 500 (`PdfGeneratorService: Font file arial.ttf not found in resources`).
+   - **Архитектурный инсайт по Rate Limiting (`AuthRateLimitFilter`)**:
+     - Жесткий лимит Bucket4j (10 req/min на IP для `/api/v1/auth/**` и 5 req/min для `/check-email`) корректно защищает прод от брутфорса, но требует использования предварительной аутентификации и токен-кеширования (`beforeScenario` + `beforeRequest: attachAuthHeader`) при проведении конкурентных нагрузочных тестов с одного IP-адреса.

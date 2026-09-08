@@ -124,3 +124,14 @@ class EntityIdorSecurityTest {
     }
 }
 ```
+
+---
+
+## 5. Результаты Live Security Аудита Прода (2026-09-08)
+
+В ходе прогона сквозного security-сьюта `tests/e2e/idor-live.mjs` по боевому серверу `https://zhanfinance.fly.dev/api` выявлены следующие критические несоответствия матрице доступа:
+1. **PUT `/api/v1/crm/tasks/{id}`**: Роль `ADVISOR` смогла успешно модифицировать задачу (получен статус 200 вместо 403). В `CrmAccessService.canUpdateTaskDetails` консультанту ошибочно возвращается `true`.
+2. **DELETE `/api/v1/documents/{id}`**: Роль `ADVISOR` смогла удалить чужой документ (200 вместо 403) из-за избыточных прав в `DocumentAccessService.canWrite`.
+3. **PUT `/api/v1/billing/invoices/{id}`**: Роль `CLIENT` смогла модифицировать параметры инвойса (200 вместо 403). Требуется строгая проверка `@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")` без исключений для владельца счета.
+4. **GET `/api/v1/billing/invoices/{id}/pdf`**: Падение сервиса в HTTP 500 (`Font file arial.ttf not found in resources`), делающее невозможным скачивание счетов в рантайме.
+
