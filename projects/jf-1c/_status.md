@@ -4,7 +4,9 @@ _Обновлено: 2026-09-08_
 ## Текущий уровень: 4 (Production Release v1.0.0 на GitHub)
 ## Следующая веха: Интеграция биллинга и оплат (WebKassa / Kaspi Pay) + Домен zhanfinance.kz
 ## Проведенное тестирование:
-- E2E Playwright Browser: 16/16 тестов UI на живом GitHub Pages пройдены.
+- Full Lifecycle E2E: 5 боевых сьютов бизнес-логики (CRM, LMS, Chat, Documents, Invoices) — 45/45 тестов (100% PASS).
+- Playwright Authenticated Journeys: 17/17 тестов в реальном браузере (Admin, Employee, Client) пройдены.
+- E2E Playwright Browser: 16/16 тестов публичного UI на живом GitHub Pages пройдены.
 - Live Backend API: 34 маршрута безопасности и бизнес-логики на Fly.io пройдены.
 - Live IDOR Security Audit: 15/21 тестов пройдены, выявлены 4 дефекта доступа (ADVISOR CRM/Documents, CLIENT Invoices, arial.ttf в PDF).
 - Artillery Load Test: Сквозной CRUD-прогон, подтверждена стабильность при P95 < 3000ms.
