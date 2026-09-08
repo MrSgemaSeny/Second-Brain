@@ -30,3 +30,16 @@
      - Проверены Actuator Health (`UP`), каталог услуг, заголовки безопасности (HSTS, CSP, nosniff, frame-options), проверка email, создание заявок (`/api/v1/contact-requests`), fail-closed изоляция 22 защищенных маршрутов (строго 401/403).
      - Устранен недочет в `GlobalExceptionHandler.java`: добавлен обработчик `HttpRequestMethodNotSupportedException` (возвращает статус 405 Method Not Allowed вместо падения в 500 при неподдерживаемых HTTP-методах).
    - Все 191 тест бэкенда (`./gradlew.bat test`) успешно пройдены.
+
+3. **Углубление архитектурных паттернов и тестов (Caffeine TTL Expiry & Bucket4j Spoofing)**:
+   - **`knowledge/arch-caffeine-cache.md`**:
+     - Разобрана природа Stale Data: различие между явным `@CacheEvict` (мутации) и истечением срока жизни ключа (TTL Expiry).
+     - Документирована механика ленивой очистки (Lazy Maintenance) Caffeine: отсутствие фоновых потоков на каждый ключ, очистка при вызовах `get`/`put` и через амортизированный `ForkJoinPool.commonPool()`.
+     - Зафиксирован шаблон детерминированного тестирования TTL без `Thread.sleep`: внедрение `Ticker` (`FakeTicker`), метод `cache.cleanUp()`, проверка протухания записи и реального повторного похода в БД (`verify(repository, times(2))`).
+   - **`knowledge/arch-tiered-rate-limiting-bucket4j.md`**:
+     - Сравнение алгоритмов: Fixed Window Counter (дефект Boundary Burst со всплеском 2x на стыке минут), Sliding Window Log/Counter и Token Bucket (Bucket4j, burst allowance и плавное пополнение `refillIntervally` vs `refillGreedy`).
+     - Векторы атак: `X-Forwarded-For` spoofing и эксплуатация `CF-Connecting-IP` до подключения Cloudflare. Описана архитектура безопасного извлечения IP (Rightmost Untrusted IP) с доверием заголовкам только от верифицированных прокси (`getRemoteAddr()`).
+     - Тестовые сценарии: тест на исчерпание лимита, тест на попытку обхода через поддельные заголовки IP и тест на пропуск CORS `OPTIONS` pre-flight без расходования токенов.
+   - **`knowledge/qa-testing-classification-and-strategies.md`**:
+     - Разделы 3.3 (Rate Limit Testing) и 5.2 (Cache Invalidation & TTL Expiry) обновлены с учетом этих архитектурных нюансов.
+
