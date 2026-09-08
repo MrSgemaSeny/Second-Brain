@@ -10,3 +10,23 @@
      - **Регрессионные**: Snapshot (контроль контрактов и UI-рендера), Mutation (PITest/Stryker, проверка качества и убиваемости мутантов в тестах).
      - **Специфичные**: Flyway migration (валидация цепочек V1..V121 на чистой БД), Cache invalidation (Caffeine/Redis evicted state), WebSocket (STOMP subscription security, изоляция очередей).
    - Обновлен центральный каталог Zettelkasten `knowledge/knowledge-index.md` — добавлен профильный раздел «Тестирование, QA и Обеспечение Качества».
+
+2. **Комплексное E2E и нагрузочное тестирование боевого сервера (Playwright + Artillery)**:
+   - **Artillery Load Testing (Каталог и публичный API `https://zhanfinance.fly.dev`)**:
+     - 1114 запросов за 56 секунд (~36 RPS).
+     - 669 успешных ответов HTTP 200, 443 ответа HTTP 429 (срабатывание Bucket4j защиты при превышении лимита 100 req/min).
+     - 0 ошибок 5xx (полная стабильность Spring Boot под конкурентной нагрузкой).
+     - Задержки: медиана 125.2 ms, P95 = 368.8 ms, P99 = 415.8 ms.
+   - **Artillery Stress Testing (Rate Limiting Boundary Check)**:
+     - 30 запросов залпом за 5 секунд на эндпоинт `/api/v1/auth/check-email`.
+     - Лимитер отработал точно по спецификации: 10 запросов пропущены (HTTP 200), 20 запросов отсечены со статусом HTTP 429 за 104 ms (без утечек соединений и нагрузки на базу).
+   - **Artillery Frontend CDN (GitHub Pages `https://mrsgemaseny.github.io/JF-1C/`)**:
+     - 950 запросов за 36 секунд (~32 RPS).
+     - Медианная задержка отдачи статики и SPA: 70.1 ms.
+   - **Playwright Browser E2E (`tests/e2e/frontend-live.mjs`)**:
+     - 16 тестов в реальном браузере Chromium/Chrome на живом сайте.
+     - Успешно проверены: заголовок и метатеги, баннер CookieConsent (запись в `localStorage`), переключение тем и языков (RU/KZ/EN), страницы `/services`, `/about`, юридический блок (Privacy, Terms, Refund, Cookie), формы входа, сброса пароля и регистрации.
+   - **Live Backend API E2E (`tests/e2e/api-live.mjs`, 34 эндпоинта)**:
+     - Проверены Actuator Health (`UP`), каталог услуг, заголовки безопасности (HSTS, CSP, nosniff, frame-options), проверка email, создание заявок (`/api/v1/contact-requests`), fail-closed изоляция 22 защищенных маршрутов (строго 401/403).
+     - Устранен недочет в `GlobalExceptionHandler.java`: добавлен обработчик `HttpRequestMethodNotSupportedException` (возвращает статус 405 Method Not Allowed вместо падения в 500 при неподдерживаемых HTTP-методах).
+   - Все 191 тест бэкенда (`./gradlew.bat test`) успешно пройдены.
