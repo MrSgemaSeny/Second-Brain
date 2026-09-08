@@ -161,3 +161,18 @@
       - **Hibernate Cascade & Generated Identity**: В `CourseService.createChapter` вызов `course.getChapters().add(chapter)` без вызова `chapterRepository.save(chapter)` возвращает сущность с `id == null` до коммита транзакции. В `createLesson` паттерн `chapterRepository.save(chapter)` реализован корректно.
       - **Enums Strict Validation**: Перечисление `LessonType` строго ожидает `VIDEO`, `PRESENTATION`, `DOCUMENT`. Перечисление `InvoiceStatus` ожидает `DRAFT`, `ISSUED`, `PAID`, `OVERDUE`, `CANCELED`. Несоответствие вызывает `InvalidFormatException` (HTTP 500) на уровне Jackson десериализации.
       - **Foreign Key Constraints в LMS**: Удаление курса, по которому уже зафиксирован прогресс студентов (`LessonProgress` / `Enrollment`), блокируется внешними ключами PostgreSQL (`fk_enrollments_course_id`). Рекомендуется мягкое архивирование либо каскадная очистка прогресса при удалении тестовых курсов.
+
+12. **Устранение Выявленных Уязвимостей и Актуализация README.md**:
+    - **Закрытие дефектов в коде бэкенда**:
+      1. `InvoiceController` & `InvoiceService`: добавлен эндпоинт `GET /api/v1/invoices/{id}` с аннотацией `@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'CLIENT')")` и методом `invoiceService.getById(user, id)`, валидирующим принадлежность счета через `assertCanRead` (устранен IDOR).
+      2. `CrmAccessService` & `TaskController`: исключена роль `ADVISOR` из `canUpdateTaskDetails` и `@PreAuthorize` на `PUT /v1/crm/tasks/{id}`. Советник переведен в режим строгого Read-Only.
+      3. `DocumentAccessService`: исключена роль `ADVISOR` из `canWrite` и `canCreateFor`. Запрещены мутации и удаление документов советником.
+      4. `PdfGeneratorService`: добавлена проверка наличия шрифта `arial.ttf` в classpath перед вызовом рендерера. Исключена ошибка HTTP 500 при рендеринге счетов.
+      5. `CourseService`: в `deleteCourse` добавлена каскадная зачистка записей прогресса, зачислений и сертификатов перед удалением курса (устранены падения от внешних ключей PostgreSQL). В `createChapter` добавлен вызов `chapterRepository.save(chapter)` для гарантии возврата сгенерированного ID.
+    - **Верификация**:
+      - Бэкенд: `./gradlew.bat test --rerun-tasks` — 169 тестов пройдено, 0 ошибок (100% green).
+      - Фронтенд: `vitest run` — 19 файлов, 74 теста пройдено, 0 ошибок (100% green).
+    - **Актуализация README.md**:
+      - Удалены нереалистичные маркетинговые ярлыки и преувеличения.
+      - Документирована реальная инженерная архитектура платформы, границы разграничения прав доступа и все закрытые уязвимости.
+      - Сформирована полная матрица тестирования: 243 модульных/интеграционных теста + 9 сквозных E2E-сьютов полного цикла.
