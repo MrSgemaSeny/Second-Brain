@@ -85,8 +85,10 @@
    - **`knowledge/arch-concurrency-refresh-token-and-race-conditions.md`**:
      - Разобрана природа состояния гонки (Race Condition) при ротации Refresh Token в SPA при одновременных 401 ошибках нескольких параллельных компонентов.
      - Описана опасность ложного срабатывания Token Reuse Detection (разлогин пользователя прямо посреди работы).
-     - Двухуровневое решение: фронтенд Singleton Refresh Promise (`http.ts`) + бэкенд Grace Period (Leeway Window 15-30 сек) с возвратом того же токена при параллельных запросах.
-     - Разработан Concurrency-тест на базе `CountDownLatch(threadCount)` и `CompletableFuture`, подтверждающий отсутствие False Positive Logout при одновременном ударе 10 потоков в одну наносекунду.
+     - **Каноническое решение:** устранение параллелизма на клиенте через **Frontend Singleton Refresh Promise** (`http.ts`) + Web Locks API (`navigator.locks` между вкладками). Это сохраняет строгий Zero-Trust на бэкенде (мгновенная инвалидация и жесткий Token Reuse Detection).
+     - **Критический Security Trade-off:** зафиксирована опасность Backend Grace Period (Leeway Window) — в течение этого окна украденный токен также принимается сервером, ослабляя защиту именно в момент наивысшей вероятности перехвата. Grace Period допустим строго как fallback для нативных мобильных клиентов с окном не более 2-5 секунд и фингерпринтингом IP/User-Agent.
+     - Разработан Concurrency-тест на базе `CountDownLatch(threadCount)` и `CompletableFuture`.
+
    - **`knowledge/arch-database-constraints-and-integrity-testing.md`**:
      - Развенчан миф о достаточности Spring Bean Validation (`@NotNull`, `@Size`): сервисы, фоновые джобы, батчевые вставки и конкурентные гонки легко обходят валидаторы контроллеров.
      - Зафиксированы 4 критических ограничения PostgreSQL: `NOT NULL` связей, `UNIQUE` индексы против гонок при регистрации, `FOREIGN KEY ON DELETE RESTRICT` против появления записей-сирот (orphaned rows) при удалении клиентов, `CHECK` constraints на положительные суммы счетов.
