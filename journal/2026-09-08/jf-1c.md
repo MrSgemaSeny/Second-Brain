@@ -13,6 +13,11 @@
 
 2. **Комплексное E2E и нагрузочное тестирование боевого сервера (Playwright + Artillery)**:
    - **Artillery Load Testing (Каталог и публичный API `https://zhanfinance.fly.dev`)**:
+     - 6. **Конфигурация Artillery Smoke-тестирования (`artillery.yml`)**:
+       - Сформирован `artillery.yml` для бережного smoke-тестирования (Warmup 30s @ 2 req/s, Sustained 60s @ 5 req/s, maxVusers 20).
+       - Реализовано разделение сценариев: «Public Endpoints» (30% веса) и «Authenticated Flow» (70% веса с логином, захватом `accessToken` cookie и проверкой защищенных эндпоинтов).
+       - Настроена валидация ApiResponse<T> через `expect: - hasProperty: "success"` и разбивка метрик через плагин `metrics-by-endpoint`.
+       - Конфигурация успешно верифицирована соло-прогоном (`vusers.failed: 0`).
      - 1114 запросов за 56 секунд (~36 RPS).
      - 669 успешных ответов HTTP 200, 443 ответа HTTP 429 (срабатывание Bucket4j защиты при превышении лимита 100 req/min).
      - 0 ошибок 5xx (полная стабильность Spring Boot под конкурентной нагрузкой).
