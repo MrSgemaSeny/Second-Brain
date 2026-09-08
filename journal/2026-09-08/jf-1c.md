@@ -81,5 +81,23 @@
    - **`knowledge/qa-testing-classification-and-strategies.md`**:
      - Обновлены подразделы 3.2 (Entity IDOR Matrix), 3.4 (File Upload Security Testing) и 4.1 (PDF Generation Regression).
 
+6. **Архитектура целостности СУБД, Concurrency Refresh Token, Graceful Shutdown и Cold Start**:
+   - **`knowledge/arch-concurrency-refresh-token-and-race-conditions.md`**:
+     - Разобрана природа состояния гонки (Race Condition) при ротации Refresh Token в SPA при одновременных 401 ошибках нескольких параллельных компонентов.
+     - Описана опасность ложного срабатывания Token Reuse Detection (разлогин пользователя прямо посреди работы).
+     - Двухуровневое решение: фронтенд Singleton Refresh Promise (`http.ts`) + бэкенд Grace Period (Leeway Window 15-30 сек) с возвратом того же токена при параллельных запросах.
+     - Разработан Concurrency-тест на базе `CountDownLatch(threadCount)` и `CompletableFuture`, подтверждающий отсутствие False Positive Logout при одновременном ударе 10 потоков в одну наносекунду.
+   - **`knowledge/arch-database-constraints-and-integrity-testing.md`**:
+     - Развенчан миф о достаточности Spring Bean Validation (`@NotNull`, `@Size`): сервисы, фоновые джобы, батчевые вставки и конкурентные гонки легко обходят валидаторы контроллеров.
+     - Зафиксированы 4 критических ограничения PostgreSQL: `NOT NULL` связей, `UNIQUE` индексы против гонок при регистрации, `FOREIGN KEY ON DELETE RESTRICT` против появления записей-сирот (orphaned rows) при удалении клиентов, `CHECK` constraints на положительные суммы счетов.
+     - Разработан сьют `DatabaseConstraintIntegrityTest` на реальном PostgreSQL (Testcontainers).
+   - **`knowledge/arch-flyio-graceful-shutdown-and-cold-start.md`**:
+     - Разбор Graceful Shutdown на Fly.io: `server.shutdown=graceful` и `spring.lifecycle.timeout-per-shutdown-phase=30s`. Тестирование завершения активных in-flight запросов с HTTP 200 при сигнале `SIGTERM` без ошибок 502.
+     - Разбор задержки Cold Start при Scale-to-Zero на Fly.io: Firecracker (300-800 мс) + JVM/Spring (12-25 сек) + JIT (1 сек) = 15-30 сек задержки первого запроса.
+     - Методология тестирования: отдельный замер `Cold Start TTFB` от `Warm P95/P99`. Keep-Alive пинги через UptimeRobot раз в 4 минуты для исключения засыпания в бизнес-часы.
+   - **`knowledge/knowledge-index.md` & `knowledge/qa-testing-classification-and-strategies.md`**:
+     - В каталог и QA-руководство добавлены подразделы 2.6 (Graceful Shutdown), 2.7 (Cold Start Latency), 5.6 (Database Constraints) и 5.7 (Concurrency Testing).
+
+
 
 

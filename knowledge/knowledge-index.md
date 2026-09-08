@@ -84,6 +84,9 @@
 
 ## Тестирование, QA и Обеспечение Качества
 - [[qa-testing-classification-and-strategies]] - Полная классификация и стратегии тестирования: функциональные (Unit, Integration, E2E, Contract), нагрузочные (Smoke, Load, Stress, Spike, Soak), безопасности (DAST, Auth bypass, Rate limit), регрессионные (Snapshot, Mutation) и специфичные (Flyway, Cache, STOMP).
+- [[arch-concurrency-refresh-token-and-race-conditions]] - Тестирование конкурентного доступа (Concurrency): Race Conditions при Refresh Token Rotation, Leeway Window и тестирование через CountDownLatch.
+- [[arch-database-constraints-and-integrity-testing]] - Тестирование ограничений целостности базы данных: NOT NULL, UNIQUE, FK ON DELETE RESTRICT, CHECK constraints vs Spring Validation.
+- [[arch-flyio-graceful-shutdown-and-cold-start]] - Тестирование инфраструктуры: Graceful Shutdown (SIGTERM, in-flight запросы без 502) и замеры задержки Cold Start при Scale-to-Zero на Fly.io.
 
 ## Инциденты (Production Post-Mortems)
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
