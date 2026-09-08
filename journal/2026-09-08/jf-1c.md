@@ -112,5 +112,5 @@
      - Параметр `maxVusers: 10` вынесен на глобальный уровень `config`.
      - Блок `ensure` приведен к формату Artillery v2 (`p95: 3000`, `maxErrorRate: 1`).
      - Нестандартный `hasProperty` заменен на связку `statusCode: 200` + `contentType: json` с активацией плагина `expect: {}`.
+     - Добавлен хук `extractPendingEmpId` в `processor.js` (через `afterResponse`), сопоставляющий `empEmail` конкретного виртуального пользователя со списком pending-заявок. Это полностью исключает race condition при параллельном исполнении (когда два VU брали первого `$.data[0].id` и один получал 404/null).
    - Успешно верифицирован соло-прогон `artillery run --solo` с кодом возврата 0 и 100% успешных проверок.
-
