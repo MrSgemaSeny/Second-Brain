@@ -88,8 +88,13 @@
 - [[arch-database-constraints-and-integrity-testing]] - Тестирование ограничений целостности базы данных: NOT NULL, UNIQUE, FK ON DELETE RESTRICT, CHECK constraints vs Spring Validation.
 - [[arch-flyio-graceful-shutdown-and-cold-start]] - Тестирование инфраструктуры: Graceful Shutdown (SIGTERM, in-flight запросы без 502) и замеры задержки Cold Start при Scale-to-Zero на Fly.io.
 
+## Архитектура и Паттерны
+- [[arch-jvm-metaspace-and-production-memory-budget]] - Архитектура памяти JVM: Metaspace, динамические прокси Spring/Hibernate, эффект плато и бюджетирование в контейнерах (Fly.io).
+
 ## Инциденты (Production Post-Mortems)
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
 - [[incident-02-management-port-hibernate-crash]] - `management.server.port=8081` на Fly.io → Spring создаёт 2-й контекст → Hibernate 7 дублирует event listeners → crash. Фикс: держать порт на 8080, безопасность через Spring Security.
+- [[incident-03-metaspace-near-limit-alert-and-auth-rate-limit]] - Инцидент 03: Ложное срабатывание алерта Metaspace при прогреве классов под нагрузкой и временная 429 блокировка админа из-за единого IP раннера.
+
 
 

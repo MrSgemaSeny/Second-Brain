@@ -106,4 +106,31 @@
 - **Юридическая целостность документов**: SHA-256 контрольная сумма генерируемых актов/АВР в БД и на бланке.
 - **Ручной Penetration Test**: Аудит внешним security-инженером через Burp Suite.
 
+---
+
+## 5. Live Security & IDOR Verification Audit (2026-09-08)
+
+В ходе прогона автоматизированного сьюта `tests/e2e/idor-live.mjs` по боевому API `https://zhanfinance.fly.dev/api` (21 сценарий изоляции прав) зафиксированы 4 дефекта безопасности и надежности:
+
+### 5.1. [CRITICAL] Клиентская Мутация Инвойсов (BOLA/IDOR в Биллинге)
+- **Маршрут**: `PUT /api/v1/billing/invoices/{id}`
+- **Уязвимость**: Аутентифицированный пользователь с ролью `CLIENT` смог модифицировать поля счета (HTTP 200 вместо 403).
+- **Устранение**: Удалить `Role.CLIENT` из цепочек разрешения контроллера и сервис-чекера. Метод `update` должен требовать строго `@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")`.
+
+### 5.2. [HIGH] Избыточные Права Консультанта (ADVISOR) в CRM
+- **Маршрут**: `PUT /api/v1/crm/tasks/{id}`
+- **Уязвимость**: `ADVISOR` смог обновить задачу (HTTP 200 вместо 403).
+- **Устранение**: В `CrmAccessService.canUpdateTaskDetails` консультант должен быть ограничен режимом Read-Only (`return false;` для мутаций).
+
+### 5.3. [HIGH] Удаление Документов Консультантом (ADVISOR)
+- **Маршрут**: `DELETE /api/v1/documents/{id}`
+- **Уязвимость**: `ADVISOR` смог удалить чужой документ (HTTP 200 вместо 403).
+- **Устранение**: В `DocumentAccessService.canWrite` удалить право `Role.ADVISOR` на выполнение деструктивных операций `DELETE`.
+
+### 5.4. [MEDIUM] Падение Генерации PDF Инвойса
+- **Маршрут**: `GET /api/v1/billing/invoices/{id}/pdf`
+- **Дефект**: HTTP 500 (`PdfGeneratorService: Font file arial.ttf not found in resources!`).
+- **Устранение**: Добавить шрифт `arial.ttf` в директорию `src/main/resources/fonts/` и включить его в jar-артефакт при сборке `bootJar`.
+
+
 
