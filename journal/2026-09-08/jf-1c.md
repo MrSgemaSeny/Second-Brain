@@ -98,6 +98,12 @@
    - **`knowledge/knowledge-index.md` & `knowledge/qa-testing-classification-and-strategies.md`**:
      - В каталог и QA-руководство добавлены подразделы 2.6 (Graceful Shutdown), 2.7 (Cold Start Latency), 5.6 (Database Constraints) и 5.7 (Concurrency Testing).
 
-
-
+7. **Комплексный сьют сквозного E2E CRUD тестирования в Artillery (`artillery.yml`)**:
+   - Реализована полная конфигурация нагрузочного и сквозного CRUD-тестирования для боевого сервера `https://zhanfinance.fly.dev/api`.
+   - Включает 4 сценария:
+     1. `Public Endpoints` (вес 5): Actuator Health, список услуг, подсветка услуг, проверка доступности email, отправка лид-формы `ContactRequest`.
+     2. `Admin Full CRUD` (вес 40): Вход администратора, проверка сессии (`/auth/me`, `/users/me`), сбор аналитики дашборда и финансов, CRUD задач CRM с комментариями и аудитом, пайплайны, клиенты, сотрудники, CRUD меток (`labels`), календарь событий, выставленные счета, документы, глобальный поиск, уведомления, чат-контакты, экспорт задач, заявки и курсы LMS.
+     3. `Employee Flow` (вес 30): Регистрация сотрудника (со статусом `PENDING`), вход администратора для подтверждения регистрации через `/v1/admin/employees/{id}/approve`, последующий вход сотрудника и исполнение рабочего процесса.
+     4. `Client Flow` (вес 25): Регистрация клиента (мгновенная активация), вход клиента, просмотр персонализированного дашборда, задач, календаря, счетов и создание заявки на услугу через `/v1/crm/tasks/request`.
+   - Настроены SLA пороги: `ensure.thresholds.http.response_time.p95: 3000`, изоляция CSRF (`X-Requested-With: XMLHttpRequest`), сохранение кук и `think: 1` для предотвращения срабатывания Bucket4j rate limiter.
 
