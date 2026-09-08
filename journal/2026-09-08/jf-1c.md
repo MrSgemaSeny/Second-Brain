@@ -58,4 +58,23 @@
    - **`knowledge/qa-testing-classification-and-strategies.md`**:
      - Дополнен подразделами 5.4 (Тестирование неизменяемости Audit-логов) и 5.5 (Тестирование Observability и структурированного логирования).
 
+5. **Тестирование загрузки файлов, IDOR матрица сущностей и визуальная регрессия PDF**:
+   - **`knowledge/sec-file-upload-magic-bytes.md`**:
+     - Добавлен тестовый сьют `FileUploadSecurityTest`:
+       - Тест на отсечение MIME Spoofing / Polyglot Executables (бинарный анализ сигнатур magic bytes `%PDF`, отсечение шелл-скриптов с кодом 400).
+       - Тест на Path Traversal в имени файла: санитизация через `FilenameUtils.getName()`, генерация `UUID.randomUUID()` ключа хранения, проверка пути `normalize().startsWith(uploadDir)`.
+       - Тест на ограничение размера файла (HTTP 413 Payload Too Large) для защиты от DoS/OOM.
+   - **`knowledge/security-idor-rls.md`**:
+     - Добавлена исчерпывающая IDOR-матрица доступа для SaaS CRM по ролям (`CLIENT`, `EMPLOYEE`, `ADVISOR`, `ADMIN`) и сущностям (`Task`, `Invoice`, `Document`).
+     - Зафиксированы правила изоляции тенантов: клиент видит строго свои задачи и счета, не имеет прав на мутации счетов (`PUT/POST/DELETE -> 403`), консультант `ADVISOR` имеет Read-Only доступ ко всем сущностям без прав на изменение.
+     - Описан интеграционный сьют `EntityIdorSecurityTest` с проверкой недоступности чужих ресурсов.
+   - **`knowledge/arch-pdf-openhtmltopdf-thymeleaf.md`**:
+     - Описана опасность формальных Unit-тестов генерации PDF (`byte[] != null`).
+     - Разработана стратегия регрессионного тестирования PDF на двух уровнях:
+       1. Семантический и структурный контроль (Apache PDFBox): проверка вместимости счета строго в 1 страницу (`getNumberOfPages() == 1`), извлечение текста через `PDFTextStripper` (реквизиты БИН/суммы), контроль отсутствия артефактов шрифта (`???`, `\uFFFD`, tofu).
+       2. Визуальное Snapshot-тестирование: рендеринг страницы PDF в растр через `PDFRenderer.renderImageWithDPI(0, 150)` и попиксельное сравнение (Pixel Diff) с эталонным `gold_invoice.png` (порог < 0.1%).
+   - **`knowledge/qa-testing-classification-and-strategies.md`**:
+     - Обновлены подразделы 3.2 (Entity IDOR Matrix), 3.4 (File Upload Security Testing) и 4.1 (PDF Generation Regression).
+
+
 
