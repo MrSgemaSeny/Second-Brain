@@ -94,3 +94,14 @@
   9. Отчёт об очистке продакшен базы данных от тестового мусора (125 лидов, 33 юзера, 11 задач, 4 курса удалены; реальные данные 100% сохранены).
   10. Текущий операционный статус деплоя и готовность к продакшену.
 
+### 8. Кристаллизация базы знаний (Second Brain Knowledge Base)
+По итогам аудитов MeDev и ZhanFinance в Second Brain зафиксирован и проиндексирован практический knowledge-срез из 6 направлений:
+1. `knowledge/sec-production-security-and-hardening.md`: IDOR prevention, RBAC матрица (ADVISOR read-only), Token Bucket (Bucket4j), OWASP security headers (CSP, HSTS), JWT Grace Period (15s), Anti-enumeration (/check-email), SSRF защита (WebScraperService), Adversarial rate limit тесты.
+2. `knowledge/qa-production-testing-and-benchmarking.md`: Artillery нагрузочное тестирование (weighted scenarios, capture, ifFalse), Playwright E2E мультиролевые сценарии, JUnit 5 + MockMvc, Vitest + React Testing Library, перекрёстные IDOR тест-кейсы.
+3. `knowledge/arch-backend-production-engineering.md`: Spring Boot DDD модульный монолит, Flyway в production (v108 JF-1C, v24 MeDev), Caffeine L1 + Redis L2, генерация PDF (шрифты кириллицы), SSE стриминг для AI, WebSocket STOMP с JWT auth на CONNECT, `@TransactionalEventListener(AFTER_COMMIT)` для email-изоляции, атомарная очистка БД с сохранением FK integrity.
+4. `knowledge/frontend-production-architecture-and-resilience.md`: FSD архитектура (все слои), React Query с префиксными ключами (Query Key Factory), Zustand store, дедупликация JWT refresh через синглтон-промис (`refreshPromise`), настройка CSP для iframe превью, `lazyWithRetry` для защиты от 404 ChunkLoadError.
+5. `knowledge/observability-production-metrics-and-alerts.md`: Grafana/Prometheus алерты (относительные пороги >85%, задержка `for: 5m`), физика прогресса Metaspace в Spring Boot (CGLIB/Jackson/Hibernate) и эффект плато, безопасность Actuator endpoints.
+6. `knowledge/infra-hybrid-cloud-deployment-and-cicd.md`: Fly.io JVM тюнинг и health checks, Render Docker multi-stage деплой, GitHub Pages vs Vercel, GitHub Actions CI/CD и ночные дампы БД через Fly SSH.
+Все 6 заметок добавлены в главный реестр `knowledge/knowledge-index.md`.
+
+

@@ -22,10 +22,13 @@
 - [[antigravity-hooks-and-guardrails-evolution]] - История и эволюция хуков (архив reminder.ps1, git-reminder.ps1 и переход к hard guardrails).
 - [[agent-token-efficiency-and-vertical-troubleshooting]] - Анализ эффективности токенов: вертикальный целевой срез (Vertical Slice), PowerShell-операторы и Scoped Prompting.
 - [[observability-tracing-mdc-and-structured-logging]] - Observability First: Сквозной трейсинг (OpenTelemetry + Micrometer Tracing), Correlation ID (X-Request-ID), MDC и структурированное JSON-логирование (Logstash / Grafana Loki).
+- [[observability-production-metrics-and-alerts]] - Наблюдаемость в продакшене: Grafana/Prometheus относительные пороги (>85%) и задержка (for: 5m), физика прогрева Metaspace (CGLIB/Jackson/Hibernate) и эффект плато, разграничение доступа к Spring Actuator.
+- [[infra-hybrid-cloud-deployment-and-cicd]] - Инфраструктура, гибридный деплой и CI/CD: Fly.io JVM тюнинг и health checks, Render Docker multi-stage, GitHub Pages vs Vercel (rewrites, CSP), GitHub Actions CI/CD и ночные дампы БД через SSH.
 - [[vibe-coding-gaps-part1-network-databases-realtime]] - Вайб-кодинг vs Инженерия (Часть 1): Сетевой слой, Circuit Breaker, Idempotency, очередей DLQ, CAP, индексы БД, N+1, пулы соединений и блокировки.
 - [[vibe-coding-gaps-part2-infra-devops-security-sre]] - Вайб-кодинг vs Инженерия (Часть 2): Blue-Green/Canary деплой, Liveness/Readiness, Observability, IaC Terraform, P99 Latency, Zero-downtime миграции и Postmortems.
 
 ## Фронтенд (React, FSD, UI Deslop)
+- [[frontend-production-architecture-and-resilience]] - Архитектура и отказоустойчивость фронтенда: FSD слои, React Query с префиксными ключами (Query Key Factory), Zustand store, дедупликация JWT refresh через синглтон-промис, CSP настройка для превью PDF, lazyWithRetry для защиты от 404 ChunkLoadError.
 - [[arch-fsd-react]] - Базовое применение Feature-Sliced Design.
 - [[frontend-architecture-fsd-dnd]] - FSD архитектура в связке с Drag-and-Drop (dnd-kit) и Zustand.
 - [[frontend_fsd_and_ui_ux_patterns]] - UI/UX паттерны и продвинутое использование FSD.
@@ -38,6 +41,7 @@
 - [[frontend-distinctive-design-and-anti-slop]] - Отличительный дизайн интерфейсов: борьба со стереотипами AI-генерации (Claude palette, SaaS card kit, типографический шум).
 
 ## Бэкенд и Базы Данных
+- [[arch-backend-production-engineering]] - Архитектура и бэкенд-инженерия в продакшене: Spring Boot DDD монолит, Flyway v108/v24, L1/L2 кэш, PDF генерация (шрифты кириллицы), SSE стриминг, WebSocket STOMP с JWT auth, @TransactionalEventListener(AFTER_COMMIT) для изоляции email, атомарная очистка БД с FK integrity.
 - [[db-trigger-audit-logs]] - Реализация неизменяемых Audit-логов через триггеры PostgreSQL.
 - [[arch-transactional-outbox-event-automation]] - Transactional Outbox Pattern в монолите без внешних брокеров.
 - [[pdf-generation-thymeleaf-flying-saucer]] - Генерация PDF (Thymeleaf + Flying Saucer).
@@ -66,6 +70,7 @@
 - [[pedagogy-and-automation-split-for-vibe-coding]] - Педагогика вайбкодинга: трансформация идентичности, дофаминовый win на Уроке 1, Error-Loop и разделение зон LMS / Ментор.
 
 ## Безопасность и Авторизация
+- [[sec-production-security-and-hardening]] - Производственная безопасность: IDOR prevention, RBAC матрица (ADVISOR read-only), Token Bucket (Bucket4j), OWASP заголовки (CSP blob/sameorigin), JWT Grace Period (15s), Anti-enumeration, SSRF защита и Adversarial rate limit тесты.
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
 - [[security-idor-rls]] - Защита от IDOR (Insecure Direct Object Reference) и Row-Level Security в БД.
 - [[sec-docker-redis-exposure]] - Защита внутренних сервисов Docker от публичного доступа.
@@ -83,6 +88,7 @@
 - [[llm-memory-and-context-optimization]] - Трёхуровневая модель виртуальной памяти агента (L1 Working Memory, L2 Archival, L3 Telemetry), Attention Sinks (StreamingLLM) и адаптивная компрессия токенов.
 
 ## Тестирование, QA и Обеспечение Качества
+- [[qa-production-testing-and-benchmarking]] - Производственное тестирование и бенчмаркинг: Artillery (взвешенные сценарии, capture, ifFalse), Playwright E2E мультиролевые сценарии, JUnit 5 + MockMvc, Vitest + RTL, перекрестные IDOR тест-кейсы.
 - [[qa-testing-classification-and-strategies]] - Полная классификация и стратегии тестирования: функциональные (Unit, Integration, E2E, Contract), нагрузочные (Smoke, Load, Stress, Spike, Soak), безопасности (DAST, Auth bypass, Rate limit), регрессионные (Snapshot, Mutation) и специфичные (Flyway, Cache, STOMP).
 - [[arch-concurrency-refresh-token-and-race-conditions]] - Тестирование конкурентного доступа (Concurrency): Race Conditions при Refresh Token Rotation, Leeway Window и тестирование через CountDownLatch.
 - [[arch-database-constraints-and-integrity-testing]] - Тестирование ограничений целостности базы данных: NOT NULL, UNIQUE, FK ON DELETE RESTRICT, CHECK constraints vs Spring Validation.
