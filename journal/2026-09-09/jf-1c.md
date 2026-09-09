@@ -102,6 +102,12 @@
 4. `knowledge/frontend-production-architecture-and-resilience.md`: FSD архитектура (все слои), React Query с префиксными ключами (Query Key Factory), Zustand store, дедупликация JWT refresh через синглтон-промис (`refreshPromise`), настройка CSP для iframe превью, `lazyWithRetry` для защиты от 404 ChunkLoadError.
 5. `knowledge/observability-production-metrics-and-alerts.md`: Grafana/Prometheus алерты (относительные пороги >85%, задержка `for: 5m`), физика прогресса Metaspace в Spring Boot (CGLIB/Jackson/Hibernate) и эффект плато, безопасность Actuator endpoints.
 6. `knowledge/infra-hybrid-cloud-deployment-and-cicd.md`: Fly.io JVM тюнинг и health checks, Render Docker multi-stage деплой, GitHub Pages vs Vercel, GitHub Actions CI/CD и ночные дампы БД через Fly SSH.
-Все 6 заметок добавлены в главный реестр `knowledge/knowledge-index.md`.
+
+### 9. Создание интерактивных прототипов рабочих мест (Client & Employee Portals)
+- Созданы 2 детализированных автономных HTML-прототипа корпоративного уровня для ролей платформы ZhanFinance (JF-1C):
+  1. `client_portal_preview.html`: Кабинет клиента (ТОО / ИП). Включает сводку по налогам и оборотам, интерактивный налоговый календарь РК (сроки сдачи формы 910.00, уплаты ИПН/ОПВ/ВОСМС/СО), трекер задач и поручений с этапами согласования, реестр электронного документооборота (ЭДО с поддержкой NCALayer/ЭЦП), виджет интеграции банков (Kaspi Pay, Halyk) и интерактивный чат с персональным главным бухгалтером.
+  2. `employee_portal_preview.html`: Оперативный пульт бухгалтера/специалиста. Включает CRM-канбан с 4 этапами (Новые заявки, В работе / Проводки 1С, На согласовании, Сдано в КГД), сводную таблицу закрепленных клиентов (18 компаний) с мониторингом налоговых режимов и статусов 1С, реестр распознавания входящей первички (OCR), модальные окна создания и ведения задач с фиксацией проводок 1С и быстрый диалог с клиентами.
+- Интерфейсы выполнены в фирменной дизайн-системе JF-1C (глубокий хвойный зеленый #00562D, изумрудные акценты, современная сетка карточек, SVG-иконки без использования эмодзи).
+
 
 
