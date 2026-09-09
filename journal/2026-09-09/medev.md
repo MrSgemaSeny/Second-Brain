@@ -13,9 +13,10 @@
   - `JobApplicationController`: подтвержден метод `PUT /v1/tracker/applications/{id}` (вместо `PATCH`) и коды 201 Created при создании и 204 No Content при удалении.
 - Разработана и записана конфигурация `artillery.yml` для прогрева Metaspace (Warmup 30s) и стабильной смоук-нагрузки (Smoke 60s, maxVusers: 10).
 - Разработан и валидирован скрипт `processor.js` с пулом токенов в памяти (защита от Bucket4j `AuthRateLimiter` 10 req/15min) и безопасной экстракцией ID для гарантированного `DELETE` тестовых данных.
-- Создан шаблон переменных окружения `.env.artillery.example`.
+- Проведен первый боевой прогон: выявлены и устранены различия в авторизации эндпоинта `/actuator/metrics` (требует ROLE_ADMIN) и оптимизировано распределение токенов сьюта (`suite-level auth`).
+- Запущен контрольный прогон Artillery по боевому серверу Render.
 
 ### 2. Затронутые файлы
 - `artillery.yml`
 - `processor.js`
-- `.env.artillery.example`
+- `artillery.env.example`
