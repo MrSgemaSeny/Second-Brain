@@ -322,4 +322,28 @@
   - Обновлены тестовые ожидания в `LandingPage.test.tsx` (41/41 PASS).
   - Сборки `next build` (Next.js SSG) и `vite build` (Vite SPA) завершены успешно (0 ошибок).
 
+## Устранение 500/400 ошибок в AI парсере резюме (/v1/ai/parse-resume)
+
+### 1. Первопричина ошибок студента
+1. **Ошибка 500 Internal Server Error**:
+   - При сбое Groq (таймаут, лимит или невалидный JSON) метод `AiAnalysisService.parseResumePdf` выбрасывал неперехваченный `RuntimeException`. В `GlobalExceptionHandler` отсутствовал обработчик `LlmException`, и запрос падал в generic 500.
+2. **Ошибка 400 Bad Request**:
+   - При загрузке скана (растрового PDF без текстового слоя) PDFBox выбрасывал `IllegalArgumentException` на английском языке, а при поврежденных magic-байтах контроллер возвращал пустой `ResponseEntity.badRequest().build()` без деталей.
+
+### 2. Выполненные исправления
+- **`GlobalExceptionHandler.java`**:
+  - Добавлен обработчик `LlmException`:
+    - `RATE_LIMITED` -> `429 Too Many Requests` с понятным описанием.
+    - `PROVIDER_UNAVAILABLE`, `TIMEOUT`, `CIRCUIT_OPEN` -> `503 Service Unavailable`.
+    - `INVALID_RESPONSE` -> `502 Bad Gateway`.
+- **`AiAnalysisService.java`**:
+  - Вызов LLM и десериализация JSON в `parseResumePdf` обернуты в перехват с пробросом типизированного `LlmException` (`PROVIDER_UNAVAILABLE` / `INVALID_RESPONSE`).
+  - Ошибки извлечения текста из PDF локализованы на русский язык («Загруженный PDF не содержит текстового слоя...»).
+- **`AiController.java`**:
+  - Валидация входного файла (пустой файл, превышение 10 МБ, некорректный MIME/расширение, битые magic-байты) переведена на `IllegalArgumentException` с информативными сообщениями.
+- **Тесты**:
+  - Создан `GlobalExceptionHandlerTest` (4 теста: 429, 503, 502, 400).
+  - Обновлен `AiAnalysisServiceTest` (все тесты PASS).
+
+
 
