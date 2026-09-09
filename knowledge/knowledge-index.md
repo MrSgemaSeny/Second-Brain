@@ -96,6 +96,7 @@
 
 ## Архитектура и Паттерны
 - [[arch-jvm-metaspace-and-production-memory-budget]] - Архитектура памяти JVM: Metaspace, динамические прокси Spring/Hibernate, эффект плато и бюджетирование в контейнерах (Fly.io).
+- [[infra-cloudflare-r2-object-storage-architecture]] - Объектное хранилище Cloudflare R2 для SaaS: $0 Egress fee, S3-совместимый API, Dual-Read/Shadow Write и потоковая передача без аллокации byte[] в RAM.
 
 ## Инциденты (Production Post-Mortems)
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
