@@ -52,3 +52,19 @@
 - Удалены тестовые инвойсы (`invoices`): 3 записи (id 1, 3, 5).
 - Документы (`documents`): 27 реальных файлов (id 17..45) сохранены в полном объеме, ни один боевой документ не затронут.
 
+### 5. Архитектурный аудит Email-движка (EmailNotificationService)
+Проведена ревизия механизма отправки писем (`EmailNotificationService.java`) и его взаимодействия с транзакциями (`AuthService.register()`, `AdminService.approveEmployee()`, `TaskService`, `ContactRequestService`):
+1. **Текущее состояние**:
+   - Методы `EmailNotificationService` уже аннотированы `@Async`.
+   - Аннотация `@EnableAsync` активна в `AsyncConfig.java` и `ZhanFinanceBackendApplication.java`.
+   - Вызовы методов делегируются в общий пул `taskExecutor` (core 4, max 10, queue 200).
+2. **Выявленные скрытые риски и архитектурный долг**:
+   - **`CallerRunsPolicy`**: При переполнении очереди пула (200 задач) политика `CallerRunsPolicy` перенаправляет выполнение в вызывающий поток Tomcat. Внутри транзакционного метода (`@Transactional`) это приводит к удержанию соединения HikariCP (лимит всего 8 соединений) на время сетевого I/O с SMTP, вызывая каскадный отказ пула соединений БД.
+   - **Отсутствие сокет-таймаутов**: В `application.properties` не настроены `connectiontimeout`, `timeout`, `writetimeout` для SMTP, что может блокировать поток на неопределенный срок.
+   - **Отсутствие `AFTER_COMMIT`**: Асинхронная отправка инициируется до коммита транзакции в БД. При откате транзакции письмо уже отправлено пользователю; при обращении к ленивым связям возможен `LazyInitializationException`.
+   - **Отсутствие изолированного пула (Bulkhead)**: Почта делит общий `taskExecutor` вместо выделенного `mailExecutor`.
+3. **Рекомендации**:
+   - Использовать Spring Domain Events + `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)`.
+   - Выделить изолированный `mailExecutor` с политикой сброса `DiscardPolicy` и таймаутами 5000мс на сокеты SMTP.
+
+

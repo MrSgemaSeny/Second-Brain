@@ -82,3 +82,22 @@
 
 ### 5. Выводы
 Боевой контур Render полностью валиден, стабилен и соответствует контрактам безопасности, RLS/IDOR и спецификациям DTO.
+
+## Перманентное исправление CORS для app.medev.mrsgemaseny.com
+
+### 1. Первопричина
+- Тестирование боевого сервера Render через `curl` выявило:
+  - `OPTIONS` с `Origin: https://medev.mrsgemaseny.com` -> `200 OK`
+  - `OPTIONS` с `Origin: https://app.medev.mrsgemaseny.com` -> `403 Forbidden ("Invalid CORS request")`
+- Причина: в панели управления Render в переменных окружения сервиса задана переменная `CORS_ALLOWED_ORIGINS`, которая переопределяла значения из `application-prod.yml` и содержала только домен лендинга `https://medev.mrsgemaseny.com`.
+- Кроме того, в `SecurityConfig.java` список `allowedHeaders` был строго ограничен 8 заголовками, из-за чего любые дополнительные заголовки от браузера приводили к отклонению preflight.
+
+### 2. Выполненные действия
+- В `SecurityConfig.java` бин `corsConfigurationSource` обновлен: домены `https://app.medev.mrsgemaseny.com`, `https://medev.mrsgemaseny.com`, `https://me-dev-two.vercel.app`, а также паттерны `https://*.mrsgemaseny.com` и `https://*.vercel.app` теперь добавляются **всегда на уровне Java-кода**, независимо от того, какие значения переданы в env-переменной Render.
+- `allowedHeaders` установлен в `List.of("*")`, что гарантирует прохождение любых preflight-запросов браузера.
+- В `OAuth2LoginSuccessHandler.java` проверка `candidate` куки `redirect_uri` расширена на постоянный список доверенных доменов.
+
+### 3. Затронутые файлы
+- `backend/src/main/java/com/medev/shared/security/SecurityConfig.java`
+- `backend/src/main/java/com/medev/modules/auth/security/OAuth2LoginSuccessHandler.java`
+
