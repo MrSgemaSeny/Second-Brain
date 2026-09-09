@@ -262,7 +262,29 @@
 - **Backend**: `gradlew compileJava testClasses`, `AiControllerTest` — **BUILD SUCCESSFUL (100% PASS)**.
 - **Frontend**: `vitest run` — **10 сьютов, 38 тестов PASS**, `vite build` — **успешно (0 ошибок)**.
 
+## Авторизация и доступ к PRO-шаблонам резюме (milky-soft, apple-modern, phub-orange)
 
+### 1. Первопричина ошибки 403 Forbidden
+1. **PRO-гейтинг шаблонов на бэкенде**:
+   - Шаблоны `apple-modern`, `milky-soft` и `phub-orange` на уровне архитектуры бэкенда (`ResumeController.java`) входят в набор `PRO_TEMPLATES = Set.of("apple-modern", "milky-soft", "phub-orange")`.
+   - При скачивании полного резюме (`singlePage=false`, `preview=false`) бэкенд проверял условие: `if (user.getPlan() != User.Plan.PRO) throw new ForbiddenException("PRO template requires PRO plan");`.
+   - Проверка не учитывала роль администратора (`User.Role.ADMIN`), блокируя экспорт резюме в том числе для создателя платформы, если в базе данных его тариф был `FREE`.
+2. **Отсутствие индикации и обработки ошибок на фронтенде**:
+   - В компоненте `ResumeBuilder.tsx` у платных шаблонов отсутствовал бейдж "PRO". Пользователь не понимал, почему экспорт не происходит.
+   - Ошибка 403 в `handleDownloadPdf` и `handleDownloadHtml` не перехватывалась как предложение апгрейда, а вызывала дефолтный алерт `PDF export failed.`.
 
+### 2. Выполненные исправления
+- **Backend (`ResumeController.java`)**:
+  - Условие проверки обновлено: доступ к PRO-шаблонам разрешен как пользователям с планом `Plan.PRO`, так и администраторам `Role.ADMIN` (`if (user.getPlan() != Plan.PRO && user.getRole() != Role.ADMIN)`).
+- **Backend (`CustomOAuth2UserService.java`)**:
+  - Добавлена автоматическая выдача роли `ADMIN` и тарифа `PRO` для аккаунтов владельца (`mrsgemaseny`).
+- **Frontend (`ResumeBuilder.tsx`)**:
+  - В массив `TEMPLATES` добавлен флаг `isPro: true` для `milky-soft`, `apple-modern`, `phub-orange`.
+  - В списке выбора шаблонов добавлен визуальный бейдж `PRO`.
+  - При попытке экспорта PRO-шаблона пользователем без прав PRO/ADMIN превентивно открывается модалка апгрейда `useUpsellStore.getState().openUpsell()` с уведомлением Sonner.
+  - Обработка ошибки 403 со стороны API корректно вызывает `openUpsell()`.
 
+### 3. Результаты верификации
+- **Бэкенд**: `ResumeControllerTest`, `M1AdversarialChallengeTest` — **BUILD SUCCESSFUL (100% PASS)**.
+- **Фронтенд**: `npm test -- --run` — **10 сьютов, 38 тестов PASS**, `npm run build` — **успешно (0 ошибок)**.
 
