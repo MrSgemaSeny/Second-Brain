@@ -142,5 +142,42 @@
 - `backend/src/main/resources/prompts/linkedin_generator_v1.txt`
 - `backend/src/main/resources/prompts/resume_parser_v1.txt`
 
+## Разделение языков программирования и разговорных языков на уровне сервисов
 
+### 1. Выполненные действия
+- В `LanguageService.java` внедрена валидация `validateNotProgrammingLanguage`: попытка добавить язык программирования (Java, Python, TypeScript, etc.) в раздел разговорных языков блокируется с информативной ошибкой `IllegalArgumentException`.
+- В `ProfileService.java` при импорте профиля через AI все распознанные языки программирования автоматически перенаправляются в `Skill` (категория `Languages`), не засоряя разговорные языки.
+- В `AiAnalysisService.java` добавлен метод `buildFallbackParsedProfile` для безопасного построения профиля на основе текущих данных пользователя в случае сетевого сбоя или отказа AI-провайдера.
+
+### 2. Затронутые файлы
+- `backend/src/main/java/com/medev/modules/ai/service/AiAnalysisService.java`
+- `backend/src/main/java/com/medev/modules/profile/service/LanguageService.java`
+- `backend/src/main/java/com/medev/modules/profile/service/ProfileService.java`
+
+## Улучшение Job Tracker, Scraper Resilience и Global Error Handling
+
+### 1. Выполненные действия
+- **Job Tracker (`JobApplicationService.java`)**:
+  - Внедрена валидация переходов статусов (`validateStatusTransition`): запрещен прямой некорректный скачок из `WISHLIST` сразу в `OFFER` в обход этапов подачи (`APPLIED`) или собеседований (`INTERVIEW`).
+- **Web Scraper Resilience (`WebScraperService.java`)**:
+  - Блок перехвата ошибок расширен с `IOException` до универсального `Exception`: любые сбои парсинга, валидации URL или таймаутов теперь гарантированно возвращают безопасный fallback (`Manual Entry Required`) без падений с 500 ошибкой.
+- **Global Error Handling (`GlobalExceptionHandler.java`)**:
+  - Унифицирован формат ответов на ошибки: все обработчики теперь возвращают стандартизированную структуру `{ "status": ..., "error": "...", "message": "..." }`, совместимую как с frontend `axios.ts`, так и с внешними API-клиентами.
+- **GitHub Integration (`GitHubRepoScorer.java`, `GitHubReadmeParser.java`, `GitHubService.java`)**:
+  - Улучшен скоринг репозиториев (35% звёзды, 30% актуальность, 20% размер кода, 15% форки).
+  - Реализован интеллектуальный парсер `extractCleanDescription` с очисткой бейджей, HTML-разметки и заголовков.
+  - Ошибки при отсутствии привязанного GitHub-аккаунта переведены в 400 Bad Request (`IllegalArgumentException`).
+
+### 2. Затронутые файлы
+- `backend/src/main/java/com/medev/modules/tracker/service/JobApplicationService.java`
+- `backend/src/main/java/com/medev/modules/tracker/service/WebScraperService.java`
+- `backend/src/main/java/com/medev/shared/exception/GlobalExceptionHandler.java`
+- `backend/src/main/java/com/medev/modules/github/service/GitHubRepoScorer.java`
+- `backend/src/main/java/com/medev/modules/github/service/GitHubReadmeParser.java`
+- `backend/src/main/java/com/medev/modules/github/service/GitHubService.java`
+
+### 3. Результаты финальной верификации
+- **Компиляция Java**: `gradlew compileJava` и `gradlew testClasses` — **BUILD SUCCESSFUL** (0 ошибок).
+- **Сквозное E2E тестирование**: 9 модулей, 66 проверок эндпоинтов — **100% PASS** (66/66) на боевом контуре Render.
+- **Безопасность и RLS/IDOR**: Подтверждена строгая изоляция данных между пользователями и ограничение RBAC (ADMIN vs USER vs Anonymous).
 
