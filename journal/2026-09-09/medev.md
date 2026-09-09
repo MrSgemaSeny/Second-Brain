@@ -131,4 +131,16 @@
 - `backend/src/main/java/com/medev/modules/auth/service/CustomOAuth2UserService.java`
 - `backend/src/main/java/com/medev/modules/auth/security/OAuth2LoginSuccessHandler.java`
 
+## Уточнение системных промптов AI-генерации (языки и форматы)
+
+### 1. Выполненные действия
+- В `full_profile_generator_v1.txt` и `resume_parser_v1.txt` добавлено строгое разграничение: массив `languages` должен содержать только естественные разговорные языки человека (English, Russian, etc.), а языки программирования и технологии обязаны попадать в `skills`.
+- В `linkedin_generator_v1.txt` зафиксирован формат ответа в виде валидного JSON с ключом `content`.
+
+### 2. Затронутые файлы
+- `backend/src/main/resources/prompts/full_profile_generator_v1.txt`
+- `backend/src/main/resources/prompts/linkedin_generator_v1.txt`
+- `backend/src/main/resources/prompts/resume_parser_v1.txt`
+
+
 
