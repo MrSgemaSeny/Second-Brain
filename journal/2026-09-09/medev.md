@@ -302,3 +302,24 @@
 - **Тесты (`chatStore.test.ts`)**:
   - Добавлены тесты на распаковку склеенных токенов, сохранение переносов строк и специальных символов (41/41 тестов PASS).
 
+## Синхронизация шаблонов и позиционирования на лендинге MeDev
+
+### 1. Первопричина расхождений
+1. **Рассинхрон витрины шаблонов**:
+   - На лендинге (`TemplatesShowcase.tsx`) отображались устаревшие концептуальные названия (`Classic ATS`, `Modern Split`, `Minimal Clean`, `Technical GitHub`, `Executive Lead`, `Creative UI`), тогда как в приложении и генераторе резюме работают 6 реальных шаблонов: `Clean ATS`, `GitHub`, `Milky Soft`, `Apple`, `Grok`, `PH Orange`.
+2. **Ложное позиционирование фичи #2**:
+   - В блоке возможностей заявлялась «генерация резюме под конкретные вакансии по ссылке», хотя в текущей версии приложения эта связка реализована в виде расчета совместимости стека (AI Job Match Score) и генерации индивидуального Cover Letter в Job Tracker.
+3. **Сохранение ценообразования**:
+   - По требованию зафиксирована базовая цена тарифа PRO: `$9 / месяц или 4 500 ₸`.
+
+### 2. Выполненные исправления
+- **`landing/components/TemplatesShowcase.tsx` & `frontend/src/widgets/landing/TemplatesShowcase.tsx`**:
+  - Каталог приведен в 100% соответствие с кодовой базой резюме-билдера: `Clean ATS` (FREE), `GitHub` (FREE), `Milky Soft` (PRO), `Apple` (PRO), `Grok` (FREE), `PH Orange` (PRO).
+  - Добавлены визуальные бейджи `FREE` и `PRO` для прозрачности тарификации.
+- **`landing/components/Features.tsx` & `frontend/src/widgets/landing/Features.tsx`**:
+  - Фича #2 переформулирована в честное и сильное УТП: «AI Job Match & Cover Letter» на базе реального опыта и коммитов из GitHub.
+- **Тесты и сборка**:
+  - Обновлены тестовые ожидания в `LandingPage.test.tsx` (41/41 PASS).
+  - Сборки `next build` (Next.js SSG) и `vite build` (Vite SPA) завершены успешно (0 ошибок).
+
+
