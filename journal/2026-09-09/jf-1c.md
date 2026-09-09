@@ -67,4 +67,14 @@
    - Использовать Spring Domain Events + `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)`.
    - Выделить изолированный `mailExecutor` с политикой сброса `DiscardPolicy` и таймаутами 5000мс на сокеты SMTP.
 
-
+### 6. Реализация: Устранение рисков и перевод Email-движка на надёжные асинхронные рельсы
+Выполнены все 3 шага промышленного харденинга почтового движка:
+1. **Таймауты SMTP сокетов**: В `application.properties` заданы `connectiontimeout=5000`, `timeout=5000`, `writetimeout=5000` мс. Зависание почтового провайдера больше не замораживает потоки ОС.
+2. **Изолированный пул `mailExecutor` (Bulkhead)**: В `AsyncConfig.java` зарегистрирован выделенный `mailExecutor` (core 2, max 6, queue 200, префикс `mail-worker-`). Опасная `CallerRunsPolicy` заменена на кастомный обработчик с логированием `ERROR` и сбросом задачи (DiscardPolicy). Переполнение почтовой очереди физически не способно затронуть рабочие потоки Tomcat и исчерпать соединения HikariCP к БД.
+3. **Транзакционная безопасность (`AFTER_COMMIT`)**:
+   - Созданы Spring Events: `SendHtmlEmailEvent`, `SendSimpleEmailEvent`, `EmailAttachment`.
+   - Создан слушатель `EmailEventListener` с аннотациями `@Async("mailExecutor")` и `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)`.
+   - В `EmailNotificationService` вызовы отправки публикуют события. Физическая передача писем по SMTP выполняется строго ПОСЛЕ успешной фиксации (`COMMIT`) транзакции в PostgreSQL. При откате (`ROLLBACK`) письмо не отправляется. Все HTML-шаблоны и байты вложений резолвятся синхронно в рамках исходного контекста, что исключает ошибки `LazyInitializationException`.
+4. **Верификация тестами**:
+   - Backend: 196/196 тестов JUnit 5 пройдены успешно (100% green).
+   - Frontend: 74/74 тестов Vitest пройдены успешно (100% green).
