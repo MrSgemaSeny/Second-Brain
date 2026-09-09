@@ -24,3 +24,18 @@
 - `artillery.yml`
 - `processor.js`
 - `artillery.env.example`
+
+## Исправление CORS для app.medev.mrsgemaseny.com и падения CookieBanner
+
+### 1. Выполненные действия
+- Выявлена причина ошибки CORS при запросах с `https://app.medev.mrsgemaseny.com` на `https://medev-backend.onrender.com/api/v1/auth/refresh`: субдомен `app.medev.mrsgemaseny.com` отсутствовал в дефолтном списке `cors.allowed-origins` конфигураций `application-prod.yml` и `application.yml`.
+- Обновлен `SecurityConfig.java`: теперь разрешенные источники разделяются на точные (`setAllowedOrigins`) и шаблоны (`setAllowedOriginPatterns`), предотвращая отказ Spring Security при наличии масок поддоменов.
+- Добавлен субдомен `https://app.medev.mrsgemaseny.com` в `cors.allowed-origins` в `application-prod.yml` и `application.yml`.
+- Выявлена и устранена причина фронтенд-ошибки `TypeError: Cannot destructure property 'basename' of 'M.useContext(...)' as it is null`: компонент `CookieBanner` был смонтирован в `App.tsx` вне контекста `RouterProvider` (`AppRouter`) и использовал компонент `Link` из `react-router-dom`. Заменен `Link` на нативный тег `<a>`, сделав `CookieBanner` полностью автономным от контекста роутера.
+
+### 2. Затронутые файлы
+- `backend/src/main/resources/application-prod.yml`
+- `backend/src/main/resources/application.yml`
+- `backend/src/main/java/com/medev/shared/security/SecurityConfig.java`
+- `frontend/src/shared/ui/CookieBanner.tsx`
+
