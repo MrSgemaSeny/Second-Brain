@@ -181,3 +181,22 @@
 - **Сквозное E2E тестирование**: 9 модулей, 66 проверок эндпоинтов — **100% PASS** (66/66) на боевом контуре Render.
 - **Безопасность и RLS/IDOR**: Подтверждена строгая изоляция данных между пользователями и ограничение RBAC (ADMIN vs USER vs Anonymous).
 
+## Устранение CSP-блокировки blob-фреймов в Resume Builder и валидация всех 6 шаблонов
+
+### 1. Первопричина CSP-ошибки
+- В браузере при открытии страницы `ResumeBuilder` консоль выводила: `Framing 'blob:<URL>' violates Content Security Policy directive: "default-src 'self'"`.
+- Причина: в `frontend/vercel.json` директива `frame-src` не была явно определена, браузер откатывался к `default-src 'self'`, запрещая загрузку blob-URL в тег `<iframe>`. Заголовок `X-Frame-Options: DENY` также блокировал локальный фрейминг.
+
+### 2. Выполненные действия
+- **`frontend/vercel.json`**:
+  - В CSP добавлена директива: `frame-src 'self' blob: data:; child-src 'self' blob: data:;`.
+  - `X-Frame-Options` изменен с `DENY` на `SAMEORIGIN`.
+- **`frontend/src/widgets/resume-builder/ResumeBuilder.tsx`**:
+  - В `iframe` внедрен атрибут `srcDoc={htmlDoc}` в дополнение к `src={htmlUrl}`, обеспечивая прямое нативное отображение HTML без необходимости создания blob-ссылок в DOM.
+- **Матричное тестирование 6 шаблонов (`e2e/suites/03_resume.test.js`)**:
+  - Проверены все 6 шаблонов: `apple-modern`, `clean`, `github`, `grok-monolith`, `milky-soft`, `phub-orange`.
+  - Проверены оба режима: одностраничный (`singlePage=true`) и многостраничный (`singlePage=false`).
+  - Проверены все форматы: HTML (`/v1/resume/html/{template}`), PDF (`/v1/resume/generate/{template}`) и Markdown README (`/v1/profile/readme?template=full`).
+  - Все проверки завершились со статусом **200 OK (100% PASS)**.
+
+
