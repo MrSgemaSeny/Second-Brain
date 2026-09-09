@@ -83,6 +83,11 @@
 ### 5. Выводы
 Боевой контур Render полностью валиден, стабилен и соответствует контрактам безопасности, RLS/IDOR и спецификациям DTO.
 
+## Дополнение: Архитектурный аудит задач и CORS Hardening (OAuth2 & Security)
+- **CORS & OAuth2**: Добавлены доверенные origins (`https://app.medev.mrsgemaseny.com`, `https://me-dev-two.vercel.app`, `*.mrsgemaseny.com`) в `SecurityConfig` и `OAuth2LoginSuccessHandler` для корректного редиректа после логина через GitHub/Google.
+- **Аудит 8 пунктов**: Завершен комплексный аудит чек-листа (AI Profile Generation, PDF quality, GitHub integration, Language parser, Auth, Billing guards, Global error handling, Job tracker).
+- **Компиляция**: `gradlew testClasses` успешно выполнен (BUILD SUCCESSFUL).
+
 ## Перманентное исправление CORS для app.medev.mrsgemaseny.com
 
 ### 1. Первопричина
