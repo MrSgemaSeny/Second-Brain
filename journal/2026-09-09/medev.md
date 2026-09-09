@@ -106,3 +106,29 @@
 - `backend/src/main/java/com/medev/shared/security/SecurityConfig.java`
 - `backend/src/main/java/com/medev/modules/auth/security/OAuth2LoginSuccessHandler.java`
 
+## Исправление 403 Forbidden на /logout и защита от перехвата аккаунта в Google OAuth
+
+### 1. Первопричина
+1. **403 Forbidden на `/api/v1/auth/logout`**:
+   - Метод `validateCsrf` в `AuthController.java` проверял `origin` запроса по списку `allowedOrigins`. Так как в env-переменной Render отсутствовал субдомен `https://app.medev.mrsgemaseny.com`, `validateCsrf` выбрасывал `ForbiddenException("Cross-origin request rejected")` (HTTP 403).
+   - Из-за этого кука `refresh_token` не очищалась в браузере при выходе из аккаунта.
+2. **Перехват аккаунта при входе через другой Google-аккаунт**:
+   - При переходе в настройки ранее устанавливалась кука `medev_link_jwt` (с `SameSite=None`), которая не очищалась из-за несовпадения параметров удаления (`SameSite=Lax`).
+   - В `CustomOAuth2UserService.java` флаг `linkingFlow` применялся безусловно ко всем OAuth-провайдерам. При наличии куки `medev_link_jwt` бэкенд брал `currentUserId` из куки и привязывал новый Google-аккаунт к старому пользователю в базе данных вместо создания нового пользователя.
+
+### 2. Выполненные действия
+- В `AuthController.java`:
+  - `validateCsrf` обновлен для безусловного доверия `https://app.medev.mrsgemaseny.com`, `https://medev.mrsgemaseny.com`, поддоменам `*.mrsgemaseny.com`, `*.vercel.app` и локальным адресам.
+  - В методе `logout` добавлена гарантированная очистка как `refresh_token`, так и `medev_link_jwt` с атрибутами `SameSite=None; Secure; maxAge=0`.
+- В `CustomOAuth2UserService.java`:
+  - `linkingFlow` жестко ограничен только провайдером GitHub (`isLinking && "github".equals(registrationId)`).
+  - Вход через Google теперь гарантированно изолирован: всегда регистрирует или находит пользователя строго по его Google email, предотвращая привязку к чужим сессиям.
+- В `OAuth2LoginSuccessHandler.java`:
+  - Добавлена безусловная очистка куки `medev_link_jwt` при любом входе через OAuth с атрибутами `SameSite=None; Secure`.
+
+### 3. Затронутые файлы
+- `backend/src/main/java/com/medev/modules/auth/controller/AuthController.java`
+- `backend/src/main/java/com/medev/modules/auth/service/CustomOAuth2UserService.java`
+- `backend/src/main/java/com/medev/modules/auth/security/OAuth2LoginSuccessHandler.java`
+
+
