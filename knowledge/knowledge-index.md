@@ -39,6 +39,7 @@
 - [[ai-deslop-tools-and-skills]] - Инструменты и скиллы для борьбы с шаблонным AI-кодом и дефолтным UI-дизайном (Deslop).
 - [[b2c-lms-course-discovery-and-video-preview]] - B2C витрина курсов, Hover-трейлеры и анатомия двухколоночного лендинга.
 - [[frontend-distinctive-design-and-anti-slop]] - Отличительный дизайн интерфейсов: борьба со стереотипами AI-генерации (Claude palette, SaaS card kit, типографический шум).
+- [[frontend-custom-player-and-raf-scroll]] - Фронтенд-инженерия медиа: кастомный HTML5-плеер с useRef-защитой видеопотока от сброса и алгоритмический скролл-менеджер на requestAnimationFrame.
 
 ## Бэкенд и Базы Данных
 - [[arch-backend-production-engineering]] - Архитектура и бэкенд-инженерия в продакшене: Spring Boot DDD монолит, Flyway v108/v24, L1/L2 кэш, PDF генерация (шрифты кириллицы), SSE стриминг, WebSocket STOMP с JWT auth, @TransactionalEventListener(AFTER_COMMIT) для изоляции email, атомарная очистка БД с FK integrity.
@@ -53,10 +54,13 @@
 - [[backend-rate-limiting-bucket4j]] - In-Memory Rate Limiting с Bucket4j.
 - [[arch-tiered-rate-limiting-bucket4j]] - Tiered Rate Limiting с Bucket4j и Caffeine (Auth, AI, General).
 - [[arch-quiz-assessment-engine-anti-cheat]] - Движок интерактивных квизов, раздельные DTO и защита от списывания.
+- [[arch-streaming-media-and-cors-proxy]] - Архитектура медиа-стриминга, Presigned URLs (MinIO S3) и On-the-Fly WebVTT CORS Proxy.
 
 ## Интеграции и AI
 - [[api-github-integration]] - Интеграция с GitHub API (парсинг, рейтрейт, кеширование Redis).
 - [[arch-ai-chat-integrations]] - Интеграция LLM в чаты (асинхронные воркеры, streaming, RAG).
+- [[arch-recommendation-engine-tfidf-collaborative]] - Гибридный рекомендательный движок: взвешенный TF-IDF, косинусная матрица в RAM, коллаборативный вектор досмотра, культурный бустинг и Diversity Guard 35%.
+- [[arch-llm-subtitle-localization-pipeline]] - Промышленный конвейер локализации субтитров через LLM: токенизация разметки TagPreservator, аудит выравнивания TranslationValidator, OpenAI Batch и Google Gemini.
 - [[arch-ai-smart-merge]] - Паттерн умного слияния данных из нескольких источников (API + PDF) через LLM.
 - [[arch-ai-structured-generation]] - Использование LLM для генерации строгих JSON DTO (json_object, Graceful Degradation).
 - [[arch-ai-tutor-lesson-grounding]] - AI-наставник с заземлением в контекст урока (Lesson Grounding) и защитой от инъекций.
