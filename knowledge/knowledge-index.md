@@ -40,6 +40,7 @@
 - [[b2c-lms-course-discovery-and-video-preview]] - B2C витрина курсов, Hover-трейлеры и анатомия двухколоночного лендинга.
 - [[frontend-distinctive-design-and-anti-slop]] - Отличительный дизайн интерфейсов: борьба со стереотипами AI-генерации (Claude palette, SaaS card kit, типографический шум).
 - [[frontend-custom-player-and-raf-scroll]] - Фронтенд-инженерия медиа: кастомный HTML5-плеер с useRef-защитой видеопотока от сброса и алгоритмический скролл-менеджер на requestAnimationFrame.
+- [[ui-anti-pattern-pill-eyebrow-badges]] - UI Антипаттерн: Декоративные Pill / Eyebrow Бейджи (AI Slop Pill Tags), ложная метафора статуса и правила построения чистой типографики без овальных рамок.
 
 ## Бэкенд и Базы Данных
 - [[arch-backend-production-engineering]] - Архитектура и бэкенд-инженерия в продакшене: Spring Boot DDD монолит, Flyway v108/v24, L1/L2 кэш, PDF генерация (шрифты кириллицы), SSE стриминг, WebSocket STOMP с JWT auth, @TransactionalEventListener(AFTER_COMMIT) для изоляции email, атомарная очистка БД с FK integrity.
