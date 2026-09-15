@@ -1,183 +1,223 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brain's Protocol — Second Brain для соло-разработчика</title>
+  <title>Brain's Protocol — Second Brain</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              dark: '#0a0a0c',
-              card: '#0e0e11',
-              cardHover: '#141418',
-            }
-          },
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
-          }
-        }
-      }
-    }
-  </script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: #0a0a0c;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-[#0a0a0c] text-zinc-100 antialiased selection:bg-white/20 selection:text-white min-h-screen font-sans">
+<body class="bg-[#0a0a0c] text-zinc-100 antialiased selection:bg-white selection:text-black min-h-screen flex flex-col font-sans">
 
-  <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-[#0a0a0c]/80 backdrop-blur-md border-b border-white/5">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-sm bg-white/5 border border-white/10 flex items-center justify-center text-white">
-          <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0c]">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity shrink-0">
+        <div class="w-10 h-10 rounded-full border border-white/15 overflow-hidden flex-shrink-0 bg-[#0e0e11] flex items-center justify-center">
+          <i data-lucide="cpu" class="w-4 h-4 text-white"></i>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold font-mono tracking-wider text-white">BRAIN'S PROTOCOL</span>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-white/5 text-zinc-400 border border-white/5">v2.0</span>
-        </div>
+        <span class="text-sm font-bold tracking-tight text-white uppercase">
+          BRAIN'S PROTOCOL
+        </span>
+      </a>
+
+      <!-- Desktop Search Bar -->
+      <div class="relative hidden md:block w-48 lg:w-64">
+        <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        <input 
+          type="text" 
+          placeholder="Поиск по базе знаний..." 
+          class="w-full bg-[#121214] border border-white/10 rounded-sm pl-8 pr-3 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white transition-colors font-mono"
+        />
       </div>
 
-      <nav class="hidden md:flex items-center gap-6 text-xs text-zinc-400 font-medium">
-        <a href="#rules" class="hover:text-white transition-colors">Правила</a>
-        <a href="#pipeline" class="hover:text-white transition-colors">Пайплайн</a>
-        <a href="#structure" class="hover:text-white transition-colors">Топология</a>
-        <a href="#comparison" class="hover:text-white transition-colors">Сравнение</a>
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium">
+        <a href="#rules" class="text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors">
+          <i data-lucide="check-circle" class="w-4 h-4 text-zinc-400"></i>
+          <span>Три правила</span>
+        </a>
+
+        <a href="#pipeline" class="text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors">
+          <i data-lucide="git-merge" class="w-4 h-4 text-zinc-400"></i>
+          <span>Пайплайн</span>
+        </a>
+
+        <a href="#structure" class="text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors">
+          <i data-lucide="folder-tree" class="w-4 h-4 text-zinc-400"></i>
+          <span>Топология</span>
+        </a>
+
+        <a href="#comparison" class="text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scale" class="w-4 h-4 text-zinc-400"></i>
+          <span>Сравнение</span>
+        </a>
       </nav>
 
+      <!-- Action Button -->
       <div class="flex items-center gap-3">
-        <a href="https://github.com/MrSgemaSeny" target="_blank" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-zinc-200 border border-white/10 font-medium text-xs rounded-sm transition-colors flex items-center gap-1.5">
-          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+        <a href="https://github.com/MrSgemaSeny" target="_blank" class="px-5 py-2 bg-white hover:bg-zinc-200 text-black font-semibold text-xs rounded-sm flex items-center gap-1.5 transition-colors">
+          <i data-lucide="github" class="w-3.5 h-3.5 text-black"></i>
           <span>GitHub</span>
         </a>
       </div>
+
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="py-16 md:py-24 border-b border-white/5 bg-[#0a0a0c] relative overflow-hidden">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-        
-        <div class="max-w-2xl flex-1">
-          <div class="flex items-center gap-2 mb-6">
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141418] text-zinc-300 border border-white/5 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span>Autonomous Cumulative Workflow</span>
-            </span>
-          </div>
-
-          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white mb-6 leading-tight">
-            Второй мозг разработчика <br />
-            <span class="text-zinc-500 font-medium">для непрерывных AI-сессий</span>
+  <!-- Hero Section (Aligned to Left 75% Container) -->
+  <section class="py-16 md:py-24 border-b border-white/5 bg-[#0a0a0c]">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="w-full lg:w-[75%] max-w-[1080px]">
+        <div class="max-w-2xl">
+          
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white mb-8 leading-tight">
+            Протокол кумулятивной <br />
+            <span class="text-zinc-500 font-medium">инженерии для AI-сессий</span>
           </h1>
 
-          <p class="text-sm text-zinc-400 mb-8 leading-relaxed max-w-xl font-normal">
-            Исполняемый протокол кумулятивной инженерии. AI читает твой стек и архитектурные решения за 3 секунды, пишет код, прогоняет тесты, фиксирует журнал и только потом делает push. Без потери контекста и амнезии.
+          <p class="text-sm text-zinc-400 mb-8 leading-relaxed font-normal">
+            Личный «второй мозг» соло-разработчика. AI читает стек и архитектурные решения за 3 секунды, пишет код, прогоняет тесты, фиксирует журнал и блокирует слепые коммиты без потери контекста.
           </p>
 
           <div class="flex flex-col sm:flex-row items-center gap-4">
-            <a href="#rules" class="w-full sm:w-auto px-6 py-3 bg-white hover:bg-zinc-200 text-black font-semibold text-xs rounded-sm flex items-center justify-center gap-2 transition-colors">
+            <a 
+              href="#rules" 
+              class="w-full sm:w-auto px-6 py-3 bg-white hover:bg-zinc-200 text-black font-semibold text-xs rounded-sm flex items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#0a0a0c]"
+            >
               <span>Изучить регламент</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-black"></i>
             </a>
-            <a href="#structure" class="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-zinc-200 border border-white/10 font-medium text-xs rounded-sm transition-colors text-center">
+
+            <a 
+              href="#structure" 
+              class="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-zinc-200 border border-white/10 font-medium text-xs rounded-sm transition-colors text-center focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#0a0a0c]"
+            >
               Топология папок
             </a>
           </div>
-        </div>
 
-        <!-- Terminal Window Preview -->
-        <div class="w-full lg:w-[480px] shrink-0">
-          <div class="rounded-sm overflow-hidden border border-white/10 bg-[#0e0e11] shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-            <div class="px-4 py-3 bg-[#141418] border-b border-white/5 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                <span class="text-[11px] font-mono text-zinc-400 ml-2">brain_session.sh</span>
-              </div>
-              <span class="text-[10px] font-mono text-zinc-500">LIFECYCLE_GATE</span>
-            </div>
-            <div class="p-5 font-mono text-xs text-zinc-300 space-y-3 leading-relaxed">
-              <div>
-                <span class="text-zinc-500">01. INJECT CONTEXT</span><br />
-                <span class="text-zinc-200">➜ read context/me.md + decisions/ADR-014.md</span>
-              </div>
-              <div class="p-2.5 bg-[#0a0a0c] border border-white/5 rounded-sm text-zinc-400 text-[11px]">
-                [OK] Стек: Spring Boot 3 + React 19 (FSD)<br />
-                [OK] Принцип: Модульный монолит (Zero Microservices)
-              </div>
-              <div>
-                <span class="text-zinc-500">02. VERIFY TEST SUITE</span><br />
-                <span class="text-zinc-200">➜ ./mvnw test</span> <span class="text-emerald-400">[PASS 42/42]</span>
-              </div>
-              <div>
-                <span class="text-zinc-500">03. JOURNAL COMMIT LOCK</span><br />
-                <span class="text-emerald-400">✔ journal/2026-09-15_session.md saved.</span><br />
-                <span class="text-zinc-400">✔ git push unlocked.</span>
-              </div>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- Main Content Body (matching the 75% max 1080px grid) -->
-  <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <!-- Main Content Body (Left-aligned 75% focus container) -->
+  <main class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1">
     <div class="w-full lg:w-[75%] max-w-[1080px] space-y-12">
 
-      <!-- Section: 3 Rules -->
-      <section id="rules" class="space-y-4">
+      <!-- Section: 4 Problems -->
+      <section class="space-y-4">
         <div class="space-y-1">
-          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">Три правила протокола</h2>
-          <p class="text-xs text-zinc-400 leading-relaxed font-normal">Железные архитектурные барьеры, устраняющие деградацию и амнезию AI-агентов.</p>
+          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
+            Системные барьеры solo-разработки
+          </h2>
+          <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+            Проблемы, из-за которых AI-кодинг без регламента превращается в хаос и технический долг.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <i data-lucide="clock" class="w-4 h-4 text-zinc-400 shrink-0"></i>
+                <h3 class="text-sm font-semibold text-white">Контекстный налог</h3>
+              </div>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                Каждую сессию приходится заново объяснять AI свой стек, ОС, версии библиотек и архитектуру.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <i data-lucide="brain" class="w-4 h-4 text-zinc-400 shrink-0"></i>
+                <h3 class="text-sm font-semibold text-white">Амнезия решений</h3>
+              </div>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                AI пишет код «в вакууме», не зная причин прошлых архитектурных выборов и отброшенных вариантов.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <i data-lucide="repeat" class="w-4 h-4 text-zinc-400 shrink-0"></i>
+                <h3 class="text-sm font-semibold text-white">Повтор грабель</h3>
+              </div>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                Ошибки миграций, Flyway, RateLimiting и N+1 отлаживаются с нуля в каждом новом проекте.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-zinc-400 shrink-0"></i>
+                <h3 class="text-sm font-semibold text-white">Слепые коммиты</h3>
+              </div>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                Коммиты «fix bug» без журнала сессии хоронят контекст изменений и ломают воспроизводимость.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section: 3 Hard Rules -->
+      <section id="rules" class="space-y-4 pt-4 border-t border-white/5">
+        <div class="space-y-1">
+          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
+            Три железных правила протокола
+          </h2>
+          <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+            Обязательный порядок действий для любого AI-агента в репозитории.
+          </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Правило 01</span>
-                <i data-lucide="book-open" class="w-4 h-4 text-zinc-400"></i>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Чтение context/* на старте</h3>
+            <div>
+              <div class="text-[10px] font-mono text-zinc-500 mb-2 uppercase tracking-wider">Правило 01</div>
+              <h3 class="text-sm font-semibold text-white mb-2">Чтение context/* на старте</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Перед первой строчкой кода AI загружает профиль, стек и архитектурные решения. Ноль времени на пересказ правил.
+                Перед первой строчкой кода AI загружает профиль инженера, ограничения и действующие ADR.
               </p>
             </div>
           </div>
 
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Правило 02</span>
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-zinc-400"></i>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Лог в journal/ до Push</h3>
+            <div>
+              <div class="text-[10px] font-mono text-zinc-500 mb-2 uppercase tracking-wider">Правило 02</div>
+              <h3 class="text-sm font-semibold text-white mb-2">Лог в journal/ до Git Push</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Только после зеленых тестов агент фиксирует лог сессии. Хуки физически блокируют коммит без записи в журнал.
+                Только после зеленых тестов агент обязан создать отчет сессии. Hooks блокируют push без записи.
               </p>
             </div>
           </div>
 
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Правило 03</span>
-                <i data-lucide="database" class="w-4 h-4 text-zinc-400"></i>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Синхронизация knowledge/</h3>
+            <div>
+              <div class="text-[10px] font-mono text-zinc-500 mb-2 uppercase tracking-wider">Правило 03</div>
+              <h3 class="text-sm font-semibold text-white mb-2">Синхронизация knowledge/</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Редкий баг, паттерн или оптимизация сразу заносятся в базу знаний. Следующий агент обходит эти грабли автоматически.
+                Найденный редкий баг или оптимизация сразу заносятся в базу знаний для следующих сессий.
               </p>
             </div>
           </div>
@@ -188,10 +228,12 @@
       <!-- Section: The Pipeline Formula -->
       <section id="pipeline" class="space-y-4 pt-4 border-t border-white/5">
         <div class="space-y-1">
-          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">Формула жизненного цикла</h2>
+          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
+            Главная формула системы
+          </h2>
         </div>
 
-        <div class="p-6 sm:p-8 rounded-sm bg-[#0e0e11] border border-white/10 hover:border-zinc-600 transition-all space-y-6">
+        <div class="p-6 sm:p-8 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all space-y-6">
           <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
             <span class="px-3 py-2 rounded-sm bg-[#141418] border border-white/10 text-white font-medium">1. ТЕСТЫ ПРОШЛИ</span>
             <span class="text-zinc-500 font-bold">➜</span>
@@ -202,73 +244,89 @@
 
           <div class="pt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-zinc-400 font-normal">
             <div>
-              <strong class="text-white block mb-1">Никогда наоборот</strong>
-              Слепой коммит без тестов и отчета сессии разрушает историю и создает скрытый технический долг.
+              <strong class="text-white block mb-1">Никогда наоборот. Никогда без лога.</strong>
+              Слепой пуш без прогона тестов и отчета сессии разрушает инженерную историю и накапливает невидимый долг.
             </div>
             <div>
-              <strong class="text-white block mb-1">Lifecycle Automation</strong>
-              Скрипты <code class="text-zinc-300 font-mono">combine.py</code> и git-хуки делают исполнение протокола автоматическим.
+              <strong class="text-white block mb-1">Кумулятивный эффект</strong>
+              Каждая завершенная сессия делает кодовую базу и контекст умнее для следующего диалога с AI.
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Topology / Structure -->
+      <!-- Section: Workspace Topology -->
       <section id="structure" class="space-y-4 pt-4 border-t border-white/5">
         <div class="flex items-center justify-between">
           <div class="space-y-1">
-            <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">Топология директорий</h2>
-            <p class="text-xs text-zinc-400 leading-relaxed font-normal">Строгая модульная структура Second Brain репозитория.</p>
+            <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
+              Топология Second Brain
+            </h2>
+            <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+              Строгая файловая структура для хранения и передачи контекста.
+            </p>
           </div>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Zettelkasten + ADR</span>
+          <span class="text-xs text-zinc-400 font-mono uppercase tracking-wider">Zettelkasten + ADR</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
             <div class="space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141418] text-zinc-300 border border-white/5">/context</span>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Живой контекст инженера</h3>
+              <div class="text-xs font-mono text-white font-semibold">context/</div>
+              <h3 class="text-sm font-semibold text-white">Живой контекст и профиль</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                <code class="text-zinc-300 font-mono">me.md</code> — стек (Spring Boot 3, React 19 FSD, PostgreSQL), принципы, цели и ограничения оборудования.
+                me.md — стек (Spring Boot 3, React 19, FSD, PostgreSQL), цели, уровни зрелости проектов и принципы.
               </p>
             </div>
           </div>
 
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
             <div class="space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141418] text-zinc-300 border border-white/5">/decisions</span>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Реестр ADR-решений</h3>
+              <div class="text-xs font-mono text-white font-semibold">decisions/</div>
+              <h3 class="text-sm font-semibold text-white">Архитектурные решения (ADR)</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Фиксация «почему выбрана эта библиотека»: модульный монолит вместо микросервисов, JWT в Redis, Flyway-миграции.
+                Фиксация «почему выбрана эта библиотека»: модульный монолит, Flyway-миграции, JWT в Redis.
               </p>
             </div>
           </div>
 
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
             <div class="space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141418] text-zinc-300 border border-white/5">/journal</span>
-              </div>
+              <div class="text-xs font-mono text-white font-semibold">journal/</div>
               <h3 class="text-sm font-semibold text-white">Хронология инженерных сессий</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Ежедневные отчеты: что было изменено, какие тесты пройдены, какие баги закрыты и какие риски выявлены.
+                Ежедневные структурированные отчеты: решенные задачи, результаты тестов, баги и закрытые риски.
               </p>
             </div>
           </div>
 
           <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
             <div class="space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141418] text-zinc-300 border border-white/5">/knowledge</span>
-              </div>
-              <h3 class="text-sm font-semibold text-white">Кумулятивная база знаний</h3>
+              <div class="text-xs font-mono text-white font-semibold">knowledge/</div>
+              <h3 class="text-sm font-semibold text-white">Zettelkasten база знаний</h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Готовые рецепты: решение проблем Flyway, Spring AI RAG, WebSockets, Deslop-скиллы и шаблоны FSD.
+                Готовые рецепты: решение проблем Flyway, Spring AI RAG, WebSockets, Deslop-скиллы и FSD-паттерны.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-xs font-mono text-white font-semibold">projects/</div>
+              <h3 class="text-sm font-semibold text-white">Карта активных проектов</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                Статусы, роадмапы и чек-листы по проектам (MrDevCourses, MeDev, Valeur, JF-1C).
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-sm bg-[#0e0e11] border border-white/5 hover:border-zinc-600 transition-all flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-xs font-mono text-white font-semibold">scripts/</div>
+              <h3 class="text-sm font-semibold text-white">Автоматизация контекста</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+                Скрипты combine.py и combine.ps1 для моментальной склейки контекста в один файл для AI-агентов.
               </p>
             </div>
           </div>
@@ -279,15 +337,17 @@
       <!-- Section: Comparison Table -->
       <section id="comparison" class="space-y-4 pt-4 border-t border-white/5">
         <div class="space-y-1">
-          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">До и после внедрения</h2>
+          <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
+            Сравнение: Хаос vs Brain's Protocol
+          </h2>
           <p class="text-xs text-zinc-400 leading-relaxed font-normal">Практический результат для ежедневной разработки.</p>
         </div>
 
-        <div class="rounded-sm bg-[#0e0e11] border border-white/10 overflow-hidden">
+        <div class="rounded-sm bg-[#0e0e11] border border-white/5 overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
-                <tr class="bg-[#141418] border-b border-white/5 font-mono text-[11px] text-zinc-400">
+                <tr class="bg-[#141418] border-b border-white/5 text-[11px] text-zinc-400">
                   <th class="p-4 pl-6 font-semibold">Сценарий</th>
                   <th class="p-4 font-semibold text-zinc-500">Без протокола (Хаос)</th>
                   <th class="p-4 font-semibold text-white">С Brain's Protocol</th>
@@ -297,22 +357,22 @@
                 <tr>
                   <td class="p-4 pl-6 font-semibold text-white">Старт сессии</td>
                   <td class="p-4 text-zinc-500">10-15 минут объяснять AI стек и архитектуру</td>
-                  <td class="p-4 text-emerald-400 font-medium">3 секунды (AI читает context/me.md)</td>
+                  <td class="p-4 text-white font-medium">3 секунды (AI читает context/me.md)</td>
                 </tr>
                 <tr>
                   <td class="p-4 pl-6 font-semibold text-white">Архитектурный выбор</td>
-                  <td class="p-4 text-zinc-500">AI спонтанно предлагает микросервисы</td>
-                  <td class="p-4 text-zinc-200">Модульный монолит строго по ADR</td>
+                  <td class="p-4 text-zinc-500">AI спонтанно предлагает микросервисы «потому что модно»</td>
+                  <td class="p-4 text-white font-medium">Модульный монолит строго по ADR</td>
                 </tr>
                 <tr>
                   <td class="p-4 pl-6 font-semibold text-white">Повторные баги</td>
-                  <td class="p-4 text-zinc-500">Ошибки RateLimiting отлаживаются заново</td>
-                  <td class="p-4 text-zinc-200">Готовое решение берется из knowledge/</td>
+                  <td class="p-4 text-zinc-500">Ошибки RateLimiting отлаживаются в 3-й раз с нуля</td>
+                  <td class="p-4 text-white font-medium">Готовое решение берется из knowledge/</td>
                 </tr>
                 <tr>
                   <td class="p-4 pl-6 font-semibold text-white">Контроль коммитов</td>
-                  <td class="p-4 text-zinc-500">Слепой коммит «fix», контекст утерян</td>
-                  <td class="p-4 text-emerald-400 font-medium">Хуки требуют лог тестов в journal/</td>
+                  <td class="p-4 text-zinc-500">Слепой коммит «fix bug», контекст утерян</td>
+                  <td class="p-4 text-white font-medium">Hooks требуют зеленые тесты и лог в journal/</td>
                 </tr>
               </tbody>
             </table>
@@ -326,24 +386,21 @@
           <div class="max-w-xl space-y-4">
             <div class="space-y-1">
               <h2 class="text-2xl font-bold tracking-tight text-white leading-tight">
-                Кумулятивная разработка нового уровня
+                Готов внедрить Brain's Protocol?
               </h2>
               <p class="text-xs text-zinc-400 leading-relaxed font-normal">
-                Никакой потери контекста между сессиями. Система масштабируется вместе с твоими проектами.
+                Клонируй структуру, заполни context/me.md и работай с любым AI без потери памяти.
               </p>
             </div>
-            <div class="flex flex-wrap items-center gap-1.5 pt-1">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0a0a0c] text-zinc-400 border border-white/5">Spring Boot 3</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0a0a0c] text-zinc-400 border border-white/5">React 19</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0a0a0c] text-zinc-400 border border-white/5">FSD</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0a0a0c] text-zinc-400 border border-white/5">ADR</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0a0a0c] text-zinc-400 border border-white/5">Zettelkasten</span>
+
+            <div class="text-xs text-zinc-400 pt-1 font-mono">
+              Spring Boot 3 • React 19 • FSD • PostgreSQL • Zettelkasten • ADR
             </div>
           </div>
 
           <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-            <a href="https://github.com/MrSgemaSeny" target="_blank" class="w-full sm:w-auto px-5 py-2.5 rounded-sm bg-white hover:bg-zinc-200 text-black text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
-              <span>Репозиторий проекта</span>
+            <a href="https://github.com/MrSgemaSeny" target="_blank" class="px-5 py-2.5 rounded bg-white hover:bg-zinc-200 text-black text-xs font-semibold flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)] cursor-pointer">
+              <span>Открыть на GitHub</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-black"></i>
             </a>
           </div>
@@ -351,19 +408,69 @@
       </section>
 
     </div>
-  </div>
+  </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-white/5 py-12 px-4 sm:px-6 lg:px-8 bg-[#0a0a0c]">
-    <div class="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
-      <div>
-        Brain's Protocol — Second Brain Engine © 2026
-      </div>
-      <div class="flex items-center gap-4">
-        <span>context/</span>
-        <span>decisions/</span>
-        <span>journal/</span>
-        <span>knowledge/</span>
+  <!-- Footer (75% Column Aligned with Sections and Left Edge) -->
+  <footer class="border-t border-white/5 bg-[#0a0a0c] text-zinc-400 mt-auto">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="w-full lg:w-[75%] max-w-[1080px] space-y-8">
+        
+        <div class="flex flex-col md:flex-row items-start justify-between gap-10">
+          <!-- Left Column -->
+          <div class="max-w-sm space-y-3">
+            <a href="/" class="text-sm font-bold text-white tracking-tight hover:text-zinc-200 transition-colors inline-block">
+              Brain's Protocol — Second Brain
+            </a>
+            <p class="text-xs text-zinc-400 leading-relaxed font-normal">
+              Исполняемый протокол кумулятивной инженерии для соло-разработчиков и AI-агентов.
+            </p>
+          </div>
+
+          <!-- Right Navigation Columns -->
+          <div class="grid grid-cols-2 gap-10 sm:gap-16">
+            <div class="space-y-3">
+              <h4 class="text-xs font-semibold text-white uppercase tracking-wider">
+                Протокол
+              </h4>
+              <ul class="space-y-2 text-xs">
+                <li><a href="#rules" class="hover:text-white transition-colors">Три правила</a></li>
+                <li><a href="#pipeline" class="hover:text-white transition-colors">Пайплайн</a></li>
+                <li><a href="#structure" class="hover:text-white transition-colors">Топология</a></li>
+                <li><a href="#comparison" class="hover:text-white transition-colors">Сравнение</a></li>
+              </ul>
+            </div>
+
+            <div class="space-y-3">
+              <h4 class="text-xs font-semibold text-white uppercase tracking-wider">
+                Ссылки
+              </h4>
+              <ul class="space-y-2 text-xs">
+                <li><a href="https://github.com/MrSgemaSeny" target="_blank" class="hover:text-white transition-colors">GitHub Репозиторий</a></li>
+                <li><a href="https://courses.mrsgemaseny.com" target="_blank" class="hover:text-white transition-colors">Платформа курсов</a></li>
+                <li><a href="mailto:muratorynbasar0@gmail.com" class="hover:text-white transition-colors">Связаться</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Copyright Line -->
+        <div class="pt-6 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-zinc-400 font-mono">
+          <div>
+            <span class="text-zinc-300 font-medium">Автор:</span> Орынбасар Мурат (Mr Developer)
+            <span class="mx-2 text-zinc-600">|</span>
+            <span>г. Шымкент, Казахстан</span>
+          </div>
+          <div class="flex items-center gap-4 text-zinc-500">
+            <span>context/</span>
+            <span>•</span>
+            <span>decisions/</span>
+            <span>•</span>
+            <span>journal/</span>
+            <span>•</span>
+            <span>knowledge/</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </footer>
