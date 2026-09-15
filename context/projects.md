@@ -27,9 +27,9 @@ _Обновлено: 2026-08-31_
 ### 2. Zhan Finance (JF-1C) — Enterprise B2B SaaS Platform
 - **Репо:** github.com/MrSgemaSeny/JF-1C
 - **Проект:** `projects/jf-1c/jf-1c.md`
-- **Статус:** **Level 4 — Production-Ready v1.0.0 Released & Legally Hardened** (Пройден 37-пунктовый аудит: закрыты IDOR в инвойсах, отключены source maps, лимитирован /check-email, внедрен юридический блок РК по ст. 12 Закона № 94-V, оферта с налоговым дисклеймером, оферта возвратов, cookies баннер; см. [ADR-015](../decisions/ADR-015-saas-security-hardening-and-legal-compliance-kz.md)).
-- **Стек:** Java 17 + Spring Boot 3.4+ + Spring Security 6 + PostgreSQL 17 + Flyway (цепочка миграций V1–V120) + React 19 + TypeScript + FSD + WebSockets (STOMP) + 2FA TOTP + OpenHTMLtoPDF + Caffeine Cache + Bucket4j.
-- **Что это:** Комплексная B2B SaaS платформа для бухгалтерского консалтинга и CRM в Казахстане (CRM Kanban, Task Pool, биллинг, документооборот, LMS, защищённые чаты, 6 ролей с Row-Level Security через `CrmAccessService`).
+- **Статус:** **Level 4 — Production-Ready v1.1.0 Released & Triple-Audited** (Пройдены 3 независимых аудита: ChatGPT #1, ChatGPT Brutal #2, OpenHands 4.85/5 28/28 findings закрыты; утверждён Hardening Plan P0/P1/P2 в `docs/future/future_plan.md`; завершён редизайн бренда ЖАН FINANCE, лендинга с SLA-тарифами, модалкой команды и авторизацией по ролям).
+- **Стек:** Java 17 + Spring Boot 3.4+ + Spring Security 6 + PostgreSQL 17 + Flyway (цепочка миграций V1–V108) + React 19 + TypeScript + FSD + WebSockets (STOMP) + 2FA TOTP + OpenHTMLtoPDF + Caffeine Cache + Bucket4j.
+- **Что это:** Комплексная B2B SaaS/бухгалтерская CRM платформа для бухгалтерского консалтинга и автоматизации в Казахстане (CRM Kanban, Task Pool, биллинг, документооборот, LMS, защищённые чаты, 6 ролей с Row-Level Security через `CrmAccessService`, 4 языка RU/KZ/EN/ZH).
 - **Деплой:** Backend на Fly.io (`zhanfinance.fly.dev`), Frontend на GitHub Pages.
 
 ### 3. MeDev (DevProfile) — Data-First AI SaaS для Инженеров
