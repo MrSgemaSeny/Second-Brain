@@ -1,4 +1,4 @@
-# Индекс Базы Знаний (Zettelkasten)
+﻿# Индекс Базы Знаний (Zettelkasten)
 
 Здесь собраны архитектурные паттерны, решения и хаки, экстрагированные из всех наших проектов. Эти знания можно переиспользовать в новых проектах для экономии времени и избежания старых граблей.
 
@@ -26,6 +26,7 @@
 - [[infra-hybrid-cloud-deployment-and-cicd]] - Инфраструктура, гибридный деплой и CI/CD: Fly.io JVM тюнинг и health checks, Render Docker multi-stage, GitHub Pages vs Vercel (rewrites, CSP), GitHub Actions CI/CD и ночные дампы БД через SSH.
 - [[vibe-coding-gaps-part1-network-databases-realtime]] - Вайб-кодинг vs Инженерия (Часть 1): Сетевой слой, Circuit Breaker, Idempotency, очередей DLQ, CAP, индексы БД, N+1, пулы соединений и блокировки.
 - [[vibe-coding-gaps-part2-infra-devops-security-sre]] - Вайб-кодинг vs Инженерия (Часть 2): Blue-Green/Canary деплой, Liveness/Readiness, Observability, IaC Terraform, P99 Latency, Zero-downtime миграции и Postmortems.
+- [[arch-redis-lua-rate-limiting]] - Атомарный Rate Limiting на Redis + Lua (GET + CHECK + INCR + EXPIRE), исключающий TOCTOU race conditions.
 
 ## Фронтенд (React, FSD, UI Deslop)
 - [[frontend-production-architecture-and-resilience]] - Архитектура и отказоустойчивость фронтенда: FSD слои, React Query с префиксными ключами (Query Key Factory), Zustand store, дедупликация JWT refresh через синглтон-промис, CSP настройка для превью PDF, lazyWithRetry для защиты от 404 ChunkLoadError.
@@ -68,6 +69,7 @@
 - [[arch-hybrid-rag-dense-sparse-rrf]] - Гибридный RAG-поиск: pgvector HNSW (Dense) + tsvector (Sparse FTS) через Reciprocal Rank Fusion.
 - [[arch-ai-code-grader-and-security-scanner]] - Автоматический AI-грейдер кода со статическим AST-сканером безопасности.
 - [[arch-rag-indexing-vs-retrieval]] - RAG архитектура: разница между Indexing Pipeline (запись) и Retrieval (поиск).
+- [[arch-rag-pgvector-tenant-isolation]] - Архитектура мультитенантности и оптимизации RAG в pgvector (user_id FK cascade, B-Tree индекс, ChunkHash SHA-256 кэширование).
 - [[resume-pdf-parsing]] - Парсинг PDF-резюме (Apache Tika/PDFBox) и работа с неточными данными.
 - [[llm-json-mode-prompts]] - Правила промптинга при работе с json_object режимом в LLM (Groq/OpenAI).
 - [[arch-groq-models-policy]] - Политика выбора LLM-моделей Groq (GPT-20B как единственный рабочий стандарт, запрет Llama).
@@ -76,6 +78,9 @@
 
 ## Безопасность и Авторизация
 - [[sec-production-security-and-hardening]] - Производственная безопасность: IDOR prevention, RBAC матрица (ADVISOR read-only), Token Bucket (Bucket4j), OWASP заголовки (CSP blob/sameorigin), JWT Grace Period (15s), Anti-enumeration, SSRF защита и Adversarial rate limit тесты.
+- [[sec-ssrf-dns-rebinding-defense]] - Защита от SSRF, DNS-Rebinding и Open Redirects (UrlSecurityValidator, запрет приватных CIDR, перехват 3xx).
+- [[sec-stripe-webhook-persistent-idempotency]] - Двухуровневая идемпотентность вебхуков (Redis + PostgreSQL) и синхронизация подписок (current_period_end).
+- [[sec-prompt-injection-and-llm-input-bounds]] - Защита от Prompt Injection, Token Exhaustion и безопасный diff-импорт AI резюме.
 - [[sec-spring-jwt-auth]] - Настройка Spring Security (JWT, Refresh токени, дедупликация).
 - [[security-idor-rls]] - Защита от IDOR (Insecure Direct Object Reference) и Row-Level Security в БД.
 - [[sec-docker-redis-exposure]] - Защита внутренних сервисов Docker от публичного доступа.
@@ -107,6 +112,3 @@
 - [[incident-01-flyway-github-actions-desync]] - Расхождение Flyway-миграций между локальной и prod БД через GitHub Actions.
 - [[incident-02-management-port-hibernate-crash]] - `management.server.port=8081` на Fly.io → Spring создаёт 2-й контекст → Hibernate 7 дублирует event listeners → crash. Фикс: держать порт на 8080, безопасность через Spring Security.
 - [[incident-03-metaspace-near-limit-alert-and-auth-rate-limit]] - Инцидент 03: Ложное срабатывание алерта Metaspace при прогреве классов под нагрузкой и временная 429 блокировка админа из-за единого IP раннера.
-
-
-
